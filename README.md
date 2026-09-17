@@ -4,6 +4,8 @@ A reproducible, model-only prompt-injection and policy-steering lab with a preco
 
 Start with [expiry specification diagnostic](docs/expiry-diagnostic.md), [pilot findings](docs/pilot-findings.md), [cost proposal](docs/full-run-cost.md), the [reusable policy](policies/prompt-injection-policy-template.md), and [evaluation protocol](docs/evaluation-protocol.md). GitHub publication is deferred; the local repository and owner-private Site are the current deliverables.
 
+[Open the owner-private Observatory](https://jev-redteam-observatory.wizard.chatgpt.site/?view=1&tab=policy). ChatGPT sign-in is required. The [publication receipt](data/site-publication.json) records matching hosted HTML/data readback; local desktop/mobile rendering was checked. Authenticated hosted rendering and owner editing have not been verified in this browser session.
+
 ## Start here
 
 Use Node **22.22+**, preferably Node 24. The built-in harness has no dependencies; promptfoo is pinned to **0.123.0** with a lockfile.

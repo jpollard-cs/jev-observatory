@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "siteUrl": "https://jev-redteam-observatory.wizard.chatgpt.site",
+  "projectId": "appgprj_6aab480f6c5c81918e6f3ed4704114a5",
+  "versionId": "appgprj_6aab480f6c5c81918e6f3ed4704114a5~appgver_246199d7e66c81918685b2d45836ecac",
+  "deploymentId": "appgdep_6aab588fc1088191800945b429804148",
+  "sourceCommit": "c7f123deb08f78f808b8ec0bcaafea2d62d215fc",
+  "access": {
+    "mode": "custom",
+    "allowedUsers": 1,
+    "allowedGroups": 0,
+    "externalVisitors": 0
+  },
+  "readiness": {
+    "projectId": "appgprj_6aab480f6c5c81918e6f3ed4704114a5",
+    "siteUrl": "https://jev-redteam-observatory.wizard.chatgpt.site",
+    "ready": true,
+    "thinBootstrap": true,
+    "queryCount": 17,
+    "rowCount": 162,
+    "uploads": [
+      {
+        "kind": "html",
+        "sha256": "da76298f19671f300eef573eed18e8767871deb882cd15d36cd1a3c0d223ed99",
+        "bytes": 2914061,
+        "transport": {
+          "encoding": "identity",
+          "bytes": 2914061
+        },
+        "milliseconds": 3029
+      },
+      {
+        "kind": "snapshot",
+        "sha256": "0975276f0387c0b783d66e30e156fa63229509d93d261feff7ad62bb7aef6f79",
+        "bytes": 325249,
+        "transport": {
+          "encoding": "identity",
+          "bytes": 325249
+        },
+        "milliseconds": 1216
+      }
+    ],
+    "readback": {
+      "html": {
+        "sha256": "da76298f19671f300eef573eed18e8767871deb882cd15d36cd1a3c0d223ed99",
+        "bytes": 2914061,
+        "milliseconds": 907
+      },
+      "snapshot": {
+        "sha256": "0975276f0387c0b783d66e30e156fa63229509d93d261feff7ad62bb7aef6f79",
+        "bytes": 325249,
+        "milliseconds": 1654,
+        "matchedEncoding": "snapshotResponse"
+      }
+    }
+  },
+  "checks": {
+    "localDesktopAndMobile": true,
+    "localBrowserErrors": 0,
+    "hostedBrowser": "ChatGPT sign-in required; authenticated rendering not checked",
+    "hostedEditing": "not verified"
+  },
+  "githubPushed": false
+}
