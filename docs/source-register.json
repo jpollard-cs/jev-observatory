@@ -1,0 +1,454 @@
+{
+  "schema_version": "1.0",
+  "retrieved_date": "2026-09-16",
+  "purpose": "Primary sources supporting design choices and verified Promptfoo integration names; none contains Jev results.",
+  "status": "protocol_sources_only",
+  "notes": [
+    "Web documentation is mutable. Archive or pin applicable upstream commit/version before a confirmatory run.",
+    "Access dates follow the task's local date. Some live pages displayed later update dates; those dates are not evidence that an installed package supports the documented feature.",
+    "No attack-success estimate from a vendor page or another model is used as a Jev performance claim.",
+    "Fixture imports require independent license, provenance, and contamination review.",
+    "Protocol sampling and analysis choices are this suite's proposed design, rather than requirements imposed by these sources."
+  ],
+  "sources": [
+    {
+      "id": "promptfoo-plugins",
+      "title": "Red Team Plugins",
+      "publisher": "Promptfoo",
+      "url": "https://www.promptfoo.dev/docs/red-team/plugins/",
+      "type": "official_documentation",
+      "supports": [
+        "Verified plugin identifiers",
+        "Remote-generation markings",
+        "Architecture-dependent plugin relevance"
+      ],
+      "limits": "Feature availability must match pinned package; plugin-generated labels are not independent human gold."
+    },
+    {
+      "id": "promptfoo-configuration",
+      "title": "Red team Configuration",
+      "publisher": "Promptfoo",
+      "url": "https://www.promptfoo.dev/docs/red-team/configuration/",
+      "type": "official_documentation",
+      "supports": [
+        "Providers, plugins, and strategies have separate roles",
+        "Generation and evaluation workflow"
+      ]
+    },
+    {
+      "id": "promptfoo-strategies",
+      "title": "Red Team Strategies",
+      "publisher": "Promptfoo",
+      "url": "https://www.promptfoo.dev/docs/red-team/strategies/",
+      "type": "official_documentation",
+      "supports": [
+        "Static, dynamic, and multi-turn transformation options",
+        "Composition and plugin targeting"
+      ],
+      "limits": "Vendor ASR ranges are not measured Jev evidence and must not be copied into result plots."
+    },
+    {
+      "id": "promptfoo-indirect",
+      "title": "Indirect Prompt Injection Plugin",
+      "publisher": "Promptfoo",
+      "url": "https://www.promptfoo.dev/docs/red-team/plugins/indirect-prompt-injection/",
+      "type": "official_documentation",
+      "supports": [
+        "indirect-prompt-injection",
+        "indirectInjectionVar",
+        "Untrusted resource injection surfaces"
+      ]
+    },
+    {
+      "id": "promptfoo-ascii",
+      "title": "ASCII Smuggling for LLMs",
+      "publisher": "Promptfoo",
+      "url": "https://www.promptfoo.dev/docs/red-team/plugins/ascii-smuggling/",
+      "type": "official_documentation",
+      "supports": [
+        "ascii-smuggling",
+        "Unicode tag-based invisible instruction test family"
+      ],
+      "limits": "Unicode tags are not literal ASCII; target interpretability requires measurement."
+    },
+    {
+      "id": "promptfoo-cca",
+      "title": "Context Compliance Attack Plugin",
+      "publisher": "Promptfoo",
+      "url": "https://www.promptfoo.dev/docs/red-team/plugins/context-compliance-attack/",
+      "type": "official_documentation",
+      "supports": [
+        "cca",
+        "Manipulated conversation-history probes"
+      ]
+    },
+    {
+      "id": "promptfoo-memory",
+      "title": "Memory Poisoning Plugin",
+      "publisher": "Promptfoo",
+      "url": "https://www.promptfoo.dev/docs/red-team/plugins/memory-poisoning/",
+      "type": "official_documentation",
+      "supports": [
+        "agentic:memory-poisoning",
+        "Stateful later-interaction testing"
+      ]
+    },
+    {
+      "id": "promptfoo-rag-poisoning",
+      "title": "RAG Poisoning",
+      "publisher": "Promptfoo",
+      "url": "https://www.promptfoo.dev/docs/red-team/plugins/rag-poisoning/",
+      "type": "official_documentation",
+      "supports": [
+        "rag-poisoning",
+        "Synthetic poisoned resource generation",
+        "Remote content transfer and no-local-fallback behavior of poison command"
+      ]
+    },
+    {
+      "id": "promptfoo-policy",
+      "title": "Policy Plugin",
+      "publisher": "Promptfoo",
+      "url": "https://www.promptfoo.dev/docs/red-team/plugins/policy/",
+      "type": "official_documentation",
+      "supports": [
+        "policy",
+        "Custom policy adversarial probes"
+      ]
+    },
+    {
+      "id": "promptfoo-encodings",
+      "title": "Other Encodings",
+      "publisher": "Promptfoo",
+      "url": "https://www.promptfoo.dev/docs/red-team/strategies/other-encodings/",
+      "type": "official_documentation",
+      "supports": [
+        "Encoding transformation families",
+        "Variation-selector payload test coverage"
+      ]
+    },
+    {
+      "id": "promptfoo-homoglyph",
+      "title": "Homoglyph Encoding Strategy",
+      "publisher": "Promptfoo",
+      "url": "https://www.promptfoo.dev/docs/red-team/strategies/homoglyph/",
+      "type": "official_documentation",
+      "supports": [
+        "homoglyph",
+        "Unicode confusable transformation"
+      ]
+    },
+    {
+      "id": "promptfoo-meta",
+      "title": "Meta-Agent Jailbreaks Strategy",
+      "publisher": "Promptfoo",
+      "url": "https://www.promptfoo.dev/docs/red-team/strategies/meta/",
+      "type": "official_documentation",
+      "supports": [
+        "jailbreak:meta",
+        "Adaptive attack-search option"
+      ],
+      "limits": "Exploratory search outcomes need separate frozen confirmation."
+    },
+    {
+      "id": "promptfoo-hydra",
+      "title": "Hydra Multi-turn Strategy",
+      "publisher": "Promptfoo",
+      "url": "https://www.promptfoo.dev/docs/red-team/strategies/hydra/",
+      "type": "official_documentation",
+      "supports": [
+        "jailbreak:hydra",
+        "Adaptive stateful attack-search option"
+      ],
+      "limits": "A static transcript adapter cannot substantiate persistent-state attack claims."
+    },
+    {
+      "id": "promptfoo-web-pwn",
+      "title": "Indirect Web Pwn Strategy",
+      "publisher": "Promptfoo",
+      "url": "https://www.promptfoo.dev/docs/red-team/strategies/indirect-web-pwn/",
+      "type": "official_documentation",
+      "supports": [
+        "Optional future browsing-agent tests",
+        "Distinction between observed endpoint requests and semantic grading"
+      ],
+      "limits": "Not a classifier-only baseline dependency; use synthetic destinations and an isolated harness."
+    },
+    {
+      "id": "nist-aml-2025",
+      "title": "Adversarial Machine Learning: A Taxonomy and Terminology of Attacks and Mitigations",
+      "authors": [
+        "Apostol Vassilev",
+        "Alina Oprea",
+        "Alie Fordyce",
+        "Hyrum Anderson",
+        "Xander Davies",
+        "Maia Hamin"
+      ],
+      "publisher": "NIST",
+      "published_date": "2025-03-24",
+      "url": "https://www.nist.gov/publications/adversarial-machine-learning-taxonomy-and-terminology-attacks-and-mitigations-0",
+      "doi": "10.6028/NIST.AI.100-2e2025",
+      "type": "primary_standard_taxonomy",
+      "supports": [
+        "Threat lifecycle and attacker-capability taxonomy",
+        "Separating inference and training attack claims"
+      ]
+    },
+    {
+      "id": "owasp-poisoning",
+      "title": "LLM04:2025 Data and Model Poisoning",
+      "publisher": "OWASP Gen AI Security Project",
+      "url": "https://genai.owasp.org/llmrisk/llm042025-data-and-model-poisoning/",
+      "type": "primary_security_taxonomy",
+      "supports": [
+        "Data and model poisoning scope",
+        "Separating context-integrity fixtures from historical model poisoning"
+      ]
+    },
+    {
+      "id": "owasp-injection-cheatsheet",
+      "title": "LLM Prompt Injection Prevention Cheat Sheet",
+      "publisher": "OWASP",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html",
+      "type": "primary_security_guidance",
+      "supports": [
+        "Prompt injection trust-boundary framing",
+        "Coverage inspiration"
+      ],
+      "limits": "Its defense suggestions are not added to the model-only baseline."
+    },
+    {
+      "id": "injecagent",
+      "title": "InjecAgent: Benchmarking Indirect Prompt Injections in Tool-Integrated Large Language Model Agents",
+      "authors": [
+        "Qiusi Zhan",
+        "Zhixiang Liang",
+        "Zifan Ying",
+        "Daniel Kang"
+      ],
+      "year": 2024,
+      "url": "https://arxiv.org/abs/2403.02691",
+      "type": "primary_research",
+      "supports": [
+        "Resource/tool task realism",
+        "Distinguishing classifier findings from downstream agent effects"
+      ],
+      "limits": "Published model results do not transfer to Jev; import licensing and contamination need review."
+    },
+    {
+      "id": "agentdojo",
+      "title": "AgentDojo: A Dynamic Environment to Evaluate Prompt Injection Attacks and Defenses for LLM Agents",
+      "year": 2024,
+      "url": "https://arxiv.org/abs/2406.13352",
+      "type": "primary_research",
+      "supports": [
+        "Agent task/environment benchmarking",
+        "Joint consideration of attack effects and task utility"
+      ],
+      "limits": "No Jev evidence; any adaptation needs a documented task/representation map."
+    },
+    {
+      "id": "lost-in-middle",
+      "title": "Lost in the Middle: How Language Models Use Long Contexts",
+      "authors": [
+        "Nelson F. Liu",
+        "Kevin Lin",
+        "John Hewitt",
+        "Ashwin Paranjape",
+        "Michele Bevilacqua",
+        "Fabio Petroni",
+        "Percy Liang"
+      ],
+      "year": 2023,
+      "url": "https://arxiv.org/abs/2307.03172",
+      "type": "primary_research",
+      "supports": [
+        "Position as a factor independent of context length"
+      ],
+      "limits": "Motivates a hypothesis; does not establish Jev degradation."
+    },
+    {
+      "id": "llm-judge-bias",
+      "title": "Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena",
+      "authors": [
+        "Lianmin Zheng",
+        "Wei-Lin Chiang",
+        "Ying Sheng",
+        "Siyuan Zhuang",
+        "Zhanghao Wu",
+        "Yonghao Zhuang",
+        "Zi Lin",
+        "Zhuohan Li",
+        "Dacheng Li",
+        "Eric P. Xing",
+        "Hao Zhang",
+        "Joseph E. Gonzalez",
+        "Ion Stoica"
+      ],
+      "year": 2023,
+      "url": "https://arxiv.org/abs/2306.05685",
+      "type": "primary_research",
+      "supports": [
+        "Position, verbosity, and self-enhancement bias controls",
+        "Human agreement as reference"
+      ],
+      "limits": "No claim that Luna or Terra is calibrated or unbiased without measurement."
+    },
+    {
+      "id": "calibration",
+      "title": "On Calibration of Modern Neural Networks",
+      "authors": [
+        "Chuan Guo",
+        "Geoff Pleiss",
+        "Yu Sun",
+        "Kilian Q. Weinberger"
+      ],
+      "year": 2017,
+      "url": "https://arxiv.org/abs/1706.04599",
+      "type": "primary_research",
+      "supports": [
+        "Accuracy does not imply calibrated probability",
+        "Held-out calibration evaluation"
+      ],
+      "limits": "Neural-classifier findings do not validate verbal confidence or a calibration method for Jev."
+    },
+    {
+      "id": "nist-binomial-ci",
+      "title": "7.2.4.1. Confidence intervals",
+      "publisher": "NIST/SEMATECH e-Handbook of Statistical Methods",
+      "url": "https://www.itl.nist.gov/div898/handbook/prc/section2/prc241.htm",
+      "type": "primary_statistical_reference",
+      "supports": [
+        "Exact binomial intervals for small failure counts"
+      ],
+      "limits": "Independence and distribution assumptions must be established by the experimental design."
+    },
+    {
+      "id": "typesafe-skill",
+      "title": "TypeSafe AI agent skill",
+      "publisher": "TypeSafe AI",
+      "url": "https://github.com/typesafe-ai/skills/blob/main/skills/typesafe-ai/SKILL.md",
+      "type": "official_skill",
+      "supports": [
+        "Native Jev programming model",
+        "Read live API before integration"
+      ],
+      "limits": "Documentation supports interface or policy design, not measured security performance in this suite."
+    },
+    {
+      "id": "typesafe-api",
+      "title": "TypeSafe HTTP API reference",
+      "publisher": "TypeSafe AI",
+      "url": "https://docs.typesafe.ai/api",
+      "type": "official_documentation",
+      "supports": [
+        "Native request and typed response contracts"
+      ],
+      "limits": "Documentation supports interface or policy design, not measured security performance in this suite."
+    },
+    {
+      "id": "typesafe-primitives",
+      "title": "TypeSafe Primitives (Questions)",
+      "publisher": "TypeSafe AI",
+      "url": "https://docs.typesafe.ai/primitives",
+      "type": "official_documentation",
+      "supports": [
+        "Independent typed questions over shared state",
+        "Question IDs do not convey instructions"
+      ],
+      "limits": "Documentation supports interface or policy design, not measured security performance in this suite."
+    },
+    {
+      "id": "typesafe-noul",
+      "title": "TypeSafe Noul",
+      "publisher": "TypeSafe AI",
+      "url": "https://docs.typesafe.ai/primitives/noul",
+      "type": "official_documentation",
+      "supports": [
+        "Probability of a yes/no condition; no separate confidence"
+      ],
+      "limits": "Documentation supports interface or policy design, not measured security performance in this suite."
+    },
+    {
+      "id": "typesafe-choice",
+      "title": "TypeSafe Choice",
+      "publisher": "TypeSafe AI",
+      "url": "https://docs.typesafe.ai/primitives/choice",
+      "type": "official_documentation",
+      "supports": [
+        "Selected predefined option and probability distribution"
+      ],
+      "limits": "Documentation supports interface or policy design, not measured security performance in this suite."
+    },
+    {
+      "id": "typesafe-score",
+      "title": "TypeSafe Score",
+      "publisher": "TypeSafe AI",
+      "url": "https://docs.typesafe.ai/primitives/score",
+      "type": "official_documentation",
+      "supports": [
+        "Weighted ordered-level score distinct from event probability"
+      ],
+      "limits": "Documentation supports interface or policy design, not measured security performance in this suite."
+    },
+    {
+      "id": "typesafe-confidence",
+      "title": "TypeSafe Confidence",
+      "publisher": "TypeSafe AI",
+      "url": "https://docs.typesafe.ai/confidence",
+      "type": "official_documentation",
+      "supports": [
+        "Distribution concentration distinct from correctness probability"
+      ],
+      "limits": "Documentation supports interface or policy design, not measured security performance in this suite."
+    },
+    {
+      "id": "typesafe-state",
+      "title": "TypeSafe State",
+      "publisher": "TypeSafe AI",
+      "url": "https://docs.typesafe.ai/concepts/state",
+      "type": "official_documentation",
+      "supports": [
+        "Structured state and named paths"
+      ],
+      "limits": "Documentation supports interface or policy design, not measured security performance in this suite."
+    },
+    {
+      "id": "typesafe-guardrails",
+      "title": "TypeSafe Guardrails for LLMs cookbook",
+      "publisher": "TypeSafe AI",
+      "url": "https://docs.typesafe.ai/cookbooks/llm_guardrails",
+      "type": "official_documentation",
+      "supports": [
+        "Separate hazard questions and application routing",
+        "Input and output assessment"
+      ],
+      "limits": "Documentation supports interface or policy design, not measured security performance in this suite."
+    },
+    {
+      "id": "mcp-tools",
+      "title": "Model Context Protocol tools specification (2025-06-18)",
+      "publisher": "Model Context Protocol",
+      "url": "https://modelcontextprotocol.io/specification/2025-06-18/server/tools",
+      "type": "official_specification",
+      "supports": [
+        "Tool annotation trust",
+        "Tool input disclosure boundaries"
+      ],
+      "limits": "Documentation supports interface or policy design, not measured security performance in this suite."
+    },
+    {
+      "id": "mcp-security",
+      "title": "Model Context Protocol Security Best Practices",
+      "publisher": "Model Context Protocol",
+      "url": "https://modelcontextprotocol.io/docs/2025-11-25/tutorials/security/security_best_practices",
+      "type": "official_security_guidance",
+      "supports": [
+        "Per-client consent and authority scope",
+        "MCP authorization boundaries"
+      ],
+      "limits": "Documentation supports interface or policy design, not measured security performance in this suite."
+    }
+  ]
+}

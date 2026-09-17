@@ -1,0 +1,23 @@
+{
+  "name": "jev-redteam-observatory",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Model-only prompt-injection, policy-steering, poisoning and judge evaluation with precomputed honest reporting",
+  "type": "module",
+  "engines": {
+    "node": ">=22.22.0"
+  },
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "corpus": "node scripts/corpus.mjs",
+    "plan": "node scripts/run.mjs",
+    "pilot": "node scripts/run.mjs",
+    "aggregate": "node scripts/aggregate.mjs",
+    "promptfoo:prepare": "node scripts/promptfoo.mjs",
+    "promptfoo:eval": "node scripts/promptfoo.mjs --live"
+  },
+  "devDependencies": {
+    "prettier": "3.6.2",
+    "promptfoo": "0.123.0"
+  }
+}

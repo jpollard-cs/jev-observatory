@@ -1,0 +1,17 @@
+node_modules/
+.env
+.env.*
+!.env.example
+.promptfoo/
+work/
+runs/
+cases/generated/
+data/private/
+*.log
+.DS_Store
+
+dist/
+.data-app-assets/
+.data-app-offline/
+.data-app-publish/
+.sites-runtime/

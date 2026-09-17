@@ -1,0 +1,77 @@
+{
+  "capturedFrom": "original native-v2 request builder before architecture refactor",
+  "cases": [
+    {
+      "id": "aec7459b9355cbc9f693",
+      "outputMode": "binary",
+      "promptArm": "minimal",
+      "sha256": "eb70d33f0715c137cf3a10261e9be20e10053dafc8418eb972371de8e494a6b5"
+    },
+    {
+      "id": "c3b0e2b4b8de0cbc8c36",
+      "outputMode": "binary",
+      "promptArm": "minimal",
+      "sha256": "2b55be2ee036a00f7df8eaf2a96fd832783debfec6ce342f3f424eee4c59d2e9"
+    },
+    {
+      "id": "389a3efe51bbe1b9581b",
+      "outputMode": "scores",
+      "promptArm": "minimal",
+      "sha256": "4cce7766f8f70fd9c363fc9828fd8d24cfdcc317f0983b85b0dc7fe1447ff639"
+    },
+    {
+      "id": "752c18242529bc4cc72b",
+      "outputMode": "scores",
+      "promptArm": "minimal",
+      "sha256": "1997b333fbd7f0031ec5dab068b1ec56ce8b89388d0282354659853cf991da00"
+    },
+    {
+      "id": "237adf19da86435fb877",
+      "outputMode": "structured",
+      "promptArm": "minimal",
+      "sha256": "b3bfa3a14a88cccc924298861096479745fddd964ca2a16010efd449181bad25"
+    },
+    {
+      "id": "4c05fdf132e0a0ac2b2e",
+      "outputMode": "structured",
+      "promptArm": "minimal",
+      "sha256": "55e055446d737c291f89eb26f361d654bdfd0968d5fd7bd8af5003a91270f6f3"
+    },
+    {
+      "id": "a2341d57640461392d66",
+      "outputMode": "binary",
+      "promptArm": "policy",
+      "sha256": "1e73a80b1b414039af018af5744ae94961dbeb95cd8881cc9c8d6ba3ae462583"
+    },
+    {
+      "id": "9eb9a3999a50ee993640",
+      "outputMode": "binary",
+      "promptArm": "policy",
+      "sha256": "591be1ac14afac2f01c3254f71dd805be40d50518888bdd1b928ac2a96a8fb15"
+    },
+    {
+      "id": "ff15174d1e9127ba51ae",
+      "outputMode": "scores",
+      "promptArm": "policy",
+      "sha256": "b503cff3f00f83a3bb1659bed5c5b15ae5f7db1843dd5eeff00228e390d0a9f0"
+    },
+    {
+      "id": "48c56b6c74dd3c314538",
+      "outputMode": "scores",
+      "promptArm": "policy",
+      "sha256": "34d1b0fdb86cc771655114175898ee1c2ba5bdf6ce72d225890337b4c2c29373"
+    },
+    {
+      "id": "1b46138057a9af6fabf4",
+      "outputMode": "structured",
+      "promptArm": "policy",
+      "sha256": "a18fc010fc1d4e1b40ce2854e5658e80ab21df513872636ca31c192e5f482a05"
+    },
+    {
+      "id": "4fa79b64bf8817f2220c",
+      "outputMode": "structured",
+      "promptArm": "policy",
+      "sha256": "63275b1383deaa6bdcfce32766fa5223805308207f8dd8543877489e29b040f9"
+    }
+  ]
+}

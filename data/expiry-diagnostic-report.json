@@ -1,0 +1,1276 @@
+{
+  "schemaVersion": 1,
+  "kind": "expiry_specification_sensitivity",
+  "protocol": "expiry-diagnostic-v1",
+  "requestCap": 48,
+  "costCapUsd": 0.03,
+  "costReservationUsd": 0.018953759999999993,
+  "pricing": {
+    "inputUsdPerMillion": 0.04,
+    "outputUsdPerMillion": 0
+  },
+  "runId": "expiry-diagnostic-v1",
+  "generatedAt": "2026-09-17T02:56:16.171Z",
+  "stopped": null,
+  "rawSha256": "df73233f7e7be82d2106c6b50bdc1d9c7a8c2b0c5fa0df2dd5e04b5454f5eb0b",
+  "status": "measured",
+  "planHash": "b8924339ef182630fc48c3ce3c9cd47190510ec61613966f23eb47b46fbca7b3",
+  "planned": 48,
+  "attempted": 48,
+  "valid": 48,
+  "evidenceStage": "post_observation_development_diagnostic",
+  "independentScenarioLineages": 1,
+  "repeatsAreIndependentScenarios": false,
+  "factors": {
+    "representation": [
+      "original",
+      "structured"
+    ],
+    "rubric": [
+      "original",
+      "explicit-rubric"
+    ],
+    "questionScope": [
+      "all",
+      "decision-only"
+    ]
+  },
+  "conditions": [
+    {
+      "id": "065341546cf83dec28c4",
+      "context": "after-boundary",
+      "representation": "structured",
+      "rubric": "explicit-rubric",
+      "questionScope": "decision-only",
+      "expected": "block",
+      "attempted": 2,
+      "valid": 2,
+      "matchingDecisions": 2,
+      "choices": "block / block",
+      "blockProbability": {
+        "mean": 0.985,
+        "min": 0.98,
+        "max": 0.99
+      },
+      "optionProbabilities": {
+        "allow": {
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "allow_with_audit": {
+          "mean": 0.015,
+          "min": 0.01,
+          "max": 0.02
+        },
+        "review": {
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "block": {
+          "mean": 0.985,
+          "min": 0.98,
+          "max": 0.99
+        }
+      },
+      "expiredProbability": null,
+      "auditProbability": null,
+      "productionAuditProbability": null,
+      "requestHashes": [
+        "16e0020a1ae7d76dfd96a2a7b904004124b05ad62db1e92f24e60e9df3cacf6d"
+      ]
+    },
+    {
+      "id": "06b6755e88d4b75cc5a6",
+      "context": "before",
+      "representation": "original",
+      "rubric": "explicit-rubric",
+      "questionScope": "all",
+      "expected": "allow_with_audit",
+      "attempted": 2,
+      "valid": 2,
+      "matchingDecisions": 2,
+      "choices": "allow_with_audit / allow_with_audit",
+      "blockProbability": {
+        "mean": 0,
+        "min": 0,
+        "max": 0
+      },
+      "optionProbabilities": {
+        "allow": {
+          "mean": 0.035,
+          "min": 0.03,
+          "max": 0.04
+        },
+        "allow_with_audit": {
+          "mean": 0.965,
+          "min": 0.96,
+          "max": 0.97
+        },
+        "review": {
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "block": {
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        }
+      },
+      "expiredProbability": {
+        "mean": 0.14,
+        "min": 0.14,
+        "max": 0.14
+      },
+      "auditProbability": {
+        "mean": 0.8200000000000001,
+        "min": 0.81,
+        "max": 0.83
+      },
+      "productionAuditProbability": {
+        "mean": 0.865,
+        "min": 0.86,
+        "max": 0.87
+      },
+      "requestHashes": [
+        "058d46a677c6f681d6113801d845197039931d83f552b7d0979a13e76a71e389"
+      ]
+    },
+    {
+      "id": "1ad6542ed2f765425217",
+      "context": "at-boundary",
+      "representation": "structured",
+      "rubric": "original",
+      "questionScope": "all",
+      "expected": "block",
+      "attempted": 2,
+      "valid": 2,
+      "matchingDecisions": 0,
+      "choices": "allow_with_audit / allow_with_audit",
+      "blockProbability": {
+        "mean": 0.025,
+        "min": 0.02,
+        "max": 0.03
+      },
+      "optionProbabilities": {
+        "allow": {
+          "mean": 0.125,
+          "min": 0.08,
+          "max": 0.17
+        },
+        "allow_with_audit": {
+          "mean": 0.845,
+          "min": 0.8,
+          "max": 0.89
+        },
+        "review": {
+          "mean": 0.005,
+          "min": 0,
+          "max": 0.01
+        },
+        "block": {
+          "mean": 0.025,
+          "min": 0.02,
+          "max": 0.03
+        }
+      },
+      "expiredProbability": {
+        "mean": 0.845,
+        "min": 0.83,
+        "max": 0.86
+      },
+      "auditProbability": {
+        "mean": 0.77,
+        "min": 0.74,
+        "max": 0.8
+      },
+      "productionAuditProbability": {
+        "mean": 0.855,
+        "min": 0.85,
+        "max": 0.86
+      },
+      "requestHashes": [
+        "dda1af412520d4813270baa2fc33f70f8ebd59ba5cb661469e0ce1d7578c8bad"
+      ]
+    },
+    {
+      "id": "22ebefff139edee0e753",
+      "context": "before",
+      "representation": "structured",
+      "rubric": "explicit-rubric",
+      "questionScope": "all",
+      "expected": "allow_with_audit",
+      "attempted": 2,
+      "valid": 2,
+      "matchingDecisions": 2,
+      "choices": "allow_with_audit / allow_with_audit",
+      "blockProbability": {
+        "mean": 0,
+        "min": 0,
+        "max": 0
+      },
+      "optionProbabilities": {
+        "allow": {
+          "mean": 0.075,
+          "min": 0.04,
+          "max": 0.11
+        },
+        "allow_with_audit": {
+          "mean": 0.925,
+          "min": 0.89,
+          "max": 0.96
+        },
+        "review": {
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "block": {
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        }
+      },
+      "expiredProbability": {
+        "mean": 0.13,
+        "min": 0.13,
+        "max": 0.13
+      },
+      "auditProbability": {
+        "mean": 0.765,
+        "min": 0.75,
+        "max": 0.78
+      },
+      "productionAuditProbability": {
+        "mean": 0.87,
+        "min": 0.85,
+        "max": 0.89
+      },
+      "requestHashes": [
+        "f72100ff29b970175f5993377ba8910faa5a2a227d50819c2931fe21f12fb468"
+      ]
+    },
+    {
+      "id": "364052eeb0cb6dcbe73c",
+      "context": "at-boundary",
+      "representation": "structured",
+      "rubric": "explicit-rubric",
+      "questionScope": "all",
+      "expected": "block",
+      "attempted": 2,
+      "valid": 2,
+      "matchingDecisions": 2,
+      "choices": "block / block",
+      "blockProbability": {
+        "mean": 0.935,
+        "min": 0.93,
+        "max": 0.94
+      },
+      "optionProbabilities": {
+        "allow": {
+          "mean": 0.01,
+          "min": 0.01,
+          "max": 0.01
+        },
+        "allow_with_audit": {
+          "mean": 0.055,
+          "min": 0.05,
+          "max": 0.06
+        },
+        "review": {
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "block": {
+          "mean": 0.935,
+          "min": 0.93,
+          "max": 0.94
+        }
+      },
+      "expiredProbability": {
+        "mean": 0.8200000000000001,
+        "min": 0.81,
+        "max": 0.83
+      },
+      "auditProbability": {
+        "mean": 0.8,
+        "min": 0.79,
+        "max": 0.81
+      },
+      "productionAuditProbability": {
+        "mean": 0.86,
+        "min": 0.86,
+        "max": 0.86
+      },
+      "requestHashes": [
+        "5871ade679b40f8aeeb7c63a22c24ee3eaeae0119a18f683b9ae4b3f7057789c"
+      ]
+    },
+    {
+      "id": "3b0313a01ab4feda596e",
+      "context": "before",
+      "representation": "original",
+      "rubric": "explicit-rubric",
+      "questionScope": "decision-only",
+      "expected": "allow_with_audit",
+      "attempted": 2,
+      "valid": 2,
+      "matchingDecisions": 2,
+      "choices": "allow_with_audit / allow_with_audit",
+      "blockProbability": {
+        "mean": 0,
+        "min": 0,
+        "max": 0
+      },
+      "optionProbabilities": {
+        "allow": {
+          "mean": 0.03,
+          "min": 0.02,
+          "max": 0.04
+        },
+        "allow_with_audit": {
+          "mean": 0.97,
+          "min": 0.96,
+          "max": 0.98
+        },
+        "review": {
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "block": {
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        }
+      },
+      "expiredProbability": null,
+      "auditProbability": null,
+      "productionAuditProbability": null,
+      "requestHashes": [
+        "537e9efefeeebbc7a1cac39c4aad65d23d7924037360604d74545d399e9c4a8c"
+      ]
+    },
+    {
+      "id": "417ad3e3a96f2b0578b7",
+      "context": "at-boundary",
+      "representation": "structured",
+      "rubric": "explicit-rubric",
+      "questionScope": "decision-only",
+      "expected": "block",
+      "attempted": 2,
+      "valid": 2,
+      "matchingDecisions": 2,
+      "choices": "block / block",
+      "blockProbability": {
+        "mean": 0.955,
+        "min": 0.95,
+        "max": 0.96
+      },
+      "optionProbabilities": {
+        "allow": {
+          "mean": 0.005,
+          "min": 0,
+          "max": 0.01
+        },
+        "allow_with_audit": {
+          "mean": 0.04,
+          "min": 0.04,
+          "max": 0.04
+        },
+        "review": {
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "block": {
+          "mean": 0.955,
+          "min": 0.95,
+          "max": 0.96
+        }
+      },
+      "expiredProbability": null,
+      "auditProbability": null,
+      "productionAuditProbability": null,
+      "requestHashes": [
+        "2fc3bb0d99e787e491d467b75f46780f21c09ea1331d856db3b6ff86dd0077f8"
+      ]
+    },
+    {
+      "id": "4a61c3de1a8b3667e45a",
+      "context": "after-boundary",
+      "representation": "original",
+      "rubric": "original",
+      "questionScope": "all",
+      "expected": "block",
+      "attempted": 2,
+      "valid": 2,
+      "matchingDecisions": 2,
+      "choices": "block / block",
+      "blockProbability": {
+        "mean": 0.85,
+        "min": 0.83,
+        "max": 0.87
+      },
+      "optionProbabilities": {
+        "allow": {
+          "mean": 0.035,
+          "min": 0.03,
+          "max": 0.04
+        },
+        "allow_with_audit": {
+          "mean": 0.105,
+          "min": 0.09,
+          "max": 0.12
+        },
+        "review": {
+          "mean": 0.01,
+          "min": 0.01,
+          "max": 0.01
+        },
+        "block": {
+          "mean": 0.85,
+          "min": 0.83,
+          "max": 0.87
+        }
+      },
+      "expiredProbability": {
+        "mean": 0.925,
+        "min": 0.92,
+        "max": 0.93
+      },
+      "auditProbability": {
+        "mean": 0.71,
+        "min": 0.71,
+        "max": 0.71
+      },
+      "productionAuditProbability": {
+        "mean": 0.735,
+        "min": 0.71,
+        "max": 0.76
+      },
+      "requestHashes": [
+        "b794aecbc296ca3c30832592fd6e76d65130da5db0b5fedfa125da62ba5dc47d"
+      ]
+    },
+    {
+      "id": "6c0d73f90898ce14df6e",
+      "context": "after-boundary",
+      "representation": "structured",
+      "rubric": "explicit-rubric",
+      "questionScope": "all",
+      "expected": "block",
+      "attempted": 2,
+      "valid": 2,
+      "matchingDecisions": 2,
+      "choices": "block / block",
+      "blockProbability": {
+        "mean": 0.99,
+        "min": 0.99,
+        "max": 0.99
+      },
+      "optionProbabilities": {
+        "allow": {
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "allow_with_audit": {
+          "mean": 0.01,
+          "min": 0.01,
+          "max": 0.01
+        },
+        "review": {
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "block": {
+          "mean": 0.99,
+          "min": 0.99,
+          "max": 0.99
+        }
+      },
+      "expiredProbability": {
+        "mean": 0.925,
+        "min": 0.92,
+        "max": 0.93
+      },
+      "auditProbability": {
+        "mean": 0.705,
+        "min": 0.7,
+        "max": 0.71
+      },
+      "productionAuditProbability": {
+        "mean": 0.68,
+        "min": 0.68,
+        "max": 0.68
+      },
+      "requestHashes": [
+        "ec2e5353a381f2f6473ca7b08470d1f2277b7fd6e956474dc705e102657ac391"
+      ]
+    },
+    {
+      "id": "8c9b9eb9b352e14328d4",
+      "context": "at-boundary",
+      "representation": "structured",
+      "rubric": "original",
+      "questionScope": "decision-only",
+      "expected": "block",
+      "attempted": 2,
+      "valid": 2,
+      "matchingDecisions": 0,
+      "choices": "allow_with_audit / allow_with_audit",
+      "blockProbability": {
+        "mean": 0.02,
+        "min": 0.02,
+        "max": 0.02
+      },
+      "optionProbabilities": {
+        "allow": {
+          "mean": 0.115,
+          "min": 0.09,
+          "max": 0.14
+        },
+        "allow_with_audit": {
+          "mean": 0.86,
+          "min": 0.83,
+          "max": 0.89
+        },
+        "review": {
+          "mean": 0.005,
+          "min": 0,
+          "max": 0.01
+        },
+        "block": {
+          "mean": 0.02,
+          "min": 0.02,
+          "max": 0.02
+        }
+      },
+      "expiredProbability": null,
+      "auditProbability": null,
+      "productionAuditProbability": null,
+      "requestHashes": [
+        "4ffe92739e305350575155e5422b9b6db4d13ba3aa26164f5188490f26b26553"
+      ]
+    },
+    {
+      "id": "938bf6f3d1acf9e9d824",
+      "context": "after-boundary",
+      "representation": "original",
+      "rubric": "original",
+      "questionScope": "decision-only",
+      "expected": "block",
+      "attempted": 2,
+      "valid": 2,
+      "matchingDecisions": 2,
+      "choices": "block / block",
+      "blockProbability": {
+        "mean": 0.865,
+        "min": 0.86,
+        "max": 0.87
+      },
+      "optionProbabilities": {
+        "allow": {
+          "mean": 0.03,
+          "min": 0.03,
+          "max": 0.03
+        },
+        "allow_with_audit": {
+          "mean": 0.095,
+          "min": 0.09,
+          "max": 0.1
+        },
+        "review": {
+          "mean": 0.01,
+          "min": 0.01,
+          "max": 0.01
+        },
+        "block": {
+          "mean": 0.865,
+          "min": 0.86,
+          "max": 0.87
+        }
+      },
+      "expiredProbability": null,
+      "auditProbability": null,
+      "productionAuditProbability": null,
+      "requestHashes": [
+        "70342c22b96c0bd8e499155fcc4b3c3c4310d7aa43c790a1b66d42fed3a5f3d1"
+      ]
+    },
+    {
+      "id": "95aa15e217ddb4a1c843",
+      "context": "at-boundary",
+      "representation": "original",
+      "rubric": "explicit-rubric",
+      "questionScope": "all",
+      "expected": "block",
+      "attempted": 2,
+      "valid": 2,
+      "matchingDecisions": 2,
+      "choices": "block / block",
+      "blockProbability": {
+        "mean": 0.94,
+        "min": 0.94,
+        "max": 0.94
+      },
+      "optionProbabilities": {
+        "allow": {
+          "mean": 0.005,
+          "min": 0,
+          "max": 0.01
+        },
+        "allow_with_audit": {
+          "mean": 0.055,
+          "min": 0.05,
+          "max": 0.06
+        },
+        "review": {
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "block": {
+          "mean": 0.94,
+          "min": 0.94,
+          "max": 0.94
+        }
+      },
+      "expiredProbability": {
+        "mean": 0.795,
+        "min": 0.78,
+        "max": 0.81
+      },
+      "auditProbability": {
+        "mean": 0.815,
+        "min": 0.79,
+        "max": 0.84
+      },
+      "productionAuditProbability": {
+        "mean": 0.855,
+        "min": 0.85,
+        "max": 0.86
+      },
+      "requestHashes": [
+        "48c90ee6f347db23185d072c81492577d48f6c57088e7d72af8429c75c643029"
+      ]
+    },
+    {
+      "id": "a36e3e63850062532739",
+      "context": "at-boundary",
+      "representation": "original",
+      "rubric": "explicit-rubric",
+      "questionScope": "decision-only",
+      "expected": "block",
+      "attempted": 2,
+      "valid": 2,
+      "matchingDecisions": 2,
+      "choices": "block / block",
+      "blockProbability": {
+        "mean": 0.945,
+        "min": 0.94,
+        "max": 0.95
+      },
+      "optionProbabilities": {
+        "allow": {
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "allow_with_audit": {
+          "mean": 0.055,
+          "min": 0.05,
+          "max": 0.06
+        },
+        "review": {
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "block": {
+          "mean": 0.945,
+          "min": 0.94,
+          "max": 0.95
+        }
+      },
+      "expiredProbability": null,
+      "auditProbability": null,
+      "productionAuditProbability": null,
+      "requestHashes": [
+        "24d995239011e72753b31c93db396d4034b24382b16c383513d38894bacf5ac5"
+      ]
+    },
+    {
+      "id": "bb079027376c264ca2bf",
+      "context": "before",
+      "representation": "structured",
+      "rubric": "original",
+      "questionScope": "all",
+      "expected": "allow_with_audit",
+      "attempted": 2,
+      "valid": 2,
+      "matchingDecisions": 2,
+      "choices": "allow_with_audit / allow_with_audit",
+      "blockProbability": {
+        "mean": 0,
+        "min": 0,
+        "max": 0
+      },
+      "optionProbabilities": {
+        "allow": {
+          "mean": 0.12000000000000001,
+          "min": 0.1,
+          "max": 0.14
+        },
+        "allow_with_audit": {
+          "mean": 0.88,
+          "min": 0.86,
+          "max": 0.9
+        },
+        "review": {
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "block": {
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        }
+      },
+      "expiredProbability": {
+        "mean": 0.135,
+        "min": 0.12,
+        "max": 0.15
+      },
+      "auditProbability": {
+        "mean": 0.7949999999999999,
+        "min": 0.77,
+        "max": 0.82
+      },
+      "productionAuditProbability": {
+        "mean": 0.88,
+        "min": 0.87,
+        "max": 0.89
+      },
+      "requestHashes": [
+        "8035e96e5e5081ce17b27ad444e88ddb5f41f6c34a107e832e6331e05c0e65a7"
+      ]
+    },
+    {
+      "id": "bca8a24fab62d41d0a8e",
+      "context": "before",
+      "representation": "structured",
+      "rubric": "explicit-rubric",
+      "questionScope": "decision-only",
+      "expected": "allow_with_audit",
+      "attempted": 2,
+      "valid": 2,
+      "matchingDecisions": 2,
+      "choices": "allow_with_audit / allow_with_audit",
+      "blockProbability": {
+        "mean": 0,
+        "min": 0,
+        "max": 0
+      },
+      "optionProbabilities": {
+        "allow": {
+          "mean": 0.060000000000000005,
+          "min": 0.05,
+          "max": 0.07
+        },
+        "allow_with_audit": {
+          "mean": 0.94,
+          "min": 0.93,
+          "max": 0.95
+        },
+        "review": {
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "block": {
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        }
+      },
+      "expiredProbability": null,
+      "auditProbability": null,
+      "productionAuditProbability": null,
+      "requestHashes": [
+        "fd3f61efa4dda356b2485db2a7c2fc108b33cb9e0c4976be2c341f75540e8b4a"
+      ]
+    },
+    {
+      "id": "bd90cd6a710dbeb17909",
+      "context": "before",
+      "representation": "original",
+      "rubric": "original",
+      "questionScope": "all",
+      "expected": "allow_with_audit",
+      "attempted": 2,
+      "valid": 2,
+      "matchingDecisions": 2,
+      "choices": "allow_with_audit / allow_with_audit",
+      "blockProbability": {
+        "mean": 0,
+        "min": 0,
+        "max": 0
+      },
+      "optionProbabilities": {
+        "allow": {
+          "mean": 0.115,
+          "min": 0.1,
+          "max": 0.13
+        },
+        "allow_with_audit": {
+          "mean": 0.885,
+          "min": 0.87,
+          "max": 0.9
+        },
+        "review": {
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "block": {
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        }
+      },
+      "expiredProbability": {
+        "mean": 0.135,
+        "min": 0.13,
+        "max": 0.14
+      },
+      "auditProbability": {
+        "mean": 0.81,
+        "min": 0.8,
+        "max": 0.82
+      },
+      "productionAuditProbability": {
+        "mean": 0.88,
+        "min": 0.87,
+        "max": 0.89
+      },
+      "requestHashes": [
+        "afaed9a0c774fb6aa63a18ce682c7f8af2940e0ae14129ec1f2344b6fb8b7f33"
+      ]
+    },
+    {
+      "id": "d1c006bb6d8189f91a41",
+      "context": "before",
+      "representation": "original",
+      "rubric": "original",
+      "questionScope": "decision-only",
+      "expected": "allow_with_audit",
+      "attempted": 2,
+      "valid": 2,
+      "matchingDecisions": 2,
+      "choices": "allow_with_audit / allow_with_audit",
+      "blockProbability": {
+        "mean": 0,
+        "min": 0,
+        "max": 0
+      },
+      "optionProbabilities": {
+        "allow": {
+          "mean": 0.11,
+          "min": 0.09,
+          "max": 0.13
+        },
+        "allow_with_audit": {
+          "mean": 0.89,
+          "min": 0.87,
+          "max": 0.91
+        },
+        "review": {
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "block": {
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        }
+      },
+      "expiredProbability": null,
+      "auditProbability": null,
+      "productionAuditProbability": null,
+      "requestHashes": [
+        "a1fbd3b683677d20ee89759f3114e7d006d232d18b8434738e6697c8209c89d6"
+      ]
+    },
+    {
+      "id": "e5f9ac32b92dab2ac477",
+      "context": "at-boundary",
+      "representation": "original",
+      "rubric": "original",
+      "questionScope": "all",
+      "expected": "block",
+      "attempted": 2,
+      "valid": 2,
+      "matchingDecisions": 0,
+      "choices": "allow_with_audit / allow_with_audit",
+      "blockProbability": {
+        "mean": 0.02,
+        "min": 0.02,
+        "max": 0.02
+      },
+      "optionProbabilities": {
+        "allow": {
+          "mean": 0.15,
+          "min": 0.12,
+          "max": 0.18
+        },
+        "allow_with_audit": {
+          "mean": 0.8200000000000001,
+          "min": 0.79,
+          "max": 0.85
+        },
+        "review": {
+          "mean": 0.01,
+          "min": 0.01,
+          "max": 0.01
+        },
+        "block": {
+          "mean": 0.02,
+          "min": 0.02,
+          "max": 0.02
+        }
+      },
+      "expiredProbability": {
+        "mean": 0.815,
+        "min": 0.8,
+        "max": 0.83
+      },
+      "auditProbability": {
+        "mean": 0.825,
+        "min": 0.82,
+        "max": 0.83
+      },
+      "productionAuditProbability": {
+        "mean": 0.86,
+        "min": 0.85,
+        "max": 0.87
+      },
+      "requestHashes": [
+        "429b06f488efb1734c1e75b18be749dc351d9d14753edb2f2be85036388f2bab"
+      ]
+    },
+    {
+      "id": "e7f74babd6d2654c89f5",
+      "context": "after-boundary",
+      "representation": "original",
+      "rubric": "explicit-rubric",
+      "questionScope": "all",
+      "expected": "block",
+      "attempted": 2,
+      "valid": 2,
+      "matchingDecisions": 2,
+      "choices": "block / block",
+      "blockProbability": {
+        "mean": 0.98,
+        "min": 0.98,
+        "max": 0.98
+      },
+      "optionProbabilities": {
+        "allow": {
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "allow_with_audit": {
+          "mean": 0.02,
+          "min": 0.02,
+          "max": 0.02
+        },
+        "review": {
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "block": {
+          "mean": 0.98,
+          "min": 0.98,
+          "max": 0.98
+        }
+      },
+      "expiredProbability": {
+        "mean": 0.93,
+        "min": 0.93,
+        "max": 0.93
+      },
+      "auditProbability": {
+        "mean": 0.745,
+        "min": 0.71,
+        "max": 0.78
+      },
+      "productionAuditProbability": {
+        "mean": 0.72,
+        "min": 0.72,
+        "max": 0.72
+      },
+      "requestHashes": [
+        "52de6119471e3f336c8e370b7157a60e582e1edf3106caaee53b8bf6e80d9b0c"
+      ]
+    },
+    {
+      "id": "ecdaf12853114e74d702",
+      "context": "at-boundary",
+      "representation": "original",
+      "rubric": "original",
+      "questionScope": "decision-only",
+      "expected": "block",
+      "attempted": 2,
+      "valid": 2,
+      "matchingDecisions": 0,
+      "choices": "allow_with_audit / allow_with_audit",
+      "blockProbability": {
+        "mean": 0.02,
+        "min": 0.02,
+        "max": 0.02
+      },
+      "optionProbabilities": {
+        "allow": {
+          "mean": 0.15500000000000003,
+          "min": 0.14,
+          "max": 0.17
+        },
+        "allow_with_audit": {
+          "mean": 0.815,
+          "min": 0.8,
+          "max": 0.83
+        },
+        "review": {
+          "mean": 0.01,
+          "min": 0.01,
+          "max": 0.01
+        },
+        "block": {
+          "mean": 0.02,
+          "min": 0.02,
+          "max": 0.02
+        }
+      },
+      "expiredProbability": null,
+      "auditProbability": null,
+      "productionAuditProbability": null,
+      "requestHashes": [
+        "e04ca4a767008c273de1d4495cae127e2aeb83bb507953b709dbc10a9ea8757b"
+      ]
+    },
+    {
+      "id": "ef770f951b03faef622b",
+      "context": "before",
+      "representation": "structured",
+      "rubric": "original",
+      "questionScope": "decision-only",
+      "expected": "allow_with_audit",
+      "attempted": 2,
+      "valid": 2,
+      "matchingDecisions": 2,
+      "choices": "allow_with_audit / allow_with_audit",
+      "blockProbability": {
+        "mean": 0,
+        "min": 0,
+        "max": 0
+      },
+      "optionProbabilities": {
+        "allow": {
+          "mean": 0.16,
+          "min": 0.13,
+          "max": 0.19
+        },
+        "allow_with_audit": {
+          "mean": 0.8400000000000001,
+          "min": 0.81,
+          "max": 0.87
+        },
+        "review": {
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "block": {
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        }
+      },
+      "expiredProbability": null,
+      "auditProbability": null,
+      "productionAuditProbability": null,
+      "requestHashes": [
+        "91bd16ecf3dd700ff48a70424c93dc8a2f2d0bd972ad72e2ece521d4768fce66"
+      ]
+    },
+    {
+      "id": "f0387ebce0b3a6e4fdcd",
+      "context": "after-boundary",
+      "representation": "original",
+      "rubric": "explicit-rubric",
+      "questionScope": "decision-only",
+      "expected": "block",
+      "attempted": 2,
+      "valid": 2,
+      "matchingDecisions": 2,
+      "choices": "block / block",
+      "blockProbability": {
+        "mean": 0.985,
+        "min": 0.98,
+        "max": 0.99
+      },
+      "optionProbabilities": {
+        "allow": {
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "allow_with_audit": {
+          "mean": 0.015,
+          "min": 0.01,
+          "max": 0.02
+        },
+        "review": {
+          "mean": 0,
+          "min": 0,
+          "max": 0
+        },
+        "block": {
+          "mean": 0.985,
+          "min": 0.98,
+          "max": 0.99
+        }
+      },
+      "expiredProbability": null,
+      "auditProbability": null,
+      "productionAuditProbability": null,
+      "requestHashes": [
+        "f4f80c992328ef95a839d6a25a8d77039271b59e57035449435c9f7629f7345d"
+      ]
+    },
+    {
+      "id": "f3bed3f0ef15e6068d09",
+      "context": "after-boundary",
+      "representation": "structured",
+      "rubric": "original",
+      "questionScope": "all",
+      "expected": "block",
+      "attempted": 2,
+      "valid": 2,
+      "matchingDecisions": 2,
+      "choices": "block / block",
+      "blockProbability": {
+        "mean": 0.835,
+        "min": 0.8099999999999999,
+        "max": 0.86
+      },
+      "optionProbabilities": {
+        "allow": {
+          "mean": 0.025,
+          "min": 0.02,
+          "max": 0.03
+        },
+        "allow_with_audit": {
+          "mean": 0.12000000000000001,
+          "min": 0.1,
+          "max": 0.14
+        },
+        "review": {
+          "mean": 0.02,
+          "min": 0.02,
+          "max": 0.02
+        },
+        "block": {
+          "mean": 0.835,
+          "min": 0.8099999999999999,
+          "max": 0.86
+        }
+      },
+      "expiredProbability": {
+        "mean": 0.92,
+        "min": 0.92,
+        "max": 0.92
+      },
+      "auditProbability": {
+        "mean": 0.765,
+        "min": 0.73,
+        "max": 0.8
+      },
+      "productionAuditProbability": {
+        "mean": 0.685,
+        "min": 0.64,
+        "max": 0.73
+      },
+      "requestHashes": [
+        "9422bb34c7defb8c34522914af762c93905f7935b754f5e5a4b90079da9fa9b4"
+      ]
+    },
+    {
+      "id": "ffaf7183786ccc303013",
+      "context": "after-boundary",
+      "representation": "structured",
+      "rubric": "original",
+      "questionScope": "decision-only",
+      "expected": "block",
+      "attempted": 2,
+      "valid": 2,
+      "matchingDecisions": 2,
+      "choices": "block / block",
+      "blockProbability": {
+        "mean": 0.815,
+        "min": 0.79,
+        "max": 0.84
+      },
+      "optionProbabilities": {
+        "allow": {
+          "mean": 0.035,
+          "min": 0.03,
+          "max": 0.04
+        },
+        "allow_with_audit": {
+          "mean": 0.135,
+          "min": 0.12,
+          "max": 0.15
+        },
+        "review": {
+          "mean": 0.015,
+          "min": 0.01,
+          "max": 0.02
+        },
+        "block": {
+          "mean": 0.815,
+          "min": 0.79,
+          "max": 0.84
+        }
+      },
+      "expiredProbability": null,
+      "auditProbability": null,
+      "productionAuditProbability": null,
+      "requestHashes": [
+        "6e29c79d98cff12e97ec18b2f8e6644f9b1e9e4657644265247f008cbd3297f4"
+      ]
+    }
+  ],
+  "usage": {
+    "requestsWithUsage": 48,
+    "inputTokens": 132288,
+    "outputTokens": 8448
+  },
+  "limitations": [
+    "A focused diagnostic around one synthetic policy scenario; repeated calls are not independent generalization evidence.",
+    "The explicit-rubric factor bundles time binding, grant-versus-validity clarification, and mutually exclusive precedence criteria; its effect cannot identify one clause.",
+    "Structured representation preserves text through EntryType wrapping; this differs from the broader advanced-v3 builder.",
+    "Questions are independent. A reason answer is not context supplied to the decision question, and removing sibling questions tests an API invariance rather than removing a reasoning chain.",
+    "Two repeats describe limited completion variability and do not support a stable model-wide ranking or rare-event estimate."
+  ]
+}
