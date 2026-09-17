@@ -6,6 +6,8 @@ Start with [expiry specification diagnostic](docs/expiry-diagnostic.md), [pilot 
 
 [Open the owner-private Observatory](https://jev-redteam-observatory.wizard.chatgpt.site/?view=1&tab=policy). ChatGPT sign-in is required. The [publication receipt](data/site-publication.json) records matching hosted HTML/data readback; local desktop/mobile rendering was checked. Authenticated hosted rendering and owner editing have not been verified in this browser session.
 
+Future work is tracked in the [research backlog](docs/backlog.md), including computer-use efficiency and injection resistance.
+
 ## Start here
 
 Use Node **22.22+**, preferably Node 24. The built-in harness has no dependencies; promptfoo is pinned to **0.123.0** with a lockfile.
