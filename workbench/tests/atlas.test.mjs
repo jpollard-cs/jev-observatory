@@ -14,3 +14,15 @@ test('boolean confusion counts include true and false',()=>{const rows=[{valid:t
 test('original archival default chooses meaningful structured matrix, not random first row',()=>{const r=loadEvidence('original-campaign');assert.equal(defaultCondition(r),'matrix:classification:policy:balanced:structured');});
 test('original explorer shows real task answers and unavailable states',()=>{const r=loadEvidence('original-campaign'),c=r.conditions.find(x=>x.originalTask==='integrity');const html=historicalEvidencePage({evidence:r,condition:c.id,historyField:null,page:0,search:'',expectedDecision:'',group:'',filter:'all',matrix:null},'');assert.ok(html.includes('poisoned'));assert.ok(html.includes('insufficient_evidence'));assert.ok(html.includes('Original evidence'));});
 test('entirely unattempted original conditions retain their expected question vocabulary',()=>{const c={kind:'original-extension',originalTask:'integrity',summary:{metrics:{}},rows:[{id:'none',rowKey:'none',valid:false,status:'not_dispatched',expected:{decision:'poisoned'},answers:{}}]};assert.equal(conditionJudgment(c),'decision');const html=historicalEvidencePage({evidence:{conditions:[{...c,id:'x'}]},condition:'x',page:0,search:'',filter:'all'},'');assert.ok(html.includes('poisoned'));assert.ok(html.includes('unavailable'));});
+
+test('measured axes use the selected distribution and only require the chosen metric', async () => {
+ const {signalScale}=await import('../public/signal-chart.js');
+ const rows=[{id:'a',valid:true,expected:{policy_decision:'block'},answers:{policy_decision:{probabilities:{block:.9},choice:'block'}},usage:{inputTokens:0},latencyMs:null},
+ {id:'b',valid:true,expected:{policy_decision:'allow'},answers:{policy_decision:{probabilities:{block:.1},choice:'allow'}},usage:{inputTokens:1000},latencyMs:50},
+ {id:'bad',valid:false,answers:{policy_decision:{probabilities:{block:1}}},usage:{inputTokens:2000}}];
+ const g=atlasGeometry(rows,{layout:'signal',field:'policy_decision',signalOption:'block'});
+ assert.equal(g.omitted,1);assert.equal(g.nodes[0].x,.9);assert.equal(g.nodes[0].y,0);assert.equal(g.nodes[1].y,1000);
+ const scale=signalScale(g.nodes);assert.equal(scale.fraction(0),0);assert.equal(scale.fraction(1000),1);
+ assert.equal(atlasGeometry(rows,{layout:'signal',field:'policy_decision',signalOption:'block',metric:'latencyMs'}).omitted,2);
+ assert.equal(atlasGeometry(rows,{layout:'signal',field:'policy_decision',signalOption:'missing'}).omitted,3);
+});

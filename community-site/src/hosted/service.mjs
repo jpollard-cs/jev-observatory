@@ -1,4 +1,4 @@
-import { rebuild, assess, makeReport, sha, ENDPOINT, PRICE_NANO } from './core.mjs';
+import { sha } from '../../../workbench/src/util.mjs';
 import { ok, error } from '../domain/contracts.mjs';
 const stamp = () => new Date().toISOString();
 const publicRun = (r) => ({
@@ -18,7 +18,7 @@ const publicRun = (r) => ({
 export function executionService({
   repo,
   blobs,
-  infer,
+  adapter,
   now = stamp,
   uuid = () => crypto.randomUUID(),
 }) {
@@ -29,6 +29,13 @@ export function executionService({
     if (sha(raw) !== run.prepared_hash) throw Error('Stored plan integrity failure');
     const p = JSON.parse(raw);
     if (p.manifest.planHash !== run.plan_hash) throw Error('Stored plan identity failure');
+    const identity = p.execution ?? adapter.legacyIdentity;
+    if (
+      !identity ||
+      identity.id !== adapter.identity.id ||
+      identity.version !== adapter.identity.version
+    )
+      throw Error('This run requires its original execution adapter version');
     return p;
   }
   async function requestBody(run, job) {
@@ -52,7 +59,7 @@ export function executionService({
         throw Error('Response integrity failure');
       observations.push(observation);
     }
-    return makeReport(p, run, observations);
+    return adapter.report(p, run, observations);
   }
   const account = async (owner) => {
     const a = await repo.account(owner);
@@ -100,7 +107,8 @@ export function executionService({
     async prepare(owner, spec) {
       let p;
       try {
-        p = rebuild(spec);
+        p = adapter.compile(spec);
+        p = { ...p, execution: adapter.identity };
       } catch (e) {
         return error('invalid_plan', e.message);
       }
@@ -155,14 +163,12 @@ export function executionService({
       }
       return ok({
         ...publicRun(await repo.get(id, owner)),
-        endpoint: ENDPOINT,
-        model: p.manifest.policy?.model ?? p.manifest.model ?? p.manifest.requiredProviderModel,
-        estimatedUsd: p.jobs.reduce((n, j) => n + j.estimatedInputTokens * PRICE_NANO, 0) / 1e9,
+        ...adapter.describe(p),
+        execution: p.execution ?? adapter.legacyIdentity,
         account: await account(owner),
         protocol: p.manifest.protocol,
-        mode: p.manifest.options.mode ?? null,
-        disclosure:
-          'The exact frozen policy/application text and selected test material go through this hosted service to TypeSafe. Authored expected answers are not sent. Requests and results are saved privately on this site. Your key is used only for the current request and is never written to our storage.',
+        mode: p.manifest.options?.mode ?? null,
+        disclosure: adapter.disclosure,
       });
     },
     async detail(owner, id, withReport = false) {
@@ -171,9 +177,9 @@ export function executionService({
       const p = await load(r);
       return ok({
         ...publicRun(r),
-        estimatedUsd: p.jobs.reduce((n, j) => n + j.estimatedInputTokens * PRICE_NANO, 0) / 1e9,
-        endpoint: ENDPOINT,
-        model: p.manifest.policy?.model ?? p.manifest.model ?? p.manifest.requiredProviderModel,
+        ...adapter.describe(p),
+        execution: p.execution ?? adapter.legacyIdentity,
+        disclosure: adapter.disclosure,
         account: await account(owner),
         ...(withReport ? { report: await report(r) } : {}),
       });
@@ -216,7 +222,7 @@ export function executionService({
         apiKey.length > 4096 ||
         /[\s\x00-\x1f]/.test(apiKey)
       )
-        return error('invalid_key', 'Enter a valid Jev API key.');
+        return error('invalid_key', 'Enter a valid provider API key.');
       const run = await repo.get(id, owner);
       if (!run) return error('not_found', 'Run not found.', 404);
       if (run.status !== 'running' || run.inflight !== null || index !== run.next_index)
@@ -229,7 +235,7 @@ export function executionService({
         j = p.jobs[index];
       if (!j) throw Error('Request integrity failure');
       const body = await requestBody(run, j);
-      const reserve = j.reservationInputTokens * PRICE_NANO;
+      const reserve = adapter.reservation(j);
       if (!(await repo.claim(id, owner, index, reserve, now())))
         return error(
           'already_claimed',
@@ -239,7 +245,7 @@ export function executionService({
       // The claim is durable BEFORE network I/O. A crash keeps it unresolved; never resend it.
       let e;
       try {
-        e = await infer(JSON.parse(body), apiKey);
+        e = await adapter.infer(JSON.parse(body), apiKey);
       } catch {
         e = {
           reportedProviderModel: null,
@@ -252,12 +258,10 @@ export function executionService({
           response: { status: 'error', error: 'credential_echo_rejected', usage: null },
         };
       e = { ...e, jobId: j.id, requestHash: j.requestHash, receivedAt: now() };
-      const o = assess(
-        { ...j, body },
-        e,
-        p.manifest.policy?.model ?? p.manifest.model ?? p.manifest.requiredProviderModel,
-      );
-      const cost = o.usage ? o.usage.inputTokens * PRICE_NANO : null;
+      const o = adapter.assess({ ...j, body }, e, p);
+      const cost = adapter.cost(o);
+      if (cost !== null && (!Number.isSafeInteger(cost) || cost < 0))
+        throw Error('Invalid adapter billing result; dispatch remains held');
       const reason = o.error ?? (cost > reserve ? 'reservation_exceeded' : null);
       await blobs.put(run.object_key + '/response/' + index, JSON.stringify(o));
       await repo.settle(id, owner, index, cost, reserve, reason, now());

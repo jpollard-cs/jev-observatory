@@ -551,7 +551,7 @@ footer button {
   nav {
     gap: 18px;
   }
-  nav > a:first-child {
+  nav .github-link span {
     display: none;
   }
   .wordmark {
@@ -632,4 +632,13 @@ footer button {
     padding: 7px 9px;
     font-size: 11px;
   }
+}
+
+.github-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.github-link svg {
+  flex: none;
 }

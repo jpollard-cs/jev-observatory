@@ -35,3 +35,15 @@ npm run dev -- --signed-in --mock-jev
 ```
 
 The mock preview uses its own `runtime/mock-execution` database and refuses external fetches. Its provider fixture is imported only by the development entry point, never the deployed Worker. Simulated results must never be published as Jev measurements. Automated integration tests exercise the compiled Worker against the same SQLite-shaped D1 repository, including concurrent attempts, cancellation during dispatch, model/usage validation, private ownership, exact plan binding, and budget/unknown-cost holds. Production D1 migrations are generated append-only from `community-site/db/schema.ts`.
+
+## Provider boundary
+
+Execution orchestration now receives a reviewed, versioned adapter. Jev-specific compilation,
+validation, transport, tariffs and report shaping remain in that adapter. New stored runs pin its
+identity; a different adapter version cannot silently resume them. See
+[model adapters and comparable evidence](model-adapters-and-benchmarks.md) for current limits,
+future provider capabilities and cross-model comparison requirements.
+
+The description page offers **Suggest a policy with Jev** and **Define rules myself**. Suggestions
+prepare an offline packet, then open the hosted request/cost review where the user enters a key.
+They propose supported options for explicit review, not arbitrary automatically trusted policy text.

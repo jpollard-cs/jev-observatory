@@ -7,6 +7,7 @@ import { localStorage } from '../scripts/local-storage.mjs';
 import { executionRepository } from '../src/hosted/repository.mjs';
 import { executionService } from '../src/hosted/service.mjs';
 import { executionApi } from '../src/hosted/http.mjs';
+import { jevExecutionAdapter } from '../src/hosted/jev-adapter.mjs';
 import { callJev } from '../src/hosted/provider.mjs';
 import { rebuild, assess, sha } from '../src/hosted/core.mjs';
 import { preset } from '../../workbench/src/policy.mjs';
@@ -78,7 +79,11 @@ async function fixture(t, infer = async (r) => mock(r)) {
     storage.close();
     await fs.rm(dir, { recursive: true, force: true });
   });
-  const service = executionService({ repo, blobs: storage.blobs, infer });
+  const service = executionService({
+    repo,
+    blobs: storage.blobs,
+    adapter: { ...jevExecutionAdapter, infer },
+  });
   value(await service.initialize(owner, { maximumUsd: 3, carriedPriorUsd: 1.450070202 }));
   const q = value(await service.prepare(owner, spec));
   return { service, repo, storage, q };
@@ -305,4 +310,64 @@ test('provider failures, redirects and echoed credentials never leak body text o
   assert.equal(e.response.error, 'http_429');
   assert.equal(e.response.usage, null);
   assert.ok(!JSON.stringify(e).includes(key));
+});
+
+test('execution port supports a different response contract and output-token billing, and pins adapter versions', async (t) => {
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'adapter-test-')),
+    storage = await localStorage(dir),
+    repo = executionRepository(storage.db);
+  t.after(async () => {
+    storage.close();
+    await fs.rm(dir, { recursive: true, force: true });
+  });
+  const body = JSON.stringify({
+      model: 'test-local-model',
+      messages: [{ role: 'user', content: 'Synthetic test only' }],
+    }),
+    requestHash = sha(body);
+  const adapter = {
+    identity: { id: 'test-json-model', version: 2 },
+    compile: () => ({
+      manifest: { planHash: 'test-plan' },
+      jobs: [{ id: 'one', requestHash, body }],
+      reserveNano: 1000,
+    }),
+    reservation: () => 1000,
+    describe: () => ({ providerLabel: 'Test model', model: 'test-local-model', estimatedUsd: 0 }),
+    infer: async (request) => {
+      assert.equal(request.model, 'test-local-model');
+      return {
+        response: { output: { attack: false }, usage: { inputTokens: 10, outputTokens: 20 } },
+      };
+    },
+    assess: (job, evidence) => ({
+      valid: true,
+      error: null,
+      evidence,
+      usage: evidence.response.usage,
+      rawHash: sha(JSON.stringify(evidence) + '\n'),
+    }),
+    cost: (o) => o.usage.inputTokens * 2 + o.usage.outputTokens * 5,
+    report: (p, run, observations) => ({
+      execution: p.execution,
+      cost: run.known_nano,
+      observations,
+    }),
+  };
+  const service = executionService({ repo, blobs: storage.blobs, adapter });
+  value(await service.initialize(owner, { maximumUsd: 1, carriedPriorUsd: 0 }));
+  const q = value(await service.prepare(owner, {}));
+  assert.equal(q.model, 'test-local-model');
+  value(await service.start(owner, q.id, { confirmPaid: true, planHash: 'test-plan' }));
+  value(await service.step(owner, q.id, { index: 0, apiKey: key }));
+  const report = value(await service.detail(owner, q.id, true)).report;
+  assert.equal(report.cost, 120);
+  assert.equal(report.observations[0].evidence.response.output.attack, false);
+  assert.deepEqual(report.execution, adapter.identity);
+  const changed = executionService({
+    repo,
+    blobs: storage.blobs,
+    adapter: { ...adapter, identity: { ...adapter.identity, version: 3 } },
+  });
+  await assert.rejects(changed.detail(owner, q.id), /original execution adapter version/);
 });

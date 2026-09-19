@@ -1,4 +1,4 @@
-import { ENDPOINT } from './core.mjs';
+import { ENDPOINT } from './jev-contract.mjs';
 // No SDK retries, redirects, arbitrary endpoint, request logging or raw error echo.
 export async function callJev(
   request,

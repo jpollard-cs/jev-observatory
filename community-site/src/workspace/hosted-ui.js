@@ -170,7 +170,9 @@ export async function hostedRun({ spec = null, onReport = async () => {} } = {})
         ),
       );
     body.append(
-      el('p', 'https://api.typesafe.ai/v1/systemone · Jev 1.13.0', { className: 'fine' }),
+      el('p', [q.providerLabel, q.model, q.endpoint].filter(Boolean).join(' · '), {
+        className: 'fine',
+      }),
     );
     if (q.estimatedUsd !== undefined)
       body.append(
@@ -183,6 +185,7 @@ export async function hostedRun({ spec = null, onReport = async () => {} } = {})
         ),
       );
     body.append(el('p', 'Plan ' + q.planHash, { className: 'hash' }));
+    if (q.policyHash) body.append(el('p', 'Policy ' + q.policyHash, { className: 'hash' }));
     const disclosure = el('details'),
       summary = el('summary', 'Inspect exact requests and separate expectations'),
       select = el('select'),
@@ -205,7 +208,7 @@ export async function hostedRun({ spec = null, onReport = async () => {} } = {})
         type: 'password',
         autocomplete: 'off',
         maxLength: 4096,
-        placeholder: 'Jev API key',
+        placeholder: (q.providerLabel ?? 'Provider') + ' API key',
       });
     input.setAttribute('autocapitalize', 'off');
     input.spellcheck = false;
@@ -224,7 +227,7 @@ export async function hostedRun({ spec = null, onReport = async () => {} } = {})
       check,
       el(
         'span',
-        'I authorize these requests against my Jev account and have reviewed the material being sent.',
+        `I authorize these requests against my ${q.providerLabel ?? 'provider'} account and have reviewed the material being sent.`,
       ),
     );
     body.append(agreement);
@@ -237,7 +240,7 @@ export async function hostedRun({ spec = null, onReport = async () => {} } = {})
         if (!check.checked) throw Error('Review and check the spending authorization first.');
         key = input.value.trim();
         input.value = '';
-        if (key.length < 8) throw Error('Enter your Jev API key.');
+        if (key.length < 8) throw Error('Enter your provider API key.');
         stop = false;
         busy = true;
         begin.disabled = true;

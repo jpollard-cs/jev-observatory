@@ -1,4 +1,5 @@
-// Pure adapters over the same compiler, oracle and validators used by the CLI.
+// Jev workbench adapter: frozen native compiler, oracle, validators and report format.
+// Provider-independent dispatch and persistence belong in service.mjs.
 import { makePlan } from '../../../workbench/src/planner.mjs';
 import { makeAssistedPlan } from '../../../workbench/src/selection/planner.mjs';
 import { makeAdvisorPlan, fitSignal } from '../../../workbench/src/selection/advisor.mjs';
@@ -8,8 +9,7 @@ import { summarize } from '../../../workbench/src/report.mjs';
 import { validateNativeAnswers } from '../../../workbench/vendor/legacy-runtime/harness/domain/native-answers.mjs';
 import { sha, assert } from '../../../workbench/src/util.mjs';
 export { sha };
-export const ENDPOINT = 'https://api.typesafe.ai/v1/systemone';
-export const PRICE_NANO = 42;
+import { PRICE_NANO } from './jev-contract.mjs';
 export const MAX_CALLS = 480;
 export function rebuild(spec) {
   assert(spec && typeof spec === 'object', 'A frozen plan is required');
@@ -134,6 +134,7 @@ export function makeReport(prepared, run, observations) {
   const m = prepared.manifest;
   const common = {
     planHash: m.planHash,
+    execution: prepared.execution ?? null,
     status: run.status,
     stopReason: run.reason,
     requestedCalls: prepared.jobs.length,
@@ -240,6 +241,7 @@ export function makeReport(prepared, run, observations) {
     conditions,
     budget,
     design: {
+      execution: prepared.execution ?? null,
       policy: m.policy ?? null,
       policyHash: m.policyHash ?? null,
       catalogHash: m.catalogHash ?? m.originalCorpusHash,

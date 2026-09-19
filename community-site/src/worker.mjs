@@ -1,7 +1,7 @@
 import { executionApi } from './hosted/http.mjs';
 import { executionService } from './hosted/service.mjs';
 import { executionRepository } from './hosted/repository.mjs';
-import { callJev } from './hosted/provider.mjs';
+import { jevExecutionAdapter } from './hosted/jev-adapter.mjs';
 import landing from '../public/landing.html';
 import landingCss from '../public/landing.css';
 import landingJs from '../public/landing.js';
@@ -54,7 +54,7 @@ export default {
         service: executionService({
           repo: executionRepository(env.DB),
           blobs: env.BUCKET,
-          infer: callJev,
+          adapter: jevExecutionAdapter,
         }),
       });
     }

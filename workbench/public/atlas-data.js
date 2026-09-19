@@ -11,7 +11,9 @@ export function atlasStatus(row,field='classification'){
 }
 export const atlasKey=row=>row.rowKey??[row.conditionId??'',row.id,row.repeat??1].join('::');
 export function atlasFields(rows){return [...new Set(rows.flatMap(r=>Object.keys(r.expected??{})))].filter(k=>rows.some(r=>['string','boolean'].includes(typeof r.expected?.[k])));}
-export function atlasGeometry(rows,{layout='constellations',field='classification'}={}){
+export function signalOptions(rows,field){return [...new Set(rows.flatMap(r=>Object.keys(r.answers?.[field]?.probabilities??{})))];}
+export function signalValue(row,metric){return metric==='latencyMs'?row.latencyMs:row.usage?.inputTokens;}
+export function atlasGeometry(rows,{layout='constellations',field='classification',metric='inputTokens',signalOption='attack'}={}){
  const families=[...new Set(rows.map(r=>r.group||r.family||'Unspecified'))].sort();
  const fi=new Map(families.map((f,i)=>[f,i]));const counts={};
  const buckets=new Map();for(const r of rows){const f=r.group||r.family||'Unspecified';if(!buckets.has(f))buckets.set(f,[]);buckets.get(f).push(r);}
@@ -29,9 +31,9 @@ export function atlasGeometry(rows,{layout='constellations',field='classificatio
    const lane=values.indexOf(String(row.expected?.[field]??'ungraded')),angle=lane/Math.max(1,values.length)*Math.PI*2+.5;
    const rr=20+atlasHash(key)*95;x=Math.cos(angle)*160+Math.cos(a)*rr;z=Math.sin(angle)*160+Math.sin(a)*rr;y=(atlasHash(key+'vertical')-.5)*190;
   }else if(layout==='signal'){
-   const p=row.answers?.classification?.probabilities?.attack,t=row.usage?.inputTokens,l=row.latencyMs;
-   available=row.valid&&Number.isFinite(p)&&Number.isFinite(t)&&Number.isFinite(l);
-   if(available){x=(p-.5)*530;y=(.5-Math.log1p(l)/Math.log1p(maxLatency))*220;z=(Math.log1p(t)/Math.log1p(maxTokens)-.5)*400;}
+   const p=row.answers?.[field]?.probabilities?.[signalOption],value=signalValue(row,metric);
+   available=row.valid&&Number.isFinite(p)&&p>=0&&p<=1&&Number.isFinite(value)&&value>=0;
+   if(available){x=p;y=value;z=0;}
   }
   return {key,row,family,groupIndex:gi,status,x,y,z,available,index:i,color:ATLAS_PALETTE[status]};
  });
