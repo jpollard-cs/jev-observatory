@@ -1,0 +1,11 @@
+✔ HTTP E2E: Billing description → reviewed policy → ranked frozen suite (12209.80725ms)
+✔ HTTP E2E: Incident review description → reviewed policy → ranked frozen suite (12025.393125ms)
+✔ HTTP E2E: Code review description → reviewed policy → ranked frozen suite (11949.352542ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 36345.980041

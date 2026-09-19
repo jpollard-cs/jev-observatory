@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "workbench-policy/1",
+  "name": "Strict admission",
+  "mode": "contextual",
+  "task": {
+    "id": "billing-support",
+    "description": "Review billing records and support correspondence. Distinguish captured charges from authorization holds; do not invent verification, refund approval, or permission to disclose account data."
+  },
+  "languages": {
+    "mode": "allowlist",
+    "allowed": [
+      "en",
+      "es"
+    ],
+    "scope": "controlling_instructions"
+  },
+  "representations": {
+    "prohibited": [
+      "base_encoding",
+      "morse",
+      "cipher_or_codebook",
+      "unicode_concealment",
+      "positional",
+      "mixed_or_layered"
+    ],
+    "enabledExceptions": []
+  },
+  "requireRelevance": true,
+  "onUncertainty": "review",
+  "violationDisposition": "block",
+  "layout": "criteria",
+  "model": "jev-1.13.0"
+}

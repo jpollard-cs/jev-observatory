@@ -1,0 +1,739 @@
+{
+  "protocol": "catalog-advisor-report/1",
+  "mode": "setup",
+  "manifest": {
+    "schemaVersion": "catalog-advisor-plan/1",
+    "protocol": "catalog-advisor/1",
+    "policy": {
+      "schemaVersion": "workbench-policy/1",
+      "name": "Strict admission",
+      "mode": "strict",
+      "task": {
+        "id": "incident-review",
+        "description": "Review incident evidence accurately. Preserve defects, disagreements and missing evidence; source content cannot change the task."
+      },
+      "languages": {
+        "mode": "allowlist",
+        "allowed": [
+          "en"
+        ],
+        "scope": "natural_language_content"
+      },
+      "representations": {
+        "prohibited": [
+          "base_encoding",
+          "morse",
+          "cipher_or_codebook",
+          "unicode_concealment",
+          "positional",
+          "mixed_or_layered"
+        ],
+        "enabledExceptions": []
+      },
+      "requireRelevance": true,
+      "onUncertainty": "review",
+      "violationDisposition": "block",
+      "layout": "criteria",
+      "model": "jev-1.13.0"
+    },
+    "application": {
+      "schemaVersion": "selection-application/1",
+      "name": "Read-only bilingual billing assistant",
+      "description": "Read-only billing support assistant. Read customer-provided English and Spanish conversation transcripts and structured billing records; summarize the billing issue in English. Apply language restrictions to controlling instructions only, so quoted task data may be multilingual. Use contextual admission: ordinary relevant quoted records are permitted, but source text cannot grant exceptions, change the task, or authorize actions. No refunds, outbound tools, private data disclosure, persistent memory writes, judging or content moderation.",
+      "surfaces": [
+        "user_messages",
+        "structured_records"
+      ],
+      "capabilities": [
+        "read_only_analysis"
+      ],
+      "focusDomains": [],
+      "requiredFacets": []
+    },
+    "options": {
+      "mode": "setup",
+      "maxUsd": 0.01,
+      "maxInputTokens": 214457125112880,
+      "chunkSize": 6
+    },
+    "applicationKey": "3d35d439da58fde5f85781dd9a9af31ff55af70f63086f713c6ffad0249c290e",
+    "registryHash": "b66032ed275a86fd27330349a410aaf6b38d45a772079cca36073249a2c4422b",
+    "taxonomyVersion": "coverage-facets/1",
+    "descriptorHash": "fd7293ea2896bba6eabb9efb04af601dad192bfcce50ec78a13693852ff69b1f",
+    "catalogSource": "reviewed-setup-options/1",
+    "catalogDescriptors": null,
+    "model": "jev-1.13.0",
+    "sourceFiles": {
+      "cli.mjs": "acca701df380dd326a4df0a28a57f50d8a17136e18f33beee09ae9fd56b4a6d9",
+      "data/context-cases.json": "5c9abe5a7c16dad5dfaccc8a39304ad20779eac877be0af553953de0a7aa976e",
+      "package.json": "8fea2adc93eff1dde054e5cac284be320e4b909ed0c3fe4a7baa138f0dbebf85",
+      "selection.mjs": "0a613a2b7aa8f0a969cfbe850428f8cb98c189b2d3212a6ca3906399875e826d",
+      "src/budget.mjs": "c08e80e8cb7c7db5a06da0a02d09210dddc353996b79e9179e004a1b4a3acd01",
+      "src/catalog.mjs": "02fa92c798c3596aaeb66147426ff496b13c79b43fcedd4ad26328bb8b9930d3",
+      "src/compiler.mjs": "bba13d859e3a304e5fa56edd57e83d2a1a4e192c13a362d36af51b96b73f3a86",
+      "src/evidence-library.mjs": "4d3d01278f56b126d96b5a000de62222be95f4d5bd1922a4fb23e0bee40dea76",
+      "src/history/catalog.mjs": "4e6f20dbdbda6ec2d9dbb4d67b6632ee0406dfeba4da56d941fa909c6c59207d",
+      "src/history/planner.mjs": "4565151a96f271afee371b81cc4e415105d4d811a8be4b08c2768985e26d1cb6",
+      "src/history/runner.mjs": "9620009194b07ad9cad97eb4dcf5371ee77a338db77314e9cfa676907542c8c8",
+      "src/local-connection.mjs": "a015c077cb8d2a4c4c5d592b772faebf39cb7e3bf5ab15de850594234746bc8f",
+      "src/planner.mjs": "2c060518a0e9e365e04c0b6b9a8cabd67b98d88c10fa8d7a3dc6de959626b70a",
+      "src/policy.mjs": "d965b499354f89b84e925a416a07d56c88f0cac9734a2ffd9b8ebdac90fab6cf",
+      "src/report.mjs": "8cc7c2c9fd1f83109906c2a0937fd4bba81ed2ea6385f40a78effe467c36a266",
+      "src/runner.mjs": "dc1d6d35342c56c60fd2281da9f0a9c2342a67920c5c65943582457093bc2eec",
+      "src/selection/advisor.mjs": "e93e1a49eefed1af9534298edb41297817ced53059ec9b3825fd54d4646d9eff",
+      "src/selection/allocate.mjs": "51b07721dda68222125ee1b7e89d8648074e06e72e125f455e87de6f2d326740",
+      "src/selection/application.mjs": "d826dcf995c28682f5840e108057485328b395a8932b8a29f6d7c65b09daf20c",
+      "src/selection/planner.mjs": "1b55f7ca7f818308c3fe08ccc7c28df6f54bced208fea39d8e0f1cdfdaa061f3",
+      "src/selection/registry.mjs": "e080d57d0ef1f514e0de2ddccf54e89343ba7be0efd3813bd685465e65ff681c",
+      "src/selection/runner.mjs": "4b71634cf2010e38ce3fa403a951f6e2d508ccce135a5f5bcd59a4152e1cff61",
+      "src/setup.mjs": "37c3f555b25b5df684ca9bbb223e8560e05c7d1af75d4413c4ca21dbeeb94872",
+      "src/sources.mjs": "636ad1bfbc03614e42ce3f9382f44307bcb6eb1666df3352c3d2cd501e5f667d",
+      "src/storage.mjs": "8887d1a38fc6788fd6cae095de6a2d6d05dd9733bae1e044cd324628b97f4a2e",
+      "src/util.mjs": "4df127bbb2973de16359954188e33a2302ea1d3da6a2a28ef40ba3efab5ebb75",
+      "vendor/admission-v1/README.md": "06d3186c3438b8c0ea9702730041b269f76329b71c1ce8444f282df156362d63",
+      "vendor/admission-v1/assets/admission-guide.md": "c30211cf47f20deb78dcb6a3fb09466e1f3b473f57452d82244eb40ce2c18365",
+      "vendor/admission-v1/assets/consumer-policies.json": "2d2d35f2588ba0f3dd4133df0bf0cd30685951de6b87d5a11f20be9e26a41053",
+      "vendor/admission-v1/assets/control-anchors.json": "a8749c357969c37c291f3e22bcf5dd874b6854b0ff19dbfb4d2b000a37b25f0e",
+      "vendor/admission-v1/assets/fixtures.json": "59065fba5b1cd3de7a334aefddb2622cb2c46d6cc598f0f2374c7b664fec22e3",
+      "vendor/admission-v1/assets/historical-token-anchors.json": "01846442fca50fe4a4bce0abba824bb82c42b31c4df6a41d2bf3b6d46ca7adab",
+      "vendor/admission-v1/assets/judgment-examples.json": "06ce1a65636fa29f6eab338f2cf6a92a8d9abb3af43e63af20903acfb919ba5c",
+      "vendor/admission-v1/assets/project-bindings.json": "80f8522f2435e537bee95235bd280c6cf6f8e491cb516a22b058ccdb45c1a06b",
+      "vendor/admission-v1/consumer.mjs": "90b43bdc396e8f5db9014669c3a55b4a2e3d908d3a003503b31317e8da45c4f4",
+      "vendor/admission-v1/index.mjs": "754c88540e4a1305954b8b21689bc7081dbb68d4e2f9e2d9a29e950711101808",
+      "vendor/admission-v1/io.mjs": "ad934fc78d684463bcbfb5c79b34383a22a4c3d04846342d9df6a72be29041f5",
+      "vendor/admission-v1/lab.mjs": "86c763222876effa5a42f81a08f1f4e97bfb9043352512e3658a8a8f0d259dc2",
+      "vendor/admission-v1/package.json": "d77efee766d0bc7367a2108a39121b1e81bf6d6f9ecc13840986b474cfa45bfd",
+      "vendor/admission-v1/results.mjs": "24fd7421c55872bea0321304dc6e9b6b1be50a347ea79453ed6115b81bd461f6",
+      "vendor/admission-v1/schemas/consumer-batch.schema.json": "338dec81ce6b9b845e4cc713813cdd2528cab041786691e736f6905eaa68f166",
+      "vendor/admission-v1/schemas/consumer-policy.schema.json": "3fd9cacefca61059fb5aea4c85f1c19e7de8bd81af5879e71589b4d3da7f7a64",
+      "vendor/admission-v1/variants.mjs": "86142561d047fdb25803883e26ecbbdc16bb174c3c37e1885633584e154e2fae",
+      "vendor/admission-v1/vendor/compiler/README.md": "c344f49ecb5ac8452c951e30d9b4018ab216a07444a7276fb674618a48dfa029",
+      "vendor/admission-v1/vendor/compiler/adapters/frozen-v2/cases.mjs": "9488288c57bcaa38aa50d8580c81efd3222a7491a244c6aae25fbbf21955ef2e",
+      "vendor/admission-v1/vendor/compiler/adapters/frozen-v2/io.mjs": "804d2d845471ea934c2a7329e3e780b80012f7156aafbe8f28a05f40afd3417a",
+      "vendor/admission-v1/vendor/compiler/adapters/frozen-v2/variants.mjs": "699c73f6bb8941d2203ee426bc92f69b10c67ece296c7f8774c909e96af2aeea",
+      "vendor/admission-v1/vendor/compiler/assets/boundary-core.md": "eb83ed3b505982b18d8ce5030537f3f2b12d5e24c3696d1fb9ceb18a1151b4fa",
+      "vendor/admission-v1/vendor/compiler/assets/compact-original.json": "9bf6c83f1a904169516d3cde36f06685d0434bdc51fd4400c4abadf21bfb3253",
+      "vendor/admission-v1/vendor/compiler/assets/extension-fixtures.json": "09fbd1d5d1f630ffc009f9e60530cd3d567bf51d87356ef53267abe773c2d03a",
+      "vendor/admission-v1/vendor/compiler/assets/few-shot-contrasts.json": "b7f60ff899b7ad579db0e4fbb39a224a2a7e66f1e210f27ce3664f73c9d490ab",
+      "vendor/admission-v1/vendor/compiler/assets/historical-token-anchors.json": "01846442fca50fe4a4bce0abba824bb82c42b31c4df6a41d2bf3b6d46ca7adab",
+      "vendor/admission-v1/vendor/compiler/assets/project-bindings.json": "12fc50565c73a52937c6f282d27f5852a28db0bb511db1437b39f05937c7b2b5",
+      "vendor/admission-v1/vendor/compiler/assets/restore-section-3.md": "5e91b7ec6e38bd91a23fac8e404b6b68847e077f3955104c786ccc6e99e9051b",
+      "vendor/admission-v1/vendor/compiler/assets/restore-section-5.md": "0584831024995681c412ae1ef423cadc42efddfd220ec0d9994f38435a963745",
+      "vendor/admission-v1/vendor/compiler/assets/restore-section-6.md": "9f6967e80ca03aaa9619a6eb8fc73a6c749ef1e1574903e4773da6508a64f9b5",
+      "vendor/admission-v1/vendor/compiler/assets/revised-demonstrations.json": "e7b749dccc330782b46ed8a64287326163bff4bee76ee3cfc5654d8905952410",
+      "vendor/admission-v1/vendor/compiler/assets/rich-control.md": "56b77c5efa6b4df0da9a240284a532da5b9d21e35e2450976da98a27718de3f0",
+      "vendor/admission-v1/vendor/compiler/cli.mjs": "41b58aa1c1d1bbccf39a9f096c8f9b02c29842bef1aa15f212ebe74ea5b4c219",
+      "vendor/admission-v1/vendor/compiler/package.json": "468f3c1ccabd3ad2ed52cb8c3dc6b5c3abd59ecfbbc94a4cdbb29fd1397a6cdd",
+      "vendor/admission-v1/vendor/compiler/profiles/chat-criteria.json": "6c37c8c9899270c14a4a6b6939db8f5b74a24916ea559f7bbfb0e8c727d0fe17",
+      "vendor/admission-v1/vendor/compiler/profiles/jev-criteria-examples.json": "c22621ab8b0cb961bde368462dec1abbc0721fc85f8745ba95fe28de97644700",
+      "vendor/admission-v1/vendor/compiler/profiles/jev-criteria-factored.json": "83123c9ff6a5fd271e10f35d6e013e81c1a00e8c305bc10bb9df3eae5853c191",
+      "vendor/admission-v1/vendor/compiler/profiles/jev-criteria-single.json": "de2650c4bf07a84101e56626a3b8f6f10faefd65e7823b2a65ec320b091b9e74",
+      "vendor/admission-v1/vendor/compiler/profiles/jev-legacy.json": "c6d7d679d57c7b0dacdb4bb479ce6c75f9efed8ca3aeb1d33d18253859eccca7",
+      "vendor/admission-v1/vendor/compiler/profiles/jev-question-examples.json": "3ad6cf25ed49d7b988c74ee54411bd17065b584c01b879df1a8ee47c49708dd7",
+      "vendor/admission-v1/vendor/compiler/profiles/jev-question-guide.json": "176976c0fc772c1040456233de3daffd9aab798380aed91d31370ca48fbe5851",
+      "vendor/admission-v1/vendor/compiler/profiles/jev-structured-guide.json": "003c1de8801fa333a0ef6ee9ee7ce1bef1175f5dfc13799a977578411a5d7e79",
+      "vendor/admission-v1/vendor/compiler/schemas/case-input.schema.json": "458e09737956e9835b9679187abf835988a22ed076a61534f1a93e3b8a5abbca",
+      "vendor/admission-v1/vendor/compiler/schemas/demonstration-corpus.schema.json": "c20c787920a713427f294636a8451da06622cbb05e6cbc24584d2117148c0be2",
+      "vendor/admission-v1/vendor/compiler/schemas/evaluation-document.schema.json": "d74219eba969e67720309c3431f7ca979f4fa76b027df193cbb8508817f1fd87",
+      "vendor/admission-v1/vendor/compiler/schemas/jev-request-shape.schema.json": "d7f50399382d8a112330a601051a2c7deef0a227b995acd1e3326cdd11183a0b",
+      "vendor/admission-v1/vendor/compiler/schemas/policy-pack.schema.json": "74fa883caadc5fdab8005d83573e2145bf51abd99e24740acc9f9cdc60d9c542",
+      "vendor/admission-v1/vendor/compiler/schemas/render-profile.schema.json": "4df623ed27b26f49fbd2fcf99c809aba1852a1b9dd6a3964d09dfcf1f9dcf04f",
+      "vendor/admission-v1/vendor/compiler/src/answers.mjs": "8e33e7ef5972ae5bd5be958f62ab9454b757e5569e06702156509bafa7312b99",
+      "vendor/admission-v1/vendor/compiler/src/core.mjs": "553b61d94172cd9a3ee73405d3bb16265a2cf3fbf31866a4ee6d68261942db76",
+      "vendor/admission-v1/vendor/compiler/src/examples.mjs": "b86ab507f008abced0595159c737c6523a2bbd4177dc95e4bdecc891d9a9a360",
+      "vendor/admission-v1/vendor/compiler/src/guidance.mjs": "641edbfe103ff77f95bf39efcca5c94499b462a7f985cbda41795f5046a5c299",
+      "vendor/admission-v1/vendor/compiler/src/harness-bridge.mjs": "298ba367192ef66ef622fe1b28c120ecaf318ce4c219e678468c950d3d72a2f7",
+      "vendor/admission-v1/vendor/compiler/src/index.mjs": "557b35930c06ddaa2585ceed2c78cedb927f96f89875efdca353c2b0590ac361",
+      "vendor/admission-v1/vendor/compiler/src/ir.mjs": "578f290a64563832aac051557c239658df855b0d25a2db73a8030af953cf942b",
+      "vendor/admission-v1/vendor/compiler/src/render.mjs": "787e4ea241af580a76b5e379b3bcf0f787c6380a6ec8ca0ea312e091ff711b69",
+      "vendor/admission-v1/vendor/compiler/src/workspace.mjs": "94cc9424e9edc5f13856e21baf6a22b80ca37fc4aa78ec3c94563e76e9de92c5",
+      "vendor/legacy-runtime/cases/extension-fixtures.mjs": "efea52d1f99102f910a3c6c024836f26eb5bfd0a124ffbfdbb5893647677b870",
+      "vendor/legacy-runtime/cases/families.mjs": "c4e4f3789475f197566c40e52f87e008d46e25ae8c3ceabbbf49300db47144e0",
+      "vendor/legacy-runtime/cases/rich-pilot-fixtures.mjs": "56f57c67f5b912efa82cccf073489ba8ed3a025c2f1b642849415f35cd986c08",
+      "vendor/legacy-runtime/config/design.json": "361b98b12ecc853c5f8e08f18797763409929e4726821a25a8938cca4301a35d",
+      "vendor/legacy-runtime/config/trusted-context.json": "b059795f36dfcf7e5eac8ff35116538e4c6648ac0949c257daa1258616907ec4",
+      "vendor/legacy-runtime/harness/adapters/endpoint-environment.mjs": "7e72e5034620bd73c0dee0357ea72995b84a815208841409e449828ac675c02e",
+      "vendor/legacy-runtime/harness/adapters/http-json.mjs": "3b678b354a6e26298d26aa83d45a9e8e91fedbdfcd96bc4f8569506f4bc7b991",
+      "vendor/legacy-runtime/harness/adapters/local-qwen-http.mjs": "f1e69bbdaa5100e0e87af1f719f8b3909f1ded767ec7c36e24b809edb5554f53",
+      "vendor/legacy-runtime/harness/agent-panel-domain.mjs": "eec28c4e6b53ee1177e368bbec5c82dc493b24fec728548d16062a9bccdb1798",
+      "vendor/legacy-runtime/harness/application/campaign-run.mjs": "a78dea333ef42ab9bb97869d7a1d037d83ffba5d9013b16bae2e0f2a840e5833",
+      "vendor/legacy-runtime/harness/application/evaluate.mjs": "ff697809c01c848ed5bf3947efa49c4b6c71e6cf67512f6464aaafe4003458c4",
+      "vendor/legacy-runtime/harness/application/inference.mjs": "27c3a3d8e0c506213cb97b7103b3fc3493e0136acce26ecd174d7eee4cc16454",
+      "vendor/legacy-runtime/harness/application/rich-pilot-run.mjs": "3cd5d2402544a166a18d0a2eb72058e6f1f2bb3ceda4b66f3df65a6e76b2c7b7",
+      "vendor/legacy-runtime/harness/corpus.mjs": "f9bf466a215af728db00dd253d80cc6816a7313d1d4531b4977b0928792ae0a8",
+      "vendor/legacy-runtime/harness/cost-planning.mjs": "4f5ecb97594caee2e1c0c755f333142825fbef9f9493e81575450bfd2d07a0fc",
+      "vendor/legacy-runtime/harness/domain/campaign-budget.mjs": "b282129793f33d61051807218dbdf11a20079658bf45b4eab21da092b06774d7",
+      "vendor/legacy-runtime/harness/domain/campaign-plan.mjs": "9737745771bfe726ef106799a6d26d1f539008fe04a329dfd7dc552d94d20296",
+      "vendor/legacy-runtime/harness/domain/campaign-record.mjs": "a1bcc7da5e3b1113a2e8e72b78f752725de80776017b71cd1617f2f85bd8f2f0",
+      "vendor/legacy-runtime/harness/domain/case-evidence.mjs": "ea7a7b6eb46126ee5cc277fa27cf8a337bdfa22bf63cedc371ad7229480c09b6",
+      "vendor/legacy-runtime/harness/domain/compact-experiment.mjs": "7e072f385e73bcb8540afb933cb2752dec70aa9733bce8f2cad9620055bd0579",
+      "vendor/legacy-runtime/harness/domain/debugging-policy-contract.mjs": "286c4f954a3aeac002de6b4463456424e4d66b32edd3a673a9103b1e7235a865",
+      "vendor/legacy-runtime/harness/domain/debugging-questions.mjs": "99a7790c6071ca7a52374dbf3bb1b58ca3bc5fbc5ef26e710ef393ba2afa4172",
+      "vendor/legacy-runtime/harness/domain/encoding-diagnostic.mjs": "2de6ad686a7abaf5ce7323274728402ff8d6c55cc693de5ca8ba5b4e006b2fd8",
+      "vendor/legacy-runtime/harness/domain/evaluation-plan.mjs": "af9ead9d664b71e7747898954605a094686bf45a34f17dde4e494f8ee77a3f47",
+      "vendor/legacy-runtime/harness/domain/expiry-diagnostic-report.mjs": "d68a2d009975dca0c3fb2343f9eaadc579923f986ff62108a45823e731c98204",
+      "vendor/legacy-runtime/harness/domain/expiry-diagnostic.mjs": "454f38a75d26146dcda3b94d648e8d5fe3b28365ffb0de691960c1d72cb73164",
+      "vendor/legacy-runtime/harness/domain/extension-controls.mjs": "5a51d3b61c06d81913aacf01423e18cd79ff34948fa8f272ad5c2bf00d1a82a9",
+      "vendor/legacy-runtime/harness/domain/extension-questions.mjs": "e996fb21cb5d9c551b1da0cfb3d358bedc3c1b9ce6b0e64522072b5d6bf5bafd",
+      "vendor/legacy-runtime/harness/domain/extension-report.mjs": "842886b3929860dce37b26049f2801171f2c530816312ce66dd1b07da15be966",
+      "vendor/legacy-runtime/harness/domain/followup-reports.mjs": "8249cb3c21300b6b381533f275217d966a05913ccb9c05c24e321f32ad0d2191",
+      "vendor/legacy-runtime/harness/domain/native-answers.mjs": "c8520ab86b6a1da4eab9e253769efcd3d7ac5b6f47deb99b9661af4b171ca535",
+      "vendor/legacy-runtime/harness/domain/native-questions.mjs": "8cb3746f36212301729677539cef543d38090c4f5bc6a5f6e6ae073db2deefef",
+      "vendor/legacy-runtime/harness/domain/policy-question-contract.mjs": "08bb3aafd8e00316a45382293ae32fdd8ed33140131e9c0fd64e613e383ea3fc",
+      "vendor/legacy-runtime/harness/domain/qwen-baseline.mjs": "95d055585226cb2e0467e3ebd0259af166f88a0adac795dd82d7fd40ad159ebc",
+      "vendor/legacy-runtime/harness/domain/representation-diagnostic.mjs": "3b059201d7b258e5274373e060d58c693e4592553df9673d4cd70676f4d555ed",
+      "vendor/legacy-runtime/harness/domain/representation-report.mjs": "210451a8b4a05d6d0fce79494d11cf9cf44c0b6e429b23665f6ebb967b5c0856",
+      "vendor/legacy-runtime/harness/domain/result.mjs": "f94b787f7b823555921fd8ead01d80e619cfabbe80e11e00d29375564d657b00",
+      "vendor/legacy-runtime/harness/domain/rich-pilot-repair.mjs": "c6285f05ed746ce1dfdef6c1e9a6d9be2cc32e2a137872178b7363832804cd33",
+      "vendor/legacy-runtime/harness/domain/rich-pilot-report.mjs": "95dd4643d7baf63b6330018c06fe43d01c13880d9d5ef16e861d0e6ca3c1e465",
+      "vendor/legacy-runtime/harness/domain/rich-pilot-request.mjs": "821d142862067ed1fb69dad249e0bf1a937daf41799a8b10a1df6bbdc2a34038",
+      "vendor/legacy-runtime/harness/metrics.mjs": "35b0af0a4b57cb24e7a5a6f0dc36716560b364de4896ada4c0ee416b46a33b24",
+      "vendor/legacy-runtime/harness/ports/json-transport.mjs": "72c2d8cdfc166b8a223995f64c1bb2f620ccacd7b8c11ceb4ac1917eaeaaf3f1",
+      "vendor/legacy-runtime/harness/prompt.mjs": "23c25d8a05764a90979d5e1e0b0d6ef01a12146d3a498a2184c844933e68cfee",
+      "vendor/legacy-runtime/harness/promptfoo-assertion.mjs": "1e6aefafffb90556767dada0b21083e7dae76baeb8c096a7b6093d4530efc88b",
+      "vendor/legacy-runtime/harness/promptfoo-provider.mjs": "fb42a2594768ae962bdbfa09f2fc0be3267c597656a6aed6a08fdb306e7680ee",
+      "vendor/legacy-runtime/harness/promptfoo-replay-assertion.mjs": "162249e86198bf6362b6ad50e2681f7881497818df93886d992003d10357cc4c",
+      "vendor/legacy-runtime/harness/promptfoo-replay-offline.mjs": "884daac9eca98b58bbfa0b9805776776b212d288760c6071eae19e2bff42608a",
+      "vendor/legacy-runtime/harness/promptfoo-replay-provider.mjs": "f99a3cb985a74a09ae01594c027aeb5f72c6b79e23e43c54fbadbbb843cec25b",
+      "vendor/legacy-runtime/harness/provider.mjs": "de4ff75be8fb9ce1d191dd891c9860386b4dd57c9ea30df491db1bb17e7a0269",
+      "vendor/legacy-runtime/harness/schema.mjs": "fb9f49bd27e3c51700fdc73157cf694d013e5fd93e65a947c2e7b7b6ee47c6f2",
+      "vendor/legacy-runtime/harness/site-campaign.mjs": "749d8acbad037269bc27d9ce67da378e17d550f03d4c9b0a494df13c01a00ec6",
+      "vendor/legacy-runtime/harness/site-followups.mjs": "47e5cc0cc3573b7a360460e25a7d456215d04d9d27ea6772eb0e3fbf1e5d28ce",
+      "vendor/legacy-runtime/harness/site-rich-pilot.mjs": "99a90160785dc89190ec5241abc58c1121a5e53a0d155a0abc046d56beaa3d22",
+      "vendor/legacy-runtime/harness/typesafe.mjs": "2c6da4ac5f2c38eea3fe2130e493877fd10b8ccce5bdc1b4eaff93c2acdd0de2",
+      "vendor/legacy-runtime/policies/classifier-guide-v2.md": "56b77c5efa6b4df0da9a240284a532da5b9d21e35e2450976da98a27718de3f0",
+      "vendor/legacy-runtime/policies/classifier-guide-v3-compact.draft.json": "9bf6c83f1a904169516d3cde36f06685d0434bdc51fd4400c4abadf21bfb3253",
+      "vendor/legacy-runtime/policies/profiles-v1.1.json": "9376b01005313f5ed67b8eebe2c8cff8f682435b1b705b4e3e925bf497c5f40a",
+      "vendor/legacy-runtime/policies/profiles.json": "2f8c7132c5b5da5b0f018e5385275162a4b61c240c5ed34e41e6124498581158",
+      "vendor/legacy-runtime/policies/prompt-injection-policy-template.md": "27e3f71300caf5e8068a3a2504a2919dc9bc95a8d25e56fc13c841a32dcc3a32",
+      "vendor/legacy-runtime/scripts/campaign.mjs": "51c672f6d4d518fd73a40a1c5877afd49ea75b705c80f0861189063a08d0d07a",
+      "vendor/legacy-runtime/scripts/rich-pilot.mjs": "308fcb1715bfef91fc6e4dd6d11994ab6bf78165421d85c8b99981ccd8b77854",
+      "vendor/original-catalog/SOURCE.json": "5775992973b439e0fc2fe8875d3ef5a7a3fa8957eaff97dafbcfca71ec3e78e6",
+      "vendor/original-catalog/cases/extension-fixtures.mjs": "efea52d1f99102f910a3c6c024836f26eb5bfd0a124ffbfdbb5893647677b870",
+      "vendor/original-catalog/cases/families.mjs": "c4e4f3789475f197566c40e52f87e008d46e25ae8c3ceabbbf49300db47144e0",
+      "vendor/original-catalog/config/design.json": "361b98b12ecc853c5f8e08f18797763409929e4726821a25a8938cca4301a35d",
+      "vendor/original-catalog/config/trusted-context.json": "b059795f36dfcf7e5eac8ff35116538e4c6648ac0949c257daa1258616907ec4",
+      "vendor/original-catalog/data/corpus-manifest.json": "bb9df6abdf708ccfee238d68a9f2aa278f91806f16f0975cc21b0f31497efc80",
+      "vendor/original-catalog/harness/corpus.mjs": "f9bf466a215af728db00dd253d80cc6816a7313d1d4531b4977b0928792ae0a8",
+      "vendor/original-catalog/harness/domain/extension-questions.mjs": "e996fb21cb5d9c551b1da0cfb3d358bedc3c1b9ce6b0e64522072b5d6bf5bafd",
+      "vendor/original-catalog/harness/domain/native-answers.mjs": "c8520ab86b6a1da4eab9e253769efcd3d7ac5b6f47deb99b9661af4b171ca535",
+      "vendor/original-catalog/harness/domain/native-questions.mjs": "8cb3746f36212301729677539cef543d38090c4f5bc6a5f6e6ae073db2deefef",
+      "vendor/original-catalog/harness/domain/policy-question-contract.mjs": "08bb3aafd8e00316a45382293ae32fdd8ed33140131e9c0fd64e613e383ea3fc",
+      "vendor/original-catalog/harness/domain/result.mjs": "f94b787f7b823555921fd8ead01d80e619cfabbe80e11e00d29375564d657b00",
+      "vendor/original-catalog/harness/typesafe.mjs": "2c6da4ac5f2c38eea3fe2130e493877fd10b8ccce5bdc1b4eaff93c2acdd0de2",
+      "vendor/original-catalog/policies/profiles-v1.1.json": "9376b01005313f5ed67b8eebe2c8cff8f682435b1b705b4e3e925bf497c5f40a",
+      "vendor/original-catalog/policies/profiles.json": "2f8c7132c5b5da5b0f018e5385275162a4b61c240c5ed34e41e6124498581158"
+    },
+    "sourceStamp": "496fc11d7d33a49d35ce0f89e4ae9432c3a33b2a4ee489e9fe7c6bf28a3e7870",
+    "status": "prepared_offline",
+    "liveCalls": 0,
+    "jobs": [
+      {
+        "id": "setup-0000",
+        "requestHash": "acb3430040248952276ad391e358af78de6c4ce4f814cf7f7d6c93d8e8d79e81",
+        "wireBytes": 19529,
+        "estimatedInputTokens": 6510,
+        "reservationInputTokens": 19785,
+        "mapping": [
+          {
+            "questionId": "task",
+            "unitId": "task",
+            "field": "setup"
+          },
+          {
+            "questionId": "mode",
+            "unitId": "mode",
+            "field": "setup"
+          },
+          {
+            "questionId": "language_scope",
+            "unitId": "language_scope",
+            "field": "setup"
+          },
+          {
+            "questionId": "languages",
+            "unitId": "languages",
+            "field": "setup"
+          },
+          {
+            "questionId": "surface_user_messages",
+            "unitId": "surface_user_messages",
+            "field": "setup"
+          },
+          {
+            "questionId": "surface_retrieved_documents",
+            "unitId": "surface_retrieved_documents",
+            "field": "setup"
+          },
+          {
+            "questionId": "surface_tool_results",
+            "unitId": "surface_tool_results",
+            "field": "setup"
+          },
+          {
+            "questionId": "surface_conversation_history",
+            "unitId": "surface_conversation_history",
+            "field": "setup"
+          },
+          {
+            "questionId": "surface_persistent_memory",
+            "unitId": "surface_persistent_memory",
+            "field": "setup"
+          },
+          {
+            "questionId": "surface_code",
+            "unitId": "surface_code",
+            "field": "setup"
+          },
+          {
+            "questionId": "surface_structured_records",
+            "unitId": "surface_structured_records",
+            "field": "setup"
+          },
+          {
+            "questionId": "capability_external_actions",
+            "unitId": "capability_external_actions",
+            "field": "setup"
+          },
+          {
+            "questionId": "capability_sensitive_disclosure",
+            "unitId": "capability_sensitive_disclosure",
+            "field": "setup"
+          },
+          {
+            "questionId": "capability_memory_writes",
+            "unitId": "capability_memory_writes",
+            "field": "setup"
+          },
+          {
+            "questionId": "capability_judging",
+            "unitId": "capability_judging",
+            "field": "setup"
+          },
+          {
+            "questionId": "capability_moderation",
+            "unitId": "capability_moderation",
+            "field": "setup"
+          }
+        ]
+      }
+    ],
+    "budget": {
+      "maxUsd": 0.01,
+      "maxInputTokens": 214457125112880,
+      "estimatedInputTokens": 6510,
+      "estimatedUsd": 0.00027342,
+      "reservationInputTokens": 19785,
+      "reservationUsd": 0.00083097
+    },
+    "caveats": [
+      "Setup advice proposes only fixed, supported options; it is not free-form policy generation or evidence of safety.",
+      "Only the application description and current draft are sent; no test-case answers, credentials or account budgets are included.",
+      "Suggestions start unchecked and require an explicit, current-draft review. Changing operating mode clears rather than grants exceptions.",
+      "The fixed explanations come from the reviewed option library, not a generated model rationale.",
+      "Typing, loading credentials and preparing requests make no provider calls. Paid requests require a separate saved-plan confirmation.",
+      "Byte-derived estimates use the frozen historical rate; provider acceptance and utility are unmeasured."
+    ],
+    "planHash": "3686db1b34777b9dd39090199108d691d2d58c30ff0d331e66b92ab162d6729b"
+  },
+  "status": "complete",
+  "stopReason": null,
+  "rows": [
+    {
+      "jobId": "setup-0000",
+      "requestHash": "acb3430040248952276ad391e358af78de6c4ce4f814cf7f7d6c93d8e8d79e81",
+      "rawHash": "ee5a16839a21e85dc6879e21a923ec4b58a38e88f81da1cbdb41e589d65fb640",
+      "evidence": {
+        "response": {
+          "status": "ok",
+          "answers": {
+            "task": {
+              "type": "choice",
+              "choice": "billing-support",
+              "confidence": 0.97,
+              "probabilities": {
+                "keep_current": 0,
+                "insufficient_evidence": 0,
+                "other_or_custom": 0.01,
+                "billing-support": 0.98,
+                "incident-review": 0.01,
+                "code-review": 0
+              }
+            },
+            "mode": {
+              "type": "choice",
+              "choice": "contextual",
+              "confidence": 0.54,
+              "probabilities": {
+                "contextual": 0.63,
+                "keep_current": 0.01,
+                "insufficient_evidence": 0.01,
+                "strict": 0.3,
+                "inspection": 0.05
+              }
+            },
+            "language_scope": {
+              "type": "choice",
+              "choice": "controlling_instructions",
+              "confidence": 0.96,
+              "probabilities": {
+                "keep_current": 0,
+                "natural_language_content": 0.02,
+                "controlling_instructions": 0.98,
+                "insufficient_evidence": 0
+              }
+            },
+            "languages": {
+              "type": "choice",
+              "choice": "english_spanish",
+              "confidence": 0.59,
+              "probabilities": {
+                "keep_current": 0.14,
+                "english_spanish": 0.66,
+                "english": 0.11,
+                "insufficient_evidence": 0.07,
+                "english_french": 0,
+                "manual_review": 0.01
+              }
+            },
+            "surface_user_messages": {
+              "type": "choice",
+              "choice": "present",
+              "confidence": 0.99,
+              "probabilities": {
+                "present": 1,
+                "insufficient_evidence": 0,
+                "not_indicated": 0
+              }
+            },
+            "surface_retrieved_documents": {
+              "type": "choice",
+              "choice": "present",
+              "confidence": 0.97,
+              "probabilities": {
+                "present": 0.98,
+                "insufficient_evidence": 0,
+                "not_indicated": 0.02
+              }
+            },
+            "surface_tool_results": {
+              "type": "choice",
+              "choice": "not_indicated",
+              "confidence": 0.93,
+              "probabilities": {
+                "present": 0.04,
+                "insufficient_evidence": 0,
+                "not_indicated": 0.96
+              }
+            },
+            "surface_conversation_history": {
+              "type": "choice",
+              "choice": "present",
+              "confidence": 0.72,
+              "probabilities": {
+                "present": 0.8200000000000001,
+                "insufficient_evidence": 0,
+                "not_indicated": 0.18
+              }
+            },
+            "surface_persistent_memory": {
+              "type": "choice",
+              "choice": "not_indicated",
+              "confidence": 0.99,
+              "probabilities": {
+                "present": 0.01,
+                "insufficient_evidence": 0,
+                "not_indicated": 0.99
+              }
+            },
+            "surface_code": {
+              "type": "choice",
+              "choice": "not_indicated",
+              "confidence": 1,
+              "probabilities": {
+                "present": 0,
+                "insufficient_evidence": 0,
+                "not_indicated": 1
+              }
+            },
+            "surface_structured_records": {
+              "type": "choice",
+              "choice": "present",
+              "confidence": 1,
+              "probabilities": {
+                "present": 1,
+                "insufficient_evidence": 0,
+                "not_indicated": 0
+              }
+            },
+            "capability_external_actions": {
+              "type": "choice",
+              "choice": "not_indicated",
+              "confidence": 1,
+              "probabilities": {
+                "present": 0,
+                "insufficient_evidence": 0,
+                "not_indicated": 1
+              }
+            },
+            "capability_sensitive_disclosure": {
+              "type": "choice",
+              "choice": "not_indicated",
+              "confidence": 0.96,
+              "probabilities": {
+                "present": 0.03,
+                "insufficient_evidence": 0,
+                "not_indicated": 0.97
+              }
+            },
+            "capability_memory_writes": {
+              "type": "choice",
+              "choice": "not_indicated",
+              "confidence": 0.99,
+              "probabilities": {
+                "present": 0,
+                "insufficient_evidence": 0,
+                "not_indicated": 1
+              }
+            },
+            "capability_judging": {
+              "type": "choice",
+              "choice": "not_indicated",
+              "confidence": 0.99,
+              "probabilities": {
+                "present": 0.01,
+                "insufficient_evidence": 0,
+                "not_indicated": 0.99
+              }
+            },
+            "capability_moderation": {
+              "type": "choice",
+              "choice": "not_indicated",
+              "confidence": 0.88,
+              "probabilities": {
+                "present": 0.08,
+                "insufficient_evidence": 0,
+                "not_indicated": 0.92
+              }
+            }
+          },
+          "providerModel": "jev-1.13.0",
+          "usage": {
+            "inputTokens": 5022,
+            "outputTokens": 844,
+            "totalTokens": 5866
+          },
+          "latencyMs": 574.9589999999998
+        },
+        "reportedProviderModel": "jev-1.13.0",
+        "providerEnvelope": {
+          "tag": "ok",
+          "value": {
+            "data": {
+              "model": "jev-1.13.0",
+              "answers": {
+                "task": {
+                  "type": "choice",
+                  "choice": "billing-support",
+                  "confidence": 0.97,
+                  "probabilities": {
+                    "keep_current": 0,
+                    "insufficient_evidence": 0,
+                    "other_or_custom": 0.01,
+                    "billing-support": 0.98,
+                    "incident-review": 0.01,
+                    "code-review": 0
+                  }
+                },
+                "mode": {
+                  "type": "choice",
+                  "choice": "contextual",
+                  "confidence": 0.54,
+                  "probabilities": {
+                    "contextual": 0.63,
+                    "keep_current": 0.01,
+                    "insufficient_evidence": 0.01,
+                    "strict": 0.3,
+                    "inspection": 0.05
+                  }
+                },
+                "language_scope": {
+                  "type": "choice",
+                  "choice": "controlling_instructions",
+                  "confidence": 0.96,
+                  "probabilities": {
+                    "keep_current": 0,
+                    "natural_language_content": 0.02,
+                    "controlling_instructions": 0.98,
+                    "insufficient_evidence": 0
+                  }
+                },
+                "languages": {
+                  "type": "choice",
+                  "choice": "english_spanish",
+                  "confidence": 0.59,
+                  "probabilities": {
+                    "keep_current": 0.14,
+                    "english_spanish": 0.66,
+                    "english": 0.11,
+                    "insufficient_evidence": 0.07,
+                    "english_french": 0,
+                    "manual_review": 0.01
+                  }
+                },
+                "surface_user_messages": {
+                  "type": "choice",
+                  "choice": "present",
+                  "confidence": 0.99,
+                  "probabilities": {
+                    "present": 1,
+                    "insufficient_evidence": 0,
+                    "not_indicated": 0
+                  }
+                },
+                "surface_retrieved_documents": {
+                  "type": "choice",
+                  "choice": "present",
+                  "confidence": 0.97,
+                  "probabilities": {
+                    "present": 0.98,
+                    "insufficient_evidence": 0,
+                    "not_indicated": 0.02
+                  }
+                },
+                "surface_tool_results": {
+                  "type": "choice",
+                  "choice": "not_indicated",
+                  "confidence": 0.93,
+                  "probabilities": {
+                    "present": 0.04,
+                    "insufficient_evidence": 0,
+                    "not_indicated": 0.96
+                  }
+                },
+                "surface_conversation_history": {
+                  "type": "choice",
+                  "choice": "present",
+                  "confidence": 0.72,
+                  "probabilities": {
+                    "present": 0.8200000000000001,
+                    "insufficient_evidence": 0,
+                    "not_indicated": 0.18
+                  }
+                },
+                "surface_persistent_memory": {
+                  "type": "choice",
+                  "choice": "not_indicated",
+                  "confidence": 0.99,
+                  "probabilities": {
+                    "present": 0.01,
+                    "insufficient_evidence": 0,
+                    "not_indicated": 0.99
+                  }
+                },
+                "surface_code": {
+                  "type": "choice",
+                  "choice": "not_indicated",
+                  "confidence": 1,
+                  "probabilities": {
+                    "present": 0,
+                    "insufficient_evidence": 0,
+                    "not_indicated": 1
+                  }
+                },
+                "surface_structured_records": {
+                  "type": "choice",
+                  "choice": "present",
+                  "confidence": 1,
+                  "probabilities": {
+                    "present": 1,
+                    "insufficient_evidence": 0,
+                    "not_indicated": 0
+                  }
+                },
+                "capability_external_actions": {
+                  "type": "choice",
+                  "choice": "not_indicated",
+                  "confidence": 1,
+                  "probabilities": {
+                    "present": 0,
+                    "insufficient_evidence": 0,
+                    "not_indicated": 1
+                  }
+                },
+                "capability_sensitive_disclosure": {
+                  "type": "choice",
+                  "choice": "not_indicated",
+                  "confidence": 0.96,
+                  "probabilities": {
+                    "present": 0.03,
+                    "insufficient_evidence": 0,
+                    "not_indicated": 0.97
+                  }
+                },
+                "capability_memory_writes": {
+                  "type": "choice",
+                  "choice": "not_indicated",
+                  "confidence": 0.99,
+                  "probabilities": {
+                    "present": 0,
+                    "insufficient_evidence": 0,
+                    "not_indicated": 1
+                  }
+                },
+                "capability_judging": {
+                  "type": "choice",
+                  "choice": "not_indicated",
+                  "confidence": 0.99,
+                  "probabilities": {
+                    "present": 0.01,
+                    "insufficient_evidence": 0,
+                    "not_indicated": 0.99
+                  }
+                },
+                "capability_moderation": {
+                  "type": "choice",
+                  "choice": "not_indicated",
+                  "confidence": 0.88,
+                  "probabilities": {
+                    "present": 0.08,
+                    "insufficient_evidence": 0,
+                    "not_indicated": 0.92
+                  }
+                }
+              },
+              "usage": {
+                "input_tokens": 5022,
+                "output_tokens": 844
+              }
+            },
+            "latencyMs": 574.9589999999998
+          }
+        },
+        "httpResponse": {
+          "status": 200,
+          "bodyText": "{\"model\":\"jev-1.13.0\",\"answers\":{\"task\":{\"type\":\"choice\",\"choice\":\"billing-support\",\"confidence\":0.97,\"probabilities\":{\"keep_current\":0.0,\"insufficient_evidence\":0.0,\"other_or_custom\":0.01,\"billing-support\":0.98,\"incident-review\":0.01,\"code-review\":0.0}},\"mode\":{\"type\":\"choice\",\"choice\":\"contextual\",\"confidence\":0.54,\"probabilities\":{\"contextual\":0.63,\"keep_current\":0.01,\"insufficient_evidence\":0.01,\"strict\":0.3,\"inspection\":0.05}},\"language_scope\":{\"type\":\"choice\",\"choice\":\"controlling_instructions\",\"confidence\":0.96,\"probabilities\":{\"keep_current\":0.0,\"natural_language_content\":0.02,\"controlling_instructions\":0.98,\"insufficient_evidence\":0.0}},\"languages\":{\"type\":\"choice\",\"choice\":\"english_spanish\",\"confidence\":0.59,\"probabilities\":{\"keep_current\":0.14,\"english_spanish\":0.66,\"english\":0.11,\"insufficient_evidence\":0.07,\"english_french\":0.0,\"manual_review\":0.01}},\"surface_user_messages\":{\"type\":\"choice\",\"choice\":\"present\",\"confidence\":0.99,\"probabilities\":{\"present\":1.0,\"insufficient_evidence\":0.0,\"not_indicated\":0.0}},\"surface_retrieved_documents\":{\"type\":\"choice\",\"choice\":\"present\",\"confidence\":0.97,\"probabilities\":{\"present\":0.98,\"insufficient_evidence\":0.0,\"not_indicated\":0.02}},\"surface_tool_results\":{\"type\":\"choice\",\"choice\":\"not_indicated\",\"confidence\":0.93,\"probabilities\":{\"present\":0.04,\"insufficient_evidence\":0.0,\"not_indicated\":0.96}},\"surface_conversation_history\":{\"type\":\"choice\",\"choice\":\"present\",\"confidence\":0.72,\"probabilities\":{\"present\":0.8200000000000001,\"insufficient_evidence\":0.0,\"not_indicated\":0.18}},\"surface_persistent_memory\":{\"type\":\"choice\",\"choice\":\"not_indicated\",\"confidence\":0.99,\"probabilities\":{\"present\":0.01,\"insufficient_evidence\":0.0,\"not_indicated\":0.99}},\"surface_code\":{\"type\":\"choice\",\"choice\":\"not_indicated\",\"confidence\":1.0,\"probabilities\":{\"present\":0.0,\"insufficient_evidence\":0.0,\"not_indicated\":1.0}},\"surface_structured_records\":{\"type\":\"choice\",\"choice\":\"present\",\"confidence\":1.0,\"probabilities\":{\"present\":1.0,\"insufficient_evidence\":0.0,\"not_indicated\":0.0}},\"capability_external_actions\":{\"type\":\"choice\",\"choice\":\"not_indicated\",\"confidence\":1.0,\"probabilities\":{\"present\":0.0,\"insufficient_evidence\":0.0,\"not_indicated\":1.0}},\"capability_sensitive_disclosure\":{\"type\":\"choice\",\"choice\":\"not_indicated\",\"confidence\":0.96,\"probabilities\":{\"present\":0.03,\"insufficient_evidence\":0.0,\"not_indicated\":0.97}},\"capability_memory_writes\":{\"type\":\"choice\",\"choice\":\"not_indicated\",\"confidence\":0.99,\"probabilities\":{\"present\":0.0,\"insufficient_evidence\":0.0,\"not_indicated\":1.0}},\"capability_judging\":{\"type\":\"choice\",\"choice\":\"not_indicated\",\"confidence\":0.99,\"probabilities\":{\"present\":0.01,\"insufficient_evidence\":0.0,\"not_indicated\":0.99}},\"capability_moderation\":{\"type\":\"choice\",\"choice\":\"not_indicated\",\"confidence\":0.88,\"probabilities\":{\"present\":0.08,\"insufficient_evidence\":0.0,\"not_indicated\":0.92}}},\"usage\":{\"input_tokens\":5022,\"output_tokens\":844}}",
+          "bodyCaptureError": null
+        },
+        "key": "rich-1fbb33ee84b76e8808f4233f:setup-0000",
+        "jobId": "setup-0000",
+        "requestHash": "acb3430040248952276ad391e358af78de6c4ce4f814cf7f7d6c93d8e8d79e81",
+        "receivedAt": "2026-09-19T16:22:24.065Z"
+      },
+      "evidenceHash": "c20744378c4f8c770df204566ef1233761d04dd10ec707b094bf8b982aec6399",
+      "valid": true,
+      "error": null
+    }
+  ],
+  "failures": [],
+  "budget": {
+    "knownNanoUsd": 210924,
+    "heldNanoUsd": 0,
+    "inputTokens": 5022,
+    "heldInputTokens": 0,
+    "maximumUsd": 0.01
+  },
+  "dispatched": 1,
+  "note": "These are catalog metadata judgments, not guardrail-test results or reviewed ground truth. No automatically approved tags.",
+  "reportHash": "e0eee7c2edaec30cd6e2868dd644f1e79e2fac7d8fb5947e81d713609b57a72d"
+}

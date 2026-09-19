@@ -4,7 +4,7 @@
 
 **Current local application:** the rebuilt 0.5 policy workbench is integrated under [`workbench/`](workbench/README.md). Run `npm run workbench` from this repository, then open `http://127.0.0.1:8794`. It supports application-description suggestions, reviewed policy settings, policy-aware catalog selection and six separately identified historical reports. See the [integration and operating guide](docs/workbench-integration.md). Starting it makes no model calls; the original research account and frozen experiments remain in this repository.
 
-**Accounting checkpoint, 2026-09-19:** the existing restart ledger contains **$1.450070202 known usage and $0.002664690 held**, within the existing **$3 limit**. Use `npm run workbench:account` for a fresh offline reading. The older pilot amounts below describe their historical checkpoints, not today's remaining allowance.
+**Accounting checkpoint, 2026-09-19:** the existing restart ledger contains **$1.450972152 known usage and $0.002664690 held**, within the existing **$3 limit**. Use `npm run workbench:account` for a fresh offline reading. The older pilot amounts below describe their historical checkpoints, not today's remaining allowance.
 
 **The user approved a bounded short/long pilot of the [information-rich classifier template](policies/prompt-injection-policy-template.md).** Its [frozen design](docs/rich-pilot-design.md) contains 16 scenarios at three material lengths, with the complete guide supplied once in every request. The pilot is limited to 48 attempts and $0.30 within the separate $3 restart budget. Approval applies to this pilot only; the earlier generic-prompt campaign remains stopped, and its observations do not test this revised baseline.
 
@@ -23,6 +23,8 @@ Start with [expiry specification diagnostic](docs/expiry-diagnostic.md), [pilot 
 Future work is tracked in the [research backlog](docs/backlog.md) and [next evaluation plan](docs/next-evaluation-plan.md). The selected [Unsloth baseline](docs/local-unsloth-setup.md) is installed and verified. One short structured-output check and one 28,019-token neutral capacity check passed; the server is stopped after the completed comparison. Unused Vontra weights, caches and the old MLX environment were removed; [superseded MLX setup notes](docs/local-qwen-setup.md) remain for provenance. The [frozen Qwen comparison](docs/qwen-baseline-findings.md) completed 48/48 valid local responses; its 0/24 missed attacks and 7/24 false alarms contrast with Jev Choice’s 6/24 misses and 0/24 false alarms on this authored packet. The separate [32-call encoding diagnostic](docs/encoding-diagnostic-findings.md) is complete ($0.025472916 known usage). The [exact model-facing guide](policies/classifier-guide-v2.md) excludes operator notes and matches the approved request hash.
 
 ## Start here
+
+The latest [generation E2E checks](docs/workbench-e2e-results.md) cover three offline application workflows and one seven-call live setup/ranking smoke. The live smoke cost $0.00090195 and froze a 41-case suite without running classifier evaluations. [Community hosting options](docs/community-hosting-options.md) describe the proposed next step.
 
 To explore the workbench from a fresh checkout, use Node 22.22+ and run:
 
