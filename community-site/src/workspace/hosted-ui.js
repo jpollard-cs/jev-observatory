@@ -1,5 +1,6 @@
 // UI adapter. The credential exists only in this dialog's closure during a run.
 // Never put it in app state, storage, URLs, messages, reports or error text.
+import { canReviewAdvice, failureDescription } from './hosted-evidence.js';
 const usd = (n) => '$' + Number(n ?? 0).toFixed(5);
 function el(tag, text, props = {}) {
   const n = document.createElement(tag);
@@ -100,6 +101,14 @@ export async function hostedRun({ spec = null, onReport = async () => {} } = {})
           { className: 'note warn' },
         ),
       );
+    if (run.heldUsd > 0)
+      body.append(
+        el(
+          'p',
+          'Held is a local budget reservation, not a confirmed provider charge. It remains reserved until billing is reconciled. No automatic retry will occur.',
+          { className: 'fine' },
+        ),
+      );
     body.append(
       el(
         'p',
@@ -110,17 +119,75 @@ export async function hostedRun({ spec = null, onReport = async () => {} } = {})
     body.append(
       button('Download report', () => download(full.report, 'jev-hosted-' + run.id + '.json')),
     );
+    const advice = full.report?.protocol === 'catalog-advisor-report/1';
+    const inspect = () => {
+      title.textContent = 'Run evidence';
+      body.replaceChildren();
+      body.append(
+        el(
+          'p',
+          advice
+            ? 'Read-only inspection. Failed advice does not change your policy or test selection.'
+            : 'Read-only inspection of the recorded run.',
+        ),
+      );
+      if (run.reason)
+        body.append(el('p', failureDescription(run.reason), { className: 'note warn' }));
+      for (const failure of full.report.failures ?? []) {
+        const record = el('section', null, { className: 'note' });
+        record.append(el('h3', failure.error ?? 'Unusable response'));
+        const fields = el('dl');
+        for (const [name, value] of [
+          ['Request', failure.jobId],
+          ['Request hash', failure.requestHash],
+          [
+            'Latency (ms)',
+            Number.isFinite(failure.evidence?.response?.latencyMs)
+              ? failure.evidence.response.latencyMs.toFixed(2)
+              : null,
+          ],
+          ['Failure stage', failure.evidence?.response?.diagnostics?.phase],
+          ['HTTP status', failure.evidence?.response?.diagnostics?.httpStatus],
+        ])
+          if (value !== null && value !== undefined) {
+            fields.append(el('dt', name), el('dd', String(value), { className: 'hash' }));
+          }
+        record.append(fields);
+        body.append(record);
+      }
+      const raw = el('details');
+      raw.append(
+        el('summary', 'Complete recorded report'),
+        el('pre', JSON.stringify(full.report, null, 2), { className: 'code dark' }),
+      );
+      body.append(
+        raw,
+        button('Download report', () => download(full.report, 'jev-hosted-' + run.id + '.json')),
+        button(
+          'Back to run',
+          safe(() => finished(run)),
+        ),
+      );
+    };
     body.append(
       button(
-        'Inspect in workspace',
-        safe(async () => {
-          await onReport(full.report);
-          dialog.close();
-          dialog.remove();
-        }),
-        'btn primary',
+        'Inspect recorded evidence',
+        inspect,
+        advice && !canReviewAdvice(full.report) ? 'btn primary' : 'btn',
       ),
     );
+    if (!advice || canReviewAdvice(full.report))
+      body.append(
+        button(
+          advice ? 'Review suggestions in workspace' : 'Inspect in workspace',
+          safe(async () => {
+            await onReport(full.report);
+            dialog.close();
+            dialog.remove();
+          }),
+          'btn primary',
+        ),
+      );
     if (run.status === 'running' && run.inflight === null)
       body.append(
         button(

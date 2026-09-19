@@ -170,6 +170,10 @@ test('unknown cost is retained, no retry or subsequent run is allowed, and malfo
   const report = value(await service.detail(owner, q.id, true)).report;
   assert.equal(report.rows.length, 0);
   assert.equal(report.failures.length, 1);
+  assert.throws(
+    () => adviceSummary(report, { policy, application, mode: 'setup' }),
+    /failed advisor report/,
+  );
   assert.ok(!JSON.stringify(report).includes('secret-sensitive-error'));
   const j = rebuild(spec).jobs[0],
     e = mock(JSON.parse(j.body));
@@ -248,7 +252,7 @@ test('compiled hosted API authenticates owners, rejects cross-site writes and on
   globalThis.fetch = async (url, opts) => {
     calls++;
     assert.equal(url, 'https://api.typesafe.ai/v1/systemone');
-    assert.equal(opts.redirect, 'error');
+    assert.equal(opts.redirect, 'manual');
     const m = mock(JSON.parse(opts.body));
     return Response.json({
       model: m.reportedProviderModel,
