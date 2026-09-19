@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { DatabaseSync } from 'node:sqlite';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -35,7 +36,14 @@ export async function localStorage(directory) {
       };
     },
   };
-  const filename = (key) => path.join(directory, 'blobs', Buffer.from(key).toString('hex'));
+  const filename = (key) =>
+    path.join(
+      directory,
+      'blobs',
+      Buffer.byteLength(key) <= 120
+        ? Buffer.from(key).toString('hex')
+        : 'sha256-' + createHash('sha256').update(key).digest('hex'),
+    );
   const blobs = {
     put: async (key, text) => fs.writeFile(filename(key), text),
     get: async (key) => {

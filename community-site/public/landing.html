@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      name="description"
+      content="Build a prompt-injection policy. Challenge it with matched tests. Explore what Jev actually gets right and wrong."
+    />
+    <title>Observatory — Find the boundary.</title>
+    <link rel="stylesheet" href="/landing.css" />
+    <script type="module" src="/landing.js"></script>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 40%22%3E%3Ctext y=%2233%22 font-size=%2236%22%3E✧%3C/text%3E%3C/svg%3E"
+    />
+  </head>
+  <body>
+    <a class="skip" href="#purpose">Skip to introduction</a>
+    <header>
+      <a class="wordmark" href="/" aria-label="Observatory home"
+        ><span aria-hidden="true">✧</span> Observatory</a
+      >
+      <nav aria-label="Main">
+        <a href="/observatory">Research</a><a href="/community">Community</a
+        ><a class="nav-cta" href="/workspace">Open workspace <span aria-hidden="true">↗</span></a>
+      </nav>
+    </header>
+    <main id="purpose">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">
+            <span class="status-dot"></span> A laboratory for prompt-injection policies
+          </p>
+          <h1>Where does data<br />become <em>an instruction?</em></h1>
+          <p class="intro">Build the boundary. Challenge it. See where it breaks.</p>
+          <p class="explanation">
+            Observatory helps you teach Jev what your application allows, test attacks alongside
+            legitimate behavior, and examine the evidence before trusting a policy.
+          </p>
+          <div class="actions">
+            <a class="primary" href="/workspace"
+              >Build your first policy <span aria-hidden="true">↗</span></a
+            ><a class="text-link" href="#how"
+              >Take a closer look <span aria-hidden="true">↓</span></a
+            >
+          </div>
+          <p class="quiet">
+            Explore and plan without a key. Paid runs use your own Jev account, after review.
+          </p>
+        </div>
+        <div
+          class="lens"
+          role="img"
+          aria-label="An abstract policy boundary surrounded by incoming data and an orbit of test evidence. This animation is illustrative, not measured results."
+        >
+          <div class="lens-grid"></div>
+          <div class="orbit orbit-one"></div>
+          <div class="orbit orbit-two"></div>
+          <div class="orbit orbit-three"></div>
+          <div class="halo"></div>
+          <div class="core">
+            <span>the policy<br /><b>boundary</b></span>
+          </div>
+          <span class="sample sample-a">a retrieved document</span
+          ><span class="sample sample-b">an encoded instruction</span
+          ><span class="sample sample-c">a legitimate debug request</span
+          ><span class="sample sample-d">a poisoned conversation</span
+          ><span class="signal signal-a"></span><span class="signal signal-b"></span
+          ><span class="signal signal-c"></span>
+          <div class="lens-caption">
+            <span class="mini-line"></span> Make the boundary observable
+            <span class="illustration">/ illustrative</span>
+          </div>
+        </div>
+      </section>
+      <section class="method" id="how">
+        <div class="section-intro">
+          <p class="eyebrow">From an idea to inspectable evidence</p>
+          <h2>Three moves.<br />A much clearer picture.</h2>
+          <p>A policy is a hypothesis.<br />The tests help you question it.</p>
+        </div>
+        <div class="steps">
+          <article>
+            <div class="step-number">01 <span>Define</span></div>
+            <h3>Say what should be allowed.</h3>
+            <p>
+              Describe your application. Compose rules, scoped exceptions and context. Review the
+              exact instructions your classifier will receive.
+            </p>
+            <div class="mini-visual define" aria-hidden="true">
+              <span>task</span><span>rules</span><span>context</span><i>→</i><strong>policy</strong>
+            </div>
+          </article>
+          <article>
+            <div class="step-number">02 <span>Challenge</span></div>
+            <h3>Test both sides of the line.</h3>
+            <p>
+              Choose a suite with matched attacks and valid behaviors. See its coverage and gaps.
+              Review requests and cost before authorizing Jev.
+            </p>
+            <div class="mini-visual challenge" aria-hidden="true">
+              <span>valid behavior</span><b>↔</b><span>attack variant</span>
+            </div>
+          </article>
+          <article>
+            <div class="step-number">03 <span>Inspect</span></div>
+            <h3>Follow the evidence.</h3>
+            <p>
+              Explore coverage maps, probabilities and individual responses. Compare what was
+              expected with what happened. Share a result when it is ready.
+            </p>
+            <div class="mini-visual inspect" aria-hidden="true">
+              <i></i><i></i><i></i><i></i><i></i><span>every result, inspectable ↗</span>
+            </div>
+          </article>
+        </div>
+      </section>
+      <section class="principle">
+        <div class="principle-mark" aria-hidden="true">∴</div>
+        <div>
+          <p class="eyebrow">Built to question the result</p>
+          <h2>A beautiful chart is not proof.</h2>
+          <p>
+            Missed attacks matter. So do blocked legitimate requests. We keep authored expectations,
+            native model answers, derived decisions and missing results distinct—so a policy can
+            improve without a misleading score.
+          </p>
+          <a class="text-link" href="/observatory"
+            >Explore the recorded research <span aria-hidden="true">↗</span></a
+          >
+        </div>
+      </section>
+      <section class="closing">
+        <p class="eyebrow">Start with your application</p>
+        <h2>Draw a boundary.<br />Then try to break it.</h2>
+        <a class="primary" href="/workspace"
+          >Enter the workspace <span aria-hidden="true">↗</span></a
+        >
+      </section>
+    </main>
+    <footer>
+      <a class="wordmark" href="/">✧ Observatory</a>
+      <p>Experimental research. Synthetic tests, not a security certification.</p>
+      <div>
+        <a href="/community">Shared evidence</a
+        ><a
+          href="https://github.com/jpollard-cs/jev-observatory"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Source ↗</a
+        ><button id="motion" type="button" aria-pressed="false">Pause motion</button>
+      </div>
+    </footer>
+  </body>
+</html>

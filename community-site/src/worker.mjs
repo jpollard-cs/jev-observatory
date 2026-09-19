@@ -1,3 +1,10 @@
+import { executionApi } from './hosted/http.mjs';
+import { executionService } from './hosted/service.mjs';
+import { executionRepository } from './hosted/repository.mjs';
+import { callJev } from './hosted/provider.mjs';
+import landing from '../public/landing.html';
+import landingCss from '../public/landing.css';
+import landingJs from '../public/landing.js';
 import workspaceAssets from 'workspace:assets';
 import legacy from '../legacy/observatory-worker.mjs';
 import { repository } from './adapters/d1.mjs';
@@ -40,6 +47,17 @@ export default {
         },
       );
     }
+    if (url.pathname.startsWith('/api/execution/')) {
+      const id = request.headers.get('oai-authenticated-user-id');
+      return executionApi(request, {
+        actor: id ? { id } : null,
+        service: executionService({
+          repo: executionRepository(env.DB),
+          blobs: env.BUCKET,
+          infer: callJev,
+        }),
+      });
+    }
     if (url.pathname.startsWith('/api/community/')) {
       const id = request.headers.get('oai-authenticated-user-id');
       return api(request, {
@@ -50,6 +68,9 @@ export default {
       });
     }
     const assets = {
+      '/': { body: landing, type: 'text/html' },
+      '/landing.css': { body: landingCss, type: 'text/css' },
+      '/landing.js': { body: landingJs, type: 'text/javascript' },
       '/community': { body: html, type: 'text/html' },
       '/community.css': { body: css, type: 'text/css' },
       '/community.js': { body: js, type: 'text/javascript' },

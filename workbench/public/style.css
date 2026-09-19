@@ -2,3 +2,7 @@
 
 .nav a{display:block;color:var(--muted,#a4b4c6);padding:10px 12px;text-decoration:none;font-size:12px}.nav a:hover{color:var(--text,#eff4fa);background:#ffffff08;border-radius:8px}
 .sidebar nav[aria-label="Community"]{flex:0 0 auto;overflow:visible;padding-top:6px;gap:0}
+
+.hosted-dialog{width:min(920px,95vw);max-height:90vh;padding:0;border:1px solid var(--line,#354c5c);border-radius:16px;background:var(--panel,#10202e);color:var(--text,#e5edf2);overflow:auto}.hosted-dialog::backdrop{background:#030a12c9}.hosted-dialog>.note{margin:20px}.hosted-dialog .stat{display:flex;flex-direction:column;gap:6px}.hosted-dialog .stat small{color:#a4b4c0}.hosted-dialog .actions{flex-wrap:wrap}.hosted-dialog input[type=password]{width:100%}.hosted-dialog select{max-width:100%;margin-block:15px}.hosted-dialog pre{max-height:340px;overflow:auto}
+
+.advanced-nav{margin-top:18px}.advanced-nav>summary{cursor:pointer;color:#9baebd;font-size:11px;padding:10px 12px;letter-spacing:.6px}.advanced-nav[open]>summary{margin-bottom:8px}.advanced-nav>button{width:100%}

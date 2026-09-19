@@ -25,13 +25,15 @@ globalThis.fetch = async (url) => {
   const response = await worker.fetch(new Request('https://site.test' + url), {}, {});
   return new Response(await body(response), { status: response.status });
 };
-test('hosted root restores the workspace and community remains a separate area', async () => {
-  const home = await worker.fetch(new Request('https://site.test/'), {}, {});
+test('landing explains the workflow while workspace and community remain accessible', async () => {
+  const landing = await worker.fetch(new Request('https://site.test/'), {}, {});
+  assert.match(await landing.text(), /Where does data/);
+  const home = await worker.fetch(new Request('https://site.test/workspace'), {}, {});
   assert.match(new TextDecoder().decode(await body(home)), /workspace\/app.js/);
   assert.match(home.headers.get('content-security-policy'), /worker-src 'self'/);
   assert.match(home.headers.get('content-security-policy'), /require-trusted-types-for 'script'/);
   const community = await worker.fetch(new Request('https://site.test/community'), {}, {});
-  assert.match(await community.text(), /href="\/">Workspace/);
+  assert.match(await community.text(), /href="\/workspace">Workspace/);
 });
 test('browser compiler preserves exact native requests and authored expectations across contracts', async () => {
   for (const mode of ['strict', 'contextual', 'inspection'])

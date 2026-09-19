@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises';
 import { build } from 'esbuild';
-import { buildWorkspace } from './workspace/build.mjs';
+import { buildWorkspace, runtimePlugin } from './workspace/build.mjs';
 import { makeCatalog, makeExample } from './catalog.mjs';
 const workspaceAssets = await buildWorkspace();
 const catalog = await makeCatalog();
@@ -15,12 +15,18 @@ await build({
   format: 'esm',
   platform: 'browser',
   target: 'es2022',
-  loader: { '.html': 'text', '.css': 'text', '.js': 'text' },
+  loader: { '.html': 'text', '.css': 'text' },
   minify: false,
+  inject: ['src/workspace/globals.mjs'],
   plugins: [
+    runtimePlugin,
     {
       name: 'workspace-assets',
       setup(b) {
+        b.onLoad({ filter: /\/community-site\/public\/(app|landing)\.js$/ }, async (args) => ({
+          contents: await fs.readFile(args.path, 'utf8'),
+          loader: 'text',
+        }));
         b.onResolve({ filter: /^workspace:assets$/ }, () => ({
           path: 'workspace:assets',
           namespace: 'workspace-assets',

@@ -11,7 +11,7 @@ const respond = (result) =>
   result.tag === 'ok'
     ? json(result.value)
     : json({ error: result.error.code, message: result.error.message }, result.error.status);
-async function readBody(request) {
+export async function readBody(request) {
   if (request.headers.get('content-type')?.split(';')[0].trim() !== 'application/json')
     return error('content_type', 'Send a JSON request.', 415);
   const reader = request.body?.getReader();

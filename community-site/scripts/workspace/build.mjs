@@ -55,10 +55,13 @@ const release = {
   archivedRequestsHash: digest(archived),
 };
 const aliases = { 'node:crypto': 'crypto.mjs', 'node:fs': 'files.mjs', 'node:url': 'urls.mjs' };
-const runtimePlugin = {
+export const runtimePlugin = {
   name: 'browser-workspace-boundaries',
   setup(b) {
-    b.onResolve({ filter: /^workspace:/ }, (args) => ({ path: args.path, namespace: 'workspace' }));
+    b.onResolve({ filter: /^workspace:(files|records|release)$/ }, (args) => ({
+      path: args.path,
+      namespace: 'workspace',
+    }));
     b.onLoad({ filter: /.*/, namespace: 'workspace' }, (args) => ({
       contents: JSON.stringify(
         { 'workspace:files': files, 'workspace:records': records, 'workspace:release': release }[
@@ -88,6 +91,9 @@ const runtimePlugin = {
 const safeMarkup = {
   name: 'sanitize-workbench-template-sinks',
   setup(b) {
+    b.onResolve({ filter: /^\.\/hosted\.js$/ }, () => ({
+      path: path.join(app, 'src/workspace/hosted-ui.js'),
+    }));
     b.onResolve({ filter: /^\.\/transport\.js$/ }, () => ({
       path: path.join(app, 'src/workspace/transport.js'),
     }));
@@ -164,7 +170,6 @@ export async function buildWorkspace() {
     '</head>',
     '<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 40%22%3E%3Ctext y=%2233%22 font-size=%2236%22%3E✧%3C/text%3E%3C/svg%3E"></head>',
   );
-  add('/', Buffer.from(html), 'text/html');
   add('/workspace', Buffer.from(html), 'text/html');
   for (const name of ['app.js', 'engine.js'])
     add('/workspace/' + name, await fs.readFile(path.join(output, name)), 'text/javascript');

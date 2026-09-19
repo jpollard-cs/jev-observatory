@@ -1,7 +1,17 @@
+import { gunzipSync } from 'node:zlib';
 import http from 'node:http';
 import { localStorage } from './local-storage.mjs';
 import worker from '../dist/server/index.js';
-const storage = await localStorage('runtime');
+const mocked = process.argv.includes('--mock-jev');
+const storage = await localStorage(mocked ? 'runtime/mock-execution' : 'runtime');
+if (mocked) {
+  const { mockProvider } = await import('../tests/fixtures/provider.mjs');
+  globalThis.fetch = async (url, options) => {
+    if (url !== 'https://api.typesafe.ai/v1/systemone')
+      throw Error('Mock preview blocks external network');
+    return Response.json(mockProvider(JSON.parse(options.body)));
+  };
+}
 // Explicit preview identity only; never trust incoming identity headers locally.
 const signedIn = process.argv.includes('--signed-in');
 const port = Number(process.env.PORT ?? 8795);
@@ -23,7 +33,7 @@ http
         ...(!['GET', 'HEAD'].includes(req.method) ? { body: req, duplex: 'half' } : {}),
       });
       const pathname = new URL(request.url).pathname;
-      const response =
+      let response =
         pathname === '/observatory'
           ? Response.redirect(
               'https://jev-redteam-observatory.wizard.chatgpt.site/observatory',
@@ -35,6 +45,22 @@ http
                 { headers: { 'Content-Type': 'text/plain' } },
               )
             : await worker.fetch(request, { DB: storage.db, BUCKET: storage.blobs }, {});
+      if (mocked && response.headers.get('content-type')?.startsWith('text/html')) {
+        const raw = Buffer.from(await response.arrayBuffer());
+        const html = (
+          response.headers.get('content-encoding') === 'gzip' ? gunzipSync(raw) : raw
+        ).toString('utf8');
+        const previewHeaders = new Headers(response.headers);
+        previewHeaders.delete('content-encoding');
+        previewHeaders.delete('content-length');
+        response = new Response(
+          html.replace(
+            '<body>',
+            '<body><p role="status">LOCAL MOCK PREVIEW — simulated provider answers; no real model calls. Do not share these as measured results.</p>',
+          ),
+          { status: response.status, headers: previewHeaders },
+        );
+      }
       res.writeHead(response.status, Object.fromEntries(response.headers));
       res.end(Buffer.from(await response.arrayBuffer()));
     } catch {
@@ -44,6 +70,6 @@ http
   })
   .listen(port, '127.0.0.1', () =>
     console.log(
-      `Observatory workspace: http://127.0.0.1:${port} (${signedIn ? 'preview account' : 'anonymous'})`,
+      `Observatory workspace: http://127.0.0.1:${port} (${signedIn ? 'preview account' : 'anonymous'}${mocked ? ', MOCK Jev: zero network calls' : ''})`,
     ),
   );

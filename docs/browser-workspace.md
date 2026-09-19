@@ -27,3 +27,9 @@ Every template HTML sink in the hosted workbench build is routed through DOMPuri
 The compiled-browser tests compare all three policy contracts and both example placements with native compiler requests/receipts; compare a selected plan and original family sweep byte identities; export and load an executable frozen plan; and compare all six normalized historical reports with native reconstruction. Community/API security tests cover cross-origin writes, ownership, quotas, tampered hashes, active payload strings, nonce integrity and download headers.
 
 Manual local browser checks exercised description → rules → coverage → exact test inspection → plan review, switched historical runs, and verified the atlas canvas and SVG charts. Changing a recorded experiment keeps its selector bound to the currently displayed data until the new report is loaded. No model inference was performed for these checks.
+
+## Hosted execution and introduction (2026-09-19)
+
+The root route now introduces the experiment in three steps; the complete workspace remains at `/workspace`. The browser planner and coverage/evidence views are preserved. The five-step workflow is always visible; advanced navigation and Terminal commands use progressive disclosure.
+
+Hosted paid execution is now available after a separate request-and-budget review. See [hosted execution](hosted-execution.md) for credential handling, private persistence, accounting and limits. Earlier notes above about hosted execution being unavailable describe the preceding release.

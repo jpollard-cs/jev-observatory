@@ -34,6 +34,7 @@ import { zipSync, strToU8, gunzipSync } from 'fflate';
 import records from 'workspace:records';
 import release from 'workspace:release';
 const saved = new Map(),
+  specs = new Map(),
   advice = new Map(),
   loaded = new Set();
 async function loadRecord(id) {
@@ -49,9 +50,10 @@ async function loadRecord(id) {
   }
   return loadEvidence(id);
 }
-function freeze(prepared) {
+function freeze(prepared, route, input) {
   const hash = prepared.manifest.planHash;
   saved.set(hash, prepared);
+  specs.set(hash, { route, input, planHash: hash });
   return {
     directory: 'plan',
     planPath: 'plan/manifest.json',
@@ -128,6 +130,10 @@ export async function dispatch(route, input = {}) {
       newCalls: 0,
       release,
     };
+  if (name === 'workspace/execution-spec') {
+    assert(specs.has(input.planHash), 'Save this plan again to review hosted execution');
+    return specs.get(input.planHash);
+  }
   if (name === 'connection') return { connected: false, hosted: true, account: null };
   if (name.startsWith('connection/'))
     throw Error(
@@ -161,7 +167,7 @@ export async function dispatch(route, input = {}) {
     });
   if (name === 'original/plan' || name === 'original/prepare') {
     const prepared = makeReplayPlan(input.options ?? {});
-    return name.endsWith('prepare') ? freeze(prepared) : prepared.manifest;
+    return name.endsWith('prepare') ? freeze(prepared, name, input) : prepared.manifest;
   }
   if (name === 'case') {
     const item = CATALOG.find((x) => x.id === query.get('id'));
@@ -203,7 +209,9 @@ export async function dispatch(route, input = {}) {
     const prepared = name.startsWith('selection/')
       ? makeAssistedPlan(input.policy, input.application, input.options, input.report ?? null)
       : makePlan(input.policy, input.options);
-    return ['prepare', 'selection/freeze'].includes(name) ? freeze(prepared) : prepared.manifest;
+    return ['prepare', 'selection/freeze'].includes(name)
+      ? freeze(prepared, name, input)
+      : prepared.manifest;
   }
   if (name === 'workspace/export') return exportPlan(input.planHash);
   if (name === 'setup/prepare' || name === 'selection/prepare')
@@ -216,6 +224,8 @@ export async function dispatch(route, input = {}) {
           : (input.options ?? {}),
         input.catalogDescriptors ?? null,
       ),
+      name,
+      input,
     );
   if (name === 'setup/request') {
     const prepared = saved.get(input.planHash);
