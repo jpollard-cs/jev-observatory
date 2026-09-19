@@ -1,0 +1,155 @@
+{
+  "schemaVersion": "workbench-validation/2",
+  "applicationVersion": "0.2.0",
+  "newProviderCalls": 0,
+  "testSuites": {
+    "workbench": {
+      "tests": 139,
+      "pass": 139,
+      "fail": 0,
+      "newSelectionTests": 68,
+      "originalTestsRetained": 71
+    },
+    "retainedCompiler": {
+      "tests": 54,
+      "pass": 54,
+      "fail": 0
+    }
+  },
+  "totalPassed": 193,
+  "simulation": {
+    "source": "Test-only synthetic transports, not provider behavior",
+    "completeRankThenGoldWorkflowCalls": 126,
+    "rankingCalls": 6,
+    "evaluationCalls": 120,
+    "optionalTaggingCalls": 6,
+    "checked": [
+      "same-account settlement linkage",
+      "uncertain reservation and transport failures",
+      "missing usage",
+      "model mismatch",
+      "partial completion and resume without duplicates",
+      "source and raw evidence mutation",
+      "budget and mandatory minima",
+      "no browser inference endpoint"
+    ]
+  },
+  "scale": {
+    "kind": "Synthetic paired cost metadata allocation, not original full payload execution",
+    "pairs": 7560,
+    "fullLogicalJobs": 15120,
+    "cappedLogicalJobs": 756,
+    "cappedWholePairs": 378,
+    "providerCalls": 0,
+    "fullHistoricalReplayIntegrated": false
+  },
+  "schemas": {
+    "draft": "2020-12",
+    "schemasChecked": 2,
+    "validExampleDocuments": 3
+  },
+  "parentInvariance": {
+    "files": {
+      "src/policy.mjs": true,
+      "src/catalog.mjs": true,
+      "src/compiler.mjs": true,
+      "data/consumer-admission-v1.report.json": true,
+      "data/context-cases.json": true,
+      "data/evidence.json": true
+    },
+    "vendorFilesCompared": 170,
+    "allVendorFilesEqual": true
+  },
+  "browser": {
+    "errors": [],
+    "checks": [
+      {
+        "view": "overview",
+        "width": 1440,
+        "overflow": false
+      },
+      {
+        "view": "policy",
+        "width": 1440,
+        "overflow": false
+      },
+      {
+        "view": "selection",
+        "width": 1440,
+        "overflow": false
+      },
+      {
+        "view": "planner",
+        "width": 1440,
+        "overflow": false
+      },
+      {
+        "view": "evidence",
+        "width": 1440,
+        "overflow": false
+      },
+      {
+        "view": "context",
+        "width": 1440,
+        "overflow": false
+      },
+      {
+        "view": "provenance",
+        "width": 1440,
+        "overflow": false
+      },
+      {
+        "view": "overview",
+        "width": 390,
+        "overflow": false
+      },
+      {
+        "view": "policy",
+        "width": 390,
+        "overflow": false
+      },
+      {
+        "view": "selection",
+        "width": 390,
+        "overflow": false
+      },
+      {
+        "view": "planner",
+        "width": 390,
+        "overflow": false
+      },
+      {
+        "view": "evidence",
+        "width": 390,
+        "overflow": false
+      },
+      {
+        "view": "context",
+        "width": 390,
+        "overflow": false
+      },
+      {
+        "view": "provenance",
+        "width": 390,
+        "overflow": false
+      }
+    ],
+    "method": "Real UI source rendered in-memory in Chromium. Test bridge invokes separately tested local HTTP API; direct browser loopback navigation blocked by environment policy. No browser policy changed; no provider calls."
+  },
+  "planMeasurements": "validation/plan-checks.json",
+  "limitations": [
+    "New ranking, tagging and allocation usefulness have not been measured with Jev.",
+    "Confidence thresholds and weights are provisional heuristics, not calibrated correctness.",
+    "Historical 15120-cell metadata bridge is not a live replay/scoring adapter.",
+    "Local checksums are not provider attestation or independent gold review.",
+    "Actual provider usage may differ from byte-based budget conventions."
+  ],
+  "deliveryCheck": {
+    "method": "Extracted release to a different directory; ran verifier and regenerated default rank/Gold plans",
+    "checksummedFiles": 266,
+    "relocatedAdvisorPlanIdentical": true,
+    "relocatedEvaluationPlanIdentical": true,
+    "runtimeArtifactsExcluded": true,
+    "providerCalls": 0
+  }
+}

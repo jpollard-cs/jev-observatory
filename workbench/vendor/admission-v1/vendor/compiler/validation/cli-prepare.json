@@ -1,0 +1,25 @@
+{
+  "status": "prepared_offline",
+  "liveCalls": 0,
+  "out": "/mnt/data/compiler-work/release-render",
+  "caseCount": 48,
+  "policyPackCount": 1,
+  "totals": {
+    "jev-legacy": {
+      "cases": 48,
+      "physicalRequests": 48,
+      "wireBytes": 3910788
+    },
+    "jev-question-examples": {
+      "cases": 48,
+      "physicalRequests": 48,
+      "wireBytes": 18851076
+    },
+    "jev-criteria-examples": {
+      "cases": 48,
+      "physicalRequests": 48,
+      "wireBytes": 18519684
+    }
+  },
+  "next": "Inspect manifest.json and payloads. Submit through the existing budgeted harness only under a new, separately authorized run identity."
+}

@@ -1,0 +1,13 @@
+{
+  "status": "approved_for_one_transport_repair",
+  "decisionBy": "operator_review",
+  "reviewedAt": "2026-09-17T14:27:24.099Z",
+  "planHash": "6210329dc8a4cf13b579e742f4ca994ed6c34688e1c4be54556c08e0fc7fa92d",
+  "sourcePlanHash": "e6b111a1b48421abcaee8377835c8241a3df9dbfe7c49ce8ef4e3077c73088ef",
+  "requestHash": "7be03aee6f3db4c869b16c8d6b0598e27f9dd230d20b3fa9c5410448c816fa07",
+  "maximumRequests": 1,
+  "maximumStageCostUsd": 0.01,
+  "maximumRestartCostUsd": 3,
+  "authority": "User explicitly requested repair of transport errors and unavailable judgments on 2026-09-17.",
+  "rationale": "Only the exact frozen request that failed sandbox DNS before HTTP is eligible. Dispatch outside the DNS-restricted sandbox. Retain the original failed attempt and held reservation. Five targeted repair tests passed; no automatic retry."
+}

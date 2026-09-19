@@ -1,6 +1,6 @@
 # Luna and Terra controls through isolated Codex subagents
 
-This is a separate exploratory control channel when direct Luna/Terra API access is unavailable. It makes no model calls and needs no API key. The operator exports a frozen, blinded packet, runs the requested Codex model selectors, and imports their final JSON. Exact weights, provider versions, sampling settings, token usage, billing, and direct endpoint equivalence are unknown.
+This is a separate exploratory control channel when direct Luna/Terra API access is unavailable. The export/import scripts make no model calls and need no API key; executing the Codex subagents uses the account's model resources. The operator exports a frozen, blinded packet, runs the requested Codex model selectors, and imports their final JSON. Exact weights, provider versions, sampling settings, token usage, billing, and direct endpoint equivalence are unknown.
 
 ## Export the packet
 
@@ -70,3 +70,13 @@ Run the workflow's offline validation tests with:
 ```sh
 node --test tests/agent-panel.test.mjs
 ```
+
+## Expanded release panel
+
+The release extension uses `scripts/extension-controls.mjs` and a separate 16-record packet from eight deterministic task lineages. Each task appears in short and expanded message/resource contexts. Correct/incorrect answers and clean/injected explanations are balanced. It is separate from the earlier eight-record, one-lineage panel above.
+
+The actual release controls used fresh `fork_turns="none"` agents with configured selectors `gpt-5.6-luna` and `gpt-5.6-terra`, each at medium reasoning effort. Because the packet was a local file, each agent was explicitly allowed one read of the designated packet and a write of its final response. Other files, gold, task history, external tools and the other model's answers were excluded from the experimental input. This is an operator-attested procedure, not cryptographically authenticated model execution; runtime instructions and available tools still differ from Jev's API.
+
+Packet SHA-256: `514eac456bc74c54e11eedab61b80c8696ed073a653c2f4776ae8bd698a83f77`.
+
+Both control imports retained 16 valid records and 16 correct deterministic verdicts. All eight short/expanded pairs were correct for each model. These are descriptive controls, not independent human adjudication or evidence of general superiority. The complete packet, private manifest and original responses remain in ignored `work/extension-controls/`; the Site publishes their separate count-based summaries. Their exact token usage, latency and marginal dollar cost remain unavailable.

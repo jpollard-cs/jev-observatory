@@ -1,0 +1,11 @@
+{
+  "schemaVersion": "payload-profile/1",
+  "id": "jev-structured-guide",
+  "renderer": "jev",
+  "examplePlacement": "criterion-local",
+  "guidePlacement": "structured-state",
+  "questionGrouping": "together",
+  "omitGuideBlocks": {},
+  "maxRequestBytes": 1500000,
+  "notes": "Same policy block text/objects, but rendered as a structured section array."
+}

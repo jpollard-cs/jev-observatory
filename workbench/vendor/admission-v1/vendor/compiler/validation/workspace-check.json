@@ -1,0 +1,51 @@
+{
+  "status": "passed_offline",
+  "historicalByteIdenticalControls": 48,
+  "caseCount": 112,
+  "profileCount": 8,
+  "renderings": 896,
+  "serializedBodies": 1568,
+  "profileTotals": {
+    "chat-criteria": {
+      "cases": 112,
+      "requests": 112,
+      "bytes": 47330762
+    },
+    "jev-criteria-examples": {
+      "cases": 112,
+      "requests": 112,
+      "bytes": 42030224
+    },
+    "jev-criteria-factored": {
+      "cases": 112,
+      "requests": 112,
+      "bytes": 21676016
+    },
+    "jev-criteria-single": {
+      "cases": 112,
+      "requests": 784,
+      "bytes": 70361648
+    },
+    "jev-legacy": {
+      "cases": 112,
+      "requests": 112,
+      "bytes": 7942800
+    },
+    "jev-question-examples": {
+      "cases": 112,
+      "requests": 112,
+      "bytes": 42803472
+    },
+    "jev-question-guide": {
+      "cases": 112,
+      "requests": 112,
+      "bytes": 56649584
+    },
+    "jev-structured-guide": {
+      "cases": 112,
+      "requests": 112,
+      "bytes": 42059792
+    }
+  },
+  "liveCalls": 0
+}

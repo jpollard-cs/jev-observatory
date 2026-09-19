@@ -1,0 +1,84 @@
+{
+  "schemaVersion": "payload-receipt/1",
+  "assessmentHash": "b3b91cd87a95f753b01bc9056bd205801e9fe9785a80304b581f95f1010fd8d0",
+  "profileHash": "fb16e9ce3dc130914ccc52e6189dccab106a461bffab2fd1a35f0d1cac8be6f2",
+  "sourceRequestHash": "592066be59757f2e8a3c8579ac923ef785732918309bffc0acc9fe35bda3e81b",
+  "sourceGuideHash": "ad8a2efbc71e9eceff87cd60b547abb9b5751c4305312fe545c8d8cdd3c4b47d",
+  "profileId": "workbench-question",
+  "renderer": "jev",
+  "modelSelector": "jev-1.13.0",
+  "changes": [],
+  "includedGuideBlocks": [
+    {
+      "id": "g001",
+      "contentHash": "a0e08fda058b0b01aa3d219483112b20ba4a0d584b2eb00d66f1f9346ed6a0f2",
+      "source": {
+        "pointer": "/state/classifierGuide",
+        "startUtf16": 0,
+        "endUtf16": 2019,
+        "startLine": 1,
+        "endLine": 3
+      }
+    }
+  ],
+  "omittedGuideBlocks": [],
+  "questionGuideSelections": [],
+  "examples": [],
+  "materialHash": "09d0908cf623b157a971899e2c1ce80677d854fde730f399796190d7ccd7e602",
+  "configurationHash": "a45d75fdc801fd33ddbefcf62dc057a32a4d67837aad095fcede5d3d1a5f7af1",
+  "trustedContextHash": "635c2b0ea84063600cfb120e818bf791784e9d6bcf77f1d919e87f21c06f70fd",
+  "guarantees": {
+    "materialDecoded": false,
+    "materialFiltered": false,
+    "evaluationLabelsIncluded": false,
+    "providerAcceptanceVerified": false,
+    "modelPerformanceMeasured": false
+  },
+  "warnings": [],
+  "guideDestinations": [
+    "/state/classifierGuide"
+  ],
+  "stateBindings": [
+    {
+      "source": "/caseInput/configuration",
+      "destination": "/state/policy",
+      "role": "application_policy"
+    },
+    {
+      "source": "/caseInput/trustedContext",
+      "destination": "/state/trustedContext",
+      "role": "caller_supplied_context_and_provenance"
+    },
+    {
+      "source": "/caseInput/material",
+      "destination": "/state/material",
+      "role": "assessed_data_never_promoted_to_instruction"
+    }
+  ],
+  "authenticity": "The compiler preserves supplied provenance; it does not authenticate external records or create grants.",
+  "physicalRequests": 1,
+  "totalWireBytes": 19766,
+  "exactLegacyWireMatch": true,
+  "criterionDefinitionsPreserved": true,
+  "requestHash": "592066be59757f2e8a3c8579ac923ef785732918309bffc0acc9fe35bda3e81b",
+  "workbenchVersion": "0.1.0",
+  "policyHash": "9c1767fc6a56a1d8e55e14ed314ceb21664e2d1bed124688f7f9bcafd0e24005",
+  "contextHash": "3661a8aaa94172b6fc7caa71bd716cec6ca866e9577b6b45fc07390bc853479b",
+  "contextOrigins": {
+    "task": "entry",
+    "expectedRepresentation": "entry",
+    "exceptionIds": "entry",
+    "source": "entry"
+  },
+  "exampleAssignmentHash": "6e27c9938b62230adc6bd1f925a61ae1718ea3bbaa004b2ff5a398661d6e96d7",
+  "exampleOccurrences": 24,
+  "layout": "question",
+  "sourceCaseVersion": "consumer-admission-v1",
+  "logicalAssessmentHash": "47f2fcae42d1d5d9258c6c4b7ac6509f7e5d590b645c9bb9a833de41a3c3c381",
+  "contextScreen": {
+    "wireBytes": 19766,
+    "statePlusLongestQuestionBytes": 7803,
+    "tokenizer": "not available; bytes/3 is a forecast, not a limit guarantee",
+    "providerAcceptance": "unmeasured"
+  }
+}

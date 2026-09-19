@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "workbench-lineage/1",
+  "applicationVersion": "0.1.0",
+  "parentHandoff": {
+    "path": "provenance/previous-handoff.zip",
+    "sha256": "f1da5a74853dd9e2326b6fd8b602cffcd79acb2ff3a263d032c262f633cc17d7",
+    "meaning": "Immutable previous reconciliation packet; its admission status predates this new report."
+  },
+  "currentMeasuredRun": {
+    "path": "data/consumer-admission-v1.report.json",
+    "sha256": "f70d4cdfc639f3b8b5ab957830fbe6d0a5dd9ea99b1c56a74188f41e4e29836e",
+    "protocol": "consumer-admission-v1",
+    "status": "complete",
+    "planHash": "4bc192ef661de84e70299f0e1bd140a7cdd7c3321de7c5fe958620b3db79ae60",
+    "calls": 480
+  },
+  "newWorkbench": {
+    "configurationVersion": "workbench-policy/1",
+    "catalogVersion": "workbench-catalog/1",
+    "newJevObservations": 0,
+    "newCatalog": {
+      "cases": 60,
+      "groups": 21,
+      "languageProbes": 8,
+      "unicodeProbes": 2,
+      "dossierVariants": 18
+    },
+    "execution": "explicit operator confirmation required"
+  },
+  "mergeStatus": "New local source distribution; not merged into original Git checkout. Original website unchanged.",
+  "originalProject": "outputs/jev-redteam",
+  "canonicalNextStep": "Review this release and its tests; reconcile under the original work directory without overwriting historical artifacts."
+}

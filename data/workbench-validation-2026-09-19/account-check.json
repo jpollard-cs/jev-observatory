@@ -1,0 +1,14 @@
+{
+  "kind": "existing project",
+  "directory": "/Users/jordan/Documents/Codex/2026-09-16/i-g/outputs/jev-redteam",
+  "events": 4611,
+  "maximumUsd": 3,
+  "knownUsageUsd": 1.450070202,
+  "heldUsd": 0.00266469,
+  "remainingLocalAllowanceUsd": 1.547265108,
+  "historyComplete": true,
+  "haltedReason": null,
+  "providerBalanceChecked": false,
+  "credentialsRead": false,
+  "providerCalls": 0
+}

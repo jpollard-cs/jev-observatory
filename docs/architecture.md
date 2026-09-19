@@ -1,5 +1,15 @@
 # Target-path architecture
 
+## Integrated policy workbench
+
+The canonical interactive authoring application is now `workbench/`; [integration notes](workbench-integration.md) distinguish its current capabilities from the preserved research harness below. `scripts/workbench.mjs` is a thin process and account-inspection adapter. It does not load credentials, dispatch inference, change classifier requests or reinterpret historical outputs.
+
+The imported package retains its policy/setup domain, pure compiler and selection allocator, injected inference boundary, append-only account ledger, and browser presentation modules. Setup suggestions, coverage relevance and target classification remain separate purposes with separate evidence. An application description can suggest reviewed settings and help rank fixed test groups; neither operation changes gold labels or grants source authority. Draft edits invalidate advice and frozen plans. Execution still requires approval of the exact prepared plan within the original account allowance.
+
+Integration keeps the imported production sources intact, records the small documentation/browser-fixture delta in its manifest, and preserves original requests and account history. The workbench's synthetic acceptance results establish software behavior only, not live suggestion quality or classifier accuracy.
+
+## Preserved research harness
+
 The target path now has a functional domain core and a small imperative boundary. It still makes one model request per trial and does not add a detector, repair pass, fallback model, or adaptive question chain.
 
 | Layer | Responsibility | Files |
@@ -18,4 +28,20 @@ HTTP success and valid model output are separate outcomes. A native answer valid
 
 The design uses domain concepts—assessment, authorized policy, native question, typed answer and transport failure—without introducing repositories, services or inheritance where no persistence or polymorphism is needed. Pure builders and validators carry behavior; HTTP and configuration adapters carry effects.
 
-Versioned request snapshots verify that the original 12 pilot request bodies can still be reproduced byte for byte. Additional tests verify structured EntryType requests, absence of annotation leakage, dependency injection, single-attempt HTTP behavior, safe error propagation and retained evidence. These are offline checks; the new protocol is unmeasured until explicitly evaluated.
+Versioned request snapshots verify that the original pilot and advanced-v3 request bodies can still be reproduced byte for byte. Additional tests verify structured EntryType requests, absence of annotation leakage, dependency injection, single-attempt HTTP behavior, safe error propagation and retained evidence. Offline software verification and observed model performance remain separate evidence.
+
+## Campaign and reporting boundaries
+
+The campaign domain defines immutable request identities, dispatch reservations, settlement events, phase coverage and the preflight gate. `harness/application/campaign-run.mjs` coordinates these values through injected persistence and inference ports. `scripts/campaign.mjs` is the composition root for environment loading, a global process lock, append-only ledger files and durable raw evidence. The $4 ceiling is shared across campaign directories; an interrupted dispatch retains its reservation and is not automatically retried.
+
+Request bodies and the complete 15,120-case catalog are frozen before dispatch. New question contracts select prospective policy profiles 1.1 and bounded-rounding validation, while earlier versions preserve their original semantics. Schema validation never renormalizes probabilities, changes a chosen answer or infers a disposition from reason flags.
+
+Extension, representation and corpus summaries are pure functions over frozen plans and recorded answers. `scripts/report-campaign.mjs` reads completed evidence and writes separate versioned summaries. `harness/site-campaign.mjs` projects those summaries into display rows; the Site uses only precomputed snapshots. Offline Promptfoo replay reads frozen responses through a separate provider and cannot add observations or invoke the live target.
+
+## Local comparison and diagnostic boundaries
+
+`harness/domain/qwen-baseline.mjs` maps the approved native request into a lossless role-based request and validates generated outputs. `harness/adapters/local-qwen-http.mjs` owns loopback HTTP, injected fetch/clock, timeouts and retained exchanges. `scripts/qwen-baseline.mjs` is the composition root for model/runtime pins, tokenization preflight, immutable request files, one-time dispatch markers and recorded responses. These three implementation files are hash-pinned in the run manifest; changing them cannot silently continue the frozen run.
+
+`harness/domain/encoding-diagnostic.mjs` constructs the separate paired diagnostic. Its offline fixture extraction checks only annotation consistency. They are never supplied to classification inference. Classification and candidate recognition have separate requests, dispatch records and outputs.
+
+`harness/domain/followup-reports.mjs` takes plans, raw evidence and verified comparison cases as values, checks their identities, and returns reports through the shared Result type. It performs no I/O or presentation work. The reporting script loads evidence and the verified Jev completion projection, while `harness/site-followups.mjs` produces display rows. Missing observations stay missing; no layer converts reason flags, recovery answers, or another model's result into a repaired classifier answer.

@@ -1,0 +1,12 @@
+{
+  "schemaVersion": "payload-profile/1",
+  "id": "jev-criteria-factored",
+  "renderer": "jev",
+  "examplePlacement": "criterion-local",
+  "guidePlacement": "legacy-state",
+  "questionGrouping": "together",
+  "omitGuideBlocks": {},
+  "maxRequestBytes": 1500000,
+  "notes": "Same resolved example evidence, explicit default-context factoring within each question. Separate size/indirection intervention.",
+  "exampleContextLayout": "factored-per-question"
+}

@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Application metadata for test selection, not authority",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "name",
+    "description",
+    "surfaces",
+    "capabilities",
+    "focusDomains",
+    "requiredFacets"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "selection-application/1"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100,
+      "pattern": "\\S"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4000,
+      "pattern": "\\S"
+    },
+    "surfaces": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "user_messages",
+          "retrieved_documents",
+          "tool_results",
+          "conversation_history",
+          "persistent_memory",
+          "code",
+          "structured_records"
+        ]
+      }
+    },
+    "capabilities": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "read_only_analysis",
+          "external_actions",
+          "sensitive_disclosure",
+          "memory_writes",
+          "judging",
+          "moderation"
+        ]
+      }
+    },
+    "focusDomains": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "incident-review",
+          "billing-support",
+          "code-review"
+        ]
+      }
+    },
+    "requiredFacets": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "authority",
+          "task_integrity",
+          "representation",
+          "language",
+          "exception_scope",
+          "relevance",
+          "uncertainty",
+          "quotation",
+          "composition",
+          "contextual_evidence",
+          "tools_and_disclosure",
+          "persistent_state"
+        ]
+      }
+    }
+  }
+}

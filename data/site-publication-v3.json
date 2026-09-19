@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "siteUrl": "https://jev-redteam-observatory.wizard.chatgpt.site",
+  "projectId": "appgprj_6aab480f6c5c81918e6f3ed4704114a5",
+  "versionId": "appgprj_6aab480f6c5c81918e6f3ed4704114a5~appgver_35b9240ddfe08191ada666bde9e79200",
+  "deploymentId": "appgdep_6aabfd7ff1c881919e8521896c1a0c8a",
+  "sourceCommit": "2f3f37ab9b3e219d8380110b9582405eafde5df7",
+  "access": {
+    "mode": "custom",
+    "allowedUsers": 1,
+    "allowedGroups": 0,
+    "externalVisitors": 0
+  },
+  "readiness": {
+    "projectId": "appgprj_6aab480f6c5c81918e6f3ed4704114a5",
+    "siteUrl": "https://jev-redteam-observatory.wizard.chatgpt.site",
+    "ready": true,
+    "thinBootstrap": true,
+    "queryCount": 47,
+    "rowCount": 5028,
+    "uploads": [
+      {
+        "kind": "html",
+        "sha256": "c5f1a8b78385b91dd2320dc5a0a116ed44cce5bc072a620119216045c74a5539",
+        "bytes": 2964775,
+        "transport": {
+          "encoding": "identity",
+          "bytes": 2964775
+        },
+        "milliseconds": 3313
+      },
+      {
+        "kind": "snapshot",
+        "sha256": "8a30d390d6fd57cadf1273f4df5f1f1494bb0647fbca842a1179802941196908",
+        "bytes": 30370323,
+        "transport": {
+          "encoding": "identity",
+          "bytes": 30370323
+        },
+        "milliseconds": 36001
+      }
+    ],
+    "readback": {
+      "html": {
+        "sha256": "c5f1a8b78385b91dd2320dc5a0a116ed44cce5bc072a620119216045c74a5539",
+        "bytes": 2964775,
+        "milliseconds": 1662
+      },
+      "snapshot": {
+        "sha256": "8a30d390d6fd57cadf1273f4df5f1f1494bb0647fbca842a1179802941196908",
+        "bytes": 30370323,
+        "milliseconds": 2283,
+        "matchedEncoding": "snapshotResponse"
+      }
+    }
+  },
+  "checks": {
+    "completedCaseDefault": true,
+    "viewSwitchAndRecoveredNativeAnswers": true,
+    "originalAttemptPreserved": true,
+    "localBrowserErrors": 0,
+    "projectionTestsPassed": 4,
+    "hostedReadback": "Complete HTML and snapshot SHA256 match",
+    "hostedPresentationPreserved": true,
+    "hostedEditing": "not verified"
+  },
+  "githubPushed": false
+}

@@ -1,0 +1,11 @@
+{
+  "schemaVersion": "payload-profile/1",
+  "id": "jev-legacy",
+  "renderer": "jev",
+  "examplePlacement": "legacy-state",
+  "guidePlacement": "legacy-state",
+  "questionGrouping": "together",
+  "omitGuideBlocks": {},
+  "maxRequestBytes": 1500000,
+  "notes": "Exact wire control; no interpretation or placement changes."
+}

@@ -1,0 +1,16 @@
+{
+  "applicationVersion": "0.2.0",
+  "parentVersion": "0.1.0",
+  "parentArchive": "parent-workbench-0.1.zip",
+  "parentSha256": "fe9fbc67db400d847938a9f671286b58688753ed758624b29779d155bfe47059",
+  "change": "Reviewable Jev category advice and constrained composition of predefined units; no new target material or gold",
+  "newProviderCalls": 0,
+  "historicalReportUnchanged": {
+    "path": "data/consumer-admission-v1.report.json",
+    "sha256": "f70d4cdfc639f3b8b5ab957830fbe6d0a5dd9ea99b1c56a74188f41e4e29836e"
+  },
+  "activeSourceCases": 60,
+  "allocationUnits": 32,
+  "fullHistoricalIntegration": "Metadata tagging bridge only; original live/scoring adapter still pending",
+  "modelEvidence": "Software and simulated transport only for the new selection functionality"
+}

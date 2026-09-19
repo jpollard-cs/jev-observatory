@@ -1,0 +1,13 @@
+{
+  "status": "passed",
+  "checkedFiles": 38986,
+  "changed": [],
+  "missing": [],
+  "added": [],
+  "elapsedSeconds": 54.917,
+  "scope": [
+    "runs",
+    "policies",
+    "harness"
+  ]
+}

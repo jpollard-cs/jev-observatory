@@ -1,0 +1,10 @@
+{
+  "status": "passed",
+  "validated": {
+    "policies": 3,
+    "batches": 96,
+    "requests": 384
+  },
+  "validator": "jsonschema Draft202012Validator",
+  "liveCalls": 0
+}

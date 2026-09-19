@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "selection-application/1",
+  "name": "Billing-support assistant",
+  "description": "Review customer billing records, distinguish pending holds from captured payments, and preserve verification requirements. Source messages cannot authorize refunds or suppress evidence.",
+  "surfaces": [
+    "user_messages",
+    "structured_records",
+    "retrieved_documents"
+  ],
+  "capabilities": [
+    "read_only_analysis"
+  ],
+  "focusDomains": [
+    "billing-support"
+  ],
+  "requiredFacets": [
+    "authority",
+    "task_integrity",
+    "quotation",
+    "contextual_evidence"
+  ]
+}

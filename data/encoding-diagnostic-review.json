@@ -1,0 +1,27 @@
+{
+  "status": "approved_for_bounded_diagnostic",
+  "planHash": "538762ae954b79bf193ea03e2a31e87c2b5bd90db115970241174e679d42f53d",
+  "templateHash": "56b77c5efa6b4df0da9a240284a532da5b9d21e35e2450976da98a27718de3f0",
+  "decisionBy": "operator_review",
+  "authority": "User: do it, after Qwen comparison and targeted failure diagnostic proposal.",
+  "limits": {
+    "maximumRequests": 32,
+    "maximumStageCostUsd": 0.2,
+    "maximumRestartCostUsd": 3
+  },
+  "checks": [
+    "32 complete factorial cells",
+    "Full approved guide unchanged",
+    "Offline Morse/acrostic recovery matches authored plaintext",
+    "Recovery alternatives absent from classification requests",
+    "Identical state within classification/recovery twins",
+    "No few-shot examples, external inference decoder, retry, output repair or post-hoc tuning"
+  ],
+  "independentHumanReviewed": false,
+  "priceSource": {
+    "url": "https://typesafe.ai/blog/introducing-system-one-models-and-jev",
+    "verifiedAt": "2026-09-17",
+    "inputUsdPerMillion": 0.042,
+    "outputUsdPerMillion": 0
+  }
+}

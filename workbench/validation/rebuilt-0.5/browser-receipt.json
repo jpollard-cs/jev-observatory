@@ -1,0 +1,1245 @@
+{
+  "version": "0.5.0-rebuilt",
+  "mode": "real ES modules + API-only loopback bridge",
+  "browser": "Chromium",
+  "checks": 242,
+  "passed": 242,
+  "failures": [],
+  "checkedConditions": 88,
+  "checkedRows": 6224,
+  "syntheticSetupCalls": 1,
+  "realProviderCalls": 0,
+  "checksDetail": [
+    {
+      "name": "starts with guided application view",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "five-step rail without fabricated completion",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "galaxy defaults on",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "startup has no synthetic inference",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence is available before setup",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "typing does not request model advice",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "first review advances to rules",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "policy tradeoffs not security score",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "two reviewed setup steps",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "blank budget cannot block evidence",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "large budget accepted",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "catalog saturation explained",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "advanced input-size cap is hidden by default",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "review uses exact CLI plan approval",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "command is valid shell syntax",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "saved is not marked executed",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/smoke:classification:minimal:balanced:binary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/smoke:classification:minimal:balanced:binary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound inspector opens: 1",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/smoke:classification:policy:permissive:structured",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/smoke:classification:policy:permissive:structured",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/smoke:classification:policy:permissive:binary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/smoke:classification:policy:permissive:binary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/smoke:classification:policy:balanced:scores",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/smoke:classification:policy:balanced:scores",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/smoke:classification:minimal:balanced:scores",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/smoke:classification:minimal:balanced:scores",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/smoke:classification:minimal:balanced:structured",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/smoke:classification:minimal:balanced:structured",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/representation:structured:primary_only:original",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/representation:structured:primary_only:original",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/representation:structured:primary_only:reversed",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/representation:structured:primary_only:reversed",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/representation:structured:full:original",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/representation:structured:full:original",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound inspector opens: 9",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/representation:lossless_string:full:original",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/representation:lossless_string:full:original",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/representation:structured:full:reversed",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/representation:structured:full:reversed",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/representation:lossless_string:primary_only:original",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/representation:lossless_string:primary_only:original",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/representation:lossless_string:primary_only:reversed",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/representation:lossless_string:primary_only:reversed",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/representation:lossless_string:full:reversed",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/representation:lossless_string:full:reversed",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/matrix:classification:policy:permissive:binary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/matrix:classification:policy:permissive:binary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/matrix:classification:policy:strict:binary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/matrix:classification:policy:strict:binary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/matrix:moderation:policy:balanced:structured",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/matrix:moderation:policy:balanced:structured",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/matrix:judge:policy:strict:binary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/matrix:judge:policy:strict:binary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound inspector opens: 18",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/matrix:classification:minimal:balanced:scores",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/matrix:classification:minimal:balanced:scores",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/matrix:classification:policy:strict:structured",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/matrix:classification:policy:strict:structured",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/matrix:classification:policy:balanced:structured",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/matrix:classification:policy:balanced:structured",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/matrix:classification:minimal:balanced:structured",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/matrix:classification:minimal:balanced:structured",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/matrix:classification:policy:balanced:binary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/matrix:classification:policy:balanced:binary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/matrix:moderation:policy:permissive:structured",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/matrix:moderation:policy:permissive:structured",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/matrix:classification:policy:strict:scores",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/matrix:classification:policy:strict:scores",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/matrix:classification:policy:permissive:structured",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/matrix:classification:policy:permissive:structured",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/matrix:moderation:policy:balanced:binary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/matrix:moderation:policy:balanced:binary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound inspector opens: 27",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/matrix:classification:policy:permissive:scores",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/matrix:classification:policy:permissive:scores",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/matrix:moderation:policy:permissive:binary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/matrix:moderation:policy:permissive:binary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/matrix:moderation:policy:strict:structured",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/matrix:moderation:policy:strict:structured",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/matrix:classification:policy:balanced:scores",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/matrix:classification:policy:balanced:scores",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/matrix:judge:minimal:balanced:structured",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/matrix:judge:minimal:balanced:structured",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/matrix:judge:policy:balanced:structured",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/matrix:judge:policy:balanced:structured",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/matrix:judge:policy:permissive:scores",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/matrix:judge:policy:permissive:scores",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/matrix:judge:policy:permissive:binary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/matrix:judge:policy:permissive:binary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/matrix:classification:minimal:balanced:binary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/matrix:classification:minimal:balanced:binary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound inspector opens: 36",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/matrix:judge:policy:permissive:structured",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/matrix:judge:policy:permissive:structured",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/matrix:judge:policy:strict:scores",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/matrix:judge:policy:strict:scores",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/matrix:moderation:policy:balanced:scores",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/matrix:moderation:policy:balanced:scores",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/matrix:judge:policy:balanced:binary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/matrix:judge:policy:balanced:binary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/matrix:moderation:policy:strict:binary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/matrix:moderation:policy:strict:binary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/matrix:judge:policy:balanced:scores",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/matrix:judge:policy:balanced:scores",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/matrix:judge:policy:strict:structured",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/matrix:judge:policy:strict:structured",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/matrix:moderation:policy:permissive:scores",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/matrix:moderation:policy:permissive:scores",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/matrix:judge:minimal:balanced:binary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/matrix:judge:minimal:balanced:binary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound inspector opens: 45",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/matrix:moderation:policy:strict:scores",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/matrix:moderation:policy:strict:scores",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/matrix:judge:minimal:balanced:scores",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/matrix:judge:minimal:balanced:scores",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/extensions:judge",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/extensions:judge",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/extensions:integrity",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/extensions:integrity",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/extensions:scope",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/extensions:scope",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-campaign/extensions:moderation",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-campaign/extensions:moderation",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-encoding/recovery:plaintext",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-encoding/recovery:plaintext",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-encoding/classification:plaintext",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-encoding/classification:plaintext",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-encoding/recovery:encoded",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-encoding/recovery:encoded",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound inspector opens: 54",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: original-encoding/classification:encoded",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: original-encoding/classification:encoded",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: consumer-admission-v1/rich_control",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: consumer-admission-v1/rich_control",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: consumer-admission-v1/compact_both",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: consumer-admission-v1/compact_both",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: consumer-admission-v1/inspection_question",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: consumer-admission-v1/inspection_question",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: consumer-admission-v1/inspection_criteria",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: consumer-admission-v1/inspection_criteria",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: consumer-admission-v1/strict_question",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: consumer-admission-v1/strict_question",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: consumer-admission-v1/strict_criteria",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: consumer-admission-v1/strict_criteria",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: consumer-admission-v1/contextual_question",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: consumer-admission-v1/contextual_question",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: consumer-admission-v1/contextual_criteria",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: consumer-admission-v1/contextual_criteria",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound inspector opens: 63",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: boundary-fewshot-v2/rich_control",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: boundary-fewshot-v2/rich_control",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: boundary-fewshot-v2/core_fewshot_reference",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: boundary-fewshot-v2/core_fewshot_reference",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: boundary-fewshot-v2/compact_both",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: boundary-fewshot-v2/compact_both",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: boundary-fewshot-v2/restored_legacy_examples",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: boundary-fewshot-v2/restored_legacy_examples",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: boundary-fewshot-v2/restored_revised_examples",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: boundary-fewshot-v2/restored_revised_examples",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: boundary-fewshot-v2/restored_open_set",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: boundary-fewshot-v2/restored_open_set",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: boundary-fewshot-v2/restored_open_set_diagnostics",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: boundary-fewshot-v2/restored_open_set_diagnostics",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: prompt-variant-lab-v1/rich_control",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: prompt-variant-lab-v1/rich_control",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: prompt-variant-lab-v1/rich_trim_questions",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: prompt-variant-lab-v1/rich_trim_questions",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound inspector opens: 72",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: prompt-variant-lab-v1/rich_trim_taxonomy",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: prompt-variant-lab-v1/rich_trim_taxonomy",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: prompt-variant-lab-v1/boundary_core",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: prompt-variant-lab-v1/boundary_core",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: prompt-variant-lab-v1/rich_fewshot",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: prompt-variant-lab-v1/rich_fewshot",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: prompt-variant-lab-v1/core_fewshot",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: prompt-variant-lab-v1/core_fewshot",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: prompt-variant-lab-v1/compact_control",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: prompt-variant-lab-v1/compact_control",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: prompt-variant-lab-v1/compact_contract",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: prompt-variant-lab-v1/compact_contract",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: prompt-variant-lab-v1/compact_integrity",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: prompt-variant-lab-v1/compact_integrity",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: prompt-variant-lab-v1/compact_both",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: prompt-variant-lab-v1/compact_both",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: prompt-variant-lab-v1/compact_array_wire",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: prompt-variant-lab-v1/compact_array_wire",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound inspector opens: 81",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: prompt-variant-lab-v1/compact_array_logical",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: prompt-variant-lab-v1/compact_array_logical",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: prompt-variant-lab-v1/features_plain_code",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: prompt-variant-lab-v1/features_plain_code",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: prompt-variant-lab-v1/features_fewshot_code",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: prompt-variant-lab-v1/features_fewshot_code",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: prompt-variant-lab-v1/mapper_plain",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: prompt-variant-lab-v1/mapper_plain",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: prompt-variant-lab-v1/mapper_fewshot",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: prompt-variant-lab-v1/mapper_fewshot",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: compact-single-pass-48-v1/compact_control",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: compact-single-pass-48-v1/compact_control",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "evidence condition renders: compact-single-pass-48-v1/historical_reference",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "condition selection remains bound: compact-single-pass-48-v1/historical_reference",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "all six archived reports accessible",
+      "pass": true,
+      "detail": {
+        "conditions": 88,
+        "rows": 6224
+      }
+    },
+    {
+      "name": "strict expected-block filter has rows",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "strict block filter not relabeled allow",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "atlas retained",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "historical suite workflow retained",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "setup preparation does not infer",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "exact setup request inspector contains all definitions",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "key is optional until paid approval",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "key load is offline",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "password input clears",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "no key in browser storage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "paid review discloses count and exact destination",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "cancel sends nothing",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "one and only one simulated request",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "all setup proposals start unchecked",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "apply disabled until selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "selected languages applied",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "unselected mode not applied",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "undo restores old languages",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "apply and undo make no additional inference",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "stale advice cannot be selected",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "stale state visible",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "key forgotten without new inference",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "no horizontal overflow 390x844",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "mobile full-height drawer",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "mobile escape closes navigation",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "mobile token help explains whole plan",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "help remains within mobile viewport",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "escape dismisses help",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "no browser module errors 390x844",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "no horizontal overflow 1080x1920",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "sidebar spans viewport 1080x1920",
+      "pass": true,
+      "detail": {
+        "x": 0,
+        "y": 0,
+        "width": 218,
+        "height": 1920
+      }
+    },
+    {
+      "name": "no browser module errors 1080x1920",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "no horizontal overflow 1440x2560",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "sidebar spans viewport 1440x2560",
+      "pass": true,
+      "detail": {
+        "x": 0,
+        "y": 0,
+        "width": 244,
+        "height": 2560
+      }
+    },
+    {
+      "name": "no browser module errors 1440x2560",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "no horizontal overflow 1280x650",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "sidebar spans viewport 1280x650",
+      "pass": true,
+      "detail": {
+        "x": 0,
+        "y": 0,
+        "width": 218,
+        "height": 650
+      }
+    },
+    {
+      "name": "no browser module errors 1280x650",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "no primary page module errors",
+      "pass": true,
+      "detail": []
+    }
+  ],
+  "limitations": [
+    "Bridge run does not validate browser-to-loopback transport or CSP; HTTP security has separate tests."
+  ]
+}

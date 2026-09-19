@@ -1,0 +1,276 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "policy-pack",
+  "type": "object",
+  "properties": {
+    "guidance": {
+      "type": "object",
+      "properties": {
+        "format": {
+          "enum": [
+            "markdown",
+            "ordered-object"
+          ]
+        },
+        "sourceHash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "blocks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "heading": {
+                "type": "string"
+              },
+              "source": {
+                "type": "object",
+                "properties": {
+                  "pointer": {
+                    "type": "string"
+                  },
+                  "startUtf16": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "endUtf16": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "startLine": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "endLine": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                },
+                "required": [
+                  "pointer"
+                ],
+                "additionalProperties": false
+              },
+              "content": {},
+              "contentHash": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "sourceKey": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "heading",
+              "source",
+              "content",
+              "contentHash"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "format",
+        "sourceHash",
+        "blocks"
+      ],
+      "additionalProperties": false
+    },
+    "judgments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_.-]*$"
+          },
+          "kind": {
+            "enum": [
+              "categorical",
+              "boolean-proposition",
+              "ordinal-rubric"
+            ]
+          },
+          "instructions": {
+            "type": [
+              "string",
+              "object",
+              "array",
+              "null"
+            ]
+          },
+          "criteria": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "key": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": [
+                    "string",
+                    "object",
+                    "array",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "key",
+                "description"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "hasCriteria": {
+            "type": "boolean"
+          },
+          "dependsOn": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          },
+          "requiredGuideBlocks": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          },
+          "originalFieldOrder": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "type",
+                "instructions",
+                "criteria"
+              ]
+            },
+            "uniqueItems": true,
+            "minItems": 2
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "instructions",
+          "criteria",
+          "hasCriteria",
+          "dependsOn",
+          "requiredGuideBlocks",
+          "originalFieldOrder"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "demonstrations": {
+      "type": "object",
+      "properties": {
+        "sourceHash": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "corpus": {
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "examples": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "family": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "sourcePointer": {
+                "type": "string"
+              },
+              "content": {
+                "type": "object"
+              },
+              "contentHash": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "labels": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "type": [
+                        "string",
+                        "boolean",
+                        "number"
+                      ]
+                    },
+                    "origin": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "value",
+                    "origin"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "originalProfile": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "id",
+              "family",
+              "sourcePointer",
+              "content",
+              "contentHash",
+              "labels",
+              "originalProfile"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "sourceHash",
+        "corpus",
+        "examples"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "guidance",
+    "judgments",
+    "demonstrations"
+  ],
+  "additionalProperties": false
+}

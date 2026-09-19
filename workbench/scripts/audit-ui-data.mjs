@@ -1,0 +1,19 @@
+#!/usr/bin/env node
+/** Offline data/presentation audit. Optional --baseline points to an extracted 0.2 release. */
+import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {createHash} from 'node:crypto';import {fileURLToPath,pathToFileURL} from 'node:url';
+import {CATALOG} from '../src/catalog.mjs';import {preset} from '../src/policy.mjs';import {compileCase} from '../src/compiler.mjs';
+import {loadEvidence,evidenceLibrary} from '../src/evidence-library.mjs';import {categoricalCounts,confusion} from '../public/evidence-model.js';
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..'),sha=x=>createHash('sha256').update(x).digest('hex');
+try{
+ const i=process.argv.indexOf('--baseline'),baseline=i>=0?path.resolve(process.argv[i+1]??''):null;
+ const parent=JSON.parse(fs.readFileSync(path.join(root,'provenance/parent-workbench-0.2-manifest.json'),'utf8'));
+ let sameRequests=null;if(baseline){assert.equal(JSON.parse(fs.readFileSync(path.join(baseline,'package.json'))).version,'0.2.0');const old=await import(pathToFileURL(path.join(baseline,'src/compiler.mjs')).href);sameRequests=0;for(const mode of ['strict','contextual','inspection'])for(const c of CATALOG)for(const layout of ['question','criteria']){assert.deepEqual(old.compileCase(preset(mode),c,layout).request,compileCase(preset(mode),c,layout).request);sameRequests++;}}
+ const names=['src/policy.mjs','src/catalog.mjs','src/compiler.mjs','src/planner.mjs','src/runner.mjs','src/storage.mjs','cli.mjs','selection.mjs','data/consumer-admission-v1.report.json','data/context-cases.json',...fs.readdirSync(path.join(root,'src/selection')).filter(n=>fs.statSync(path.join(root,'src/selection',n)).isFile()).map(n=>'src/selection/'+n)];
+ const unchanged={};for(const file of names){const h=sha(fs.readFileSync(path.join(root,file)));assert.equal(h,parent.files[file],file);unchanged[file]=h;}
+ const vendor=Object.keys(parent.files).filter(n=>n.startsWith('vendor/'));for(const file of vendor)assert.equal(sha(fs.readFileSync(path.join(root,file))),parent.files[file],file);
+ const reports=evidenceLibrary().map(item=>{const r=loadEvidence(item.id),file=item.id==='consumer-admission-v1'?'data/consumer-admission-v1.report.json':'data/history/'+item.id+'.report.json',source=JSON.parse(fs.readFileSync(path.join(root,file),'utf8'));let bindings=0;
+  for(const c of r.conditions){const original=source.protocol==='compact-single-pass-48-v1'?(c.id==='compact_control'?source.rows:source.rows.map(x=>x.baseline)):source.conditions[c.id].rows;assert.equal(c.rows.length,original.length);for(let j=0;j<c.rows.length;j++){assert.deepEqual(c.rows[j].sourceExpected,original[j].expected);assert.deepEqual(c.rows[j].rawAnswers,original[j].answers??{});bindings++;}}
+  return {...item,observationRows:r.observationRows,bindingsChecked:bindings,conditions:r.conditions.map(c=>({id:c.id,rows:c.rows.length,expectedDecisions:categoricalCounts(c.rows,'policy_decision'),matrixTotal:confusion(c.rows,'policy_decision').total}))};});
+ const result={schemaVersion:'workbench-data-binding-audit/1',baseline:'delivered 0.2 ZIP',candidate:'0.3.0',sameCompiledModelRequests:sameRequests,unchanged,unchangedVendorFiles:vendor.length,reportSourceBindings:reports,totalBindingsChecked:reports.reduce((n,r)=>n+r.bindingsChecked,0),policyLabelsRewritten:0,liveCalls:0,limitations:['This verifies supplied report bytes and their presentation binding, not provider-signed attestation or the original raw HTTP response files.','Display observations include a historical baseline and reused stage evidence; they are not additional model calls.','No historical result validates an edited policy draft.']};
+ console.log(JSON.stringify(result,null,2));
+}catch(error){console.error(error.stack??error.message);process.exitCode=1;}

@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "render-profile",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "const": "payload-profile/1"
+    },
+    "id": {
+      "type": "string"
+    },
+    "renderer": {
+      "enum": [
+        "jev",
+        "chat-envelope"
+      ]
+    },
+    "examplePlacement": {
+      "enum": [
+        "legacy-state",
+        "question-local",
+        "criterion-local"
+      ]
+    },
+    "guidePlacement": {
+      "enum": [
+        "legacy-state",
+        "structured-state",
+        "question-local"
+      ]
+    },
+    "questionGrouping": {
+      "enum": [
+        "together",
+        "one-per-request"
+      ]
+    },
+    "omitGuideBlocks": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "maxRequestBytes": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "notes": {
+      "type": "string"
+    },
+    "exampleContextLayout": {
+      "enum": [
+        "inline",
+        "factored-per-question"
+      ]
+    },
+    "questionGuideOmissions": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "id",
+    "renderer",
+    "examplePlacement",
+    "guidePlacement",
+    "questionGrouping",
+    "maxRequestBytes"
+  ],
+  "additionalProperties": false
+}

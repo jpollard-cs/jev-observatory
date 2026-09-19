@@ -5,6 +5,81 @@
   padding: 4px 0 18px;
   font-size: 16px;
 }
+.rich-pilot-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  padding: 14px 0;
+}
+.rich-pilot-summary > div {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.rich-pilot-summary strong {
+  font-size: clamp(23px, 2.3vw, 34px);
+  font-weight: 550;
+  color: var(--cyan);
+}
+.rich-pilot-summary span {
+  font-size: 15px;
+}
+.rich-pilot-summary small {
+  color: var(--secondary);
+  font-size: 13px;
+}
+.rich-input-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  color: var(--secondary);
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+.rich-input-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 20px;
+}
+.rich-input-grid section {
+  min-width: 0;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 18px;
+  background: var(--surface);
+}
+.rich-input-grid h4 {
+  margin: 0;
+  color: var(--cyan);
+  font-size: 16px;
+}
+.rich-input-grid pre,
+.rich-input-padding pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  max-height: 480px;
+  overflow: auto;
+  font:
+    13px/1.7 ui-monospace,
+    monospace;
+}
+.rich-input-padding details {
+  border-bottom: 1px solid var(--border);
+  padding: 14px 0;
+}
+.rich-input-padding summary {
+  cursor: pointer;
+  color: var(--secondary);
+}
+@media (max-width: 720px) {
+  .rich-pilot-summary {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+  .rich-input-grid {
+    grid-template-columns: 1fr;
+  }
+}
 .jev-status {
   display: flex;
   align-items: center;
@@ -914,5 +989,94 @@
   }
   .jev-observatory .expiry-bars span {
     grid-column: 1 / -1;
+  }
+}
+.jev-observatory .campaign-evidence {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 24px;
+  margin: 30px 0;
+  min-width: 0;
+}
+.jev-observatory .campaign-evidence > * {
+  min-width: 0;
+}
+.jev-observatory .campaign-evidence summary {
+  overflow-wrap: anywhere;
+  cursor: pointer;
+}
+.jev-observatory .campaign-intro {
+  border-top: 1px solid #315163;
+  padding: 30px 0 0;
+}
+.jev-observatory .campaign-intro h3 {
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 500;
+  margin: 12px 0;
+}
+.jev-observatory .campaign-intro p {
+  max-width: 900px;
+  color: #adc5d2;
+  line-height: 1.6;
+}
+.jev-observatory .campaign-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 22px;
+}
+.jev-observatory .campaign-two-up {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 24px;
+}
+.jev-observatory .campaign-two-up > * {
+  min-width: 0;
+}
+.jev-observatory .campaign-budget {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 22px;
+  padding: 22px 0;
+}
+.jev-observatory .campaign-budget b {
+  display: block;
+  font-size: clamp(24px, 2.5vw, 38px);
+  font-weight: 500;
+  color: #77e8c6;
+  font-variant-numeric: tabular-nums;
+}
+.jev-observatory .campaign-budget span {
+  display: block;
+  color: #adc5d2;
+  font-size: 13px;
+  margin-top: 8px;
+  line-height: 1.5;
+}
+@media (max-width: 850px) {
+  .jev-observatory .campaign-two-up {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .jev-observatory .campaign-budget {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Follow-up evidence shares the Observatory surfaces and responsive typography. */
+.jev-observatory .followup-findings {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+  margin: 1.5rem 0 2rem;
+}
+.jev-observatory .followup-findings p {
+  border-left: 2px solid var(--chart-1);
+  padding-left: 1rem;
+  line-height: 1.6;
+}
+@media (max-width: 720px) {
+  .jev-observatory .followup-findings {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
   }
 }

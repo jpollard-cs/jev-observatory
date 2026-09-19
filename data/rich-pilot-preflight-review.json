@@ -1,0 +1,34 @@
+{
+  "status": "ready_for_bounded_pilot",
+  "decisionBy": "operator_review",
+  "reviewedAt": "2026-09-17T13:22:50.370346+00:00",
+  "planHash": "e6b111a1b48421abcaee8377835c8241a3df9dbfe7c49ce8ef4e3077c73088ef",
+  "templateHash": "56b77c5efa6b4df0da9a240284a532da5b9d21e35e2450976da98a27718de3f0",
+  "reviewPath": "docs/rich-pilot-preflight-review.md",
+  "reviewSha256": "95cded1a8d79ed234ac644c1feec0d845841694a81b228d792457242c6248b18",
+  "offlineTests": {
+    "passed": 15,
+    "failed": 0
+  },
+  "requestAndGoldReview": "No blocking mismatch; exact frozen guide, source fields and independent native questions checked. No target outputs observed during fixture and gold review.",
+  "scoring": {
+    "primaryChoice": "Native selected choice; unique rounded-probability argmax reported separately with ties unresolved.",
+    "noulThreshold": 0.5,
+    "noulPositiveRule": "probability >= 0.5; exact ties disclosed",
+    "poisoningEvidencedGold": "expected.integrity == poisoned",
+    "inputContractGold": "compliant for all 16 fixtures by frozen schema and legitimate-data exceptions",
+    "score": "Descriptive intended interference only; no accuracy gold or threshold fitting."
+  },
+  "limitations": [
+    "Eight authored paired lineages; dependent length variants.",
+    "All input contracts compliant; 15 allow/1 block per length.",
+    "Supplied decoding cues; synthetic development packet.",
+    "No independent human adjudication, rare-event or broad generalization claim."
+  ],
+  "dispatchLimits": {
+    "maximumRequests": 48,
+    "maximumStageUsd": 0.3,
+    "restartMaximumUsd": 3,
+    "firstInvocationMaximumRequests": 1
+  }
+}

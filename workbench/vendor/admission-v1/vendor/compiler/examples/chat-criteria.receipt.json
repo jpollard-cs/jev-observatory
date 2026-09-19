@@ -1,0 +1,1818 @@
+{
+  "schemaVersion": "payload-receipt/1",
+  "assessmentHash": "d80fd11826670ec264c1c9fb635d2f4ee02e85bb62f5f42ecea4efc3a4dc60fb",
+  "profileHash": "79e4da23b9db4bbde36d84fc3cde2ed71dc5be4a98c255b2df448c5583f8ce84",
+  "sourceRequestHash": "cc0254227ecc7ee48c52314aeeb1269e7f47a7b65d57dde591c99f609c9b5b38",
+  "sourceGuideHash": "815123bb710e84180900d1489b7f66beba59293e0c3e702922a9e7b62f1de6d0",
+  "profileId": "chat-criteria",
+  "renderer": "chat-envelope",
+  "modelSelector": null,
+  "changes": [
+    "resolved_per_question_examples",
+    "example_placement:criterion-local",
+    "generic_generative_message_envelope"
+  ],
+  "includedGuideBlocks": [
+    {
+      "id": "g001",
+      "contentHash": "7c0659e91d67c77b964e4a9a33aa8af9e9fccbcff69f38cf89d580747247b0d4",
+      "source": {
+        "pointer": "/state/classifierGuide/1"
+      }
+    },
+    {
+      "id": "g002",
+      "contentHash": "d141142e1573b40c53e9d76799d9c37ad850939636ee5b44bdb8f98cd7151434",
+      "source": {
+        "pointer": "/state/classifierGuide/3"
+      }
+    },
+    {
+      "id": "g003",
+      "contentHash": "a8d9c024fd46821522f04a87e92f780a05616013ce6380a5537183d177296600",
+      "source": {
+        "pointer": "/state/classifierGuide/4"
+      }
+    },
+    {
+      "id": "g004",
+      "contentHash": "d636b0e975e2a7b8e46b505998ccdbe786741e6a3812343dd9119bbb9e5f4c52",
+      "source": {
+        "pointer": "/state/classifierGuide/5"
+      }
+    },
+    {
+      "id": "g005",
+      "contentHash": "673c8d7512b563e974c3d426ff201fca231966a8f1f8aadf070dcc17e13d1e01",
+      "source": {
+        "pointer": "/state/classifierGuide/6"
+      }
+    },
+    {
+      "id": "g006",
+      "contentHash": "d873ff52beb2471d8e5a84829d407ec6ff08a857a6d4e9614901b9e669a27433",
+      "source": {
+        "pointer": "/state/classifierGuide/7"
+      }
+    },
+    {
+      "id": "g007",
+      "contentHash": "2faabf1137f48fa337aab3e943b3b4f40c063918072d1bb375fc638c8f908fd4",
+      "source": {
+        "pointer": "/state/classifierGuide/8"
+      }
+    },
+    {
+      "id": "g008",
+      "contentHash": "6b221214bdac8deedfa32fc02ef5f5ae145a762b8f1a46d5352b2fac8e18df41",
+      "source": {
+        "pointer": "/state/classifierGuide/9"
+      }
+    },
+    {
+      "id": "g009",
+      "contentHash": "3fbfbd8d034db0c81bcbf9837bc48b5210e32d082c01720884cce9081398e1c1",
+      "source": {
+        "pointer": "/state/classifierGuide/10"
+      }
+    },
+    {
+      "id": "g010",
+      "contentHash": "ab459b4e9663757d44b1261c6bc0ba580a97c5f03df5254614948118c79d56db",
+      "source": {
+        "pointer": "/state/classifierGuide/11"
+      }
+    },
+    {
+      "id": "g011",
+      "contentHash": "6e21947d7e2bfdccb4e3f156f4b8a033d8abed0e1a9e6be5f584e3e1191d8ec3",
+      "source": {
+        "pointer": "/state/classifierGuide/version"
+      }
+    },
+    {
+      "id": "g012",
+      "contentHash": "8daa81ef614943d7fe44bc3bf9e14c968fa080305b684c84cbbbb35260bc3ca1",
+      "source": {
+        "pointer": "/state/classifierGuide/2.1"
+      }
+    }
+  ],
+  "omittedGuideBlocks": [],
+  "questionGuideSelections": [],
+  "examples": [
+    {
+      "question": "classification",
+      "assigned": [
+        {
+          "id": "demo-001",
+          "criterion": "attack",
+          "origin": "authored_profile",
+          "contentHash": "16b77a82a3009609faedd5cbf8c6409340d3b5bf5a69390aab2450b4684055bd",
+          "destination": "/questions/classification/criteria/attack/examples"
+        },
+        {
+          "id": "demo-002",
+          "criterion": "benign",
+          "origin": "authored_profile",
+          "contentHash": "3be1d6799ef50bd9c7588fad00c881befd71c02d404613f59f7459b27b4bc2dd",
+          "destination": "/questions/classification/criteria/benign/examples"
+        },
+        {
+          "id": "demo-003",
+          "criterion": "attack",
+          "origin": "authored_profile",
+          "contentHash": "1f6133279993b48131b847e76c84a903ca5af807978704fb96ec24bc6f5ab5d9",
+          "destination": "/questions/classification/criteria/attack/examples"
+        },
+        {
+          "id": "demo-004",
+          "criterion": "benign",
+          "origin": "authored_profile",
+          "contentHash": "9b0487815b71da258701856b89c8eaa926fcaf56cd0e47defe822ead27f763c1",
+          "destination": "/questions/classification/criteria/benign/examples"
+        },
+        {
+          "id": "demo-005",
+          "criterion": "attack",
+          "origin": "authored_profile",
+          "contentHash": "9a5ffd32e00b313d3353d8331fa7c129f8edbb92065e7f4b109e236469847450",
+          "destination": "/questions/classification/criteria/attack/examples"
+        },
+        {
+          "id": "demo-006",
+          "criterion": "benign",
+          "origin": "authored_profile",
+          "contentHash": "d98b30d22ff0cc74b70b19e686be33a270aee4b2402d509a6851d8366b0e7f36",
+          "destination": "/questions/classification/criteria/benign/examples"
+        },
+        {
+          "id": "demo-007",
+          "criterion": "attack",
+          "origin": "authored_profile",
+          "contentHash": "5689fbb4942fd6388e952327466ff4bb4d82515765b2fd6f63fdca3df10f19bf",
+          "destination": "/questions/classification/criteria/attack/examples"
+        },
+        {
+          "id": "demo-008",
+          "criterion": "benign",
+          "origin": "authored_profile",
+          "contentHash": "1c15bbd77aa1015063320d30ba90e5d53b89f0e3b332e0b8f115a72068f0492f",
+          "destination": "/questions/classification/criteria/benign/examples"
+        },
+        {
+          "id": "demo-009",
+          "criterion": "attack",
+          "origin": "authored_profile",
+          "contentHash": "8f0f9cd67daffde46a89cf51e0ea03f6de67e703032e4e28a4d0df6a90cdae75",
+          "destination": "/questions/classification/criteria/attack/examples"
+        },
+        {
+          "id": "demo-010",
+          "criterion": "benign",
+          "origin": "authored_profile",
+          "contentHash": "f43f63a2019fdebf1dd3fa189797800734c0c2105fa30aabeb209ad73c56c596",
+          "destination": "/questions/classification/criteria/benign/examples"
+        },
+        {
+          "id": "demo-011",
+          "criterion": "attack",
+          "origin": "authored_profile",
+          "contentHash": "796fa979b07b681c3a2b7274af8c527ab49f998c4b47bdd38f6470613bf7ff69",
+          "destination": "/questions/classification/criteria/attack/examples"
+        },
+        {
+          "id": "demo-012",
+          "criterion": "benign",
+          "origin": "authored_profile",
+          "contentHash": "adc08fcdafa433a6d6724d2b2676ad7a72b0a30ee98df82e8cbcf7a6cedff7ac",
+          "destination": "/questions/classification/criteria/benign/examples"
+        },
+        {
+          "id": "demo-013",
+          "criterion": "attack",
+          "origin": "authored_profile",
+          "contentHash": "a8c29c0243dde3e07416a1222a15ad728a2c8e0844fada2e8060c59f48aad7a4",
+          "destination": "/questions/classification/criteria/attack/examples"
+        },
+        {
+          "id": "demo-014",
+          "criterion": "benign",
+          "origin": "authored_profile",
+          "contentHash": "d06e569e9055d0c14fc31d7de97e48fdd96fbf54af56e0a42ac870c2166435d2",
+          "destination": "/questions/classification/criteria/benign/examples"
+        },
+        {
+          "id": "demo-015",
+          "criterion": "attack",
+          "origin": "authored_profile",
+          "contentHash": "b4bfb1187ffecf39e05bebbe31046a8a67ed5d27831772ee7f2aee59e4a0c044",
+          "destination": "/questions/classification/criteria/attack/examples"
+        },
+        {
+          "id": "demo-016",
+          "criterion": "benign",
+          "origin": "authored_profile",
+          "contentHash": "6f1cab2e409b425f7ad0b6639bcd4d4dbaf7a9a1294fbba2156d4eddf10592e9",
+          "destination": "/questions/classification/criteria/benign/examples"
+        },
+        {
+          "id": "demo-017",
+          "criterion": "attack",
+          "origin": "authored_profile",
+          "contentHash": "8d81bb349cbfa346d1e07a16f574644f65c36c266020ed827ba9717b330fa54e",
+          "destination": "/questions/classification/criteria/attack/examples"
+        },
+        {
+          "id": "demo-018",
+          "criterion": "benign",
+          "origin": "authored_profile",
+          "contentHash": "f9b0dc8e88f213aaaf23d65d936cad44b3526def915063ad1b98dbc3b3edf778",
+          "destination": "/questions/classification/criteria/benign/examples"
+        },
+        {
+          "id": "demo-019",
+          "criterion": "attack",
+          "origin": "authored_profile",
+          "contentHash": "bae04a4d517c2991380b43184402dba2485eb850146b1216517509891e1bb883",
+          "destination": "/questions/classification/criteria/attack/examples"
+        },
+        {
+          "id": "demo-020",
+          "criterion": "benign",
+          "origin": "authored_profile",
+          "contentHash": "1ce48d5a05ec8105a45c387e62beb545168fff7aaacd80b57dfb7761b27bd765",
+          "destination": "/questions/classification/criteria/benign/examples"
+        },
+        {
+          "id": "demo-021",
+          "criterion": "attack",
+          "origin": "authored_profile",
+          "contentHash": "9efe0400426d4d6341e72400a1005c86a685a4f87e5a2b5c15ab95f60e8b5d08",
+          "destination": "/questions/classification/criteria/attack/examples"
+        },
+        {
+          "id": "demo-022",
+          "criterion": "benign",
+          "origin": "authored_profile",
+          "contentHash": "2c42e356d327f2829d184dacc904108697fef520039946c333f1596351f054d1",
+          "destination": "/questions/classification/criteria/benign/examples"
+        },
+        {
+          "id": "demo-023",
+          "criterion": "attack",
+          "origin": "authored_profile",
+          "contentHash": "9f22f6bc23e7039b7dbd7bc37ab770ecd4d66f9e6bf0864ee04dde6951a4e5d3",
+          "destination": "/questions/classification/criteria/attack/examples"
+        },
+        {
+          "id": "demo-024",
+          "criterion": "benign",
+          "origin": "authored_profile",
+          "contentHash": "1eaf1df1a599fd8b8685eb0afb3d9ee79f5a8f6b94343f64636d08b7663cb130",
+          "destination": "/questions/classification/criteria/benign/examples"
+        },
+        {
+          "id": "demo-025",
+          "criterion": "benign",
+          "origin": "authored_profile",
+          "contentHash": "52d5a6cbcfa18a10b612e5bb167c2f352b376fd6636223851c87150be2a47473",
+          "destination": "/questions/classification/criteria/benign/examples"
+        },
+        {
+          "id": "demo-026",
+          "criterion": "benign",
+          "origin": "authored_profile",
+          "contentHash": "4ccf317305bf404819bab1947049db87bc75fca040220fcfdce57f0288461abe",
+          "destination": "/questions/classification/criteria/benign/examples"
+        },
+        {
+          "id": "demo-027",
+          "criterion": "benign",
+          "origin": "authored_profile",
+          "contentHash": "17100a15efc8dbafa92c380c705c2584425beaf67047155977f9c5bf51f3c523",
+          "destination": "/questions/classification/criteria/benign/examples"
+        },
+        {
+          "id": "demo-028",
+          "criterion": "benign",
+          "origin": "authored_profile",
+          "contentHash": "649c19bb1b6b09b2c64cc7d9a98f021c92b4520d2b05b6daa1ac631c6333e099",
+          "destination": "/questions/classification/criteria/benign/examples"
+        },
+        {
+          "id": "demo-029",
+          "criterion": "attack",
+          "origin": "authored_profile",
+          "contentHash": "f2661a3a36cfec4c4d7bc6dbb29911fa163f4e4639b286e01178b74fa0a509af",
+          "destination": "/questions/classification/criteria/attack/examples"
+        },
+        {
+          "id": "demo-030",
+          "criterion": "benign",
+          "origin": "authored_profile",
+          "contentHash": "54a3fe7f95ac65b30760a349d9fbfd023958bfc9a6a7cd23e40be536d057a63d",
+          "destination": "/questions/classification/criteria/benign/examples"
+        },
+        {
+          "id": "demo-031",
+          "criterion": "attack",
+          "origin": "authored_profile",
+          "contentHash": "ae5a79f91c71ca074024db27f9b246f15734c186266b24c673857df4f19ddd9a",
+          "destination": "/questions/classification/criteria/attack/examples"
+        },
+        {
+          "id": "demo-032",
+          "criterion": "insufficient_evidence",
+          "origin": "authored_profile",
+          "contentHash": "33077e0d0b8c46763ec3f5122d874b063b00ad5fbc8854691c8de7c063a3620e",
+          "destination": "/questions/classification/criteria/insufficient_evidence/examples"
+        },
+        {
+          "id": "demo-033",
+          "criterion": "attack",
+          "origin": "authored_profile",
+          "contentHash": "cd3f5eb34109756a93dce5acb2203f288947462dc5c38fc388bb6b30b880ccb3",
+          "destination": "/questions/classification/criteria/attack/examples"
+        },
+        {
+          "id": "demo-034",
+          "criterion": "attack",
+          "origin": "authored_profile",
+          "contentHash": "d5b36e4086440cb08c9660b77f2027c0f9da9ad277174b018d4ad1b42d8bf5d7",
+          "destination": "/questions/classification/criteria/attack/examples"
+        }
+      ],
+      "unassigned": []
+    },
+    {
+      "question": "injection_present",
+      "assigned": [
+        {
+          "id": "demo-001",
+          "criterion": "true",
+          "origin": "classification_to_injection_v1",
+          "contentHash": "16b77a82a3009609faedd5cbf8c6409340d3b5bf5a69390aab2450b4684055bd",
+          "destination": "/questions/injection_present/criteria/true/examples"
+        },
+        {
+          "id": "demo-002",
+          "criterion": "false",
+          "origin": "classification_to_injection_v1",
+          "contentHash": "3be1d6799ef50bd9c7588fad00c881befd71c02d404613f59f7459b27b4bc2dd",
+          "destination": "/questions/injection_present/criteria/false/examples"
+        },
+        {
+          "id": "demo-003",
+          "criterion": "true",
+          "origin": "classification_to_injection_v1",
+          "contentHash": "1f6133279993b48131b847e76c84a903ca5af807978704fb96ec24bc6f5ab5d9",
+          "destination": "/questions/injection_present/criteria/true/examples"
+        },
+        {
+          "id": "demo-004",
+          "criterion": "false",
+          "origin": "classification_to_injection_v1",
+          "contentHash": "9b0487815b71da258701856b89c8eaa926fcaf56cd0e47defe822ead27f763c1",
+          "destination": "/questions/injection_present/criteria/false/examples"
+        },
+        {
+          "id": "demo-005",
+          "criterion": "true",
+          "origin": "classification_to_injection_v1",
+          "contentHash": "9a5ffd32e00b313d3353d8331fa7c129f8edbb92065e7f4b109e236469847450",
+          "destination": "/questions/injection_present/criteria/true/examples"
+        },
+        {
+          "id": "demo-006",
+          "criterion": "false",
+          "origin": "classification_to_injection_v1",
+          "contentHash": "d98b30d22ff0cc74b70b19e686be33a270aee4b2402d509a6851d8366b0e7f36",
+          "destination": "/questions/injection_present/criteria/false/examples"
+        },
+        {
+          "id": "demo-007",
+          "criterion": "true",
+          "origin": "classification_to_injection_v1",
+          "contentHash": "5689fbb4942fd6388e952327466ff4bb4d82515765b2fd6f63fdca3df10f19bf",
+          "destination": "/questions/injection_present/criteria/true/examples"
+        },
+        {
+          "id": "demo-008",
+          "criterion": "false",
+          "origin": "classification_to_injection_v1",
+          "contentHash": "1c15bbd77aa1015063320d30ba90e5d53b89f0e3b332e0b8f115a72068f0492f",
+          "destination": "/questions/injection_present/criteria/false/examples"
+        },
+        {
+          "id": "demo-009",
+          "criterion": "true",
+          "origin": "classification_to_injection_v1",
+          "contentHash": "8f0f9cd67daffde46a89cf51e0ea03f6de67e703032e4e28a4d0df6a90cdae75",
+          "destination": "/questions/injection_present/criteria/true/examples"
+        },
+        {
+          "id": "demo-010",
+          "criterion": "false",
+          "origin": "classification_to_injection_v1",
+          "contentHash": "f43f63a2019fdebf1dd3fa189797800734c0c2105fa30aabeb209ad73c56c596",
+          "destination": "/questions/injection_present/criteria/false/examples"
+        },
+        {
+          "id": "demo-011",
+          "criterion": "true",
+          "origin": "classification_to_injection_v1",
+          "contentHash": "796fa979b07b681c3a2b7274af8c527ab49f998c4b47bdd38f6470613bf7ff69",
+          "destination": "/questions/injection_present/criteria/true/examples"
+        },
+        {
+          "id": "demo-012",
+          "criterion": "false",
+          "origin": "classification_to_injection_v1",
+          "contentHash": "adc08fcdafa433a6d6724d2b2676ad7a72b0a30ee98df82e8cbcf7a6cedff7ac",
+          "destination": "/questions/injection_present/criteria/false/examples"
+        },
+        {
+          "id": "demo-013",
+          "criterion": "true",
+          "origin": "classification_to_injection_v1",
+          "contentHash": "a8c29c0243dde3e07416a1222a15ad728a2c8e0844fada2e8060c59f48aad7a4",
+          "destination": "/questions/injection_present/criteria/true/examples"
+        },
+        {
+          "id": "demo-014",
+          "criterion": "false",
+          "origin": "classification_to_injection_v1",
+          "contentHash": "d06e569e9055d0c14fc31d7de97e48fdd96fbf54af56e0a42ac870c2166435d2",
+          "destination": "/questions/injection_present/criteria/false/examples"
+        },
+        {
+          "id": "demo-015",
+          "criterion": "true",
+          "origin": "classification_to_injection_v1",
+          "contentHash": "b4bfb1187ffecf39e05bebbe31046a8a67ed5d27831772ee7f2aee59e4a0c044",
+          "destination": "/questions/injection_present/criteria/true/examples"
+        },
+        {
+          "id": "demo-016",
+          "criterion": "false",
+          "origin": "classification_to_injection_v1",
+          "contentHash": "6f1cab2e409b425f7ad0b6639bcd4d4dbaf7a9a1294fbba2156d4eddf10592e9",
+          "destination": "/questions/injection_present/criteria/false/examples"
+        },
+        {
+          "id": "demo-017",
+          "criterion": "true",
+          "origin": "classification_to_injection_v1",
+          "contentHash": "8d81bb349cbfa346d1e07a16f574644f65c36c266020ed827ba9717b330fa54e",
+          "destination": "/questions/injection_present/criteria/true/examples"
+        },
+        {
+          "id": "demo-018",
+          "criterion": "false",
+          "origin": "classification_to_injection_v1",
+          "contentHash": "f9b0dc8e88f213aaaf23d65d936cad44b3526def915063ad1b98dbc3b3edf778",
+          "destination": "/questions/injection_present/criteria/false/examples"
+        },
+        {
+          "id": "demo-019",
+          "criterion": "true",
+          "origin": "classification_to_injection_v1",
+          "contentHash": "bae04a4d517c2991380b43184402dba2485eb850146b1216517509891e1bb883",
+          "destination": "/questions/injection_present/criteria/true/examples"
+        },
+        {
+          "id": "demo-020",
+          "criterion": "false",
+          "origin": "classification_to_injection_v1",
+          "contentHash": "1ce48d5a05ec8105a45c387e62beb545168fff7aaacd80b57dfb7761b27bd765",
+          "destination": "/questions/injection_present/criteria/false/examples"
+        },
+        {
+          "id": "demo-021",
+          "criterion": "true",
+          "origin": "classification_to_injection_v1",
+          "contentHash": "9efe0400426d4d6341e72400a1005c86a685a4f87e5a2b5c15ab95f60e8b5d08",
+          "destination": "/questions/injection_present/criteria/true/examples"
+        },
+        {
+          "id": "demo-022",
+          "criterion": "false",
+          "origin": "classification_to_injection_v1",
+          "contentHash": "2c42e356d327f2829d184dacc904108697fef520039946c333f1596351f054d1",
+          "destination": "/questions/injection_present/criteria/false/examples"
+        },
+        {
+          "id": "demo-023",
+          "criterion": "true",
+          "origin": "classification_to_injection_v1",
+          "contentHash": "9f22f6bc23e7039b7dbd7bc37ab770ecd4d66f9e6bf0864ee04dde6951a4e5d3",
+          "destination": "/questions/injection_present/criteria/true/examples"
+        },
+        {
+          "id": "demo-024",
+          "criterion": "false",
+          "origin": "classification_to_injection_v1",
+          "contentHash": "1eaf1df1a599fd8b8685eb0afb3d9ee79f5a8f6b94343f64636d08b7663cb130",
+          "destination": "/questions/injection_present/criteria/false/examples"
+        },
+        {
+          "id": "demo-025",
+          "criterion": "false",
+          "origin": "classification_to_injection_v1",
+          "contentHash": "52d5a6cbcfa18a10b612e5bb167c2f352b376fd6636223851c87150be2a47473",
+          "destination": "/questions/injection_present/criteria/false/examples"
+        },
+        {
+          "id": "demo-026",
+          "criterion": "false",
+          "origin": "classification_to_injection_v1",
+          "contentHash": "4ccf317305bf404819bab1947049db87bc75fca040220fcfdce57f0288461abe",
+          "destination": "/questions/injection_present/criteria/false/examples"
+        },
+        {
+          "id": "demo-027",
+          "criterion": "false",
+          "origin": "classification_to_injection_v1",
+          "contentHash": "17100a15efc8dbafa92c380c705c2584425beaf67047155977f9c5bf51f3c523",
+          "destination": "/questions/injection_present/criteria/false/examples"
+        },
+        {
+          "id": "demo-028",
+          "criterion": "false",
+          "origin": "classification_to_injection_v1",
+          "contentHash": "649c19bb1b6b09b2c64cc7d9a98f021c92b4520d2b05b6daa1ac631c6333e099",
+          "destination": "/questions/injection_present/criteria/false/examples"
+        },
+        {
+          "id": "demo-029",
+          "criterion": "true",
+          "origin": "classification_to_injection_v1",
+          "contentHash": "f2661a3a36cfec4c4d7bc6dbb29911fa163f4e4639b286e01178b74fa0a509af",
+          "destination": "/questions/injection_present/criteria/true/examples"
+        },
+        {
+          "id": "demo-030",
+          "criterion": "false",
+          "origin": "classification_to_injection_v1",
+          "contentHash": "54a3fe7f95ac65b30760a349d9fbfd023958bfc9a6a7cd23e40be536d057a63d",
+          "destination": "/questions/injection_present/criteria/false/examples"
+        },
+        {
+          "id": "demo-031",
+          "criterion": "true",
+          "origin": "classification_to_injection_v1",
+          "contentHash": "ae5a79f91c71ca074024db27f9b246f15734c186266b24c673857df4f19ddd9a",
+          "destination": "/questions/injection_present/criteria/true/examples"
+        },
+        {
+          "id": "demo-033",
+          "criterion": "true",
+          "origin": "classification_to_injection_v1",
+          "contentHash": "cd3f5eb34109756a93dce5acb2203f288947462dc5c38fc388bb6b30b880ccb3",
+          "destination": "/questions/injection_present/criteria/true/examples"
+        },
+        {
+          "id": "demo-034",
+          "criterion": "true",
+          "origin": "classification_to_injection_v1",
+          "contentHash": "d5b36e4086440cb08c9660b77f2027c0f9da9ad277174b018d4ad1b42d8bf5d7",
+          "destination": "/questions/injection_present/criteria/true/examples"
+        }
+      ],
+      "unassigned": [
+        {
+          "id": "demo-032",
+          "reason": "no_definite_authoring_label",
+          "contentHash": "33077e0d0b8c46763ec3f5122d874b063b00ad5fbc8854691c8de7c063a3620e",
+          "destination": "/questions/injection_present/instructions/ungradedReferenceExamples"
+        }
+      ]
+    },
+    {
+      "question": "integrity",
+      "assigned": [
+        {
+          "id": "demo-001",
+          "criterion": "attempted_only",
+          "origin": "authored_profile",
+          "contentHash": "16b77a82a3009609faedd5cbf8c6409340d3b5bf5a69390aab2450b4684055bd",
+          "destination": "/questions/integrity/criteria/attempted_only/examples"
+        },
+        {
+          "id": "demo-002",
+          "criterion": "no_poisoning_evidence",
+          "origin": "authored_profile",
+          "contentHash": "3be1d6799ef50bd9c7588fad00c881befd71c02d404613f59f7459b27b4bc2dd",
+          "destination": "/questions/integrity/criteria/no_poisoning_evidence/examples"
+        },
+        {
+          "id": "demo-003",
+          "criterion": "attempted_only",
+          "origin": "authored_profile",
+          "contentHash": "1f6133279993b48131b847e76c84a903ca5af807978704fb96ec24bc6f5ab5d9",
+          "destination": "/questions/integrity/criteria/attempted_only/examples"
+        },
+        {
+          "id": "demo-004",
+          "criterion": "no_poisoning_evidence",
+          "origin": "authored_profile",
+          "contentHash": "9b0487815b71da258701856b89c8eaa926fcaf56cd0e47defe822ead27f763c1",
+          "destination": "/questions/integrity/criteria/no_poisoning_evidence/examples"
+        },
+        {
+          "id": "demo-005",
+          "criterion": "attempted_only",
+          "origin": "authored_profile",
+          "contentHash": "9a5ffd32e00b313d3353d8331fa7c129f8edbb92065e7f4b109e236469847450",
+          "destination": "/questions/integrity/criteria/attempted_only/examples"
+        },
+        {
+          "id": "demo-006",
+          "criterion": "no_poisoning_evidence",
+          "origin": "authored_profile",
+          "contentHash": "d98b30d22ff0cc74b70b19e686be33a270aee4b2402d509a6851d8366b0e7f36",
+          "destination": "/questions/integrity/criteria/no_poisoning_evidence/examples"
+        },
+        {
+          "id": "demo-007",
+          "criterion": "attempted_only",
+          "origin": "authored_profile",
+          "contentHash": "5689fbb4942fd6388e952327466ff4bb4d82515765b2fd6f63fdca3df10f19bf",
+          "destination": "/questions/integrity/criteria/attempted_only/examples"
+        },
+        {
+          "id": "demo-008",
+          "criterion": "no_poisoning_evidence",
+          "origin": "authored_profile",
+          "contentHash": "1c15bbd77aa1015063320d30ba90e5d53b89f0e3b332e0b8f115a72068f0492f",
+          "destination": "/questions/integrity/criteria/no_poisoning_evidence/examples"
+        },
+        {
+          "id": "demo-009",
+          "criterion": "attempted_only",
+          "origin": "authored_profile",
+          "contentHash": "8f0f9cd67daffde46a89cf51e0ea03f6de67e703032e4e28a4d0df6a90cdae75",
+          "destination": "/questions/integrity/criteria/attempted_only/examples"
+        },
+        {
+          "id": "demo-010",
+          "criterion": "no_poisoning_evidence",
+          "origin": "authored_profile",
+          "contentHash": "f43f63a2019fdebf1dd3fa189797800734c0c2105fa30aabeb209ad73c56c596",
+          "destination": "/questions/integrity/criteria/no_poisoning_evidence/examples"
+        },
+        {
+          "id": "demo-011",
+          "criterion": "attempted_only",
+          "origin": "authored_profile",
+          "contentHash": "796fa979b07b681c3a2b7274af8c527ab49f998c4b47bdd38f6470613bf7ff69",
+          "destination": "/questions/integrity/criteria/attempted_only/examples"
+        },
+        {
+          "id": "demo-012",
+          "criterion": "no_poisoning_evidence",
+          "origin": "authored_profile",
+          "contentHash": "adc08fcdafa433a6d6724d2b2676ad7a72b0a30ee98df82e8cbcf7a6cedff7ac",
+          "destination": "/questions/integrity/criteria/no_poisoning_evidence/examples"
+        },
+        {
+          "id": "demo-013",
+          "criterion": "attempted_only",
+          "origin": "authored_profile",
+          "contentHash": "a8c29c0243dde3e07416a1222a15ad728a2c8e0844fada2e8060c59f48aad7a4",
+          "destination": "/questions/integrity/criteria/attempted_only/examples"
+        },
+        {
+          "id": "demo-014",
+          "criterion": "no_poisoning_evidence",
+          "origin": "authored_profile",
+          "contentHash": "d06e569e9055d0c14fc31d7de97e48fdd96fbf54af56e0a42ac870c2166435d2",
+          "destination": "/questions/integrity/criteria/no_poisoning_evidence/examples"
+        },
+        {
+          "id": "demo-015",
+          "criterion": "attempted_only",
+          "origin": "authored_profile",
+          "contentHash": "b4bfb1187ffecf39e05bebbe31046a8a67ed5d27831772ee7f2aee59e4a0c044",
+          "destination": "/questions/integrity/criteria/attempted_only/examples"
+        },
+        {
+          "id": "demo-016",
+          "criterion": "no_poisoning_evidence",
+          "origin": "authored_profile",
+          "contentHash": "6f1cab2e409b425f7ad0b6639bcd4d4dbaf7a9a1294fbba2156d4eddf10592e9",
+          "destination": "/questions/integrity/criteria/no_poisoning_evidence/examples"
+        },
+        {
+          "id": "demo-017",
+          "criterion": "poisoned",
+          "origin": "authored_profile",
+          "contentHash": "8d81bb349cbfa346d1e07a16f574644f65c36c266020ed827ba9717b330fa54e",
+          "destination": "/questions/integrity/criteria/poisoned/examples"
+        },
+        {
+          "id": "demo-018",
+          "criterion": "no_poisoning_evidence",
+          "origin": "authored_profile",
+          "contentHash": "f9b0dc8e88f213aaaf23d65d936cad44b3526def915063ad1b98dbc3b3edf778",
+          "destination": "/questions/integrity/criteria/no_poisoning_evidence/examples"
+        },
+        {
+          "id": "demo-019",
+          "criterion": "attempted_only",
+          "origin": "authored_profile",
+          "contentHash": "bae04a4d517c2991380b43184402dba2485eb850146b1216517509891e1bb883",
+          "destination": "/questions/integrity/criteria/attempted_only/examples"
+        },
+        {
+          "id": "demo-020",
+          "criterion": "no_poisoning_evidence",
+          "origin": "authored_profile",
+          "contentHash": "1ce48d5a05ec8105a45c387e62beb545168fff7aaacd80b57dfb7761b27bd765",
+          "destination": "/questions/integrity/criteria/no_poisoning_evidence/examples"
+        },
+        {
+          "id": "demo-021",
+          "criterion": "attempted_only",
+          "origin": "authored_profile",
+          "contentHash": "9efe0400426d4d6341e72400a1005c86a685a4f87e5a2b5c15ab95f60e8b5d08",
+          "destination": "/questions/integrity/criteria/attempted_only/examples"
+        },
+        {
+          "id": "demo-022",
+          "criterion": "no_poisoning_evidence",
+          "origin": "authored_profile",
+          "contentHash": "2c42e356d327f2829d184dacc904108697fef520039946c333f1596351f054d1",
+          "destination": "/questions/integrity/criteria/no_poisoning_evidence/examples"
+        },
+        {
+          "id": "demo-023",
+          "criterion": "attempted_only",
+          "origin": "authored_profile",
+          "contentHash": "9f22f6bc23e7039b7dbd7bc37ab770ecd4d66f9e6bf0864ee04dde6951a4e5d3",
+          "destination": "/questions/integrity/criteria/attempted_only/examples"
+        },
+        {
+          "id": "demo-024",
+          "criterion": "no_poisoning_evidence",
+          "origin": "authored_profile",
+          "contentHash": "1eaf1df1a599fd8b8685eb0afb3d9ee79f5a8f6b94343f64636d08b7663cb130",
+          "destination": "/questions/integrity/criteria/no_poisoning_evidence/examples"
+        },
+        {
+          "id": "demo-025",
+          "criterion": "no_poisoning_evidence",
+          "origin": "authored_profile",
+          "contentHash": "52d5a6cbcfa18a10b612e5bb167c2f352b376fd6636223851c87150be2a47473",
+          "destination": "/questions/integrity/criteria/no_poisoning_evidence/examples"
+        },
+        {
+          "id": "demo-026",
+          "criterion": "no_poisoning_evidence",
+          "origin": "authored_profile",
+          "contentHash": "4ccf317305bf404819bab1947049db87bc75fca040220fcfdce57f0288461abe",
+          "destination": "/questions/integrity/criteria/no_poisoning_evidence/examples"
+        },
+        {
+          "id": "demo-027",
+          "criterion": "no_poisoning_evidence",
+          "origin": "authored_profile",
+          "contentHash": "17100a15efc8dbafa92c380c705c2584425beaf67047155977f9c5bf51f3c523",
+          "destination": "/questions/integrity/criteria/no_poisoning_evidence/examples"
+        },
+        {
+          "id": "demo-028",
+          "criterion": "no_poisoning_evidence",
+          "origin": "authored_profile",
+          "contentHash": "649c19bb1b6b09b2c64cc7d9a98f021c92b4520d2b05b6daa1ac631c6333e099",
+          "destination": "/questions/integrity/criteria/no_poisoning_evidence/examples"
+        },
+        {
+          "id": "demo-029",
+          "criterion": "attempted_only",
+          "origin": "authored_profile",
+          "contentHash": "f2661a3a36cfec4c4d7bc6dbb29911fa163f4e4639b286e01178b74fa0a509af",
+          "destination": "/questions/integrity/criteria/attempted_only/examples"
+        },
+        {
+          "id": "demo-030",
+          "criterion": "no_poisoning_evidence",
+          "origin": "authored_profile",
+          "contentHash": "54a3fe7f95ac65b30760a349d9fbfd023958bfc9a6a7cd23e40be536d057a63d",
+          "destination": "/questions/integrity/criteria/no_poisoning_evidence/examples"
+        },
+        {
+          "id": "demo-031",
+          "criterion": "attempted_only",
+          "origin": "authored_profile",
+          "contentHash": "ae5a79f91c71ca074024db27f9b246f15734c186266b24c673857df4f19ddd9a",
+          "destination": "/questions/integrity/criteria/attempted_only/examples"
+        },
+        {
+          "id": "demo-032",
+          "criterion": "insufficient_evidence",
+          "origin": "authored_profile",
+          "contentHash": "33077e0d0b8c46763ec3f5122d874b063b00ad5fbc8854691c8de7c063a3620e",
+          "destination": "/questions/integrity/criteria/insufficient_evidence/examples"
+        },
+        {
+          "id": "demo-033",
+          "criterion": "insufficient_evidence",
+          "origin": "authored_profile",
+          "contentHash": "cd3f5eb34109756a93dce5acb2203f288947462dc5c38fc388bb6b30b880ccb3",
+          "destination": "/questions/integrity/criteria/insufficient_evidence/examples"
+        },
+        {
+          "id": "demo-034",
+          "criterion": "attempted_only",
+          "origin": "authored_profile",
+          "contentHash": "d5b36e4086440cb08c9660b77f2027c0f9da9ad277174b018d4ad1b42d8bf5d7",
+          "destination": "/questions/integrity/criteria/attempted_only/examples"
+        }
+      ],
+      "unassigned": []
+    },
+    {
+      "question": "poisoning_evidenced",
+      "assigned": [
+        {
+          "id": "demo-001",
+          "criterion": "false",
+          "origin": "integrity_to_poisoning_v1",
+          "contentHash": "16b77a82a3009609faedd5cbf8c6409340d3b5bf5a69390aab2450b4684055bd",
+          "destination": "/questions/poisoning_evidenced/criteria/false/examples"
+        },
+        {
+          "id": "demo-002",
+          "criterion": "false",
+          "origin": "integrity_to_poisoning_v1",
+          "contentHash": "3be1d6799ef50bd9c7588fad00c881befd71c02d404613f59f7459b27b4bc2dd",
+          "destination": "/questions/poisoning_evidenced/criteria/false/examples"
+        },
+        {
+          "id": "demo-003",
+          "criterion": "false",
+          "origin": "integrity_to_poisoning_v1",
+          "contentHash": "1f6133279993b48131b847e76c84a903ca5af807978704fb96ec24bc6f5ab5d9",
+          "destination": "/questions/poisoning_evidenced/criteria/false/examples"
+        },
+        {
+          "id": "demo-004",
+          "criterion": "false",
+          "origin": "integrity_to_poisoning_v1",
+          "contentHash": "9b0487815b71da258701856b89c8eaa926fcaf56cd0e47defe822ead27f763c1",
+          "destination": "/questions/poisoning_evidenced/criteria/false/examples"
+        },
+        {
+          "id": "demo-005",
+          "criterion": "false",
+          "origin": "integrity_to_poisoning_v1",
+          "contentHash": "9a5ffd32e00b313d3353d8331fa7c129f8edbb92065e7f4b109e236469847450",
+          "destination": "/questions/poisoning_evidenced/criteria/false/examples"
+        },
+        {
+          "id": "demo-006",
+          "criterion": "false",
+          "origin": "integrity_to_poisoning_v1",
+          "contentHash": "d98b30d22ff0cc74b70b19e686be33a270aee4b2402d509a6851d8366b0e7f36",
+          "destination": "/questions/poisoning_evidenced/criteria/false/examples"
+        },
+        {
+          "id": "demo-007",
+          "criterion": "false",
+          "origin": "integrity_to_poisoning_v1",
+          "contentHash": "5689fbb4942fd6388e952327466ff4bb4d82515765b2fd6f63fdca3df10f19bf",
+          "destination": "/questions/poisoning_evidenced/criteria/false/examples"
+        },
+        {
+          "id": "demo-008",
+          "criterion": "false",
+          "origin": "integrity_to_poisoning_v1",
+          "contentHash": "1c15bbd77aa1015063320d30ba90e5d53b89f0e3b332e0b8f115a72068f0492f",
+          "destination": "/questions/poisoning_evidenced/criteria/false/examples"
+        },
+        {
+          "id": "demo-009",
+          "criterion": "false",
+          "origin": "integrity_to_poisoning_v1",
+          "contentHash": "8f0f9cd67daffde46a89cf51e0ea03f6de67e703032e4e28a4d0df6a90cdae75",
+          "destination": "/questions/poisoning_evidenced/criteria/false/examples"
+        },
+        {
+          "id": "demo-010",
+          "criterion": "false",
+          "origin": "integrity_to_poisoning_v1",
+          "contentHash": "f43f63a2019fdebf1dd3fa189797800734c0c2105fa30aabeb209ad73c56c596",
+          "destination": "/questions/poisoning_evidenced/criteria/false/examples"
+        },
+        {
+          "id": "demo-011",
+          "criterion": "false",
+          "origin": "integrity_to_poisoning_v1",
+          "contentHash": "796fa979b07b681c3a2b7274af8c527ab49f998c4b47bdd38f6470613bf7ff69",
+          "destination": "/questions/poisoning_evidenced/criteria/false/examples"
+        },
+        {
+          "id": "demo-012",
+          "criterion": "false",
+          "origin": "integrity_to_poisoning_v1",
+          "contentHash": "adc08fcdafa433a6d6724d2b2676ad7a72b0a30ee98df82e8cbcf7a6cedff7ac",
+          "destination": "/questions/poisoning_evidenced/criteria/false/examples"
+        },
+        {
+          "id": "demo-013",
+          "criterion": "false",
+          "origin": "integrity_to_poisoning_v1",
+          "contentHash": "a8c29c0243dde3e07416a1222a15ad728a2c8e0844fada2e8060c59f48aad7a4",
+          "destination": "/questions/poisoning_evidenced/criteria/false/examples"
+        },
+        {
+          "id": "demo-014",
+          "criterion": "false",
+          "origin": "integrity_to_poisoning_v1",
+          "contentHash": "d06e569e9055d0c14fc31d7de97e48fdd96fbf54af56e0a42ac870c2166435d2",
+          "destination": "/questions/poisoning_evidenced/criteria/false/examples"
+        },
+        {
+          "id": "demo-015",
+          "criterion": "false",
+          "origin": "integrity_to_poisoning_v1",
+          "contentHash": "b4bfb1187ffecf39e05bebbe31046a8a67ed5d27831772ee7f2aee59e4a0c044",
+          "destination": "/questions/poisoning_evidenced/criteria/false/examples"
+        },
+        {
+          "id": "demo-016",
+          "criterion": "false",
+          "origin": "integrity_to_poisoning_v1",
+          "contentHash": "6f1cab2e409b425f7ad0b6639bcd4d4dbaf7a9a1294fbba2156d4eddf10592e9",
+          "destination": "/questions/poisoning_evidenced/criteria/false/examples"
+        },
+        {
+          "id": "demo-017",
+          "criterion": "true",
+          "origin": "integrity_to_poisoning_v1",
+          "contentHash": "8d81bb349cbfa346d1e07a16f574644f65c36c266020ed827ba9717b330fa54e",
+          "destination": "/questions/poisoning_evidenced/criteria/true/examples"
+        },
+        {
+          "id": "demo-018",
+          "criterion": "false",
+          "origin": "integrity_to_poisoning_v1",
+          "contentHash": "f9b0dc8e88f213aaaf23d65d936cad44b3526def915063ad1b98dbc3b3edf778",
+          "destination": "/questions/poisoning_evidenced/criteria/false/examples"
+        },
+        {
+          "id": "demo-019",
+          "criterion": "false",
+          "origin": "integrity_to_poisoning_v1",
+          "contentHash": "bae04a4d517c2991380b43184402dba2485eb850146b1216517509891e1bb883",
+          "destination": "/questions/poisoning_evidenced/criteria/false/examples"
+        },
+        {
+          "id": "demo-020",
+          "criterion": "false",
+          "origin": "integrity_to_poisoning_v1",
+          "contentHash": "1ce48d5a05ec8105a45c387e62beb545168fff7aaacd80b57dfb7761b27bd765",
+          "destination": "/questions/poisoning_evidenced/criteria/false/examples"
+        },
+        {
+          "id": "demo-021",
+          "criterion": "false",
+          "origin": "integrity_to_poisoning_v1",
+          "contentHash": "9efe0400426d4d6341e72400a1005c86a685a4f87e5a2b5c15ab95f60e8b5d08",
+          "destination": "/questions/poisoning_evidenced/criteria/false/examples"
+        },
+        {
+          "id": "demo-022",
+          "criterion": "false",
+          "origin": "integrity_to_poisoning_v1",
+          "contentHash": "2c42e356d327f2829d184dacc904108697fef520039946c333f1596351f054d1",
+          "destination": "/questions/poisoning_evidenced/criteria/false/examples"
+        },
+        {
+          "id": "demo-023",
+          "criterion": "false",
+          "origin": "integrity_to_poisoning_v1",
+          "contentHash": "9f22f6bc23e7039b7dbd7bc37ab770ecd4d66f9e6bf0864ee04dde6951a4e5d3",
+          "destination": "/questions/poisoning_evidenced/criteria/false/examples"
+        },
+        {
+          "id": "demo-024",
+          "criterion": "false",
+          "origin": "integrity_to_poisoning_v1",
+          "contentHash": "1eaf1df1a599fd8b8685eb0afb3d9ee79f5a8f6b94343f64636d08b7663cb130",
+          "destination": "/questions/poisoning_evidenced/criteria/false/examples"
+        },
+        {
+          "id": "demo-025",
+          "criterion": "false",
+          "origin": "integrity_to_poisoning_v1",
+          "contentHash": "52d5a6cbcfa18a10b612e5bb167c2f352b376fd6636223851c87150be2a47473",
+          "destination": "/questions/poisoning_evidenced/criteria/false/examples"
+        },
+        {
+          "id": "demo-026",
+          "criterion": "false",
+          "origin": "integrity_to_poisoning_v1",
+          "contentHash": "4ccf317305bf404819bab1947049db87bc75fca040220fcfdce57f0288461abe",
+          "destination": "/questions/poisoning_evidenced/criteria/false/examples"
+        },
+        {
+          "id": "demo-027",
+          "criterion": "false",
+          "origin": "integrity_to_poisoning_v1",
+          "contentHash": "17100a15efc8dbafa92c380c705c2584425beaf67047155977f9c5bf51f3c523",
+          "destination": "/questions/poisoning_evidenced/criteria/false/examples"
+        },
+        {
+          "id": "demo-028",
+          "criterion": "false",
+          "origin": "integrity_to_poisoning_v1",
+          "contentHash": "649c19bb1b6b09b2c64cc7d9a98f021c92b4520d2b05b6daa1ac631c6333e099",
+          "destination": "/questions/poisoning_evidenced/criteria/false/examples"
+        },
+        {
+          "id": "demo-029",
+          "criterion": "false",
+          "origin": "integrity_to_poisoning_v1",
+          "contentHash": "f2661a3a36cfec4c4d7bc6dbb29911fa163f4e4639b286e01178b74fa0a509af",
+          "destination": "/questions/poisoning_evidenced/criteria/false/examples"
+        },
+        {
+          "id": "demo-030",
+          "criterion": "false",
+          "origin": "integrity_to_poisoning_v1",
+          "contentHash": "54a3fe7f95ac65b30760a349d9fbfd023958bfc9a6a7cd23e40be536d057a63d",
+          "destination": "/questions/poisoning_evidenced/criteria/false/examples"
+        },
+        {
+          "id": "demo-031",
+          "criterion": "false",
+          "origin": "integrity_to_poisoning_v1",
+          "contentHash": "ae5a79f91c71ca074024db27f9b246f15734c186266b24c673857df4f19ddd9a",
+          "destination": "/questions/poisoning_evidenced/criteria/false/examples"
+        },
+        {
+          "id": "demo-034",
+          "criterion": "false",
+          "origin": "integrity_to_poisoning_v1",
+          "contentHash": "d5b36e4086440cb08c9660b77f2027c0f9da9ad277174b018d4ad1b42d8bf5d7",
+          "destination": "/questions/poisoning_evidenced/criteria/false/examples"
+        }
+      ],
+      "unassigned": [
+        {
+          "id": "demo-032",
+          "reason": "no_definite_authoring_label",
+          "contentHash": "33077e0d0b8c46763ec3f5122d874b063b00ad5fbc8854691c8de7c063a3620e",
+          "destination": "/questions/poisoning_evidenced/instructions/ungradedReferenceExamples"
+        },
+        {
+          "id": "demo-033",
+          "reason": "no_definite_authoring_label",
+          "contentHash": "cd3f5eb34109756a93dce5acb2203f288947462dc5c38fc388bb6b30b880ccb3",
+          "destination": "/questions/poisoning_evidenced/instructions/ungradedReferenceExamples"
+        }
+      ]
+    },
+    {
+      "question": "policy_decision",
+      "assigned": [
+        {
+          "id": "demo-001",
+          "criterion": "allow",
+          "origin": "authored_profile",
+          "contentHash": "16b77a82a3009609faedd5cbf8c6409340d3b5bf5a69390aab2450b4684055bd",
+          "destination": "/questions/policy_decision/criteria/allow/examples"
+        },
+        {
+          "id": "demo-002",
+          "criterion": "allow",
+          "origin": "authored_profile",
+          "contentHash": "3be1d6799ef50bd9c7588fad00c881befd71c02d404613f59f7459b27b4bc2dd",
+          "destination": "/questions/policy_decision/criteria/allow/examples"
+        },
+        {
+          "id": "demo-003",
+          "criterion": "allow",
+          "origin": "authored_profile",
+          "contentHash": "1f6133279993b48131b847e76c84a903ca5af807978704fb96ec24bc6f5ab5d9",
+          "destination": "/questions/policy_decision/criteria/allow/examples"
+        },
+        {
+          "id": "demo-004",
+          "criterion": "allow",
+          "origin": "authored_profile",
+          "contentHash": "9b0487815b71da258701856b89c8eaa926fcaf56cd0e47defe822ead27f763c1",
+          "destination": "/questions/policy_decision/criteria/allow/examples"
+        },
+        {
+          "id": "demo-005",
+          "criterion": "allow",
+          "origin": "authored_profile",
+          "contentHash": "9a5ffd32e00b313d3353d8331fa7c129f8edbb92065e7f4b109e236469847450",
+          "destination": "/questions/policy_decision/criteria/allow/examples"
+        },
+        {
+          "id": "demo-006",
+          "criterion": "allow",
+          "origin": "authored_profile",
+          "contentHash": "d98b30d22ff0cc74b70b19e686be33a270aee4b2402d509a6851d8366b0e7f36",
+          "destination": "/questions/policy_decision/criteria/allow/examples"
+        },
+        {
+          "id": "demo-007",
+          "criterion": "allow",
+          "origin": "authored_profile",
+          "contentHash": "5689fbb4942fd6388e952327466ff4bb4d82515765b2fd6f63fdca3df10f19bf",
+          "destination": "/questions/policy_decision/criteria/allow/examples"
+        },
+        {
+          "id": "demo-008",
+          "criterion": "allow",
+          "origin": "authored_profile",
+          "contentHash": "1c15bbd77aa1015063320d30ba90e5d53b89f0e3b332e0b8f115a72068f0492f",
+          "destination": "/questions/policy_decision/criteria/allow/examples"
+        },
+        {
+          "id": "demo-009",
+          "criterion": "allow",
+          "origin": "authored_profile",
+          "contentHash": "8f0f9cd67daffde46a89cf51e0ea03f6de67e703032e4e28a4d0df6a90cdae75",
+          "destination": "/questions/policy_decision/criteria/allow/examples"
+        },
+        {
+          "id": "demo-010",
+          "criterion": "allow",
+          "origin": "authored_profile",
+          "contentHash": "f43f63a2019fdebf1dd3fa189797800734c0c2105fa30aabeb209ad73c56c596",
+          "destination": "/questions/policy_decision/criteria/allow/examples"
+        },
+        {
+          "id": "demo-011",
+          "criterion": "allow",
+          "origin": "authored_profile",
+          "contentHash": "796fa979b07b681c3a2b7274af8c527ab49f998c4b47bdd38f6470613bf7ff69",
+          "destination": "/questions/policy_decision/criteria/allow/examples"
+        },
+        {
+          "id": "demo-012",
+          "criterion": "allow",
+          "origin": "authored_profile",
+          "contentHash": "adc08fcdafa433a6d6724d2b2676ad7a72b0a30ee98df82e8cbcf7a6cedff7ac",
+          "destination": "/questions/policy_decision/criteria/allow/examples"
+        },
+        {
+          "id": "demo-013",
+          "criterion": "allow",
+          "origin": "authored_profile",
+          "contentHash": "a8c29c0243dde3e07416a1222a15ad728a2c8e0844fada2e8060c59f48aad7a4",
+          "destination": "/questions/policy_decision/criteria/allow/examples"
+        },
+        {
+          "id": "demo-014",
+          "criterion": "allow",
+          "origin": "authored_profile",
+          "contentHash": "d06e569e9055d0c14fc31d7de97e48fdd96fbf54af56e0a42ac870c2166435d2",
+          "destination": "/questions/policy_decision/criteria/allow/examples"
+        },
+        {
+          "id": "demo-015",
+          "criterion": "allow",
+          "origin": "authored_profile",
+          "contentHash": "b4bfb1187ffecf39e05bebbe31046a8a67ed5d27831772ee7f2aee59e4a0c044",
+          "destination": "/questions/policy_decision/criteria/allow/examples"
+        },
+        {
+          "id": "demo-016",
+          "criterion": "allow",
+          "origin": "authored_profile",
+          "contentHash": "6f1cab2e409b425f7ad0b6639bcd4d4dbaf7a9a1294fbba2156d4eddf10592e9",
+          "destination": "/questions/policy_decision/criteria/allow/examples"
+        },
+        {
+          "id": "demo-017",
+          "criterion": "block",
+          "origin": "authored_profile",
+          "contentHash": "8d81bb349cbfa346d1e07a16f574644f65c36c266020ed827ba9717b330fa54e",
+          "destination": "/questions/policy_decision/criteria/block/examples"
+        },
+        {
+          "id": "demo-018",
+          "criterion": "allow",
+          "origin": "authored_profile",
+          "contentHash": "f9b0dc8e88f213aaaf23d65d936cad44b3526def915063ad1b98dbc3b3edf778",
+          "destination": "/questions/policy_decision/criteria/allow/examples"
+        },
+        {
+          "id": "demo-019",
+          "criterion": "allow",
+          "origin": "authored_profile",
+          "contentHash": "bae04a4d517c2991380b43184402dba2485eb850146b1216517509891e1bb883",
+          "destination": "/questions/policy_decision/criteria/allow/examples"
+        },
+        {
+          "id": "demo-020",
+          "criterion": "allow",
+          "origin": "authored_profile",
+          "contentHash": "1ce48d5a05ec8105a45c387e62beb545168fff7aaacd80b57dfb7761b27bd765",
+          "destination": "/questions/policy_decision/criteria/allow/examples"
+        },
+        {
+          "id": "demo-021",
+          "criterion": "block",
+          "origin": "authored_profile",
+          "contentHash": "9efe0400426d4d6341e72400a1005c86a685a4f87e5a2b5c15ab95f60e8b5d08",
+          "destination": "/questions/policy_decision/criteria/block/examples"
+        },
+        {
+          "id": "demo-022",
+          "criterion": "allow",
+          "origin": "authored_profile",
+          "contentHash": "2c42e356d327f2829d184dacc904108697fef520039946c333f1596351f054d1",
+          "destination": "/questions/policy_decision/criteria/allow/examples"
+        },
+        {
+          "id": "demo-023",
+          "criterion": "allow",
+          "origin": "authored_profile",
+          "contentHash": "9f22f6bc23e7039b7dbd7bc37ab770ecd4d66f9e6bf0864ee04dde6951a4e5d3",
+          "destination": "/questions/policy_decision/criteria/allow/examples"
+        },
+        {
+          "id": "demo-024",
+          "criterion": "allow",
+          "origin": "authored_profile",
+          "contentHash": "1eaf1df1a599fd8b8685eb0afb3d9ee79f5a8f6b94343f64636d08b7663cb130",
+          "destination": "/questions/policy_decision/criteria/allow/examples"
+        },
+        {
+          "id": "demo-025",
+          "criterion": "review",
+          "origin": "authored_profile",
+          "contentHash": "52d5a6cbcfa18a10b612e5bb167c2f352b376fd6636223851c87150be2a47473",
+          "destination": "/questions/policy_decision/criteria/review/examples"
+        },
+        {
+          "id": "demo-026",
+          "criterion": "allow",
+          "origin": "authored_profile",
+          "contentHash": "4ccf317305bf404819bab1947049db87bc75fca040220fcfdce57f0288461abe",
+          "destination": "/questions/policy_decision/criteria/allow/examples"
+        },
+        {
+          "id": "demo-027",
+          "criterion": "allow",
+          "origin": "authored_profile",
+          "contentHash": "17100a15efc8dbafa92c380c705c2584425beaf67047155977f9c5bf51f3c523",
+          "destination": "/questions/policy_decision/criteria/allow/examples"
+        },
+        {
+          "id": "demo-028",
+          "criterion": "allow",
+          "origin": "authored_profile",
+          "contentHash": "649c19bb1b6b09b2c64cc7d9a98f021c92b4520d2b05b6daa1ac631c6333e099",
+          "destination": "/questions/policy_decision/criteria/allow/examples"
+        },
+        {
+          "id": "demo-029",
+          "criterion": "allow",
+          "origin": "authored_profile",
+          "contentHash": "f2661a3a36cfec4c4d7bc6dbb29911fa163f4e4639b286e01178b74fa0a509af",
+          "destination": "/questions/policy_decision/criteria/allow/examples"
+        },
+        {
+          "id": "demo-030",
+          "criterion": "allow",
+          "origin": "authored_profile",
+          "contentHash": "54a3fe7f95ac65b30760a349d9fbfd023958bfc9a6a7cd23e40be536d057a63d",
+          "destination": "/questions/policy_decision/criteria/allow/examples"
+        },
+        {
+          "id": "demo-031",
+          "criterion": "allow",
+          "origin": "authored_profile",
+          "contentHash": "ae5a79f91c71ca074024db27f9b246f15734c186266b24c673857df4f19ddd9a",
+          "destination": "/questions/policy_decision/criteria/allow/examples"
+        },
+        {
+          "id": "demo-032",
+          "criterion": "allow",
+          "origin": "authored_profile",
+          "contentHash": "33077e0d0b8c46763ec3f5122d874b063b00ad5fbc8854691c8de7c063a3620e",
+          "destination": "/questions/policy_decision/criteria/allow/examples"
+        },
+        {
+          "id": "demo-033",
+          "criterion": "allow",
+          "origin": "authored_profile",
+          "contentHash": "cd3f5eb34109756a93dce5acb2203f288947462dc5c38fc388bb6b30b880ccb3",
+          "destination": "/questions/policy_decision/criteria/allow/examples"
+        },
+        {
+          "id": "demo-034",
+          "criterion": "allow",
+          "origin": "authored_profile",
+          "contentHash": "d5b36e4086440cb08c9660b77f2027c0f9da9ad277174b018d4ad1b42d8bf5d7",
+          "destination": "/questions/policy_decision/criteria/allow/examples"
+        }
+      ],
+      "unassigned": []
+    },
+    {
+      "question": "input_contract",
+      "assigned": [
+        {
+          "id": "demo-001",
+          "criterion": "compliant",
+          "origin": "authored_profile",
+          "contentHash": "16b77a82a3009609faedd5cbf8c6409340d3b5bf5a69390aab2450b4684055bd",
+          "destination": "/questions/input_contract/criteria/compliant/examples"
+        },
+        {
+          "id": "demo-002",
+          "criterion": "compliant",
+          "origin": "authored_profile",
+          "contentHash": "3be1d6799ef50bd9c7588fad00c881befd71c02d404613f59f7459b27b4bc2dd",
+          "destination": "/questions/input_contract/criteria/compliant/examples"
+        },
+        {
+          "id": "demo-003",
+          "criterion": "compliant",
+          "origin": "authored_profile",
+          "contentHash": "1f6133279993b48131b847e76c84a903ca5af807978704fb96ec24bc6f5ab5d9",
+          "destination": "/questions/input_contract/criteria/compliant/examples"
+        },
+        {
+          "id": "demo-004",
+          "criterion": "compliant",
+          "origin": "authored_profile",
+          "contentHash": "9b0487815b71da258701856b89c8eaa926fcaf56cd0e47defe822ead27f763c1",
+          "destination": "/questions/input_contract/criteria/compliant/examples"
+        },
+        {
+          "id": "demo-005",
+          "criterion": "compliant",
+          "origin": "authored_profile",
+          "contentHash": "9a5ffd32e00b313d3353d8331fa7c129f8edbb92065e7f4b109e236469847450",
+          "destination": "/questions/input_contract/criteria/compliant/examples"
+        },
+        {
+          "id": "demo-006",
+          "criterion": "compliant",
+          "origin": "authored_profile",
+          "contentHash": "d98b30d22ff0cc74b70b19e686be33a270aee4b2402d509a6851d8366b0e7f36",
+          "destination": "/questions/input_contract/criteria/compliant/examples"
+        },
+        {
+          "id": "demo-007",
+          "criterion": "compliant",
+          "origin": "authored_profile",
+          "contentHash": "5689fbb4942fd6388e952327466ff4bb4d82515765b2fd6f63fdca3df10f19bf",
+          "destination": "/questions/input_contract/criteria/compliant/examples"
+        },
+        {
+          "id": "demo-008",
+          "criterion": "compliant",
+          "origin": "authored_profile",
+          "contentHash": "1c15bbd77aa1015063320d30ba90e5d53b89f0e3b332e0b8f115a72068f0492f",
+          "destination": "/questions/input_contract/criteria/compliant/examples"
+        },
+        {
+          "id": "demo-009",
+          "criterion": "compliant",
+          "origin": "authored_profile",
+          "contentHash": "8f0f9cd67daffde46a89cf51e0ea03f6de67e703032e4e28a4d0df6a90cdae75",
+          "destination": "/questions/input_contract/criteria/compliant/examples"
+        },
+        {
+          "id": "demo-010",
+          "criterion": "compliant",
+          "origin": "authored_profile",
+          "contentHash": "f43f63a2019fdebf1dd3fa189797800734c0c2105fa30aabeb209ad73c56c596",
+          "destination": "/questions/input_contract/criteria/compliant/examples"
+        },
+        {
+          "id": "demo-011",
+          "criterion": "compliant",
+          "origin": "authored_profile",
+          "contentHash": "796fa979b07b681c3a2b7274af8c527ab49f998c4b47bdd38f6470613bf7ff69",
+          "destination": "/questions/input_contract/criteria/compliant/examples"
+        },
+        {
+          "id": "demo-012",
+          "criterion": "compliant",
+          "origin": "authored_profile",
+          "contentHash": "adc08fcdafa433a6d6724d2b2676ad7a72b0a30ee98df82e8cbcf7a6cedff7ac",
+          "destination": "/questions/input_contract/criteria/compliant/examples"
+        },
+        {
+          "id": "demo-013",
+          "criterion": "compliant",
+          "origin": "authored_profile",
+          "contentHash": "a8c29c0243dde3e07416a1222a15ad728a2c8e0844fada2e8060c59f48aad7a4",
+          "destination": "/questions/input_contract/criteria/compliant/examples"
+        },
+        {
+          "id": "demo-014",
+          "criterion": "compliant",
+          "origin": "authored_profile",
+          "contentHash": "d06e569e9055d0c14fc31d7de97e48fdd96fbf54af56e0a42ac870c2166435d2",
+          "destination": "/questions/input_contract/criteria/compliant/examples"
+        },
+        {
+          "id": "demo-015",
+          "criterion": "compliant",
+          "origin": "authored_profile",
+          "contentHash": "b4bfb1187ffecf39e05bebbe31046a8a67ed5d27831772ee7f2aee59e4a0c044",
+          "destination": "/questions/input_contract/criteria/compliant/examples"
+        },
+        {
+          "id": "demo-016",
+          "criterion": "compliant",
+          "origin": "authored_profile",
+          "contentHash": "6f1cab2e409b425f7ad0b6639bcd4d4dbaf7a9a1294fbba2156d4eddf10592e9",
+          "destination": "/questions/input_contract/criteria/compliant/examples"
+        },
+        {
+          "id": "demo-017",
+          "criterion": "compliant",
+          "origin": "authored_profile",
+          "contentHash": "8d81bb349cbfa346d1e07a16f574644f65c36c266020ed827ba9717b330fa54e",
+          "destination": "/questions/input_contract/criteria/compliant/examples"
+        },
+        {
+          "id": "demo-018",
+          "criterion": "compliant",
+          "origin": "authored_profile",
+          "contentHash": "f9b0dc8e88f213aaaf23d65d936cad44b3526def915063ad1b98dbc3b3edf778",
+          "destination": "/questions/input_contract/criteria/compliant/examples"
+        },
+        {
+          "id": "demo-019",
+          "criterion": "compliant",
+          "origin": "authored_profile",
+          "contentHash": "bae04a4d517c2991380b43184402dba2485eb850146b1216517509891e1bb883",
+          "destination": "/questions/input_contract/criteria/compliant/examples"
+        },
+        {
+          "id": "demo-020",
+          "criterion": "compliant",
+          "origin": "authored_profile",
+          "contentHash": "1ce48d5a05ec8105a45c387e62beb545168fff7aaacd80b57dfb7761b27bd765",
+          "destination": "/questions/input_contract/criteria/compliant/examples"
+        },
+        {
+          "id": "demo-021",
+          "criterion": "compliant",
+          "origin": "authored_profile",
+          "contentHash": "9efe0400426d4d6341e72400a1005c86a685a4f87e5a2b5c15ab95f60e8b5d08",
+          "destination": "/questions/input_contract/criteria/compliant/examples"
+        },
+        {
+          "id": "demo-022",
+          "criterion": "compliant",
+          "origin": "authored_profile",
+          "contentHash": "2c42e356d327f2829d184dacc904108697fef520039946c333f1596351f054d1",
+          "destination": "/questions/input_contract/criteria/compliant/examples"
+        },
+        {
+          "id": "demo-023",
+          "criterion": "compliant",
+          "origin": "authored_profile",
+          "contentHash": "9f22f6bc23e7039b7dbd7bc37ab770ecd4d66f9e6bf0864ee04dde6951a4e5d3",
+          "destination": "/questions/input_contract/criteria/compliant/examples"
+        },
+        {
+          "id": "demo-024",
+          "criterion": "compliant",
+          "origin": "authored_profile",
+          "contentHash": "1eaf1df1a599fd8b8685eb0afb3d9ee79f5a8f6b94343f64636d08b7663cb130",
+          "destination": "/questions/input_contract/criteria/compliant/examples"
+        },
+        {
+          "id": "demo-025",
+          "criterion": "violation",
+          "origin": "authored_profile",
+          "contentHash": "52d5a6cbcfa18a10b612e5bb167c2f352b376fd6636223851c87150be2a47473",
+          "destination": "/questions/input_contract/criteria/violation/examples"
+        },
+        {
+          "id": "demo-026",
+          "criterion": "compliant",
+          "origin": "authored_profile",
+          "contentHash": "4ccf317305bf404819bab1947049db87bc75fca040220fcfdce57f0288461abe",
+          "destination": "/questions/input_contract/criteria/compliant/examples"
+        },
+        {
+          "id": "demo-027",
+          "criterion": "compliant",
+          "origin": "authored_profile",
+          "contentHash": "17100a15efc8dbafa92c380c705c2584425beaf67047155977f9c5bf51f3c523",
+          "destination": "/questions/input_contract/criteria/compliant/examples"
+        },
+        {
+          "id": "demo-028",
+          "criterion": "compliant",
+          "origin": "authored_profile",
+          "contentHash": "649c19bb1b6b09b2c64cc7d9a98f021c92b4520d2b05b6daa1ac631c6333e099",
+          "destination": "/questions/input_contract/criteria/compliant/examples"
+        },
+        {
+          "id": "demo-029",
+          "criterion": "compliant",
+          "origin": "authored_profile",
+          "contentHash": "f2661a3a36cfec4c4d7bc6dbb29911fa163f4e4639b286e01178b74fa0a509af",
+          "destination": "/questions/input_contract/criteria/compliant/examples"
+        },
+        {
+          "id": "demo-030",
+          "criterion": "compliant",
+          "origin": "authored_profile",
+          "contentHash": "54a3fe7f95ac65b30760a349d9fbfd023958bfc9a6a7cd23e40be536d057a63d",
+          "destination": "/questions/input_contract/criteria/compliant/examples"
+        },
+        {
+          "id": "demo-031",
+          "criterion": "compliant",
+          "origin": "authored_profile",
+          "contentHash": "ae5a79f91c71ca074024db27f9b246f15734c186266b24c673857df4f19ddd9a",
+          "destination": "/questions/input_contract/criteria/compliant/examples"
+        },
+        {
+          "id": "demo-032",
+          "criterion": "compliant",
+          "origin": "authored_profile",
+          "contentHash": "33077e0d0b8c46763ec3f5122d874b063b00ad5fbc8854691c8de7c063a3620e",
+          "destination": "/questions/input_contract/criteria/compliant/examples"
+        },
+        {
+          "id": "demo-033",
+          "criterion": "compliant",
+          "origin": "authored_profile",
+          "contentHash": "cd3f5eb34109756a93dce5acb2203f288947462dc5c38fc388bb6b30b880ccb3",
+          "destination": "/questions/input_contract/criteria/compliant/examples"
+        },
+        {
+          "id": "demo-034",
+          "criterion": "compliant",
+          "origin": "authored_profile",
+          "contentHash": "d5b36e4086440cb08c9660b77f2027c0f9da9ad277174b018d4ad1b42d8bf5d7",
+          "destination": "/questions/input_contract/criteria/compliant/examples"
+        }
+      ],
+      "unassigned": []
+    },
+    {
+      "question": "interference_scope",
+      "assigned": [],
+      "unassigned": [
+        {
+          "id": "demo-001",
+          "reason": "no_definite_authoring_label",
+          "contentHash": "16b77a82a3009609faedd5cbf8c6409340d3b5bf5a69390aab2450b4684055bd",
+          "destination": "/questions/interference_scope/instructions/ungradedReferenceExamples"
+        },
+        {
+          "id": "demo-002",
+          "reason": "no_definite_authoring_label",
+          "contentHash": "3be1d6799ef50bd9c7588fad00c881befd71c02d404613f59f7459b27b4bc2dd",
+          "destination": "/questions/interference_scope/instructions/ungradedReferenceExamples"
+        },
+        {
+          "id": "demo-003",
+          "reason": "no_definite_authoring_label",
+          "contentHash": "1f6133279993b48131b847e76c84a903ca5af807978704fb96ec24bc6f5ab5d9",
+          "destination": "/questions/interference_scope/instructions/ungradedReferenceExamples"
+        },
+        {
+          "id": "demo-004",
+          "reason": "no_definite_authoring_label",
+          "contentHash": "9b0487815b71da258701856b89c8eaa926fcaf56cd0e47defe822ead27f763c1",
+          "destination": "/questions/interference_scope/instructions/ungradedReferenceExamples"
+        },
+        {
+          "id": "demo-005",
+          "reason": "no_definite_authoring_label",
+          "contentHash": "9a5ffd32e00b313d3353d8331fa7c129f8edbb92065e7f4b109e236469847450",
+          "destination": "/questions/interference_scope/instructions/ungradedReferenceExamples"
+        },
+        {
+          "id": "demo-006",
+          "reason": "no_definite_authoring_label",
+          "contentHash": "d98b30d22ff0cc74b70b19e686be33a270aee4b2402d509a6851d8366b0e7f36",
+          "destination": "/questions/interference_scope/instructions/ungradedReferenceExamples"
+        },
+        {
+          "id": "demo-007",
+          "reason": "no_definite_authoring_label",
+          "contentHash": "5689fbb4942fd6388e952327466ff4bb4d82515765b2fd6f63fdca3df10f19bf",
+          "destination": "/questions/interference_scope/instructions/ungradedReferenceExamples"
+        },
+        {
+          "id": "demo-008",
+          "reason": "no_definite_authoring_label",
+          "contentHash": "1c15bbd77aa1015063320d30ba90e5d53b89f0e3b332e0b8f115a72068f0492f",
+          "destination": "/questions/interference_scope/instructions/ungradedReferenceExamples"
+        },
+        {
+          "id": "demo-009",
+          "reason": "no_definite_authoring_label",
+          "contentHash": "8f0f9cd67daffde46a89cf51e0ea03f6de67e703032e4e28a4d0df6a90cdae75",
+          "destination": "/questions/interference_scope/instructions/ungradedReferenceExamples"
+        },
+        {
+          "id": "demo-010",
+          "reason": "no_definite_authoring_label",
+          "contentHash": "f43f63a2019fdebf1dd3fa189797800734c0c2105fa30aabeb209ad73c56c596",
+          "destination": "/questions/interference_scope/instructions/ungradedReferenceExamples"
+        },
+        {
+          "id": "demo-011",
+          "reason": "no_definite_authoring_label",
+          "contentHash": "796fa979b07b681c3a2b7274af8c527ab49f998c4b47bdd38f6470613bf7ff69",
+          "destination": "/questions/interference_scope/instructions/ungradedReferenceExamples"
+        },
+        {
+          "id": "demo-012",
+          "reason": "no_definite_authoring_label",
+          "contentHash": "adc08fcdafa433a6d6724d2b2676ad7a72b0a30ee98df82e8cbcf7a6cedff7ac",
+          "destination": "/questions/interference_scope/instructions/ungradedReferenceExamples"
+        },
+        {
+          "id": "demo-013",
+          "reason": "no_definite_authoring_label",
+          "contentHash": "a8c29c0243dde3e07416a1222a15ad728a2c8e0844fada2e8060c59f48aad7a4",
+          "destination": "/questions/interference_scope/instructions/ungradedReferenceExamples"
+        },
+        {
+          "id": "demo-014",
+          "reason": "no_definite_authoring_label",
+          "contentHash": "d06e569e9055d0c14fc31d7de97e48fdd96fbf54af56e0a42ac870c2166435d2",
+          "destination": "/questions/interference_scope/instructions/ungradedReferenceExamples"
+        },
+        {
+          "id": "demo-015",
+          "reason": "no_definite_authoring_label",
+          "contentHash": "b4bfb1187ffecf39e05bebbe31046a8a67ed5d27831772ee7f2aee59e4a0c044",
+          "destination": "/questions/interference_scope/instructions/ungradedReferenceExamples"
+        },
+        {
+          "id": "demo-016",
+          "reason": "no_definite_authoring_label",
+          "contentHash": "6f1cab2e409b425f7ad0b6639bcd4d4dbaf7a9a1294fbba2156d4eddf10592e9",
+          "destination": "/questions/interference_scope/instructions/ungradedReferenceExamples"
+        },
+        {
+          "id": "demo-017",
+          "reason": "no_definite_authoring_label",
+          "contentHash": "8d81bb349cbfa346d1e07a16f574644f65c36c266020ed827ba9717b330fa54e",
+          "destination": "/questions/interference_scope/instructions/ungradedReferenceExamples"
+        },
+        {
+          "id": "demo-018",
+          "reason": "no_definite_authoring_label",
+          "contentHash": "f9b0dc8e88f213aaaf23d65d936cad44b3526def915063ad1b98dbc3b3edf778",
+          "destination": "/questions/interference_scope/instructions/ungradedReferenceExamples"
+        },
+        {
+          "id": "demo-019",
+          "reason": "no_definite_authoring_label",
+          "contentHash": "bae04a4d517c2991380b43184402dba2485eb850146b1216517509891e1bb883",
+          "destination": "/questions/interference_scope/instructions/ungradedReferenceExamples"
+        },
+        {
+          "id": "demo-020",
+          "reason": "no_definite_authoring_label",
+          "contentHash": "1ce48d5a05ec8105a45c387e62beb545168fff7aaacd80b57dfb7761b27bd765",
+          "destination": "/questions/interference_scope/instructions/ungradedReferenceExamples"
+        },
+        {
+          "id": "demo-021",
+          "reason": "no_definite_authoring_label",
+          "contentHash": "9efe0400426d4d6341e72400a1005c86a685a4f87e5a2b5c15ab95f60e8b5d08",
+          "destination": "/questions/interference_scope/instructions/ungradedReferenceExamples"
+        },
+        {
+          "id": "demo-022",
+          "reason": "no_definite_authoring_label",
+          "contentHash": "2c42e356d327f2829d184dacc904108697fef520039946c333f1596351f054d1",
+          "destination": "/questions/interference_scope/instructions/ungradedReferenceExamples"
+        },
+        {
+          "id": "demo-023",
+          "reason": "no_definite_authoring_label",
+          "contentHash": "9f22f6bc23e7039b7dbd7bc37ab770ecd4d66f9e6bf0864ee04dde6951a4e5d3",
+          "destination": "/questions/interference_scope/instructions/ungradedReferenceExamples"
+        },
+        {
+          "id": "demo-024",
+          "reason": "no_definite_authoring_label",
+          "contentHash": "1eaf1df1a599fd8b8685eb0afb3d9ee79f5a8f6b94343f64636d08b7663cb130",
+          "destination": "/questions/interference_scope/instructions/ungradedReferenceExamples"
+        },
+        {
+          "id": "demo-025",
+          "reason": "no_definite_authoring_label",
+          "contentHash": "52d5a6cbcfa18a10b612e5bb167c2f352b376fd6636223851c87150be2a47473",
+          "destination": "/questions/interference_scope/instructions/ungradedReferenceExamples"
+        },
+        {
+          "id": "demo-026",
+          "reason": "no_definite_authoring_label",
+          "contentHash": "4ccf317305bf404819bab1947049db87bc75fca040220fcfdce57f0288461abe",
+          "destination": "/questions/interference_scope/instructions/ungradedReferenceExamples"
+        },
+        {
+          "id": "demo-027",
+          "reason": "no_definite_authoring_label",
+          "contentHash": "17100a15efc8dbafa92c380c705c2584425beaf67047155977f9c5bf51f3c523",
+          "destination": "/questions/interference_scope/instructions/ungradedReferenceExamples"
+        },
+        {
+          "id": "demo-028",
+          "reason": "no_definite_authoring_label",
+          "contentHash": "649c19bb1b6b09b2c64cc7d9a98f021c92b4520d2b05b6daa1ac631c6333e099",
+          "destination": "/questions/interference_scope/instructions/ungradedReferenceExamples"
+        },
+        {
+          "id": "demo-029",
+          "reason": "no_definite_authoring_label",
+          "contentHash": "f2661a3a36cfec4c4d7bc6dbb29911fa163f4e4639b286e01178b74fa0a509af",
+          "destination": "/questions/interference_scope/instructions/ungradedReferenceExamples"
+        },
+        {
+          "id": "demo-030",
+          "reason": "no_definite_authoring_label",
+          "contentHash": "54a3fe7f95ac65b30760a349d9fbfd023958bfc9a6a7cd23e40be536d057a63d",
+          "destination": "/questions/interference_scope/instructions/ungradedReferenceExamples"
+        },
+        {
+          "id": "demo-031",
+          "reason": "no_definite_authoring_label",
+          "contentHash": "ae5a79f91c71ca074024db27f9b246f15734c186266b24c673857df4f19ddd9a",
+          "destination": "/questions/interference_scope/instructions/ungradedReferenceExamples"
+        },
+        {
+          "id": "demo-032",
+          "reason": "no_definite_authoring_label",
+          "contentHash": "33077e0d0b8c46763ec3f5122d874b063b00ad5fbc8854691c8de7c063a3620e",
+          "destination": "/questions/interference_scope/instructions/ungradedReferenceExamples"
+        },
+        {
+          "id": "demo-033",
+          "reason": "no_definite_authoring_label",
+          "contentHash": "cd3f5eb34109756a93dce5acb2203f288947462dc5c38fc388bb6b30b880ccb3",
+          "destination": "/questions/interference_scope/instructions/ungradedReferenceExamples"
+        },
+        {
+          "id": "demo-034",
+          "reason": "no_definite_authoring_label",
+          "contentHash": "d5b36e4086440cb08c9660b77f2027c0f9da9ad277174b018d4ad1b42d8bf5d7",
+          "destination": "/questions/interference_scope/instructions/ungradedReferenceExamples"
+        }
+      ]
+    }
+  ],
+  "materialHash": "d251bc729b6162fb9af955d7f6b2990aed992e64bb25e450460ee96777de2238",
+  "configurationHash": "fd4d742c9bdc6165f7aaac84a17f06bf40e7e098882d5dcbdaaea8afab600ed4",
+  "trustedContextHash": "c0b323fd9ec764a4edfd6e531c3ebd4094028d9d5fe3aad874348394b1218a37",
+  "guarantees": {
+    "materialDecoded": false,
+    "materialFiltered": false,
+    "evaluationLabelsIncluded": false,
+    "providerAcceptanceVerified": false,
+    "modelPerformanceMeasured": false
+  },
+  "warnings": [
+    "Resolved examples repeat their context and shared representation reference; input tokens must be measured. Unknown labels remain ungraded, not false.",
+    "A joint generative reply may condition later outputs on earlier generated outputs; it is not the same execution semantics as native independent questions.",
+    "Generic messages plus responseSchema require a provider adapter. Self-reported scalar outputs are not Jev native probabilities; no confidence distribution is fabricated."
+  ],
+  "guideDestinations": [
+    "/state/classifierGuide"
+  ],
+  "stateBindings": [
+    {
+      "source": "/caseInput/configuration",
+      "destination": "/state/policy",
+      "role": "application_policy"
+    },
+    {
+      "source": "/caseInput/trustedContext",
+      "destination": "/state/trustedContext",
+      "role": "caller_supplied_context_and_provenance"
+    },
+    {
+      "source": "/caseInput/material",
+      "destination": "/state/material",
+      "role": "assessed_data_never_promoted_to_instruction"
+    }
+  ],
+  "authenticity": "The compiler preserves supplied provenance; it does not authenticate external records or create grants.",
+  "physicalRequests": 1,
+  "totalWireBytes": 406455,
+  "exactLegacyWireMatch": false,
+  "criterionDefinitionsPreserved": true
+}

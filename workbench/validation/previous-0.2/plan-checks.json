@@ -1,0 +1,259 @@
+{
+  "scope": "Offline exact payload planning; no Jev inference and no correctness claim.",
+  "units": 32,
+  "caseMembership": 60,
+  "advisorPlans": {
+    "rank": {
+      "calls": 6,
+      "questions": 32,
+      "largestRequestBytes": 10484,
+      "planHash": "841796ba9453bf31f352b904f878ce1cdb6ec7dae498b9b9f1a54f0b4f9574ca",
+      "budget": {
+        "maxUsd": 0.02,
+        "maxInputTokens": 500000,
+        "estimatedInputTokens": 18533,
+        "estimatedUsd": 0.000778386,
+        "reservationInputTokens": 57125,
+        "reservationUsd": 0.00239925
+      }
+    },
+    "tag": {
+      "calls": 6,
+      "questions": 416,
+      "largestRequestBytes": 49479,
+      "planHash": "72d7043237f99e04cfec76cbd848cbc963b5c6c5d3a273010a036374bb8a1b14",
+      "budget": {
+        "maxUsd": 0.02,
+        "maxInputTokens": 500000,
+        "estimatedInputTokens": 87897,
+        "estimatedUsd": 0.003691674,
+        "reservationInputTokens": 265223,
+        "reservationUsd": 0.011139366
+      }
+    },
+    "historicalMetadata": {
+      "descriptors": 18,
+      "calls": 3,
+      "questions": 234,
+      "planHash": "3ea8db9f98d45434e961c5999382e9eabb1c30a2e6831fa5c5e457f497323f61",
+      "budget": {
+        "maxUsd": 0.02,
+        "maxInputTokens": 500000,
+        "estimatedInputTokens": 49508,
+        "estimatedUsd": 0.002079336,
+        "reservationInputTokens": 149290,
+        "reservationUsd": 0.00627018
+      },
+      "notHistoricalReplay": true
+    }
+  },
+  "neutralFallbackBudgetPlans": [
+    {
+      "cap": 0.03,
+      "state": "insufficient_budget",
+      "counts": {
+        "catalogCases": 60,
+        "catalogGroups": 32,
+        "selectedCases": 0,
+        "selectedGroups": 0,
+        "physicalRequests": 0,
+        "independentCasesClaimed": false
+      },
+      "budget": {
+        "maxUsd": 0.03,
+        "maxInputTokens": 3000000,
+        "estimatedInputTokens": 0,
+        "estimatedUsd": 0,
+        "reservationInputTokens": 0,
+        "reservationUsd": 0,
+        "advisorCommittedUsd": 0,
+        "advisorCommittedInputTokens": 0,
+        "campaignReservationUsd": 0,
+        "campaignReservationInputTokens": 0,
+        "unusedUsd": 0.03,
+        "method": "Provider usage for scored advice; conservative bytes+256 reservations for evaluation. Local accounting, not a provider billing guarantee."
+      },
+      "minimum": {
+        "nano": 54575640,
+        "tokens": 1299420
+      },
+      "planHash": "8e227f86d8c3c39def106a590a1e42820a3f8a90b953eea1e8415cfa32782999"
+    },
+    {
+      "cap": 0.06,
+      "state": "budget_limited",
+      "counts": {
+        "catalogCases": 60,
+        "catalogGroups": 32,
+        "selectedCases": 36,
+        "selectedGroups": 20,
+        "physicalRequests": 72,
+        "independentCasesClaimed": false
+      },
+      "budget": {
+        "maxUsd": 0.06,
+        "maxInputTokens": 3000000,
+        "estimatedInputTokens": 452346,
+        "estimatedUsd": 0.018998532,
+        "reservationInputTokens": 1375394,
+        "reservationUsd": 0.057766548,
+        "advisorCommittedUsd": 0,
+        "advisorCommittedInputTokens": 0,
+        "campaignReservationUsd": 0.057766548,
+        "campaignReservationInputTokens": 1375394,
+        "unusedUsd": 0.002233451999999997,
+        "method": "Provider usage for scored advice; conservative bytes+256 reservations for evaluation. Local accounting, not a provider billing guarantee."
+      },
+      "minimum": {
+        "nano": 54575640,
+        "tokens": 1299420
+      },
+      "planHash": "3e289e65b181ad4cf40f5c69828f3a90d053b981be0c4e37fc875cd34c7bacb4"
+    },
+    {
+      "cap": 0.08,
+      "state": "budget_limited",
+      "counts": {
+        "catalogCases": 60,
+        "catalogGroups": 32,
+        "selectedCases": 44,
+        "selectedGroups": 24,
+        "physicalRequests": 88,
+        "independentCasesClaimed": false
+      },
+      "budget": {
+        "maxUsd": 0.08,
+        "maxInputTokens": 3000000,
+        "estimatedInputTokens": 605352,
+        "estimatedUsd": 0.025424784,
+        "reservationInputTokens": 1838486,
+        "reservationUsd": 0.077216412,
+        "advisorCommittedUsd": 0,
+        "advisorCommittedInputTokens": 0,
+        "campaignReservationUsd": 0.077216412,
+        "campaignReservationInputTokens": 1838486,
+        "unusedUsd": 0.0027835880000000035,
+        "method": "Provider usage for scored advice; conservative bytes+256 reservations for evaluation. Local accounting, not a provider billing guarantee."
+      },
+      "minimum": {
+        "nano": 54575640,
+        "tokens": 1299420
+      },
+      "planHash": "7f7926fe49f0fd67fae3401566f335377435ba7825bd434d0bdae5ab211e21cc"
+    },
+    {
+      "cap": 0.15,
+      "state": "prepared_offline",
+      "counts": {
+        "catalogCases": 60,
+        "catalogGroups": 32,
+        "selectedCases": 60,
+        "selectedGroups": 32,
+        "physicalRequests": 120,
+        "independentCasesClaimed": false
+      },
+      "budget": {
+        "maxUsd": 0.15,
+        "maxInputTokens": 3000000,
+        "estimatedInputTokens": 858524,
+        "estimatedUsd": 0.036058008,
+        "reservationInputTokens": 2606164,
+        "reservationUsd": 0.109458888,
+        "advisorCommittedUsd": 0,
+        "advisorCommittedInputTokens": 0,
+        "campaignReservationUsd": 0.109458888,
+        "campaignReservationInputTokens": 2606164,
+        "unusedUsd": 0.04054111199999999,
+        "method": "Provider usage for scored advice; conservative bytes+256 reservations for evaluation. Local accounting, not a provider billing guarantee."
+      },
+      "minimum": {
+        "nano": 54575640,
+        "tokens": 1299420
+      },
+      "planHash": "053657c58e8e77f492bfbf0fcb0bc8f80fdae45f59823578f02a59b78da6fc38"
+    }
+  ],
+  "neutralFallbackTierPlans": [
+    {
+      "tier": "bronze",
+      "state": "prepared_offline",
+      "counts": {
+        "catalogCases": 60,
+        "catalogGroups": 32,
+        "selectedCases": 34,
+        "selectedGroups": 19,
+        "physicalRequests": 68,
+        "independentCasesClaimed": false
+      },
+      "budget": {
+        "maxUsd": 0.15,
+        "maxInputTokens": 3000000,
+        "estimatedInputTokens": 427360,
+        "estimatedUsd": 0.01794912,
+        "reservationInputTokens": 1299420,
+        "reservationUsd": 0.05457564,
+        "advisorCommittedUsd": 0,
+        "advisorCommittedInputTokens": 0,
+        "campaignReservationUsd": 0.05457564,
+        "campaignReservationInputTokens": 1299420,
+        "unusedUsd": 0.09542435999999999,
+        "method": "Provider usage for scored advice; conservative bytes+256 reservations for evaluation. Local accounting, not a provider billing guarantee."
+      },
+      "planHash": "48b6a44131741d8d1d9cb5855b81fdf650d9f84a995b8ce39c4962a18fbf3cac"
+    },
+    {
+      "tier": "silver",
+      "state": "prepared_offline",
+      "counts": {
+        "catalogCases": 60,
+        "catalogGroups": 32,
+        "selectedCases": 34,
+        "selectedGroups": 19,
+        "physicalRequests": 68,
+        "independentCasesClaimed": false
+      },
+      "budget": {
+        "maxUsd": 0.15,
+        "maxInputTokens": 3000000,
+        "estimatedInputTokens": 427360,
+        "estimatedUsd": 0.01794912,
+        "reservationInputTokens": 1299420,
+        "reservationUsd": 0.05457564,
+        "advisorCommittedUsd": 0,
+        "advisorCommittedInputTokens": 0,
+        "campaignReservationUsd": 0.05457564,
+        "campaignReservationInputTokens": 1299420,
+        "unusedUsd": 0.09542435999999999,
+        "method": "Provider usage for scored advice; conservative bytes+256 reservations for evaluation. Local accounting, not a provider billing guarantee."
+      },
+      "planHash": "f9214d089bd73d7d74827f071f0cc8c0fdc81d30f9f27318e86a620332bd0f7a"
+    },
+    {
+      "tier": "gold",
+      "state": "prepared_offline",
+      "counts": {
+        "catalogCases": 60,
+        "catalogGroups": 32,
+        "selectedCases": 60,
+        "selectedGroups": 32,
+        "physicalRequests": 120,
+        "independentCasesClaimed": false
+      },
+      "budget": {
+        "maxUsd": 0.15,
+        "maxInputTokens": 3000000,
+        "estimatedInputTokens": 858524,
+        "estimatedUsd": 0.036058008,
+        "reservationInputTokens": 2606164,
+        "reservationUsd": 0.109458888,
+        "advisorCommittedUsd": 0,
+        "advisorCommittedInputTokens": 0,
+        "campaignReservationUsd": 0.109458888,
+        "campaignReservationInputTokens": 2606164,
+        "unusedUsd": 0.04054111199999999,
+        "method": "Provider usage for scored advice; conservative bytes+256 reservations for evaluation. Local accounting, not a provider billing guarantee."
+      },
+      "planHash": "32d223bf450bdcf8e54ff886b72339054829725c042d23e89178e638f50bd42b"
+    }
+  ]
+}

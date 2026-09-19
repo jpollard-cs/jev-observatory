@@ -1,0 +1,14 @@
+{
+  "status": "passed",
+  "scope": "Full actual original request shapes with SYNTHETIC transport only",
+  "jobs": 15184,
+  "initialBoundedPartial": 131,
+  "interruptedAfter": 8323,
+  "resumedNewCalls": 6861,
+  "completedResumeNewCalls": 0,
+  "ledgerEvents": 30368,
+  "sourceStamp": "89dea8bead1309e63b610f450461e98b9ef0c8b707f1f7e24fcb8938858312ed",
+  "providerCalls": 0,
+  "environmentInterruption": true,
+  "subsequentElapsedMs": 35543.411447
+}

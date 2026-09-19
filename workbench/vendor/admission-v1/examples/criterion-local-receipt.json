@@ -1,0 +1,292 @@
+{
+  "schemaVersion": "payload-receipt/1",
+  "assessmentHash": "110d7dda678d1dec2d0987334e2a664e7e1d2e6811e2b775250ca3febbaa3e03",
+  "profileHash": "75ebb1912d77f46c7cbb14b7ee9e6ba8a379e2581dac17daad64028cc29cca4e",
+  "sourceRequestHash": "01e1bb8807962935ecbed227c6e90f5c743e516596c6fe62f75d46556d949940",
+  "sourceGuideHash": "c30211cf47f20deb78dcb6a3fb09466e1f3b473f57452d82244eb40ce2c18365",
+  "profileId": "consumer-criteria",
+  "renderer": "jev",
+  "modelSelector": "jev-latest",
+  "changes": [],
+  "includedGuideBlocks": [
+    {
+      "id": "g001",
+      "contentHash": "f6881f820e9ef74ecd7c0b10897b0aca0fad1561a66c1c538281206938d0ee9b",
+      "source": {
+        "pointer": "/state/classifierGuide",
+        "startUtf16": 0,
+        "endUtf16": 457,
+        "startLine": 1,
+        "endLine": 4
+      }
+    },
+    {
+      "id": "g002",
+      "contentHash": "63ee415c88fb2d46bb8e32a1dd8f11f57ac65b1b03ed9a509f4c4582e4660e1c",
+      "source": {
+        "pointer": "/state/classifierGuide",
+        "startUtf16": 457,
+        "endUtf16": 851,
+        "startLine": 5,
+        "endLine": 7
+      }
+    },
+    {
+      "id": "g003",
+      "contentHash": "8130e1413054f9e4ee08961c8069f97ad761cd14bf01ba267c5bd75b70a66d94",
+      "source": {
+        "pointer": "/state/classifierGuide",
+        "startUtf16": 851,
+        "endUtf16": 1958,
+        "startLine": 8,
+        "endLine": 12
+      }
+    },
+    {
+      "id": "g004",
+      "contentHash": "5652225a080fbca801e9ecfec692810c5dfd2f8b12a8cd02136566b91c62a33b",
+      "source": {
+        "pointer": "/state/classifierGuide",
+        "startUtf16": 1958,
+        "endUtf16": 3335,
+        "startLine": 13,
+        "endLine": 17
+      }
+    },
+    {
+      "id": "g005",
+      "contentHash": "324e4381f7c4cbd65bb5ad24ebe44ec494238c4c27337ca4efe611b66046a309",
+      "source": {
+        "pointer": "/state/classifierGuide",
+        "startUtf16": 3335,
+        "endUtf16": 4176,
+        "startLine": 18,
+        "endLine": 20
+      }
+    },
+    {
+      "id": "g006",
+      "contentHash": "d477c846ebf3695c292fa1e2e8c4ea25e76352dbd39b4eba625598390dab9cae",
+      "source": {
+        "pointer": "/state/classifierGuide",
+        "startUtf16": 4176,
+        "endUtf16": 5011,
+        "startLine": 21,
+        "endLine": 23
+      }
+    }
+  ],
+  "omittedGuideBlocks": [],
+  "questionGuideSelections": [],
+  "examples": [],
+  "materialHash": "6ea10d8855c91607769797e4d5551c7dd1017b5f1bc4593e429c3f8e6b4d017b",
+  "configurationHash": "a6595117038b932a447c835661a90c2c8885610776918344d80f5b48bf2c7d41",
+  "trustedContextHash": "e8dc8d8242e5a20b927229e57def668710e6585df74213bdf1edc3b21ca74932",
+  "guarantees": {
+    "materialDecoded": false,
+    "materialFiltered": false,
+    "evaluationLabelsIncluded": false,
+    "providerAcceptanceVerified": false,
+    "modelPerformanceMeasured": false
+  },
+  "warnings": [],
+  "guideDestinations": [
+    "/state/classifierGuide"
+  ],
+  "stateBindings": [
+    {
+      "source": "/caseInput/configuration",
+      "destination": "/state/policy",
+      "role": "application_policy"
+    },
+    {
+      "source": "/caseInput/trustedContext",
+      "destination": "/state/trustedContext",
+      "role": "caller_supplied_context_and_provenance"
+    },
+    {
+      "source": "/caseInput/material",
+      "destination": "/state/material",
+      "role": "assessed_data_never_promoted_to_instruction"
+    }
+  ],
+  "authenticity": "The compiler preserves supplied provenance; it does not authenticate external records or create grants.",
+  "physicalRequests": 1,
+  "totalWireBytes": 23470,
+  "exactLegacyWireMatch": true,
+  "criterionDefinitionsPreserved": true,
+  "consumerContextResolution": {
+    "schemaVersion": "consumer-assessment-batch/1",
+    "policyId": "contextual",
+    "origins": {
+      "task": "entry",
+      "expectedRepresentation": "entry",
+      "exceptionIds": "entry",
+      "source": "entry"
+    },
+    "materialHash": "6ea10d8855c91607769797e4d5551c7dd1017b5f1bc4593e429c3f8e6b4d017b",
+    "contextHash": "8adb1aa0a4d1e4dc3aa87c035c4b1ea468fbf153dfd5669143443ccb5234c82d",
+    "eligibility": "Host field/task/operation checks only. Semantic applicability still requires the model findings; source text cannot activate an exception."
+  },
+  "logicalAssessmentHash": "abe36ca18dffc51a486a23f69db7608cfb625bfe117cd5212cb071cbc61d7031",
+  "demonstrationProjection": {
+    "version": "per-proposition-bank/1",
+    "assignmentHash": "ecd5cb4eaa053b5c22c3463cd1791dddc0812acf9045172c6cefe5cd17c387b6",
+    "assignments": [
+      {
+        "question": "classification",
+        "id": "classification-1",
+        "label": "attack",
+        "contentHash": "cb5715206a5a494aaab2d4cd84eee2f85fcc66ea049a34cd44c621f36973ebf4",
+        "destination": "questions.classification.criteria.attack.examples"
+      },
+      {
+        "question": "classification",
+        "id": "classification-2",
+        "label": "benign",
+        "contentHash": "6e64f5893f63160a67e7b5ff10ac6ec0118978548b3d34c5abc973f9cdc73db1",
+        "destination": "questions.classification.criteria.benign.examples"
+      },
+      {
+        "question": "classification",
+        "id": "classification-3",
+        "label": "benign",
+        "contentHash": "b7725708275ad1b2b1713be3ef021d762e3f8517c36e1fd78d5445eb8964a132",
+        "destination": "questions.classification.criteria.benign.examples"
+      },
+      {
+        "question": "classification",
+        "id": "classification-4",
+        "label": "insufficient_evidence",
+        "contentHash": "49d0a244d5b11b209560b7edaae46ae2541cba5aa2e3e55d2e3ed0966ab6e246",
+        "destination": "questions.classification.criteria.insufficient_evidence.examples"
+      },
+      {
+        "question": "content_relevance",
+        "id": "content_relevance-1",
+        "label": "relevant",
+        "contentHash": "56765f0f7fd4ebcd8c1ad5812908409878e9222505cf9a875bf75852ee0c76de",
+        "destination": "questions.content_relevance.criteria.relevant.examples"
+      },
+      {
+        "question": "content_relevance",
+        "id": "content_relevance-2",
+        "label": "irrelevant",
+        "contentHash": "fddb0d8ee59863adaf23cf3943b61d2bdf046dcec4f07326e8f3d3aa4a7a4d41",
+        "destination": "questions.content_relevance.criteria.irrelevant.examples"
+      },
+      {
+        "question": "content_relevance",
+        "id": "content_relevance-3",
+        "label": "mixed",
+        "contentHash": "80ab13ee34378e1bab5e99ed0c5a8d73dc322e709f3bd98707f878e80ee35ad1",
+        "destination": "questions.content_relevance.criteria.mixed.examples"
+      },
+      {
+        "question": "content_relevance",
+        "id": "content_relevance-4",
+        "label": "insufficient_evidence",
+        "contentHash": "12fc6260574d1e8aaec2a8923c49ae6009c0f2cd334565810b5c1bd4654f0af0",
+        "destination": "questions.content_relevance.criteria.insufficient_evidence.examples"
+      },
+      {
+        "question": "representation_relevance",
+        "id": "representation_relevance-1",
+        "label": "expected",
+        "contentHash": "1a86c0d848f839c4f4ea88b6fdb6134632b6f9a12d88c0a98ccef21ce8939077",
+        "destination": "questions.representation_relevance.criteria.expected.examples"
+      },
+      {
+        "question": "representation_relevance",
+        "id": "representation_relevance-2",
+        "label": "unexpected",
+        "contentHash": "f0ca813d4795337aa64dba81b7e7c2a704acf5109c4e45af5ed360bd7cd21414",
+        "destination": "questions.representation_relevance.criteria.unexpected.examples"
+      },
+      {
+        "question": "representation_relevance",
+        "id": "representation_relevance-3",
+        "label": "mixed",
+        "contentHash": "cc1faad65b22177a10b614303cd5fd728defce4db3dd5d50d2cc9ec2ddd0c930",
+        "destination": "questions.representation_relevance.criteria.mixed.examples"
+      },
+      {
+        "question": "representation_relevance",
+        "id": "representation_relevance-4",
+        "label": "insufficient_evidence",
+        "contentHash": "45919750d6bf761583ff31913945b462543c07450c742d45ee5b5287123a92a7",
+        "destination": "questions.representation_relevance.criteria.insufficient_evidence.examples"
+      },
+      {
+        "question": "input_contract",
+        "id": "input_contract-1",
+        "label": "violation",
+        "contentHash": "5305366085158978652abd6140880a69a179315f0db294f1c40f601bb0dd2ad7",
+        "destination": "questions.input_contract.criteria.violation.examples"
+      },
+      {
+        "question": "input_contract",
+        "id": "input_contract-2",
+        "label": "compliant",
+        "contentHash": "0e4fb21d98329d2eac3475bf1c5c3b2a8c36a9e83bee9d193340e1e7735dcb81",
+        "destination": "questions.input_contract.criteria.compliant.examples"
+      },
+      {
+        "question": "input_contract",
+        "id": "input_contract-3",
+        "label": "compliant",
+        "contentHash": "3e3564d70026752001e5c8737d4812c4969be8c59afe945c30acdea56ae0bf00",
+        "destination": "questions.input_contract.criteria.compliant.examples"
+      },
+      {
+        "question": "input_contract",
+        "id": "input_contract-4",
+        "label": "insufficient_evidence",
+        "contentHash": "a1f84ab9412055342340270bf09285e1256f2a97d5c4ee469817c71dd810333e",
+        "destination": "questions.input_contract.criteria.insufficient_evidence.examples"
+      },
+      {
+        "question": "policy_decision",
+        "id": "policy_decision-1",
+        "label": "allow",
+        "contentHash": "3997c8f1503139bce79756c1acadcc19c1f8f66e2c01b3d967c42b7e6d8ac65f",
+        "destination": "questions.policy_decision.criteria.allow.examples"
+      },
+      {
+        "question": "policy_decision",
+        "id": "policy_decision-2",
+        "label": "block",
+        "contentHash": "daf84a577a9841a23d6ad8638a32f62a816ddf136ad4049ebe077c8adc2e0de4",
+        "destination": "questions.policy_decision.criteria.block.examples"
+      },
+      {
+        "question": "policy_decision",
+        "id": "policy_decision-3",
+        "label": "block",
+        "contentHash": "11ead63c3d7dc16658299483a4c62cc5dd8b2a91d85420d108876a249beffd62",
+        "destination": "questions.policy_decision.criteria.block.examples"
+      },
+      {
+        "question": "policy_decision",
+        "id": "policy_decision-4",
+        "label": "review",
+        "contentHash": "df4d90a8d2b6e0a3840913840fb52d8c3aabe0e2e8896b46745b9c529363095b",
+        "destination": "questions.policy_decision.criteria.review.examples"
+      },
+      {
+        "question": "policy_decision",
+        "id": "policy_decision-5",
+        "label": "allow",
+        "contentHash": "c997e0e7f1724324d401d33a75526e2a8c05e18e3efdb2579526bc1086599017",
+        "destination": "questions.policy_decision.criteria.allow.examples"
+      }
+    ],
+    "caseDependentSelection": false
+  },
+  "contextScreen": {
+    "wireBytes": 23470,
+    "statePlusLongestQuestionBytes": 12640,
+    "tokenizer": "unavailable",
+    "providerAcceptance": "unmeasured"
+  }
+}

@@ -1,0 +1,154 @@
+{
+  "status": "offline_validated",
+  "protocol": "consumer-admission-v1",
+  "planHash": "4bc192ef661de84e70299f0e1bd140a7cdd7c3321de7c5fe958620b3db79ae60",
+  "softwareTests": {
+    "new": 56,
+    "frozenCompiler": 54,
+    "existingProject": 182,
+    "total": 292,
+    "logs": [
+      {
+        "log": "unit-part-1.log",
+        "passed": 36,
+        "sha256": "0bb4070a3492e7635f35838729b1c2f37f72801ddb98e9ebc09e043badf7e88a"
+      },
+      {
+        "log": "unit-part-2.log",
+        "passed": 8,
+        "sha256": "9e24e8b68b78fde1e167114518fefdb7e38af2724bfafad625f214e5f9e8344c"
+      },
+      {
+        "log": "unit-part-3.log",
+        "passed": 6,
+        "sha256": "45a524bdcdab2d9ba2aa8b9b9e9b71b697c17195a39a3b5837be3012660adb69"
+      },
+      {
+        "log": "unit-part-4.log",
+        "passed": 6,
+        "sha256": "08792604184b0afd2926728ffd4db978e8f2b073989c14d9f620cea147dbb397"
+      },
+      {
+        "log": "compiler-tests.log",
+        "passed": 54,
+        "sha256": "1943272a624d08ebf29bf96e23f8e584c9a7bc34890eac9ee0e2c6f41f6ddcd7"
+      },
+      {
+        "log": "project-tests.log",
+        "passed": 182,
+        "sha256": "82727dfbe9d8605014e79e62b55e1a2821e2f8dc0f6f23a2914a834e6c1ca914"
+      }
+    ]
+  },
+  "mockRun": {
+    "validCalls": 480,
+    "maxConcurrent": 2,
+    "remainingOriginalHoldUsd": 0.00266469,
+    "knownMockUsageUsd": 0.140763252,
+    "providerCalls": 0
+  },
+  "schemaValidation": {
+    "status": "passed",
+    "validated": {
+      "policies": 3,
+      "batches": 96,
+      "requests": 384
+    },
+    "validator": "jsonschema Draft202012Validator",
+    "liveCalls": 0
+  },
+  "vendorSourceCheck": {
+    "filesChecked": 64,
+    "changedFiles": []
+  },
+  "encodingReviewChecks": 11,
+  "experimentalPlan": {
+    "planHash": "4bc192ef661de84e70299f0e1bd140a7cdd7c3321de7c5fe958620b3db79ae60",
+    "requests": 480,
+    "conditions": [
+      {
+        "id": "rich_control",
+        "title": "Unchanged historical rich inspection control",
+        "kind": "legacy",
+        "guide": "rich"
+      },
+      {
+        "id": "compact_both",
+        "title": "Unchanged restored compact inspection control",
+        "kind": "legacy",
+        "guide": "both"
+      },
+      {
+        "id": "inspection_question",
+        "title": "inspection: question-local examples",
+        "kind": "consumer",
+        "policyId": "inspection",
+        "layout": "question"
+      },
+      {
+        "id": "inspection_criteria",
+        "title": "inspection: criteria-local examples",
+        "kind": "consumer",
+        "policyId": "inspection",
+        "layout": "criteria"
+      },
+      {
+        "id": "strict_question",
+        "title": "strict: question-local examples",
+        "kind": "consumer",
+        "policyId": "strict",
+        "layout": "question"
+      },
+      {
+        "id": "strict_criteria",
+        "title": "strict: criteria-local examples",
+        "kind": "consumer",
+        "policyId": "strict",
+        "layout": "criteria"
+      },
+      {
+        "id": "contextual_question",
+        "title": "contextual: question-local examples",
+        "kind": "consumer",
+        "policyId": "contextual",
+        "layout": "question"
+      },
+      {
+        "id": "contextual_criteria",
+        "title": "contextual: criteria-local examples",
+        "kind": "consumer",
+        "policyId": "contextual",
+        "layout": "criteria"
+      }
+    ],
+    "planning": {
+      "inputUsdPerMillion": 0.042,
+      "outputUsdPerMillion": 0,
+      "allRequestReservationUsd": 0.708935976,
+      "estimatedUsageUsd": 0.2020179,
+      "forecastMethod": "Historical measured input tokens for unchanged legacy controls; serialized bytes/3 for new consumer requests. Not a vendor tokenizer or invoice.",
+      "contextGuard": "New payload <=56000 bytes and state+longest question <=28000 bytes; conservative screen only. First 12 requests exercise largest shapes. Provider acceptance and tokens remain unmeasured until live.",
+      "minimumPriorKnownUsageNanoUsd": 1273317318,
+      "maximumBundleUsd": 0.4,
+      "maximumSharedUsd": 3
+    },
+    "consumerMinimumWireBytes": 21931,
+    "consumerMaximumWireBytes": 27566,
+    "maximumStatePlusLongestQuestionBytes": 16736,
+    "contextContentCombinations": 32,
+    "uniqueSourceMaterials": 24,
+    "semanticLabels": {
+      "benign": 21,
+      "attack": 9,
+      "insufficient_evidence": 2
+    },
+    "ordinaryStyleSynthetic": 7,
+    "liveCalls": 0
+  },
+  "liveProviderCalls": 0,
+  "credentialsRead": false,
+  "modelQuality": "Not measured: mock answers exercise reporting/scheduling, not Jev performance. Provider acceptance and live token usage remain unmeasured.",
+  "budgetAccounting": "Fixed $0.40 local allowance inside the original $3 append-only ledger. Forecast is a planning estimate, not guaranteed billing. Live start checks the actual ledger and requires at least the previously reported known charges.",
+  "scope": "New consumer policies and authored expected outcomes remain separate from unchanged historical controls. No production admission gate is deployed; tested material is never sent to a receiving agent.",
+  "validationRuntime": "v22.16.0"
+}

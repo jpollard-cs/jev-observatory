@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "case-input",
+  "type": "object",
+  "properties": {
+    "configuration": {
+      "type": "object"
+    },
+    "trustedContext": {
+      "type": "object"
+    },
+    "material": {}
+  },
+  "required": [
+    "configuration",
+    "trustedContext",
+    "material"
+  ],
+  "additionalProperties": false
+}

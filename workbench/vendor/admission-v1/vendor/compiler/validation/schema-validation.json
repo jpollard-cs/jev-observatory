@@ -1,0 +1,13 @@
+{
+  "status": "passed",
+  "validator": "Python jsonschema Draft202012Validator (independent structural check)",
+  "checks": {
+    "schemaDefinitions": 6,
+    "canonicalDocuments": 49,
+    "profiles": 8,
+    "nativePayloads": 146,
+    "policyPacks": 1
+  },
+  "originalBoundProjectFilesUnchanged": true,
+  "liveCalls": 0
+}

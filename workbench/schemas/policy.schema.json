@@ -1,0 +1,197 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:jev-workbench:policy:1",
+  "title": "Workbench policy v1 (inactive language values normalized)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "name",
+    "mode",
+    "task",
+    "languages",
+    "representations",
+    "requireRelevance",
+    "onUncertainty",
+    "violationDisposition",
+    "layout",
+    "model"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "workbench-policy/1"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100
+    },
+    "mode": {
+      "enum": [
+        "strict",
+        "contextual",
+        "inspection"
+      ]
+    },
+    "task": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "description"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        }
+      }
+    },
+    "languages": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "scope"
+      ],
+      "properties": {
+        "mode": {
+          "enum": [
+            "allowlist",
+            "any"
+          ]
+        },
+        "allowed": {
+          "description": "Required and validated in allowlist mode; discarded and normalized to [] in any-language mode."
+        },
+        "scope": {
+          "enum": [
+            "natural_language_content",
+            "controlling_instructions"
+          ]
+        }
+      }
+    },
+    "representations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "prohibited",
+        "enabledExceptions"
+      ],
+      "properties": {
+        "prohibited": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "base_encoding",
+              "morse",
+              "cipher_or_codebook",
+              "unicode_concealment",
+              "positional",
+              "mixed_or_layered"
+            ]
+          }
+        },
+        "enabledExceptions": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "puzzle-reading",
+              "legacy-base64",
+              "format-analysis",
+              "security-sample"
+            ]
+          }
+        }
+      }
+    },
+    "requireRelevance": {
+      "type": "boolean"
+    },
+    "onUncertainty": {
+      "const": "review"
+    },
+    "violationDisposition": {
+      "enum": [
+        "block",
+        "review"
+      ]
+    },
+    "layout": {
+      "enum": [
+        "question",
+        "criteria"
+      ]
+    },
+    "model": {
+      "const": "jev-1.13.0"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "mode": {
+            "enum": [
+              "strict",
+              "inspection"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "representations": {
+            "properties": {
+              "enabledExceptions": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "languages": {
+            "properties": {
+              "mode": {
+                "const": "allowlist"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "languages": {
+            "properties": {
+              "allowed": {
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z]{2,3}(-[A-Za-z0-9]{2,8})*$"
+                }
+              }
+            },
+            "required": [
+              "allowed"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

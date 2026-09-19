@@ -1,0 +1,189 @@
+{
+  "status": "setup_smokes_passed_server_stopped",
+  "createdAt": "2026-09-17T14:28:54.022878+00:00",
+  "baseModel": "Qwen/Qwen3.8-Flash-Next",
+  "repository": "unsloth/Qwen3.8-Flash-Next-GGUF",
+  "revision": "38bb39ee97821de2c9009abb7e93950eec396e66",
+  "quantization": "UD-Q3_K_XL",
+  "weightBytes": 89986353824,
+  "modelFiles": [
+    {
+      "path": "UD-Q3_K_XL/Qwen3.8-Flash-Next-UD-Q3_K_XL-00001-of-00003.gguf",
+      "size": 10946624,
+      "sha256": "f2ef4328929d8b8c8930e2856eef52128dd4ce3425302f04bc3c657431cc4c49"
+    },
+    {
+      "path": "UD-Q3_K_XL/Qwen3.8-Flash-Next-UD-Q3_K_XL-00002-of-00003.gguf",
+      "size": 49983253824,
+      "sha256": "7d230e7c9421d868b89eebaf23033af0ea1a4e046956df00fb156814fb62346e"
+    },
+    {
+      "path": "UD-Q3_K_XL/Qwen3.8-Flash-Next-UD-Q3_K_XL-00003-of-00003.gguf",
+      "size": 39992153376,
+      "sha256": "21d4f90f9cd7b7c3a1582667c20cb22f7b03de895b88a23bb20aaeaa44f2c199"
+    }
+  ],
+  "sourceManifestSha256": "5e27bc975e3b2612b0f017e4b617ee5b55da5923c37b68313d40a307e66e12b5",
+  "runtime": {
+    "repository": "ggml-org/llama.cpp",
+    "release": "v0.4.1",
+    "nightlyTag": "b10964",
+    "commit": "b29c606e28a01b1bc8c1351026a0fa6e616bf6c4",
+    "asset": "llama-b10964-bin-macos-arm64.tar.gz",
+    "url": "https://github.com/ggml-org/llama.cpp/releases/download/b10964/llama-b10964-bin-macos-arm64.tar.gz",
+    "assetBytes": 11149739,
+    "assetSha256": "033c845c1df9bf945ff37bb193238b40910b2244be3e1e637b2ceb5878f1a6f5",
+    "installedBinary": "work/qwen-unsloth/runtime/llama-b10964/llama-server",
+    "binarySha256": "4216ddf73348bd30d4ced17e510ee57edf597181ca009635d33a0bf26b33b5d2",
+    "verifiedVersionOutput": "0.4.1-dev (build10964, commitb29c606e2)",
+    "sourceSha256": {
+      "runtime-qwen4exp.cpp": "e08619e298fdc0b66ae3c0a3ca5d692e23d7261121c4f481689b59655870ba33",
+      "runtime-arg.cpp": "6e71ad4f63c79fee81fe218ab6755ed97813ba84d179e38ae02924be1556d46e",
+      "RUNTIME-LICENSE": "94f29bbed6a22c35b992c5c6ebf0e7c92f13b836b90f36f461c9cf2f0f1d010d"
+    },
+    "fileManifestSha256": "b00cbcffa16cef07ec53e5393293e59c425a8e085594d2ded177010b1ed3a490",
+    "executableTestedWithoutModel": true
+  },
+  "setupBoundary": {
+    "weightsDownloaded": true,
+    "runtimeInstalled": true,
+    "modelLoaded": true,
+    "inferenceRun": true,
+    "benchmarkRun": false,
+    "existingOllamaUntouched": true,
+    "globalPackagesChanged": false,
+    "serverRunning": false,
+    "legacyMlxEnvironmentRemoved": true
+  },
+  "plannedServer": {
+    "host": "127.0.0.1",
+    "port": 8767,
+    "parallel": 1,
+    "contextSize": 32768,
+    "batchSize": 512,
+    "microBatchSize": 128,
+    "speculativeDecodingEnabled": false,
+    "thinkingEnabled": false,
+    "fit": "off",
+    "loadMode": "mmap",
+    "flashAttention": "auto",
+    "cacheRamMiB": 0,
+    "contextCheckpoints": 0,
+    "contextShift": false,
+    "warmup": false,
+    "webUI": false,
+    "offline": true,
+    "corsOrigins": "localhost",
+    "corsCredentials": false
+  },
+  "freeDiskBytesAtPreflight": 243712000000,
+  "license": {
+    "name": "Qwen Community License1.0",
+    "modelCardDeclares": "qwen-community-1.0",
+    "conversionLicenseFilePresent": false,
+    "copiedFromBaseModel": true,
+    "sourceUrl": "https://huggingface.co/Qwen/Qwen3.8-Flash-Next/raw/de4b8e4d43b917e7706784d8bb445c9af86a3540/LICENSE",
+    "baseRevision": "de4b8e4d43b917e7706784d8bb445c9af86a3540",
+    "sha256": "a0dc422560841fd68e06d974907f8b4c709bca44a67daad2b528437bdf676c08"
+  },
+  "ggufHeaderPreflight": {
+    "architecture": "qwen4exp",
+    "expectedTensorCount": 1224,
+    "pleLayers": [
+      1
+    ],
+    "pleNgramSize": 3,
+    "chatTemplateBytes": 9993,
+    "chatTemplateSha256": "12827f24b742ea4e80cdc12dbcf9622227056b9f797252a3149263d4f9aaadce",
+    "completeTensorInventory": true,
+    "inventorySha256": "62321a8f6f87e09e016287a23f4cc1ed9fb934070b5065523a12e1ef870c0274",
+    "tensorTypes": {
+      "14": 1,
+      "8": 502,
+      "0": 557,
+      "20": 44,
+      "18": 94,
+      "23": 2,
+      "30": 24
+    },
+    "pleTensorCount": 7,
+    "mtpNamedTensorCount": 0
+  },
+  "downloadVerification": {
+    "bytes": 89986353824,
+    "shards": 3,
+    "sha256Verified": true,
+    "elapsedSeconds": 1287.4
+  },
+  "setupSmoke": {
+    "tiny": {
+      "kind": "setup_smoke_not_benchmark",
+      "passed": true,
+      "requestCount": 1,
+      "httpLatencyMs": 895.563,
+      "usage": {
+        "completion_tokens": 7,
+        "prompt_tokens": 39,
+        "total_tokens": 46,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "checks": {
+        "httpJsonValid": true,
+        "envelopeValid": true,
+        "schemaValid": true,
+        "expectedCategory": true,
+        "finishReasonStop": true,
+        "thinkingAbsent": true,
+        "usageValid": true
+      },
+      "rawRecordSha256": "54e02311613571777a27d5113420b9a45fade6cfa79bcae0ce17317c6651b96a",
+      "recordPath": "work/qwen-unsloth/smoke.json",
+      "cachedTokens": 0
+    },
+    "neutralCapacity": {
+      "kind": "setup_smoke_not_benchmark",
+      "passed": true,
+      "requestCount": 1,
+      "httpLatencyMs": 223465.042,
+      "usage": {
+        "completion_tokens": 7,
+        "prompt_tokens": 28019,
+        "total_tokens": 28026,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "checks": {
+        "httpJsonValid": true,
+        "envelopeValid": true,
+        "schemaValid": true,
+        "expectedCategory": true,
+        "finishReasonStop": true,
+        "thinkingAbsent": true,
+        "usageValid": true
+      },
+      "rawRecordSha256": "51a1a75673a37efa11b2a9513830c2b8f0b80c725fbd7d88c61c847d67063acf",
+      "recordPath": "work/qwen-unsloth/capacity-smoke.json",
+      "cachedTokens": 0
+    },
+    "observedReadyUpperBoundSeconds": 28.951448917388916,
+    "peakRssBytes": 62496555008,
+    "peakRssGiB": 58.2045,
+    "peakRssScope": "child process high-water RSS; not a total system or GPU memory measurement",
+    "shutdown": {
+      "operatorRequestedInterrupt": true,
+      "exitCode": 1,
+      "localPortClosed": true,
+      "serverPidAbsent": true
+    },
+    "launchRecordSha256": "632adf35159f2ea9915beec04d16c82ba40ee1304870002e112dd9f41b1527ff",
+    "limitations": [
+      "One request per input size; repeated neutral text; no adversarial fixtures or classification benchmark.",
+      "Embedded GGUF template retained; generated schema output is not Jev independent native probabilities.",
+      "First smoke launch used runtime CORS defaults; future launcher restricts CORS to localhost. The preserved launch record is authoritative."
+    ]
+  },
+  "updatedAt": "2026-09-17T14:57:37.815847+00:00"
+}

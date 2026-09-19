@@ -1,0 +1,46 @@
+{
+  "status": "superseded_by_unsloth_unused_weights_and_runtime_removed",
+  "createdAt": "2026-09-17T13:59:31.514527+00:00",
+  "baseModel": "Qwen/Qwen3.8-Flash-Next",
+  "repository": "Vontra/Qwen3.8-Flash-Next-MLX-oQ3-MTP",
+  "revision": "75d1a70612a9b483815e103207a3964a300cc0fc",
+  "quantization": "mixed oQ3 affine group32; model-defined higher-precision overrides retained",
+  "weightBytes": 92505200266,
+  "metadataSha256": {
+    "config.json": "07a8cdc92783bea48d925cd529cca1af5d74806a48de3148e7a29be7ca2d0275",
+    "model.safetensors.index.json": "12d5e0be3224a3245c8df0e5e70b78ecc6c345c06f387d371c9d2f45fe97f6ee",
+    "tokenizer_config.json": "b11349aafa7cdc6a320767cf7ceb29ed82f7eda5d65e8e0819e76f0ce947bf27",
+    "chat_template.jinja": "c3cf9e34abf4f9e36c2d72165aa9c132d3e2a725b6c2586aaa3a8af9d7a81041"
+  },
+  "runtime": {
+    "python": "3.13.2",
+    "mlx-vlm": "0.7.1",
+    "mlx": "0.32.2",
+    "transformers": "5.17.0",
+    "huggingface-hub": "1.32.0"
+  },
+  "hardware": {
+    "model": "Apple M4 Max",
+    "physicalMemoryBytes": 137438953472,
+    "recommendedGpuWorkingSetBytes": 115448725504,
+    "freeDiskGiBAtPreflight": 228
+  },
+  "setupBoundary": {
+    "weightsDownloaded": false,
+    "inferenceRun": false,
+    "benchmarkRun": false,
+    "remoteCodeTrusted": false,
+    "thinkingEnabled": false,
+    "speculativeDecodingEnabled": false,
+    "existingOllamaUntouched": true,
+    "globalPackagesChanged": false
+  },
+  "compatibilityReview": "Version-bound no-MTP adapter implemented; 13 pure tests and metadata preflight pass. Main model not loaded; user comparing Unsloth provenance.",
+  "downloadVerification": {
+    "shards": 19,
+    "bytes": 92505200266,
+    "sha256Verified": true,
+    "subsequentlyRemoved": true
+  },
+  "legacyRuntimeRemoved": true
+}

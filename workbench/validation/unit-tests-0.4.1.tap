@@ -1,0 +1,1490 @@
+
+> jev-policy-workbench@0.4.1 test
+> node --test tests/*.test.mjs
+
+TAP version 13
+# Subtest: new atlas preserves every row identity across all conditions
+ok 1 - new atlas preserves every row identity across all conditions
+  ---
+  duration_ms: 6.871018
+  type: 'test'
+  ...
+# Subtest: false alarm and miss colors reflect the chosen native judgment only
+ok 2 - false alarm and miss colors reflect the chosen native judgment only
+  ---
+  duration_ms: 0.993095
+  type: 'test'
+  ...
+# Subtest: changing display geometry never rewrites answers or reference labels
+ok 3 - changing display geometry never rewrites answers or reference labels
+  ---
+  duration_ms: 1.638948
+  type: 'test'
+  ...
+# Subtest: measured signal omits missing metrics rather than fabricating them
+ok 4 - measured signal omits missing metrics rather than fabricating them
+  ---
+  duration_ms: 0.197091
+  type: 'test'
+  ...
+# Subtest: boolean original judgments use frozen .5 threshold, not concentration
+ok 5 - boolean original judgments use frozen .5 threshold, not concentration
+  ---
+  duration_ms: 0.115501
+  type: 'test'
+  ...
+# Subtest: related arcs only link explicitly associated pair or repeated case
+ok 6 - related arcs only link explicitly associated pair or repeated case
+  ---
+  duration_ms: 0.667826
+  type: 'test'
+  ...
+# Subtest: all 15,184 original cells get distinct unmeasured markers
+ok 7 - all 15,184 original cells get distinct unmeasured markers
+  ---
+  duration_ms: 3509.305876
+  type: 'test'
+  ...
+# Subtest: original extension vocabulary is available without fake classification labels
+ok 8 - original extension vocabulary is available without fake classification labels
+  ---
+  duration_ms: 324.999828
+  type: 'test'
+  ...
+# Subtest: boolean confusion counts include true and false
+ok 9 - boolean confusion counts include true and false
+  ---
+  duration_ms: 0.391508
+  type: 'test'
+  ...
+# Subtest: original archival default chooses meaningful structured matrix, not random first row
+ok 10 - original archival default chooses meaningful structured matrix, not random first row
+  ---
+  duration_ms: 106.052833
+  type: 'test'
+  ...
+# Subtest: original explorer shows real task answers and unavailable states
+ok 11 - original explorer shows real task answers and unavailable states
+  ---
+  duration_ms: 115.043794
+  type: 'test'
+  ...
+# Subtest: entirely unattempted original conditions retain their expected question vocabulary
+ok 12 - entirely unattempted original conditions retain their expected question vocabulary
+  ---
+  duration_ms: 0.273243
+  type: 'test'
+  ...
+# Subtest: source-bound decision distribution: inspection_question
+ok 13 - source-bound decision distribution: inspection_question
+  ---
+  duration_ms: 1.33534
+  type: 'test'
+  ...
+# Subtest: source-bound decision distribution: inspection_criteria
+ok 14 - source-bound decision distribution: inspection_criteria
+  ---
+  duration_ms: 0.167548
+  type: 'test'
+  ...
+# Subtest: source-bound decision distribution: strict_question
+ok 15 - source-bound decision distribution: strict_question
+  ---
+  duration_ms: 0.133827
+  type: 'test'
+  ...
+# Subtest: source-bound decision distribution: strict_criteria
+ok 16 - source-bound decision distribution: strict_criteria
+  ---
+  duration_ms: 0.090063
+  type: 'test'
+  ...
+# Subtest: source-bound decision distribution: contextual_question
+ok 17 - source-bound decision distribution: contextual_question
+  ---
+  duration_ms: 0.092506
+  type: 'test'
+  ...
+# Subtest: source-bound decision distribution: contextual_criteria
+ok 18 - source-bound decision distribution: contextual_criteria
+  ---
+  duration_ms: 0.089662
+  type: 'test'
+  ...
+# Subtest: source-bound decision distribution: rich_control
+ok 19 - source-bound decision distribution: rich_control
+  ---
+  duration_ms: 0.112175
+  type: 'test'
+  ...
+# Subtest: source-bound decision distribution: compact_both
+ok 20 - source-bound decision distribution: compact_both
+  ---
+  duration_ms: 0.069513
+  type: 'test'
+  ...
+# Subtest: all 480 expected objects and model answers match original source row by row
+ok 21 - all 480 expected objects and model answers match original source row by row
+  ---
+  duration_ms: 13.240726
+  type: 'test'
+  ...
+# Subtest: preferred saved condition wins; new import starts with contextual admission not first control
+ok 22 - preferred saved condition wins; new import starts with contextual admission not first control
+  ---
+  duration_ms: 0.377127
+  type: 'test'
+  ...
+# Subtest: inspection scope is explicit and different from admission
+ok 23 - inspection scope is explicit and different from admission
+  ---
+  duration_ms: 0.207456
+  type: 'test'
+  ...
+# Subtest: unknown expected value is ungraded, never an allow fallback
+ok 24 - unknown expected value is ungraded, never an allow fallback
+  ---
+  duration_ms: 0.552204
+  type: 'test'
+  ...
+# Subtest: explicit protocol key aliases; conflicts rejected rather than silently choosing one
+ok 25 - explicit protocol key aliases; conflicts rejected rather than silently choosing one
+  ---
+  duration_ms: 0.394072
+  type: 'test'
+  ...
+# Subtest: every confusion-matrix cell maps exactly to its filter results
+ok 26 - every confusion-matrix cell maps exactly to its filter results
+  ---
+  duration_ms: 2.693064
+  type: 'test'
+  ...
+# Subtest: galaxy observation nodes retain every row identity and classification status
+ok 27 - galaxy observation nodes retain every row identity and classification status
+  ---
+  duration_ms: 3.207512
+  type: 'test'
+  ...
+# Subtest: filter categories do not mutate or rewrite frozen labels
+ok 28 - filter categories do not mutate or rewrite frozen labels
+  ---
+  duration_ms: 10.070308
+  type: 'test'
+  ...
+# Subtest: all six registered reports available, with distinct source and plan identities
+ok 29 - all six registered reports available, with distinct source and plan identities
+  ---
+  duration_ms: 146.8145
+  type: 'test'
+  ...
+# Subtest: historical compact import preserves camelCase expected decisions and separate baseline
+ok 30 - historical compact import preserves camelCase expected decisions and separate baseline
+  ---
+  duration_ms: 9.202908
+  type: 'test'
+  ...
+# Subtest: same fixture in two boundary repeats has two distinct inspectable row identities
+ok 31 - same fixture in two boundary repeats has two distinct inspectable row identities
+  ---
+  duration_ms: 114.610524
+  type: 'test'
+  ...
+# Subtest: paired comparisons never silently bind repeat 2 to repeat 1
+ok 32 - paired comparisons never silently bind repeat 2 to repeat 1
+  ---
+  duration_ms: 0.333753
+  type: 'test'
+  ...
+# Subtest: deterministic feature classification is visible as code-derived, not invented native output
+ok 33 - deterministic feature classification is visible as code-derived, not invented native output
+  ---
+  duration_ms: 122.531176
+  type: 'test'
+  ...
+# Subtest: historical raw expected values preserved even when display aliases normalize them
+ok 34 - historical raw expected values preserved even when display aliases normalize them
+  ---
+  duration_ms: 3.301611
+  type: 'test'
+  ...
+# Subtest: historical report view round trips rows, origins and original source identity
+ok 35 - historical report view round trips rows, origins and original source identity
+  ---
+  duration_ms: 995.458245
+  type: 'test'
+  ...
+# Subtest: archived specimen must match protocol, plan, condition, row ID and request hash
+ok 36 - archived specimen must match protocol, plan, condition, row ID and request hash
+  ---
+  duration_ms: 84.897739
+  type: 'test'
+  ...
+# Subtest: predeclared disputed-case filter only removes specified acrostic fixture
+ok 37 - predeclared disputed-case filter only removes specified acrostic fixture
+  ---
+  duration_ms: 28.926079
+  type: 'test'
+  ...
+# Subtest: release UI does not imply Observatory is a corporate byline
+ok 38 - release UI does not imply Observatory is a corporate byline
+  ---
+  duration_ms: 0.573726
+  type: 'test'
+  ...
+# Subtest: archived report GET is allowlisted, with six distinct original plans
+ok 39 - archived report GET is allowlisted, with six distinct original plans
+  ---
+  duration_ms: 1081.126191
+  type: 'test'
+  ...
+# Subtest: archived specimen route rejects mismatched plan or request without substituting live catalog
+ok 40 - archived specimen route rejects mismatched plan or request without substituting live catalog
+  ---
+  duration_ms: 179.497854
+  type: 'test'
+  ...
+# Subtest: all Observatory ESM and style resources serve directly without new dependencies
+ok 41 - all Observatory ESM and style resources serve directly without new dependencies
+  ---
+  duration_ms: 16.786568
+  type: 'test'
+  ...
+# Subtest: missing expected decision is retained as missing by HTTP import, not filled with allow
+ok 42 - missing expected decision is retained as missing by HTTP import, not filled with allow
+  ---
+  duration_ms: 184.249054
+  type: 'test'
+  ...
+# Subtest: bootstrap exposes all 15,184 cells separately from 60 current-policy cases
+ok 43 - bootstrap exposes all 15,184 cells separately from 60 current-policy cases
+  ---
+  duration_ms: 190.594337
+  type: 'test'
+  ...
+# Subtest: original preview and freeze are explicit offline routes
+ok 44 - original preview and freeze are explicit offline routes
+  ---
+  duration_ms: 258.612706
+  type: 'test'
+  ...
+# Subtest: original UI has no inference endpoint and requires CSRF for preparation
+ok 45 - original UI has no inference endpoint and requires CSRF for preparation
+  ---
+  duration_ms: 158.365243
+  type: 'test'
+  ...
+# Subtest: original specimen is exact typed request plus separate expected fields
+ok 46 - original specimen is exact typed request plus separate expected fields
+  ---
+  duration_ms: 198.937021
+  type: 'test'
+  ...
+# Subtest: native atlas modules are served as modules, not a screenshot-only prototype
+ok 47 - native atlas modules are served as modules, not a screenshot-only prototype
+  ---
+  duration_ms: 156.830389
+  type: 'test'
+  ...
+# Subtest: original preset renders exact count: families
+ok 48 - original preset renders exact count: families
+  ---
+  duration_ms: 28.956635
+  type: 'test'
+  ...
+# Subtest: original preset renders exact count: contexts
+ok 49 - original preset renders exact count: contexts
+  ---
+  duration_ms: 165.09622
+  type: 'test'
+  ...
+# Subtest: original preset renders exact count: profiles
+ok 50 - original preset renders exact count: profiles
+  ---
+  duration_ms: 39.98696
+  type: 'test'
+  ...
+# Subtest: original preset renders exact count: extensions
+ok 51 - original preset renders exact count: extensions
+  ---
+  duration_ms: 11.631512
+  type: 'test'
+  ...
+# Subtest: original preset renders exact count: full
+ok 52 - original preset renders exact count: full
+  ---
+  duration_ms: 3342.231621
+  type: 'test'
+  ...
+# Subtest: original preset renders exact count: all
+ok 53 - original preset renders exact count: all
+  ---
+  duration_ms: 3319.921769
+  type: 'test'
+  ...
+# Subtest: original source hashes and corpus manifest match
+ok 54 - original source hashes and corpus manifest match
+  ---
+  duration_ms: 1.708431
+  type: 'test'
+  ...
+# Subtest: all 18 families include complete original pairs
+ok 55 - all 18 families include complete original pairs
+  ---
+  duration_ms: 3313.813176
+  type: 'test'
+  ...
+# Subtest: original four-state integrity groups remain indivisible quartets
+ok 56 - original four-state integrity groups remain indivisible quartets
+  ---
+  duration_ms: 10.145379
+  type: 'test'
+  ...
+# Subtest: moderation active variant is not mislabeled as injection
+ok 57 - moderation active variant is not mislabeled as injection
+  ---
+  duration_ms: 350.98245
+  type: 'test'
+  ...
+# Subtest: only questions actually requested receive expected labels
+ok 58 - only questions actually requested receive expected labels
+  ---
+  duration_ms: 213.876731
+  type: 'test'
+  ...
+# Subtest: binary, scores, structured use frozen original builder, not admission questions
+ok 59 - binary, scores, structured use frozen original builder, not admission questions
+  ---
+  duration_ms: 3.074657
+  type: 'test'
+  ...
+# Subtest: minimum coverage cannot be partially selected to meet a call cap
+ok 60 - minimum coverage cannot be partially selected to meet a call cap
+  ---
+  duration_ms: 14.424743
+  type: 'test'
+  ...
+# Subtest: budget-fit allocation preserves pairs and explicit exclusions
+ok 61 - budget-fit allocation preserves pairs and explicit exclusions
+  ---
+  duration_ms: 3192.000313
+  type: 'test'
+  ...
+# Subtest: complete catalog plans expose budget shortfall, not full-run affordability
+ok 62 - complete catalog plans expose budget shortfall, not full-run affordability
+  ---
+  duration_ms: 3236.003118
+  type: 'test'
+  ...
+# Subtest: invalid family, native contract, arbitrary option and silent budget reset rejected
+ok 63 - invalid family, native contract, arbitrary option and silent budget reset rejected
+  ---
+  duration_ms: 0.63006
+  type: 'test'
+  ...
+# Subtest: plan identity deterministically binds factors, costs, source and frozen gold
+ok 64 - plan identity deterministically binds factors, costs, source and frozen gold
+  ---
+  duration_ms: 45.919042
+  type: 'test'
+  ...
+# Subtest: freeze and clean read preserve exact requests, source snapshots and separate gold
+ok 65 - freeze and clean read preserve exact requests, source snapshots and separate gold
+  ---
+  duration_ms: 104.772578
+  type: 'test'
+  ...
+# Subtest: scoped ledger reducer is equivalent to original across multiple stages and unknown charges
+ok 66 - scoped ledger reducer is equivalent to original across multiple stages and unknown charges
+  ---
+  duration_ms: 69.294341
+  type: 'test'
+  ...
+# Subtest: scoped reducer preserves exact rejection semantics for duplicates and breached stages
+ok 67 - scoped reducer preserves exact rejection semantics for duplicates and breached stages
+  ---
+  duration_ms: 2.648468
+  type: 'test'
+  ...
+# Subtest: complete original matrix smoke preserves all native answer types
+ok 68 - complete original matrix smoke preserves all native answer types
+  ---
+  duration_ms: 151.745539
+  type: 'test'
+  ...
+# Subtest: all 64 original boundary cases run with their own decision vocabularies
+ok 69 - all 64 original boundary cases run with their own decision vocabularies
+  ---
+  duration_ms: 134.78469
+  type: 'test'
+  ...
+# Subtest: partial run resume does not duplicate original requests
+ok 70 - partial run resume does not duplicate original requests
+  ---
+  duration_ms: 208.112542
+  type: 'test'
+  ...
+# Subtest: unknown transport stops and retains its reservation without retry
+ok 71 - unknown transport stops and retains its reservation without retry
+  ---
+  duration_ms: 122.890821
+  type: 'test'
+  ...
+# Subtest: missing usage and changed model each stop the original replay
+ok 72 - missing usage and changed model each stop the original replay
+  ---
+  duration_ms: 207.130443
+  type: 'test'
+  ...
+# Subtest: original account and local replay ceilings stop before paid dispatch
+ok 73 - original account and local replay ceilings stop before paid dispatch
+  ---
+  duration_ms: 198.962781
+  type: 'test'
+  ...
+# Subtest: prior project floor, operator stop and changed saved evidence fail closed
+ok 74 - prior project floor, operator stop and changed saved evidence fail closed
+  ---
+  duration_ms: 161.532856
+  type: 'test'
+  ...
+# Subtest: original scoring grades booleans at .5, not score or absent answers
+ok 75 - original scoring grades booleans at .5, not score or absent answers
+  ---
+  duration_ms: 0.197912
+  type: 'test'
+  ...
+# Subtest: archived campaign keeps all planned, observed and unknown rows distinct
+ok 76 - archived campaign keeps all planned, observed and unknown rows distinct
+  ---
+  duration_ms: 325.184298
+  type: 'test'
+  ...
+# Subtest: original encoding diagnostic preserves native candidate labels, not invented attack labels
+ok 77 - original encoding diagnostic preserves native candidate labels, not invented attack labels
+  ---
+  duration_ms: 2.048913
+  type: 'test'
+  ...
+# Subtest: all three retained native request versions compile and validate against original criteria
+ok 78 - all three retained native request versions compile and validate against original criteria
+  ---
+  duration_ms: 77.915502
+  type: 'test'
+  ...
+# Subtest: spending cap never starts only an affordable half of a contrast
+ok 79 - spending cap never starts only an affordable half of a contrast
+  ---
+  duration_ms: 55.519597
+  type: 'test'
+  ...
+# Subtest: Observatory projection preserves source identity and separate policy conditions
+ok 80 - Observatory projection preserves source identity and separate policy conditions
+  ---
+  duration_ms: 57.775426
+  type: 'test'
+  ...
+# Subtest: paste setup is offline, session memory only, and no raw key is returned
+ok 81 - paste setup is offline, session memory only, and no raw key is returned
+  ---
+  duration_ms: 29.315745
+  type: 'test'
+  ...
+# Subtest: missing selected project never falls back to another account
+ok 82 - missing selected project never falls back to another account
+  ---
+  duration_ms: 1.000696
+  type: 'test'
+  ...
+# Subtest: standalone account requires explicit initialization and preserves old limit
+ok 83 - standalone account requires explicit initialization and preserves old limit
+  ---
+  duration_ms: 3.617147
+  type: 'test'
+  ...
+# Subtest: larger standalone authorization is explicit; invalid key makes no account
+ok 84 - larger standalone authorization is explicit; invalid key makes no account
+  ---
+  duration_ms: 1.949707
+  type: 'test'
+  ...
+# Subtest: selected env reads only key, not commands or endpoint configuration
+ok 85 - selected env reads only key, not commands or endpoint configuration
+  ---
+  duration_ms: 2.591483
+  type: 'test'
+  ...
+# Subtest: short key, arbitrary endpoint and unsupported credential options rejected
+ok 86 - short key, arbitrary endpoint and unsupported credential options rejected
+  ---
+  duration_ms: 1.004442
+  type: 'test'
+  ...
+# Subtest: saving and authorizing a plan never calls provider; confirmation expires
+ok 87 - saving and authorizing a plan never calls provider; confirmation expires
+  ---
+  duration_ms: 45.27329
+  type: 'test'
+  ...
+# Subtest: forget invalidates an unspent confirmation
+ok 88 - forget invalidates an unspent confirmation
+  ---
+  duration_ms: 44.471005
+  type: 'test'
+  ...
+# Subtest: missing confirmation and mismatched plan cannot spend
+ok 89 - missing confirmation and mismatched plan cannot spend
+  ---
+  duration_ms: 42.9966
+  type: 'test'
+  ...
+# Subtest: six-call simulated advisor completes, accounts once, caches and never persists key
+ok 90 - six-call simulated advisor completes, accounts once, caches and never persists key
+  ---
+  duration_ms: 1910.452706
+  type: 'test'
+  ...
+# Subtest: reconfirming a completed exact advisor plan reuses evidence, not paid calls
+ok 91 - reconfirming a completed exact advisor plan reuses evidence, not paid calls
+  ---
+  duration_ms: 1945.725098
+  type: 'test'
+  ...
+# Subtest: account cap checked independently of a larger planning budget
+ok 92 - account cap checked independently of a larger planning budget
+  ---
+  duration_ms: 49.243025
+  type: 'test'
+  ...
+# Subtest: transport failure stops at one request, retains uncertain hold, no retry
+ok 93 - transport failure stops at one request, retains uncertain hold, no retry
+  ---
+  duration_ms: 117.57674
+  type: 'test'
+  ...
+# Subtest: plan hash input cannot choose arbitrary filesystem path
+ok 94 - plan hash input cannot choose arbitrary filesystem path
+  ---
+  duration_ms: 2.042163
+  type: 'test'
+  ...
+# Subtest: large budgets saturate useful current coverage, never add extra tests
+ok 95 - large budgets saturate useful current coverage, never add extra tests
+  ---
+  duration_ms: 2285.065471
+  type: 'test'
+  ...
+# Subtest: negative, NaN, infinity and overflow budgets rejected, not clamped
+ok 96 - negative, NaN, infinity and overflow budgets rejected, not clamped
+  ---
+  duration_ms: 0.3663
+  type: 'test'
+  ...
+# Subtest: original full definitions accept budget above old execution cap
+ok 97 - original full definitions accept budget above old execution cap
+  ---
+  duration_ms: 17.876155
+  type: 'test'
+  ...
+# Subtest: inactive extension controls do not block an extension suite
+ok 98 - inactive extension controls do not block an extension suite
+  ---
+  duration_ms: 0.579204
+  type: 'test'
+  ...
+# Subtest: disabled language allowlist ignored, active invalid list still rejected
+ok 99 - disabled language allowlist ignored, active invalid list still rejected
+  ---
+  duration_ms: 0.228517
+  type: 'test'
+  ...
+# Subtest: tagging can prepare with incomplete irrelevant policy/app, ranking cannot
+ok 100 - tagging can prepare with incomplete irrelevant policy/app, ranking cannot
+  ---
+  duration_ms: 10.202163
+  type: 'test'
+  ...
+# Subtest: connection routes require origin, CSRF, strict schema and small body
+ok 101 - connection routes require origin, CSRF, strict schema and small body
+  ---
+  duration_ms: 189.2837
+  type: 'test'
+  ...
+# Subtest: fixed credential transport refuses arbitrary destinations before fetching
+ok 102 - fixed credential transport refuses arbitrary destinations before fetching
+  ---
+  duration_ms: 0.280564
+  type: 'test'
+  ...
+# Subtest: credential transport disables redirects and masks echoed secrets
+ok 103 - credential transport disables redirects and masks echoed secrets
+  ---
+  duration_ms: 1.012614
+  type: 'test'
+  ...
+# Subtest: credential transport stops an oversized stream without exposing its body
+ok 104 - credential transport stops an oversized stream without exposing its body
+  ---
+  duration_ms: 0.999144
+  type: 'test'
+  ...
+# Subtest: cached completion does not verify a newly entered credential
+ok 105 - cached completion does not verify a newly entered credential
+  ---
+  duration_ms: 1953.88967
+  type: 'test'
+  ...
+# Subtest: invalid provider response cannot mark the credential verified
+ok 106 - invalid provider response cannot mark the credential verified
+  ---
+  duration_ms: 98.566881
+  type: 'test'
+  ...
+# Subtest: forget during a request stops subsequent calls but retains the billed observation
+ok 107 - forget during a request stops subsequent calls but retains the billed observation
+  ---
+  duration_ms: 380.539315
+  type: 'test'
+  ...
+# Subtest: advisor cache accepts equivalent compact and pretty imports without replacing source evidence
+ok 108 - advisor cache accepts equivalent compact and pretty imports without replacing source evidence
+  ---
+  duration_ms: 204.335514
+  type: 'test'
+  ...
+# Subtest: tiers are nested scenario-group prefixes with generous cap
+ok 109 - tiers are nested scenario-group prefixes with generous cap
+  ---
+  duration_ms: 1328.410558
+  type: 'test'
+  ...
+# Subtest: every selected contrast group is complete
+ok 110 - every selected contrast group is complete
+  ---
+  duration_ms: 1205.770465
+  type: 'test'
+  ...
+# Subtest: all declared representation classes have mandatory probes
+ok 111 - all declared representation classes have mandatory probes
+  ---
+  duration_ms: 338.596886
+  type: 'test'
+  ...
+# Subtest: enabled contextual exception modules receive mandatory tests
+ok 112 - enabled contextual exception modules receive mandatory tests
+  ---
+  duration_ms: 382.765314
+  type: 'test'
+  ...
+# Subtest: minimum coverage overrides nominal 5 percent transparently
+ok 113 - minimum coverage overrides nominal 5 percent transparently
+  ---
+  duration_ms: 339.633706
+  type: 'test'
+  ...
+# Subtest: too-small budget is non-dispatchable, not a fake passing tier
+ok 114 - too-small budget is non-dispatchable, not a fake passing tier
+  ---
+  duration_ms: 261.287409
+  type: 'test'
+  ...
+# Subtest: frozen costs respect both money and token reservations
+ok 115 - frozen costs respect both money and token reservations
+  ---
+  duration_ms: 371.197937
+  type: 'test'
+  ...
+# Subtest: same config and seed recreates exact plan
+ok 116 - same config and seed recreates exact plan
+  ---
+  duration_ms: 1012.647085
+  type: 'test'
+  ...
+# Subtest: evaluation data cannot be inserted into a confirmed plan
+ok 117 - evaluation data cannot be inserted into a confirmed plan
+  ---
+  duration_ms: 332.520971
+  type: 'test'
+  ...
+# Subtest: even a rehashed tampered manifest must match its builder
+ok 118 - even a rehashed tampered manifest must match its builder
+  ---
+  duration_ms: 660.211234
+  type: 'test'
+  ...
+# Subtest: unknown layout or non-finite budget fails
+ok 119 - unknown layout or non-finite budget fails
+  ---
+  duration_ms: 0.293112
+  type: 'test'
+  ...
+# Subtest: filtering context is explicit and honest
+ok 120 - filtering context is explicit and honest
+  ---
+  duration_ms: 304.554848
+  type: 'test'
+  ...
+# Subtest: provider requests have no evaluation labels
+ok 121 - provider requests have no evaluation labels
+  ---
+  duration_ms: 335.102099
+  type: 'test'
+  ...
+# Subtest: freeze is idempotent; request corruption stops resume
+ok 122 - freeze is idempotent; request corruption stops resume
+  ---
+  duration_ms: 2193.552818
+  type: 'test'
+  ...
+# Subtest: valid preset strict
+ok 123 - valid preset strict
+  ---
+  duration_ms: 1.68752
+  type: 'test'
+  ...
+# Subtest: valid preset contextual
+ok 124 - valid preset contextual
+  ---
+  duration_ms: 0.277019
+  type: 'test'
+  ...
+# Subtest: valid preset inspection
+ok 125 - valid preset inspection
+  ---
+  duration_ms: 0.127958
+  type: 'test'
+  ...
+# Subtest: unknown policy field fails
+ok 126 - unknown policy field fails
+  ---
+  duration_ms: 0.399419
+  type: 'test'
+  ...
+# Subtest: allowlist cannot be empty
+ok 127 - allowlist cannot be empty
+  ---
+  duration_ms: 0.200336
+  type: 'test'
+  ...
+# Subtest: unknown model fails
+ok 128 - unknown model fails
+  ---
+  duration_ms: 0.136361
+  type: 'test'
+  ...
+# Subtest: unresolved admission never fails open
+ok 129 - unresolved admission never fails open
+  ---
+  duration_ms: 0.180176
+  type: 'test'
+  ...
+# Subtest: strict cannot enable consumer exceptions
+ok 130 - strict cannot enable consumer exceptions
+  ---
+  duration_ms: 0.177402
+  type: 'test'
+  ...
+# Subtest: unknown representation rejected
+ok 131 - unknown representation rejected
+  ---
+  duration_ms: 0.290299
+  type: 'test'
+  ...
+# Subtest: language tag and duplicate validation
+ok 132 - language tag and duplicate validation
+  ---
+  duration_ms: 0.385488
+  type: 'test'
+  ...
+# Subtest: any-language policy warns against universal competence claim
+ok 133 - any-language policy warns against universal competence claim
+  ---
+  duration_ms: 0.271601
+  type: 'test'
+  ...
+# Subtest: unsupported language probes explicitly marked
+ok 134 - unsupported language probes explicitly marked
+  ---
+  duration_ms: 0.13528
+  type: 'test'
+  ...
+# Subtest: entry clears inherited exception whole field
+ok 135 - entry clears inherited exception whole field
+  ---
+  duration_ms: 0.309988
+  type: 'test'
+  ...
+# Subtest: consumer task mismatch does not grant exception
+ok 136 - consumer task mismatch does not grant exception
+  ---
+  duration_ms: 0.112556
+  type: 'test'
+  ...
+# Subtest: context cannot carry a policy override
+ok 137 - context cannot carry a policy override
+  ---
+  duration_ms: 0.096012
+  type: 'test'
+  ...
+# Subtest: context null does not silently restore shared task
+ok 138 - context null does not silently restore shared task
+  ---
+  duration_ms: 0.177251
+  type: 'test'
+  ...
+# Subtest: strict rejects benign represented acrostic without inventing an attack
+ok 139 - strict rejects benign represented acrostic without inventing an attack
+  ---
+  duration_ms: 0.229889
+  type: 'test'
+  ...
+# Subtest: contextual grants are scoped
+ok 140 - contextual grants are scoped
+  ---
+  duration_ms: 0.184693
+  type: 'test'
+  ...
+# Subtest: permitted representation does not authorize malicious meaning
+ok 141 - permitted representation does not authorize malicious meaning
+  ---
+  duration_ms: 0.106537
+  type: 'test'
+  ...
+# Subtest: inspection explicitly changes compliance as well as operation
+ok 142 - inspection explicitly changes compliance as well as operation
+  ---
+  duration_ms: 0.177021
+  type: 'test'
+  ...
+# Subtest: language restriction is separate from maliciousness
+ok 143 - language restriction is separate from maliciousness
+  ---
+  duration_ms: 0.126126
+  type: 'test'
+  ...
+# Subtest: allowing Spanish admits descriptive Spanish, not its attack
+ok 144 - allowing Spanish admits descriptive Spanish, not its attack
+  ---
+  duration_ms: 0.183271
+  type: 'test'
+  ...
+# Subtest: instruction-only language scope excludes benign descriptive data
+ok 145 - instruction-only language scope excludes benign descriptive data
+  ---
+  duration_ms: 0.116202
+  type: 'test'
+  ...
+# Subtest: missing or invalid findings cannot authorize admission
+ok 146 - missing or invalid findings cannot authorize admission
+  ---
+  duration_ms: 0.124894
+  type: 'test'
+  ...
+# Subtest: derived decisions agree with separate authored oracle across catalog and policy settings
+ok 147 - derived decisions agree with separate authored oracle across catalog and policy settings
+  ---
+  duration_ms: 10.983996
+  type: 'test'
+  ...
+# Subtest: native layout content equivalence and no eval leakage strict
+ok 148 - native layout content equivalence and no eval leakage strict
+  ---
+  duration_ms: 276.250767
+  type: 'test'
+  ...
+# Subtest: native layout content equivalence and no eval leakage contextual
+ok 149 - native layout content equivalence and no eval leakage contextual
+  ---
+  duration_ms: 252.72772
+  type: 'test'
+  ...
+# Subtest: native layout content equivalence and no eval leakage inspection
+ok 150 - native layout content equivalence and no eval leakage inspection
+  ---
+  duration_ms: 247.635236
+  type: 'test'
+  ...
+# Subtest: material role keys and template expressions remain ordinary data
+ok 151 - material role keys and template expressions remain ordinary data
+  ---
+  duration_ms: 2.733163
+  type: 'test'
+  ...
+# Subtest: oversized source fails rather than truncates
+ok 152 - oversized source fails rather than truncates
+  ---
+  duration_ms: 6.432351
+  type: 'test'
+  ...
+# Subtest: every dossier preserves its two independent task-evidence questions
+ok 153 - every dossier preserves its two independent task-evidence questions
+  ---
+  duration_ms: 49.439506
+  type: 'test'
+  ...
+# Subtest: 480 rows reconstructed with no source summary discrepancies
+ok 154 - 480 rows reconstructed with no source summary discrepancies
+  ---
+  duration_ms: 1.072573
+  type: 'test'
+  ...
+# Subtest: explicit admission vs inspection denominator
+ok 155 - explicit admission vs inspection denominator
+  ---
+  duration_ms: 0.152445
+  type: 'test'
+  ...
+# Subtest: current report contract and native/coded accuracy checked
+ok 156 - current report contract and native/coded accuracy checked
+  ---
+  duration_ms: 0.132345
+  type: 'test'
+  ...
+# Subtest: review snapshot round-trips condition identities
+ok 157 - review snapshot round-trips condition identities
+  ---
+  duration_ms: 38.570779
+  type: 'test'
+  ...
+# Subtest: reconstruction reports dishonest top-level counts
+ok 158 - reconstruction reports dishonest top-level counts
+  ---
+  duration_ms: 62.801001
+  type: 'test'
+  ...
+# Subtest: placement changes match the report without universal winner assumption
+ok 159 - placement changes match the report without universal winner assumption
+  ---
+  duration_ms: 1.25382
+  type: 'test'
+  ...
+# Subtest: prototype-like report keys remain data, not object pollution
+ok 160 - prototype-like report keys remain data, not object pollution
+  ---
+  duration_ms: 0.287674
+  type: 'test'
+  ...
+# Subtest: invalid json, oversized, unsupported shape or negative tokens rejected
+ok 161 - invalid json, oversized, unsupported shape or negative tokens rejected
+  ---
+  duration_ms: 42.711339
+  type: 'test'
+  ...
+# Subtest: complete simulated Gold run exercises all 120 calls and multiple ledger stages
+ok 162 - complete simulated Gold run exercises all 120 calls and multiple ledger stages
+  ---
+  duration_ms: 1959.144327
+  type: 'test'
+  ...
+# Subtest: invocation limit and resume do not repeat paid job identities
+ok 163 - invocation limit and resume do not repeat paid job identities
+  ---
+  duration_ms: 2650.863437
+  type: 'test'
+  ...
+# Subtest: transport failure remains held and cannot auto-retry
+ok 164 - transport failure remains held and cannot auto-retry
+  ---
+  duration_ms: 1775.580396
+  type: 'test'
+  ...
+# Subtest: valid response with missing usage stops and reserves uncertain charge
+ok 165 - valid response with missing usage stops and reserves uncertain charge
+  ---
+  duration_ms: 1055.557624
+  type: 'test'
+  ...
+# Subtest: model-version change records charge and halts
+ok 166 - model-version change records charge and halts
+  ---
+  duration_ms: 1108.546907
+  type: 'test'
+  ...
+# Subtest: reservation without saved response is never redispatched
+ok 167 - reservation without saved response is never redispatched
+  ---
+  duration_ms: 1216.883629
+  type: 'test'
+  ...
+# Subtest: operator stop happens before any new reservation
+ok 168 - operator stop happens before any new reservation
+  ---
+  duration_ms: 1115.850429
+  type: 'test'
+  ...
+# Subtest: insufficient account cap blocks inference
+ok 169 - insufficient account cap blocks inference
+  ---
+  duration_ms: 1135.311382
+  type: 'test'
+  ...
+# Subtest: standalone cap is explicit and cannot be reset by reinitialization
+ok 170 - standalone cap is explicit and cannot be reset by reinitialization
+  ---
+  duration_ms: 355.333823
+  type: 'test'
+  ...
+# Subtest: prior-history floor prevents misusing a missing project ledger
+ok 171 - prior-history floor prevents misusing a missing project ledger
+  ---
+  duration_ms: 1140.958074
+  type: 'test'
+  ...
+# Subtest: settled evidence modification prevents replay
+ok 172 - settled evidence modification prevents replay
+  ---
+  duration_ms: 1810.967559
+  type: 'test'
+  ...
+# Subtest: complete simulated ranking run uses six requests and original accounting
+ok 173 - complete simulated ranking run uses six requests and original accounting
+  ---
+  duration_ms: 101.674025
+  type: 'test'
+  ...
+# Subtest: complete simulated tagging run returns all facet proposals with no promotions
+ok 174 - complete simulated tagging run returns all facet proposals with no promotions
+  ---
+  duration_ms: 95.51572
+  type: 'test'
+  ...
+# Subtest: advisor invocation limit then resume never repeats dispatch
+ok 175 - advisor invocation limit then resume never repeats dispatch
+  ---
+  duration_ms: 107.369925
+  type: 'test'
+  ...
+# Subtest: simulated ranking then complete evaluation retain a single shared ledger
+ok 176 - simulated ranking then complete evaluation retain a single shared ledger
+  ---
+  duration_ms: 1207.70349
+  type: 'test'
+  ...
+# Subtest: imported synthetic advisor envelope cannot impersonate local paid ledger evidence
+ok 177 - imported synthetic advisor envelope cannot impersonate local paid ledger evidence
+  ---
+  duration_ms: 843.181141
+  type: 'test'
+  ...
+# Subtest: transport failure retains reservation and cannot automatically retry
+ok 178 - transport failure retains reservation and cannot automatically retry
+  ---
+  duration_ms: 70.7777
+  type: 'test'
+  ...
+# Subtest: missing usage stops advisor and retains charge uncertainty
+ok 179 - missing usage stops advisor and retains charge uncertainty
+  ---
+  duration_ms: 44.460199
+  type: 'test'
+  ...
+# Subtest: changed provider model is charged then stops further advice
+ok 180 - changed provider model is charged then stops further advice
+  ---
+  duration_ms: 47.532453
+  type: 'test'
+  ...
+# Subtest: unanswered durable reservation is never retried on resume
+ok 181 - unanswered durable reservation is never retried on resume
+  ---
+  duration_ms: 50.335638
+  type: 'test'
+  ...
+# Subtest: changed raw evidence on disk stops resumption
+ok 182 - changed raw evidence on disk stops resumption
+  ---
+  duration_ms: 67.792596
+  type: 'test'
+  ...
+# Subtest: source or request tampering stops frozen advisor load
+ok 183 - source or request tampering stops frozen advisor load
+  ---
+  duration_ms: 54.20005
+  type: 'test'
+  ...
+# Subtest: too-small shared account cannot start advisor requests
+ok 184 - too-small shared account cannot start advisor requests
+  ---
+  duration_ms: 43.454886
+  type: 'test'
+  ...
+# Subtest: operator stop before first request does not reserve anything
+ok 185 - operator stop before first request does not reserve anything
+  ---
+  duration_ms: 47.5921
+  type: 'test'
+  ...
+# Subtest: prior-history floor is enforced for metadata calls too
+ok 186 - prior-history floor is enforced for metadata calls too
+  ---
+  duration_ms: 56.771204
+  type: 'test'
+  ...
+# Subtest: unsupported critical coverage blocks evaluation dispatch
+ok 187 - unsupported critical coverage blocks evaluation dispatch
+  ---
+  duration_ms: 501.529127
+  type: 'test'
+  ...
+# Subtest: allocator handles 7560 indivisible pairs / 15120 logical requests at full budget
+ok 188 - allocator handles 7560 indivisible pairs / 15120 logical requests at full budget
+  ---
+  duration_ms: 221.091223
+  type: 'test'
+  ...
+# Subtest: budget-limited full-scale metadata planning retains complete pairs
+ok 189 - budget-limited full-scale metadata planning retains complete pairs
+  ---
+  duration_ms: 4214.526804
+  type: 'test'
+  ...
+# Subtest: advisor bootstrap exposes versioned descriptors, not fabricated scores
+ok 190 - advisor bootstrap exposes versioned descriptors, not fabricated scores
+  ---
+  duration_ms: 203.060719
+  type: 'test'
+  ...
+# Subtest: metadata freeze returns explicit offline packet
+ok 191 - metadata freeze returns explicit offline packet
+  ---
+  duration_ms: 225.417286
+  type: 'test'
+  ...
+# Subtest: advisor routes enforce origin and CSRF checks
+ok 192 - advisor routes enforce origin and CSRF checks
+  ---
+  duration_ms: 159.060559
+  type: 'test'
+  ...
+# Subtest: no selection browser route can start paid inference
+ok 193 - no selection browser route can start paid inference
+  ---
+  duration_ms: 146.173784
+  type: 'test'
+  ...
+# Subtest: matching advice cache is locally reusable but not across applications
+ok 194 - matching advice cache is locally reusable but not across applications
+  ---
+  duration_ms: 184.030741
+  type: 'test'
+  ...
+# Subtest: browser creates an assisted plan with no live calls
+ok 195 - browser creates an assisted plan with no live calls
+  ---
+  duration_ms: 445.22222
+  type: 'test'
+  ...
+# Subtest: application validation rejects source-side grants as context fields
+ok 196 - application validation rejects source-side grants as context fields
+  ---
+  duration_ms: 149.450519
+  type: 'test'
+  ...
+# Subtest: CLI without --live cannot invoke provider or read account path
+ok 197 - CLI without --live cannot invoke provider or read account path
+  ---
+  duration_ms: 139.767943
+  type: 'test'
+  ...
+# Subtest: 32 small units cover all 60 source cases without changing specimens
+ok 198 - 32 small units cover all 60 source cases without changing specimens
+  ---
+  duration_ms: 1.400917
+  type: 'test'
+  ...
+# Subtest: dossier position and split units explicitly require full matched core
+ok 199 - dossier position and split units explicitly require full matched core
+  ---
+  duration_ms: 0.184061
+  type: 'test'
+  ...
+# Subtest: rank schema has one four-way question per unit; all units queried
+ok 200 - rank schema has one four-way question per unit; all units queried
+  ---
+  duration_ms: 10.110768
+  type: 'test'
+  ...
+# Subtest: tagging schema is 12 independent facets and one taxonomy-fit choice per unit
+ok 201 - tagging schema is 12 independent facets and one taxonomy-fit choice per unit
+  ---
+  duration_ms: 12.523518
+  type: 'test'
+  ...
+# Subtest: advisor never receives evaluated payloads, expected labels or previous scores
+ok 202 - advisor never receives evaluated payloads, expected labels or previous scores
+  ---
+  duration_ms: 19.360215
+  type: 'test'
+  ...
+# Subtest: metadata chunks do not split any source description or associated unit
+ok 203 - metadata chunks do not split any source description or associated unit
+  ---
+  duration_ms: 6.474493
+  type: 'test'
+  ...
+# Subtest: advisor rejects silently pruned groups and too-small allocation
+ok 204 - advisor rejects silently pruned groups and too-small allocation
+  ---
+  duration_ms: 6.758262
+  type: 'test'
+  ...
+# Subtest: ranking is uncertain, not irrelevant, when evidence is missing
+ok 205 - ranking is uncertain, not irrelevant, when evidence is missing
+  ---
+  duration_ms: 0.242628
+  type: 'test'
+  ...
+# Subtest: low confidence retains floor instead of zeroing relevance
+ok 206 - low confidence retains floor instead of zeroing relevance
+  ---
+  duration_ms: 0.36623
+  type: 'test'
+  ...
+# Subtest: high confidence not-indicated still leaves nonzero weight
+ok 207 - high confidence not-indicated still leaves nonzero weight
+  ---
+  duration_ms: 0.370707
+  type: 'test'
+  ...
+# Subtest: explicit insufficient evidence is retained for exploration
+ok 208 - explicit insufficient evidence is retained for exploration
+  ---
+  duration_ms: 0.208738
+  type: 'test'
+  ...
+# Subtest: ambiguous or rounded option disagreement is not blindly confident
+ok 209 - ambiguous or rounded option disagreement is not blindly confident
+  ---
+  duration_ms: 0.112366
+  type: 'test'
+  ...
+# Subtest: malformed or incomplete distributions cannot steer allocation
+ok 210 - malformed or incomplete distributions cannot steer allocation
+  ---
+  duration_ms: 0.276388
+  type: 'test'
+  ...
+# Subtest: same source and settings reproduce advisor identity
+ok 211 - same source and settings reproduce advisor identity
+  ---
+  duration_ms: 15.497816
+  type: 'test'
+  ...
+# Subtest: valid simulated relevance is interpreted but never called live evidence by test fixture
+ok 212 - valid simulated relevance is interpreted but never called live evidence by test fixture
+  ---
+  duration_ms: 18.019106
+  type: 'test'
+  ...
+# Subtest: partial valid report gives every unscored unit a neutral fallback
+ok 213 - partial valid report gives every unscored unit a neutral fallback
+  ---
+  duration_ms: 15.132839
+  type: 'test'
+  ...
+# Subtest: changed app, policy, taxonomy or raw envelope rejects cached advice
+ok 214 - changed app, policy, taxonomy or raw envelope rejects cached advice
+  ---
+  duration_ms: 21.509927
+  type: 'test'
+  ...
+# Subtest: duplicate advisor rows and fabricated raw hashes are rejected
+ok 215 - duplicate advisor rows and fabricated raw hashes are rejected
+  ---
+  duration_ms: 15.3033
+  type: 'test'
+  ...
+# Subtest: invalid native taxonomy choice probability shape rejects imported proposals
+ok 216 - invalid native taxonomy choice probability shape rejects imported proposals
+  ---
+  duration_ms: 25.181675
+  type: 'test'
+  ...
+# Subtest: tag reports cannot be substituted for relevance reports
+ok 217 - tag reports cannot be substituted for relevance reports
+  ---
+  duration_ms: 28.528733
+  type: 'test'
+  ...
+# Subtest: tag proposals leave authoritative tags and required coverage intact
+ok 218 - tag proposals leave authoritative tags and required coverage intact
+  ---
+  duration_ms: 30.776951
+  type: 'test'
+  ...
+# Subtest: custom imported descriptors are tag-only metadata, never executable tests
+ok 219 - custom imported descriptors are tag-only metadata, never executable tests
+  ---
+  duration_ms: 3.893404
+  type: 'test'
+  ...
+# Subtest: metadata import cannot smuggle answers or prototype special keys
+ok 220 - metadata import cannot smuggle answers or prototype special keys
+  ---
+  duration_ms: 0.219755
+  type: 'test'
+  ...
+# Subtest: application fields are closed and never treated as authority
+ok 221 - application fields are closed and never treated as authority
+  ---
+  duration_ms: 0.141539
+  type: 'test'
+  ...
+# Subtest: all active cases fit in full assisted plan with no duplicate control jobs
+ok 222 - all active cases fit in full assisted plan with no duplicate control jobs
+  ---
+  duration_ms: 285.168726
+  type: 'test'
+  ...
+# Subtest: assisted planner preserves evaluated payloads and authored expectations
+ok 223 - assisted planner preserves evaluated payloads and authored expectations
+  ---
+  duration_ms: 791.841815
+  type: 'test'
+  ...
+# Subtest: mandatory coverage cannot be removed by every group scoring not-indicated
+ok 224 - mandatory coverage cannot be removed by every group scoring not-indicated
+  ---
+  duration_ms: 271.658783
+  type: 'test'
+  ...
+# Subtest: ranking cost is subtracted from the same campaign allowance once
+ok 225 - ranking cost is subtracted from the same campaign allowance once
+  ---
+  duration_ms: 268.92498
+  type: 'test'
+  ...
+# Subtest: unsupported required capabilities cannot masquerade as full coverage
+ok 226 - unsupported required capabilities cannot masquerade as full coverage
+  ---
+  duration_ms: 995.205352
+  type: 'test'
+  ...
+# Subtest: a configured critical dossier cannot be filtered out silently
+ok 227 - a configured critical dossier cannot be filtered out silently
+  ---
+  duration_ms: 161.705571
+  type: 'test'
+  ...
+# Subtest: out-of-allowlist languages remain mandatory tests
+ok 228 - out-of-allowlist languages remain mandatory tests
+  ---
+  duration_ms: 245.037323
+  type: 'test'
+  ...
+# Subtest: unavailable language coverage is disclosed without fabricating tests
+ok 229 - unavailable language coverage is disclosed without fabricating tests
+  ---
+  duration_ms: 246.057589
+  type: 'test'
+  ...
+# Subtest: identical assisted inputs reproduce immutable plan hash
+ok 230 - identical assisted inputs reproduce immutable plan hash
+  ---
+  duration_ms: 494.77968
+  type: 'test'
+  ...
+# Subtest: too-small budget cannot dispatch a partial critical suite
+ok 231 - too-small budget cannot dispatch a partial critical suite
+  ---
+  duration_ms: 239.289333
+  type: 'test'
+  ...
+# Subtest: budget fill stops with honest unused remainder when catalog is exhausted
+ok 232 - budget fill stops with honest unused remainder when catalog is exhausted
+  ---
+  duration_ms: 244.606538
+  type: 'test'
+  ...
+# Subtest: allocator skips unaffordable large unit and continues to smaller sets
+ok 233 - allocator skips unaffordable large unit and continues to smaller sets
+  ---
+  duration_ms: 0.571833
+  type: 'test'
+  ...
+# Subtest: shared controls incur only their marginal cost
+ok 234 - shared controls incur only their marginal cost
+  ---
+  duration_ms: 0.161248
+  type: 'test'
+  ...
+# Subtest: dependency closure cannot be split to fit money
+ok 235 - dependency closure cannot be split to fit money
+  ---
+  duration_ms: 0.127458
+  type: 'test'
+  ...
+# Subtest: cyclic, missing and duplicate dependencies fail
+ok 236 - cyclic, missing and duplicate dependencies fail
+  ---
+  duration_ms: 0.243349
+  type: 'test'
+  ...
+# Subtest: independent exploratory lane remains despite confident negative ranks
+ok 237 - independent exploratory lane remains despite confident negative ranks
+  ---
+  duration_ms: 0.427461
+  type: 'test'
+  ...
+# Subtest: selection obeys token ceiling as well as dollar ceiling
+ok 238 - selection obeys token ceiling as well as dollar ceiling
+  ---
+  duration_ms: 0.103162
+  type: 'test'
+  ...
+# Subtest: selection deterministic for a fixed seed and evidence
+ok 239 - selection deterministic for a fixed seed and evidence
+  ---
+  duration_ms: 1.461927
+  type: 'test'
+  ...
+# Subtest: invalid free exploration bypass is rejected by public plan schema
+ok 240 - invalid free exploration bypass is rejected by public plan schema
+  ---
+  duration_ms: 0.532606
+  type: 'test'
+  ...
+# Subtest: server is loopback-only and serves actual evidence
+ok 241 - server is loopback-only and serves actual evidence
+  ---
+  duration_ms: 224.991527
+  type: 'test'
+  ...
+# Subtest: mutation endpoints require exact origin and CSRF token
+ok 242 - mutation endpoints require exact origin and CSRF token
+  ---
+  duration_ms: 186.123288
+  type: 'test'
+  ...
+# Subtest: unrelated host and filesystem paths denied
+ok 243 - unrelated host and filesystem paths denied
+  ---
+  duration_ms: 157.453487
+  type: 'test'
+  ...
+# Subtest: no generic browser route can start arbitrary inference
+ok 244 - no generic browser route can start arbitrary inference
+  ---
+  duration_ms: 148.064384
+  type: 'test'
+  ...
+# Subtest: custom material compiles offline without inferred gold
+ok 245 - custom material compiles offline without inferred gold
+  ---
+  duration_ms: 153.173411
+  type: 'test'
+  ...
+# Subtest: plan preview then freeze produces immutable audit inputs
+ok 246 - plan preview then freeze produces immutable audit inputs
+  ---
+  duration_ms: 1285.436808
+  type: 'test'
+  ...
+1..246
+# tests 246
+# suites 0
+# pass 246
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 28892.357546

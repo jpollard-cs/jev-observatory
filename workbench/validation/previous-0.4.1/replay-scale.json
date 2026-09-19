@@ -1,0 +1,16 @@
+{
+  "status": "passed",
+  "scope": "Full original matrix plus 64 extension fixtures; SYNTHETIC transport, zero provider calls",
+  "jobs": 15184,
+  "events": 30368,
+  "stages": 317,
+  "initialPartial": 131,
+  "resumedNewCalls": 15053,
+  "completedResumeNewCalls": 0,
+  "reportBytes": 34606462,
+  "elapsedMs": 66151.70513500001,
+  "peakRssMiB": 633.60546875,
+  "sourceStamp": "0bf3705d985adc28f716bc3b2e201e37002a19b4c6abf0b1abc222606123f015",
+  "providerCalls": 0,
+  "simulatedUsageNotForecast": true
+}

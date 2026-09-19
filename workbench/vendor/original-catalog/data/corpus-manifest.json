@@ -1,0 +1,219 @@
+{
+  "cases": 15120,
+  "families": [
+    {
+      "id": "authority_spoof",
+      "title": "Forged authority",
+      "surface": "document",
+      "lineage": "shared-classifier-override-v1",
+      "split": "pilot",
+      "heldout": false,
+      "cases": 864
+    },
+    {
+      "id": "delimiter_breakout",
+      "title": "Boundary breakout",
+      "surface": "document",
+      "lineage": "shared-classifier-override-v1",
+      "split": "pilot",
+      "heldout": false,
+      "cases": 864
+    },
+    {
+      "id": "encoded_payload",
+      "title": "Encoded payload smuggling",
+      "surface": "tool_result",
+      "lineage": "shared-classifier-override-v1",
+      "split": "pilot",
+      "heldout": false,
+      "cases": 864
+    },
+    {
+      "id": "split_resources",
+      "title": "Cross-resource assembly",
+      "surface": "resources",
+      "lineage": "split_resources",
+      "split": "test",
+      "heldout": true,
+      "cases": 864
+    },
+    {
+      "id": "conversation_poison",
+      "title": "Already adopted instruction",
+      "surface": "messages",
+      "lineage": "conversation_poison",
+      "split": "test",
+      "heldout": true,
+      "cases": 864
+    },
+    {
+      "id": "memory_poison",
+      "title": "Tampered stored memory",
+      "surface": "memory",
+      "lineage": "memory_poison",
+      "split": "calibration",
+      "heldout": false,
+      "cases": 864
+    },
+    {
+      "id": "retrieval_poison",
+      "title": "Retrieval contamination",
+      "surface": "document",
+      "lineage": "retrieval_poison",
+      "split": "test",
+      "heldout": true,
+      "cases": 864
+    },
+    {
+      "id": "tool_output_spoof",
+      "title": "Tool result impersonation",
+      "surface": "tool_result",
+      "lineage": "shared-classifier-override-v1",
+      "split": "pilot",
+      "heldout": false,
+      "cases": 864
+    },
+    {
+      "id": "judge_injection",
+      "title": "Judge contamination",
+      "surface": "candidate_answer",
+      "lineage": "judge_injection",
+      "split": "test",
+      "heldout": true,
+      "cases": 864
+    },
+    {
+      "id": "answer_laundering",
+      "title": "Answer and citation laundering",
+      "surface": "document",
+      "lineage": "answer_laundering",
+      "split": "calibration",
+      "heldout": false,
+      "cases": 864
+    },
+    {
+      "id": "policy_override",
+      "title": "Untrusted strictness override",
+      "surface": "document",
+      "lineage": "policy_override",
+      "split": "test",
+      "heldout": true,
+      "cases": 864
+    },
+    {
+      "id": "moderation_targeted",
+      "title": "Targeted insult policy boundary",
+      "surface": "message",
+      "lineage": "moderation_targeted",
+      "split": "test",
+      "heldout": true,
+      "cases": 648
+    },
+    {
+      "id": "moderation_identifier",
+      "title": "Consent and identifier boundary",
+      "surface": "message",
+      "lineage": "moderation_identifier",
+      "split": "test",
+      "heldout": true,
+      "cases": 648
+    },
+    {
+      "id": "zero_width",
+      "title": "Invisible separators",
+      "surface": "document",
+      "lineage": "shared-classifier-override-v1",
+      "split": "pilot",
+      "heldout": false,
+      "cases": 864
+    },
+    {
+      "id": "html_negative_space",
+      "title": "Hidden and negative visual space",
+      "surface": "html_source",
+      "lineage": "shared-classifier-override-v1",
+      "split": "pilot",
+      "heldout": false,
+      "cases": 864
+    },
+    {
+      "id": "bidi_confusable",
+      "title": "Bidi and confusable text",
+      "surface": "document",
+      "lineage": "bidi_confusable",
+      "split": "test",
+      "heldout": true,
+      "cases": 864
+    },
+    {
+      "id": "emoji_variation",
+      "title": "Variation-selector payload",
+      "surface": "document",
+      "lineage": "shared-classifier-override-v1",
+      "split": "pilot",
+      "heldout": false,
+      "cases": 864
+    },
+    {
+      "id": "multilingual_redirect",
+      "title": "Cross-language redirection",
+      "surface": "message",
+      "lineage": "multilingual_redirect",
+      "split": "calibration",
+      "heldout": false,
+      "cases": 864
+    }
+  ],
+  "templateLineages": 12,
+  "evidenceStage": "development_integration",
+  "splits": {
+    "pilot": 6048,
+    "test": 6480,
+    "calibration": 2592
+  },
+  "dimensions": {
+    "surface": [
+      "document",
+      "tool_result",
+      "resources",
+      "messages",
+      "memory",
+      "candidate_answer",
+      "message",
+      "html_source"
+    ],
+    "contextChars": [
+      512,
+      4096,
+      16384
+    ],
+    "position": [
+      "start",
+      "middle",
+      "end"
+    ],
+    "policyProfile": [
+      "permissive",
+      "balanced",
+      "strict"
+    ],
+    "outputMode": [
+      "binary",
+      "scores",
+      "structured"
+    ],
+    "promptArm": [
+      "policy",
+      "minimal"
+    ],
+    "task": [
+      "classification",
+      "judge",
+      "moderation"
+    ]
+  },
+  "splitUnit": "entire semantic/template lineage, including encoded descendants, all seeds, variants and repeats",
+  "seed": "jev-lab-v1-frozen",
+  "trustedContextHash": "f00cc5b1bd33a45d49df31877341c242949d45cc559cd15cae2664874be3929b",
+  "protocolHash": "b901f10229618a95b7a296496b8d285c8be681d19d0565425ee37a507e3a77cf"
+}

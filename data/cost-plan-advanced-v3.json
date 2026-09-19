@@ -1,0 +1,654 @@
+{
+  "schemaVersion": 1,
+  "kind": "offline_jev_cost_planning",
+  "generatedAt": "2026-09-17T02:57:30.488Z",
+  "noModelCalls": true,
+  "environmentFilesRead": false,
+  "pricing": {
+    "inputUsdPerMillion": 0.042,
+    "outputUsdPerMillion": 0,
+    "currency": "USD",
+    "source": "https://typesafe.ai/blog/introducing-system-one-models-and-jev",
+    "verifiedDate": "2026-09-16",
+    "kind": "public_list_price_not_account_invoice"
+  },
+  "snapshotBasis": {
+    "selectedProtocolVersion": "advanced-v3",
+    "plannedRequests": "Current working-tree native builder with an explicit protocol version; requestCorpusHash binds all serialized request bytes including EntryType structures.",
+    "historicalAccounting": "Recorded usage and recorded request bytes (or an archived request object) only. Missing usage stays unknown. Never rebuild a past request with the current builder.",
+    "nativeBuilderEntrypoint": {
+      "file": "harness/typesafe.mjs",
+      "sha256": "2df9a1337192e6fe2509838a00ca7a4b654bdd5bb10da214574500ac581ee6aa"
+    },
+    "entrypointHashScope": "Entrypoint hash is not a transitive dependency fingerprint; requestCorpusHash is the authoritative serialized-request snapshot.",
+    "legacyDocumentation": "docs/full-run-cost.md historical numeric snapshot is legacy-v2; new advanced-v3 proposals must be costed separately."
+  },
+  "historicalPlanningSnapshot": {
+    "capturedAt": "2026-09-17T02:30:28.229Z",
+    "protocolVersion": "legacy-v2",
+    "kind": "historical_immutable_reference_not_current_builder_output",
+    "cells": 15120,
+    "requestUtf8Bytes": 221167152,
+    "reservationUsd": 9.451590624,
+    "pilotLimitedEstimateUsd": 2.3336219444931716,
+    "requestCorpusHash": "8df7740ca01ada7fd9fbbf85ffaeba439e5530ba97d101571049f88978b55169",
+    "nextStage": {
+      "cells": 216,
+      "reservationUsd": 0.231216552,
+      "requestCorpusHash": "8892c764933db82a742b82444c5d489172f67853738d32d2ccdec1e59e5bf329"
+    },
+    "note": "Archived legacy planning arithmetic. It is never treated as the price or request hash of a later EntryType/protocol proposal."
+  },
+  "budget": {
+    "reportedAccountBalanceUsd": 5,
+    "balanceSource": "user_reported",
+    "providerBalanceInspected": false,
+    "recommendedMaximumNextStageUsd": 4,
+    "unallocatedHeadroomUsd": 1,
+    "fullGridFitsReportedBalance": false,
+    "fullGridFitsRecommendedMaximum": false,
+    "recommendation": "Plan the 216-case wider integration stage, cap any next-stage allocation at USD 4 and leave USD 1 unallocated. Do not launch the full grid under this balance.",
+    "pilotEstimateCanOverrideReservation": false,
+    "balanceIsNotVerifiedRemainingAfterUnreconciledCharges": true,
+    "priorCallsKnownListPriceUsd": 0.011298714,
+    "priorCallsMissingUsage": 6,
+    "nextStageReservationUsd": 0.22892940000000003
+  },
+  "nextStage": {
+    "model": "jev-latest",
+    "protocolVersion": "advanced-v3",
+    "cells": 216,
+    "uniqueCaseIds": 216,
+    "familyCount": 18,
+    "splitCounts": {
+      "pilot": 84,
+      "test": 96,
+      "calibration": 36
+    },
+    "variantCounts": {
+      "attack": 108,
+      "benign": 108
+    },
+    "repeats": 1,
+    "questions": 1956,
+    "requestUtf8Bytes": 5395404,
+    "minRequestBytes": 18360,
+    "maxRequestBytes": 36234,
+    "requestCorpusHash": "2ca0582ba0dea4583072e62fb68b24d586ce2f3a8c3af5f2dee930c8efdd68f9",
+    "protocolHash": "b901f10229618a95b7a296496b8d285c8be681d19d0565425ee37a507e3a77cf",
+    "templateLineages": 12,
+    "evidenceStage": "development_integration",
+    "reservation": {
+      "method": "One input token per serialized UTF-8 request byte, plus 256 input tokens per request for planning overhead",
+      "extraPerRequest": 256,
+      "reservedInputTokens": 5450700,
+      "inputCostUsd": 0.22892940000000003,
+      "outputCostUsd": 0,
+      "totalCostUsd": 0.22892940000000003,
+      "billingGuarantee": false
+    },
+    "breakdown": [
+      {
+        "outputMode": "structured",
+        "promptArm": "policy",
+        "contextChars": 512,
+        "cells": 72,
+        "requestBytes": 1331524,
+        "questions": 652,
+        "reservedInputTokens": 1349956,
+        "reservationUsd": 0.056698152
+      },
+      {
+        "outputMode": "structured",
+        "promptArm": "policy",
+        "contextChars": 4096,
+        "cells": 72,
+        "requestBytes": 1589572,
+        "questions": 652,
+        "reservedInputTokens": 1608004,
+        "reservationUsd": 0.06753616800000001
+      },
+      {
+        "outputMode": "structured",
+        "promptArm": "policy",
+        "contextChars": 16384,
+        "cells": 72,
+        "requestBytes": 2474308,
+        "questions": 652,
+        "reservedInputTokens": 2492740,
+        "reservationUsd": 0.10469508
+      }
+    ],
+    "kind": "proposed_expanded_integration",
+    "conditions": {
+      "seedsPerFamily": 2,
+      "contextChars": [
+        512,
+        4096,
+        16384
+      ],
+      "positions": [
+        "middle"
+      ],
+      "policyProfiles": [
+        "balanced"
+      ],
+      "outputModes": [
+        "structured"
+      ],
+      "promptArms": [
+        "policy"
+      ]
+    },
+    "selection": "Deterministic full-generator slice: all 18 families, both variants, seeds 0/1, all three configured lengths; no split filter",
+    "expectedCells": 216,
+    "matchesExpectedDesign": true,
+    "requestCap": 216,
+    "fitsRecommendedMaximum": true,
+    "launchedByThisScript": false,
+    "confirmatory": false
+  },
+  "fullCorpus": {
+    "model": "jev-latest",
+    "protocolVersion": "advanced-v3",
+    "cells": 15120,
+    "uniqueCaseIds": 15120,
+    "familyCount": 18,
+    "splitCounts": {
+      "pilot": 6048,
+      "test": 6480,
+      "calibration": 2592
+    },
+    "variantCounts": {
+      "attack": 7560,
+      "benign": 7560
+    },
+    "repeats": 1,
+    "questions": 65088,
+    "requestUtf8Bytes": 220742712,
+    "minRequestBytes": 1334,
+    "maxRequestBytes": 36234,
+    "requestCorpusHash": "92eedff7dc17f98ee2bbbfc33bef279defd85b04a649be8b4dd78ffb792eeaaa",
+    "protocolHash": "b901f10229618a95b7a296496b8d285c8be681d19d0565425ee37a507e3a77cf",
+    "templateLineages": 12,
+    "evidenceStage": "development_integration",
+    "reservation": {
+      "method": "One input token per serialized UTF-8 request byte, plus 256 input tokens per request for planning overhead",
+      "extraPerRequest": 256,
+      "reservedInputTokens": 224613432,
+      "inputCostUsd": 9.433764144000001,
+      "outputCostUsd": 0,
+      "totalCostUsd": 9.433764144000001,
+      "billingGuarantee": false
+    },
+    "breakdown": [
+      {
+        "outputMode": "binary",
+        "promptArm": "policy",
+        "contextChars": 512,
+        "cells": 1296,
+        "requestBytes": 3629952,
+        "questions": 1296,
+        "reservedInputTokens": 3961728,
+        "reservationUsd": 0.16639257600000001
+      },
+      {
+        "outputMode": "scores",
+        "promptArm": "policy",
+        "contextChars": 512,
+        "cells": 1296,
+        "requestBytes": 11124720,
+        "questions": 5184,
+        "reservedInputTokens": 11456496,
+        "reservationUsd": 0.48117283200000005
+      },
+      {
+        "outputMode": "structured",
+        "promptArm": "policy",
+        "contextChars": 512,
+        "cells": 1296,
+        "requestBytes": 23433120,
+        "questions": 11736,
+        "reservedInputTokens": 23764896,
+        "reservationUsd": 0.9981256320000002
+      },
+      {
+        "outputMode": "binary",
+        "promptArm": "minimal",
+        "contextChars": 512,
+        "cells": 384,
+        "requestBytes": 523608,
+        "questions": 384,
+        "reservedInputTokens": 621912,
+        "reservationUsd": 0.026120304
+      },
+      {
+        "outputMode": "scores",
+        "promptArm": "minimal",
+        "contextChars": 512,
+        "cells": 384,
+        "requestBytes": 1085400,
+        "questions": 1536,
+        "reservedInputTokens": 1183704,
+        "reservationUsd": 0.04971556800000001
+      },
+      {
+        "outputMode": "structured",
+        "promptArm": "minimal",
+        "contextChars": 512,
+        "cells": 384,
+        "requestBytes": 1098024,
+        "questions": 1560,
+        "reservedInputTokens": 1196328,
+        "reservationUsd": 0.050245776000000006
+      },
+      {
+        "outputMode": "binary",
+        "promptArm": "policy",
+        "contextChars": 4096,
+        "cells": 1296,
+        "requestBytes": 8274816,
+        "questions": 1296,
+        "reservedInputTokens": 8606592,
+        "reservationUsd": 0.361476864
+      },
+      {
+        "outputMode": "scores",
+        "promptArm": "policy",
+        "contextChars": 4096,
+        "cells": 1296,
+        "requestBytes": 15769584,
+        "questions": 5184,
+        "reservedInputTokens": 16101360,
+        "reservationUsd": 0.67625712
+      },
+      {
+        "outputMode": "structured",
+        "promptArm": "policy",
+        "contextChars": 4096,
+        "cells": 1296,
+        "requestBytes": 28077984,
+        "questions": 11736,
+        "reservedInputTokens": 28409760,
+        "reservationUsd": 1.1932099200000001
+      },
+      {
+        "outputMode": "binary",
+        "promptArm": "minimal",
+        "contextChars": 4096,
+        "cells": 384,
+        "requestBytes": 1899864,
+        "questions": 384,
+        "reservedInputTokens": 1998168,
+        "reservationUsd": 0.08392305600000001
+      },
+      {
+        "outputMode": "scores",
+        "promptArm": "minimal",
+        "contextChars": 4096,
+        "cells": 384,
+        "requestBytes": 2461656,
+        "questions": 1536,
+        "reservedInputTokens": 2559960,
+        "reservationUsd": 0.10751832
+      },
+      {
+        "outputMode": "structured",
+        "promptArm": "minimal",
+        "contextChars": 4096,
+        "cells": 384,
+        "requestBytes": 2474280,
+        "questions": 1560,
+        "reservedInputTokens": 2572584,
+        "reservationUsd": 0.108048528
+      },
+      {
+        "outputMode": "binary",
+        "promptArm": "policy",
+        "contextChars": 16384,
+        "cells": 1296,
+        "requestBytes": 24200064,
+        "questions": 1296,
+        "reservedInputTokens": 24531840,
+        "reservationUsd": 1.0303372800000001
+      },
+      {
+        "outputMode": "scores",
+        "promptArm": "policy",
+        "contextChars": 16384,
+        "cells": 1296,
+        "requestBytes": 31694832,
+        "questions": 5184,
+        "reservedInputTokens": 32026608,
+        "reservationUsd": 1.345117536
+      },
+      {
+        "outputMode": "structured",
+        "promptArm": "policy",
+        "contextChars": 16384,
+        "cells": 1296,
+        "requestBytes": 44003232,
+        "questions": 11736,
+        "reservedInputTokens": 44335008,
+        "reservationUsd": 1.8620703360000002
+      },
+      {
+        "outputMode": "binary",
+        "promptArm": "minimal",
+        "contextChars": 16384,
+        "cells": 384,
+        "requestBytes": 6618456,
+        "questions": 384,
+        "reservedInputTokens": 6716760,
+        "reservationUsd": 0.28210392000000006
+      },
+      {
+        "outputMode": "scores",
+        "promptArm": "minimal",
+        "contextChars": 16384,
+        "cells": 384,
+        "requestBytes": 7180248,
+        "questions": 1536,
+        "reservedInputTokens": 7278552,
+        "reservationUsd": 0.305699184
+      },
+      {
+        "outputMode": "structured",
+        "promptArm": "minimal",
+        "contextChars": 16384,
+        "cells": 384,
+        "requestBytes": 7192872,
+        "questions": 1560,
+        "reservedInputTokens": 7291176,
+        "reservationUsd": 0.306229392
+      }
+    ],
+    "expectedStarterCells": 15120,
+    "matchesExpectedStarterDesign": true
+  },
+  "observedRequests": {
+    "recordedRequests": 97,
+    "requestsWithUsage": 91,
+    "requestsMissingUsage": 6,
+    "inputTokensKnown": 269017,
+    "outputTokensKnown": 16899,
+    "knownUsageCostUsd": 0.011298714,
+    "unknownUsageIsZero": false,
+    "missingUsageRequestsWithBytes": 6,
+    "missingUsageRequestsWithoutBytes": 0,
+    "missingUsageInputReservationTokens": 60136,
+    "missingUsageReservationUsd": 0.002525712,
+    "knownPlusMissingReservationUsd": 0.013824425999999999,
+    "completeInvoiceTotal": false,
+    "invalidNativeResponses": 6,
+    "statusCounts": {
+      "ok": 91,
+      "error": 6
+    },
+    "providerModels": [
+      "jev-1.13.0"
+    ]
+  },
+  "bySource": [
+    {
+      "file": "runs/expiry-diagnostic-v1/raw.jsonl",
+      "sha256": "df73233f7e7be82d2106c6b50bdc1d9c7a8c2b0c5fa0df2dd5e04b5454f5eb0b",
+      "modifiedAt": "2026-09-17T02:56:16.172Z",
+      "recordsRead": 48,
+      "recordsIncluded": 48,
+      "recordedRequests": 48,
+      "requestsWithUsage": 48,
+      "requestsMissingUsage": 0,
+      "inputTokensKnown": 132288,
+      "outputTokensKnown": 8448,
+      "knownUsageCostUsd": 0.005556096000000001,
+      "unknownUsageIsZero": false,
+      "missingUsageRequestsWithBytes": 0,
+      "missingUsageRequestsWithoutBytes": 0,
+      "missingUsageInputReservationTokens": 0,
+      "missingUsageReservationUsd": 0,
+      "knownPlusMissingReservationUsd": 0.005556096000000001,
+      "completeInvoiceTotal": false,
+      "invalidNativeResponses": 0,
+      "statusCounts": {
+        "ok": 48
+      },
+      "providerModels": [
+        "jev-1.13.0"
+      ]
+    },
+    {
+      "file": "runs/native-diagnostic-v1/result.json",
+      "sha256": "1bed0ab969c489467f70f587c38a89c6f52eb4e01579275c32b64a872b6bde51",
+      "modifiedAt": "2026-09-17T02:25:35.171Z",
+      "recordsRead": 1,
+      "recordsIncluded": 1,
+      "recordedRequests": 1,
+      "requestsWithUsage": 1,
+      "requestsMissingUsage": 0,
+      "inputTokensKnown": 1636,
+      "outputTokensKnown": 96,
+      "knownUsageCostUsd": 0.000068712,
+      "unknownUsageIsZero": false,
+      "missingUsageRequestsWithBytes": 0,
+      "missingUsageRequestsWithoutBytes": 0,
+      "missingUsageInputReservationTokens": 0,
+      "missingUsageReservationUsd": 0,
+      "knownPlusMissingReservationUsd": 0.000068712,
+      "completeInvoiceTotal": false,
+      "invalidNativeResponses": 0,
+      "statusCounts": {
+        "ok": 1
+      },
+      "providerModels": [
+        "jev-1.13.0"
+      ]
+    },
+    {
+      "file": "runs/pilot-native-v1/raw.jsonl",
+      "sha256": "b96a55db6dd13bcbf062a107e9dc2b200303c80883dabec27121d7ffe995ac5a",
+      "modifiedAt": "2026-09-17T02:23:03.991Z",
+      "recordsRead": 12,
+      "recordsIncluded": 12,
+      "recordedRequests": 12,
+      "requestsWithUsage": 6,
+      "requestsMissingUsage": 6,
+      "inputTokensKnown": 14715,
+      "outputTokensKnown": 357,
+      "knownUsageCostUsd": 0.0006180300000000001,
+      "unknownUsageIsZero": false,
+      "missingUsageRequestsWithBytes": 6,
+      "missingUsageRequestsWithoutBytes": 0,
+      "missingUsageInputReservationTokens": 60136,
+      "missingUsageReservationUsd": 0.002525712,
+      "knownPlusMissingReservationUsd": 0.0031437419999999997,
+      "completeInvoiceTotal": false,
+      "invalidNativeResponses": 6,
+      "statusCounts": {
+        "ok": 6,
+        "error": 6
+      },
+      "providerModels": [
+        "jev-1.13.0"
+      ]
+    },
+    {
+      "file": "runs/pilot-native-v2/raw.jsonl",
+      "sha256": "38b7caae04008ccfa9e5c4353290f2d22db3b3f7c96642280c46dc53e310b025",
+      "modifiedAt": "2026-09-17T02:28:32.307Z",
+      "recordsRead": 12,
+      "recordsIncluded": 12,
+      "recordedRequests": 12,
+      "requestsWithUsage": 12,
+      "requestsMissingUsage": 0,
+      "inputTokensKnown": 29322,
+      "outputTokensKnown": 1174,
+      "knownUsageCostUsd": 0.0012315240000000001,
+      "unknownUsageIsZero": false,
+      "missingUsageRequestsWithBytes": 0,
+      "missingUsageRequestsWithoutBytes": 0,
+      "missingUsageInputReservationTokens": 0,
+      "missingUsageReservationUsd": 0,
+      "knownPlusMissingReservationUsd": 0.0012315240000000001,
+      "completeInvoiceTotal": false,
+      "invalidNativeResponses": 0,
+      "statusCounts": {
+        "ok": 12
+      },
+      "providerModels": [
+        "jev-1.13.0"
+      ]
+    },
+    {
+      "file": "runs/special-native-v1/raw.jsonl",
+      "sha256": "656eed918e6f1b22a865ae2ea83b4fb1066d759336da6c40a183835d99d94677",
+      "modifiedAt": "2026-09-17T02:29:08.850Z",
+      "recordsRead": 24,
+      "recordsIncluded": 24,
+      "recordedRequests": 24,
+      "requestsWithUsage": 24,
+      "requestsMissingUsage": 0,
+      "inputTokensKnown": 91056,
+      "outputTokensKnown": 6824,
+      "knownUsageCostUsd": 0.0038243520000000005,
+      "unknownUsageIsZero": false,
+      "missingUsageRequestsWithBytes": 0,
+      "missingUsageRequestsWithoutBytes": 0,
+      "missingUsageInputReservationTokens": 0,
+      "missingUsageReservationUsd": 0,
+      "knownPlusMissingReservationUsd": 0.0038243520000000005,
+      "completeInvoiceTotal": false,
+      "invalidNativeResponses": 0,
+      "statusCounts": {
+        "ok": 24
+      },
+      "providerModels": [
+        "jev-1.13.0"
+      ]
+    }
+  ],
+  "pilotLimitedEstimate": {
+    "status": "pilot_limited_extrapolation",
+    "projectionProtocolVersion": "advanced-v3",
+    "observedRequestFormatReconstructed": false,
+    "requiresNewRatioCalibration": true,
+    "method": "Sum of observed input tokens divided by sum of serialized request bytes, multiplied by all planned request bytes",
+    "eligibleCorpusRequests": 18,
+    "corpusRequestsMissingUsage": 6,
+    "diagnosticAndSpecialRequestsExcludedFromRatio": 73,
+    "observedInputTokens": 44037,
+    "observedRequestBytes": 175290,
+    "inputTokensPerRequestByte": 0.2512236864624337,
+    "estimatedFullRunInputTokens": 55455797.868355304,
+    "estimatedFullRunCostUsd": 2.329143510470923,
+    "observedRatioRange": {
+      "min": 0.22752377156522235,
+      "max": 0.44910407929851315
+    },
+    "costsAtObservedRatioExtremes": {
+      "minUsd": 2.109417003950578,
+      "maxUsd": 4.163731002253908,
+      "interpretation": "Illustrative sensitivity only; neither a confidence interval nor a billing bound"
+    },
+    "strata": [
+      {
+        "condition": "binary|minimal|16384",
+        "requests": 4,
+        "inputTokens": 16502,
+        "requestBytes": 68484,
+        "tokenPerByteRatio": 0.24096139244203024
+      },
+      {
+        "condition": "scores|minimal|4096",
+        "requests": 3,
+        "inputTokens": 4910,
+        "requestBytes": 18041,
+        "tokenPerByteRatio": 0.2721578626461948
+      },
+      {
+        "condition": "binary|policy|512",
+        "requests": 4,
+        "inputTokens": 3814,
+        "requestBytes": 11368,
+        "tokenPerByteRatio": 0.335503166783955
+      },
+      {
+        "condition": "scores|policy|4096",
+        "requests": 3,
+        "inputTokens": 8804,
+        "requestBytes": 37215,
+        "tokenPerByteRatio": 0.23657127502351202
+      },
+      {
+        "condition": "structured|minimal|512",
+        "requests": 2,
+        "inputTokens": 2014,
+        "requestBytes": 5056,
+        "tokenPerByteRatio": 0.3983386075949367
+      },
+      {
+        "condition": "structured|policy|512",
+        "requests": 2,
+        "inputTokens": 7993,
+        "requestBytes": 35126,
+        "tokenPerByteRatio": 0.22755224050560838
+      }
+    ],
+    "representativeOfFullCorpus": false,
+    "limitations": [
+      "Small convenience pilot with dependent fixtures, uneven output/question/length coverage, and possible adapter-version changes.",
+      "Missing usage is not random: early native validator failures discarded provider usage.",
+      "Tokenization of long invisible/Unicode/encoded payloads can differ materially from observed English-heavy requests.",
+      "Diagnostic and special-policy requests have different question mixes and are accounted for financially but excluded from this corpus extrapolation.",
+      "No invoice reconciliation, cache discount, tax, account-specific pricing, or external-generation/annotation/control-model charge is included."
+    ]
+  },
+  "sourceAudit": {
+    "duplicateRecordsExcluded": 0,
+    "nonJevRecordsExcluded": 0,
+    "warnings": [],
+    "snapshotMayIncludeInProgressRuns": true
+  },
+  "controls": {
+    "codexSubagent": {
+      "billing": "subscription/account usage unknown",
+      "perTokenCostUsd": null,
+      "notEquivalentToDirectApi": true
+    },
+    "directLunaTerraApi": {
+      "ratesKnown": false,
+      "totalCostUsd": null
+    },
+    "excludedCosts": [
+      "Promptfoo or other attack-generation services",
+      "Human annotation and adjudication",
+      "Compute, hosting, taxes and any account-specific charges"
+    ]
+  },
+  "confirmatoryPlanning": {
+    "targetFailureRate": 0.001,
+    "oneSidedConfidence": 0.95,
+    "zeroFailureIndependentScenariosRequiredPerPopulation": 2995,
+    "formula": "ceil(log(0.05) / log(1 - 0.001))",
+    "upperBoundAtRequiredN": 0.0009997444209011164,
+    "populationMeaning": "One prespecified model/version/policy/representation/task/deployment sampling distribution. Separate population claims need separate evidence or a justified simultaneous-inference design.",
+    "starterCorpusQualifies": false,
+    "reason": "15120 cells are correlated transformations and repeated conditions of a small synthetic lineage set, not 2995 independent real scenarios."
+  },
+  "publication": {
+    "status": "verify_actual_agreement_before_public_results",
+    "source": "https://typesafe.ai/legal/mca",
+    "sourceUpdated": "2026-08-27",
+    "benchmarkClause": "2.3(f)",
+    "orderPrecedenceClause": "15.14",
+    "note": "The public MCA prohibits benchmark/performance publication. Review the applicable Order, written permissions and any research/early-access terms. Access alone does not establish a publication exception."
+  },
+  "limitations": [
+    "UTF-8 byte reservation is a conservative planning convention, not a verified tokenizer upper bound or a hard spending limit. Provider hidden overhead and billing rules may differ.",
+    "Native TypeSafe has no documented output-token limit in this adapter; public output pricing is zero, while request and account limits still apply.",
+    "Source files are read as a point-in-time snapshot; rerun after pilots finish. No account ledger was consulted.",
+    "All recorded retries and diagnostic calls count as separate financial events even when their inputs duplicate another call.",
+    "Public list-price arithmetic is not an invoice or evidence of actual credit consumption.",
+    "The USD 5 balance is user-reported, not queried from the provider. USD 4 is a recommended maximum allocation, not a target to spend or verified available balance."
+  ]
+}

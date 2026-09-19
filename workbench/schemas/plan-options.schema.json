@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:jev-workbench:plan-options:1.1",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "tier": {
+      "enum": [
+        "bronze",
+        "silver",
+        "gold"
+      ]
+    },
+    "maxUsd": {
+      "type": "number",
+      "minimum": 1e-09,
+      "maximum": 9007199.25474099,
+      "description": "Positive planning budget; no experimental dollar cap. Does not change an existing account spending limit."
+    },
+    "maxInputTokens": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 1,
+      "maximum": 214457125112880,
+      "description": "Optional conservative planning units; null means no additional token-planning cap."
+    },
+    "layouts": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "question",
+          "criteria"
+        ]
+      }
+    },
+    "seed": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 199
+    },
+    "includeContext": {
+      "type": "boolean"
+    },
+    "repeat": {
+      "enum": [
+        1,
+        2,
+        3
+      ]
+    }
+  },
+  "description": "Planning allowances, not account authorizations. Null input-token limit disables the optional extra ceiling. The backend also enforces safe integer nano-dollar accounting."
+}

@@ -1,0 +1,11 @@
+{
+  "schemaVersion": "payload-profile/1",
+  "id": "jev-criteria-single",
+  "renderer": "jev",
+  "examplePlacement": "criterion-local",
+  "guidePlacement": "legacy-state",
+  "questionGrouping": "one-per-request",
+  "omitGuideBlocks": {},
+  "maxRequestBytes": 1500000,
+  "notes": "Same question payloads in separate requests; all state repeated. Cost-affecting ablation, not a cascade."
+}

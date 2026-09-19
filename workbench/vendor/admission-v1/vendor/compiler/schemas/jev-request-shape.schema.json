@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Local Jev request shape (not official provider schema)",
+  "type": "object",
+  "properties": {
+    "model": {
+      "type": "string",
+      "minLength": 1
+    },
+    "state": {
+      "type": [
+        "string",
+        "object",
+        "array"
+      ]
+    },
+    "questions": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "const": "choice"
+              },
+              "instructions": {
+                "type": [
+                  "string",
+                  "object",
+                  "array",
+                  "null"
+                ]
+              },
+              "criteria": {
+                "type": "object",
+                "minProperties": 2,
+                "additionalProperties": {
+                  "type": [
+                    "string",
+                    "object",
+                    "array",
+                    "null"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "type",
+              "instructions",
+              "criteria"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "const": "noul"
+              },
+              "instructions": {
+                "type": [
+                  "string",
+                  "object",
+                  "array",
+                  "null"
+                ]
+              },
+              "criteria": {
+                "type": "object",
+                "properties": {
+                  "true": {
+                    "type": [
+                      "string",
+                      "object",
+                      "array",
+                      "null"
+                    ]
+                  },
+                  "false": {
+                    "type": [
+                      "string",
+                      "object",
+                      "array",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "true",
+                  "false"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "type",
+              "instructions"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "const": "score"
+              },
+              "instructions": {
+                "type": [
+                  "string",
+                  "object",
+                  "array",
+                  "null"
+                ]
+              },
+              "criteria": {
+                "type": "array",
+                "items": {
+                  "type": [
+                    "string",
+                    "object",
+                    "array",
+                    "null"
+                  ]
+                },
+                "minItems": 2
+              }
+            },
+            "required": [
+              "type",
+              "instructions",
+              "criteria"
+            ],
+            "additionalProperties": false
+          }
+        ]
+      }
+    }
+  },
+  "required": [
+    "model",
+    "state",
+    "questions"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,254 @@
+{
+  "checks": 44,
+  "passed": 44,
+  "providerCalls": 0,
+  "execution": "Real production UI through localhost API bridge; direct browser loopback blocked by administrator, HTTP routes tested separately.",
+  "results": [
+    {
+      "name": "default atlas binds exactly 64 recorded observations",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "galaxy enabled by default",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "six real archived report selections",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "keyboard selects a real observation",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "keyboard opens exactly selected observation",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "false-alarm filter selects four real rows",
+      "passed": true,
+      "details": 4
+    },
+    {
+      "name": "outcome layout changes geometry",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "signal layout uses recorded measurements",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "immersive expanded view works",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "difference navigator opens an actual differing observation",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "fly-to camera approaches selected point",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "all-condition atlas preserves all 480 identities",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "original archive is defaulted to its structured balanced classification contract",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "original atlas contains all 3,920 planned observations",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "integrity table uses original decision field",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "integrity expected values are not all allow",
+      "passed": true,
+      "details": {
+        "attempted_only": 6,
+        "poisoned": 6,
+        "no_poisoning_evidence": 6,
+        "insufficient_evidence": 6
+      }
+    },
+    {
+      "name": "boolean original values rendered and graded separately",
+      "passed": true,
+      "details": {
+        "true": 9,
+        "false": 15
+      }
+    },
+    {
+      "name": "extension drilldown matches original hash-bound source",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "representation diagnostic exact archived request is available",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "recovery answers are candidate labels, not attack labels",
+      "passed": true,
+      "details": {
+        "candidate_1": 4,
+        "candidate_2": 4
+      }
+    },
+    {
+      "name": "context sweep contains324 unrun source-derived cells",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "unrun catalog points are not presented as successes",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "catalog preview displays exact request and separate gold",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "original extension preset64",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "complete15184-node catalog renders",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "full catalog budget shortfall is explicit",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "factor change clears stale preview immediately",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "offline freeze prints hash-confirmed explicit CLI",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "unclear envelope label removed",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "planning token limit label clarified",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "token help explains30k byte worked example",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "desktop page has no JS exceptions",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "no horizontal overflow 1080",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "sidebar anchored both ends 1920",
+      "passed": true,
+      "details": {
+        "x": 0,
+        "y": 0,
+        "width": 218,
+        "height": 1920
+      }
+    },
+    {
+      "name": "reduced motion pauses atlas 1080",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "no browser errors 1080",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "no horizontal overflow 390",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "full-height mobile drawer",
+      "passed": true,
+      "details": {
+        "x": 0,
+        "y": 0,
+        "width": 300,
+        "height": 844
+      }
+    },
+    {
+      "name": "reduced motion pauses atlas 390",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "no browser errors 390",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "no horizontal overflow 852",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "sidebar anchored both ends 393",
+      "passed": true,
+      "details": {
+        "x": 0,
+        "y": 0,
+        "width": 218,
+        "height": 393
+      }
+    },
+    {
+      "name": "reduced motion pauses atlas 852",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "no browser errors 852",
+      "passed": true,
+      "details": []
+    }
+  ]
+}

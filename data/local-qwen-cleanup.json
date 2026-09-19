@@ -1,0 +1,11 @@
+{
+  "removedUnusedRepository": "Vontra/Qwen3.8-Flash-Next-MLX-oQ3-MTP",
+  "removedFiles": 19,
+  "removedBytes": 92505200266,
+  "reason": "User selected Unsloth baseline and requested cleanup of unused downloads",
+  "metadataRetained": true,
+  "runtimeTemporarilyRetainedForDownloadClient": false,
+  "unusedUvAndHfCachesRemoved": true,
+  "legacyMlxEnvironmentRemoved": true,
+  "activeBaseline": "Unsloth UD-Q3_K_XL + official llama.cpp"
+}

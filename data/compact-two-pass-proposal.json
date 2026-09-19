@@ -1,0 +1,386 @@
+{
+  "status": "draft_pending_user_prompt_review",
+  "approved": false,
+  "newModelCalls": 0,
+  "environmentFilesRead": false,
+  "priorResultsRead": false,
+  "protocol": "compact-two-pass-development-proposal-v1",
+  "referenceGuideHash": "56b77c5efa6b4df0da9a240284a532da5b9d21e35e2450976da98a27718de3f0",
+  "compactFileHash": "9bf6c83f1a904169516d3cde36f06685d0434bdc51fd4400c4abadf21bfb3253",
+  "compactSerializedHash": "f7938b47413a0568099c61ed295d93f5c6e25571e9067a1e8f4f0459cd9f23c1",
+  "secondPassInstructionsHash": "e311144327bd126e5e85f9283377bff6962fe21c87b1bd95e3168112035397e9",
+  "guideSizes": {
+    "referenceUtf8Bytes": 47739,
+    "compactFileUtf8Bytes": 17744,
+    "referenceSerializedUtf8Bytes": 48113,
+    "compactSerializedUtf8Bytes": 17063,
+    "serializedReductionPercent": 64.5355725063912
+  },
+  "design": {
+    "knownDevelopmentCases": 48,
+    "scenarios": 16,
+    "materialLengthsUtf16": [
+      1024,
+      16384,
+      65536
+    ],
+    "maximumRequests": 192,
+    "retryLimit": 0,
+    "allValidFirstPassCasesReceiveSecondPass": true,
+    "initialGating": false,
+    "inputQuestionCount": 7,
+    "demonstratedSemanticEquivalence": false,
+    "tokenCapacityVerified": false,
+    "priorAssessmentMaximumSerializedBytes": 16384
+  },
+  "pricing": {
+    "inputUsdPerMillion": 0.042,
+    "outputUsdPerMillion": 0,
+    "source": "recorded repository list-price assumption; recheck before dispatch"
+  },
+  "reservation": {
+    "convention": "One token per serialized UTF-8 request byte plus 256 per call; D substitutes its 16 KiB prior-answer cap for null. This is a planning convention, not a tokenizer, billing or capacity guarantee.",
+    "maximumPlannedUsd": 0.582093792,
+    "proposedStageCapUsd": 0.75,
+    "actualReservedOrSpentUsd": 0
+  },
+  "arms": [
+    {
+      "arm": "R",
+      "maximumRequests": 48,
+      "requestBytes": 4313460,
+      "minimumRequestBytes": 63189,
+      "maximumRequestBytes": 127994,
+      "projected": false,
+      "reservedInputTokens": 4325748,
+      "reservationUsd": 0.18168141599999998
+    },
+    {
+      "arm": "C",
+      "maximumRequests": 48,
+      "requestBytes": 2823060,
+      "minimumRequestBytes": 32139,
+      "maximumRequestBytes": 96944,
+      "projected": false,
+      "reservedInputTokens": 2835348,
+      "reservationUsd": 0.119084616
+    },
+    {
+      "arm": "D",
+      "maximumRequests": 48,
+      "requestBytes": 3729972,
+      "minimumRequestBytes": 51033,
+      "maximumRequestBytes": 115838,
+      "projected": true,
+      "reservedInputTokens": 3742260,
+      "reservationUsd": 0.15717492000000002
+    },
+    {
+      "arm": "E",
+      "maximumRequests": 48,
+      "requestBytes": 2943732,
+      "minimumRequestBytes": 34653,
+      "maximumRequestBytes": 99458,
+      "projected": false,
+      "reservedInputTokens": 2956020,
+      "reservationUsd": 0.12415284000000001
+    }
+  ],
+  "validation": {
+    "originalGuideHashValidated": true,
+    "all48CompactRequestsPreservePolicyContextMaterialAndQuestions": true,
+    "noGoldOrCaseMetadataAddedToState": true,
+    "numberedGuideSectionsRetained": true,
+    "secondPassAnswersInvented": false
+  },
+  "requestHashes": [
+    {
+      "caseId": "rich-direct-quotation:benign-length-1024",
+      "referenceHash": "7be03aee6f3db4c869b16c8d6b0598e27f9dd230d20b3fa9c5410448c816fa07",
+      "compactHash": "df237ee4b778a09d13760c4f20be568af30ca352e4c92de18ee7a769fe8b2d37",
+      "secondPassWithoutAnswersHash": "860455a94e25082e6d8e1ecc6bdc3c537186e3efe961ca947e7a9625b0b69ad4"
+    },
+    {
+      "caseId": "rich-acrostic-message:attack-length-65536",
+      "referenceHash": "50667d76eb221aaa6ae1e26ed452967edb0cc998a1f2e741d110629d82d44a00",
+      "compactHash": "074d79a8ad9adc0600cf0d675f14493f68a73a1bf8a40d2f228eb89275dd8a0e",
+      "secondPassWithoutAnswersHash": "0fe103d572ddf4e895a291ee9a17c6e3bb768bb7b2d09de0f01596050e1dbe4a"
+    },
+    {
+      "caseId": "rich-direct-quotation:attack-length-1024",
+      "referenceHash": "7375bd1537886dda0766b3c9a1f7d0835a3f66807dec5a1b99d8a1b7b3858ead",
+      "compactHash": "08cb6dd5d38cab8f7306003fa36560f06b6b6a34ac17297c43927c08c28142a6",
+      "secondPassWithoutAnswersHash": "9f28d5bbe00e08d5a5544b9238dc7cf2365605827d5bf86333f9412b9a9056d6"
+    },
+    {
+      "caseId": "rich-base64-note:attack-length-16384",
+      "referenceHash": "0189960b36713f6169efb911982b7319df2a7e24a7bbba2d98495104f4d9966a",
+      "compactHash": "ccb38b05f91461a0969dcd1cbfa2e322856310f01e550f5098659b76801024d0",
+      "secondPassWithoutAnswersHash": "2b2bf53da9509e5655a13fb448d693b0163573cfe3495e2047f7b88aa31279df"
+    },
+    {
+      "caseId": "rich-morse-note:benign-length-1024",
+      "referenceHash": "13373a26f09f74f55f344435d3a0a211abd80c01c16b5aa14697805fb1474daa",
+      "compactHash": "e3f165a417e350477bbb805a30bb5f30dea35d0f478935d3c7f174fa2fe575a9",
+      "secondPassWithoutAnswersHash": "c22afbbb7d18a473176c821b46da09e95784e1c3e6edf646094cdeac73e923c0"
+    },
+    {
+      "caseId": "rich-acrostic-message:attack-length-1024",
+      "referenceHash": "98b49b1ffd06f943649b7d15ead54a8df28ae12e9082f8fb7bb12f74e34112cc",
+      "compactHash": "4268832ab1ac27ae37a62fdbb1c3a94f8fdefda2dc4d04feaaf26ac797222e88",
+      "secondPassWithoutAnswersHash": "2fac745125ae49e22b6669bc909e4d461128bb324da282ff562047c473b08ab5"
+    },
+    {
+      "caseId": "rich-invisible-separators:attack-length-16384",
+      "referenceHash": "0869253f8f4ba124347933d5ffb947c792646d5006a734bdb9d39e065e89a388",
+      "compactHash": "087739d6522968377f1c6e55e063adf18a6aff377d5bb1ffd9c90a4148659547",
+      "secondPassWithoutAnswersHash": "a9fe2d91cceaf9b9fe2c16b40e04144f7ba2e5ce563bbf7b545a51837749dccc"
+    },
+    {
+      "caseId": "rich-direct-quotation:benign-length-16384",
+      "referenceHash": "d34084f68a327c0efe726a0e14b7ef3b6bb31b230a39efe74fdfd2eba6d8479e",
+      "compactHash": "73e61b1edad5f7052088d633e19b76a83062df73ce57108ad5e10bbae1282519",
+      "secondPassWithoutAnswersHash": "17e9cd8a815ab5283f5dc0d399bffac005cea45952e537b56133cec217475595"
+    },
+    {
+      "caseId": "rich-json-authority:attack-length-65536",
+      "referenceHash": "30013ea7f08d0fbcd5be25b7fb315736263bd1fb6fd698b448449dc6cb7900bb",
+      "compactHash": "aef57ff31b27e8f88f72a205de74b6de137c2ebfeb747dcdec64a8668dacb67e",
+      "secondPassWithoutAnswersHash": "d160a8707de9558761c20b56e05181c9e414ab1989a48fec502f80585bc8f81a"
+    },
+    {
+      "caseId": "rich-split-records:attack-length-16384",
+      "referenceHash": "b598480f4bf2e6c1603324214927dd9c3af4376ecac8a7f682f3effe128faca1",
+      "compactHash": "e4bc7539483cfa25bb8fbad5195b641c38147fa06b28c683c729c07facc384c2",
+      "secondPassWithoutAnswersHash": "7059596741b48e3729208aa2c643be1b1f5967a66ee57a7d398a550de05b94b0"
+    },
+    {
+      "caseId": "rich-invisible-separators:benign-length-1024",
+      "referenceHash": "eb993fb6595e2aae31b8246a1e0f2db4604568f28f1d35d8e4e240fd92f9b90c",
+      "compactHash": "55dbdd69fd4a71623eb0e9b550b0b68e7206e0169041300e54f0471556b22b80",
+      "secondPassWithoutAnswersHash": "1c5bbe043bd469fc79d109a098351e868d75acaecf3925ed81e43e2853ddf7de"
+    },
+    {
+      "caseId": "rich-authenticated-memory:benign-length-1024",
+      "referenceHash": "14deb86b1edaad1120f0025d1e9da75f4829d38ad45b5124612b3063a171bbdf",
+      "compactHash": "db6bfbd612b94d4983395b43c3d2cf581872a7dcc7aae63ffd5a596a857cc54b",
+      "secondPassWithoutAnswersHash": "44087967e0d96844e59f8ffd3e399f7d81971871476387f4c703e55b9a06c8c0"
+    },
+    {
+      "caseId": "rich-json-authority:benign-length-1024",
+      "referenceHash": "5758168e88c23bc7b7988d0d9760c31d91a28b8053671aa4235fc8b8bcfb42c0",
+      "compactHash": "f0dfabf267f8da1a89331b442b3e273757a718e5fff9747fe997ae17f20c29c9",
+      "secondPassWithoutAnswersHash": "d18ecfe74bba7fcdcc5967058816fa7fa2b752da032d8b6f3c91c99fe8510a8c"
+    },
+    {
+      "caseId": "rich-authenticated-memory:benign-length-16384",
+      "referenceHash": "63000b723427c483a206ada29d6a23b23d494f0a4e76f47a918cf2b0a1417f76",
+      "compactHash": "1c12dae004cbcaec7338879d1d247cf4788bf1f65f9b6819480f70d4f03a9137",
+      "secondPassWithoutAnswersHash": "ee00a28bbc38bcb55f8fb0c9a072067b914172d64640e8294c3b9fd3a7e65e8b"
+    },
+    {
+      "caseId": "rich-authenticated-memory:benign-length-65536",
+      "referenceHash": "1633863a702eb3ede3d7ccfc47c5dead4c8dc46408ed279862f6c30c509c133c",
+      "compactHash": "739b3f9d79eb9b7c9d0a4892889892a8e13093af22aff129dfd5b929240d25b8",
+      "secondPassWithoutAnswersHash": "2a0eb670ed98cd97ac02ce92f3b0785a1187a3639f6b9c62229a3906cdc6cce7"
+    },
+    {
+      "caseId": "rich-json-authority:attack-length-1024",
+      "referenceHash": "9e03fcea42617ce0fc586adec42a081ef6e85f6acdf8015619999b892be17015",
+      "compactHash": "464cb57646fe9095ef63a6cdcc4bceba98ae7ed81db0d05d70b6b073fb54c575",
+      "secondPassWithoutAnswersHash": "6a42b4cc825a6b97a177d51bfecd69da3ff263d618caac2b3c3334bb016b8f93"
+    },
+    {
+      "caseId": "rich-acrostic-message:benign-length-65536",
+      "referenceHash": "99db324971ca552c0295f4e60fe16e744371604fec23a8a33b953eea2bbd0004",
+      "compactHash": "31096551496fc8215e4343a992c107e18bbc1ae0dfb38b0206fad2713c1b4330",
+      "secondPassWithoutAnswersHash": "cb296d7f6786d479a741d615fca4b0980929e158dbd5e5075f9141d18c83157f"
+    },
+    {
+      "caseId": "rich-morse-note:benign-length-16384",
+      "referenceHash": "9f2861a33492c1d88a0c30879d57563856ae7f4843b5d7abb7a2fef9093deb22",
+      "compactHash": "f0fa69dd3cbeb1cfa85112f03ed1a2a41e8bde0f5f42027f907cf15a88396a65",
+      "secondPassWithoutAnswersHash": "7977de9acb9d2f7f97c3c7ecbb84782844f9b69de265f123db8ab239dda9729b"
+    },
+    {
+      "caseId": "rich-authenticated-memory:attack-length-1024",
+      "referenceHash": "d2d21885bd1876ca8d4091a2e29aa70cd6cde77dea9f853d14a0a6c0d96b0145",
+      "compactHash": "cc0058141a57e4e771acd2557cd528dcddb7f69fe0c11cf49c0be49bb8a66160",
+      "secondPassWithoutAnswersHash": "28ccb26ef979c8f2c2aeb2084255a75c4cc23b4f529454df5365397c5cb3bda6"
+    },
+    {
+      "caseId": "rich-acrostic-message:attack-length-16384",
+      "referenceHash": "f06e8816b50eef14dd475b74c332ad3900904f02909d904027832c4d2e4c1ad0",
+      "compactHash": "feb8639860f6e91f025da7d228be7e9af03e9f13600cc493c63f7b49dfb2d49d",
+      "secondPassWithoutAnswersHash": "0e8952a63bfb0507de115985bc76044b587205e5b0dbf6e1a2afd051817ba656"
+    },
+    {
+      "caseId": "rich-morse-note:attack-length-65536",
+      "referenceHash": "bc984846afb85cef90fb62d58a387f0cb8225ae1461a30b58c90a9fd4114c35f",
+      "compactHash": "bf8123da5b6983f473cd0e2362e1fdfb2d2e772a7325d6fc34366c75def247c0",
+      "secondPassWithoutAnswersHash": "58c23d098f9e4275b210c045273af828f0f36e6a0b1ac9d5dd0323429042c525"
+    },
+    {
+      "caseId": "rich-invisible-separators:benign-length-16384",
+      "referenceHash": "5ce5f28b7bebabf356bd3a6b5c809ab689c34d2175c9bc08a0ff0c48ddeb02f5",
+      "compactHash": "880c0ff8d60292e26ee3d09dd10a11f93c384a63cce122950bcf314e061a861a",
+      "secondPassWithoutAnswersHash": "1afc8de9c45f5ebf5eb5680d7c92e425debb21ecae47547382825866b519a71d"
+    },
+    {
+      "caseId": "rich-base64-note:attack-length-1024",
+      "referenceHash": "82d3a202beb177cf4926ecdd31d6fb0f33027042087a3f7d2ce67fc0a1c377c6",
+      "compactHash": "21cb357945f8689d580b3415305b4018f5cca41949ad5a50b31b278067fa6193",
+      "secondPassWithoutAnswersHash": "5288673785c24fe2551e99e801f0994d8a6668c5f6447ea57fe68007f92da217"
+    },
+    {
+      "caseId": "rich-direct-quotation:attack-length-65536",
+      "referenceHash": "93835de8cf6a32ce02e1c159b7b625cf9c6d0c1cbb345f4c3367e6fe9155a2a0",
+      "compactHash": "57c04709c41f83f9ffeae834310303619c821f3e5e07947be6f65ce5090f0a9b",
+      "secondPassWithoutAnswersHash": "f3457519811a9145b6415f7ca28307030cc8c780413558c77ec83dc7b09cf6f9"
+    },
+    {
+      "caseId": "rich-json-authority:attack-length-16384",
+      "referenceHash": "c964047d71b65ebf33ec4b00a31710290fbc2696b45444a37bf6a0710f161921",
+      "compactHash": "fdc2303246b07fa85e46928da664a61c4e8a2a425dffccf0367ae25c869dc2b4",
+      "secondPassWithoutAnswersHash": "d725fee96d6b6a4bbfb037c02cd272c0005f42ce78970e029b67b163a085be20"
+    },
+    {
+      "caseId": "rich-authenticated-memory:attack-length-65536",
+      "referenceHash": "818231015b5a9767578dccde22b0cf548864a2795abcfd27922960b1d56727e2",
+      "compactHash": "585657d289e2385cd59e96ab41f69b482a74bfe6ce04db888678c6224a105a70",
+      "secondPassWithoutAnswersHash": "01353f75a61a4aa90a1279afa5c4d5a4c7899730c9f462b9f1b19ee161c25597"
+    },
+    {
+      "caseId": "rich-acrostic-message:benign-length-16384",
+      "referenceHash": "fa404c60d7b8333db8b01647136519d96cde3632cee66e2f80218abffe8964cf",
+      "compactHash": "ecd89d68b1740dda1733d1e37fac922426e8746bc1a4971316321855eb5e4f72",
+      "secondPassWithoutAnswersHash": "0ee095d3e91c015bea40a4a36cf4a86dd9070b88f7e8f963a7971cd733d71b81"
+    },
+    {
+      "caseId": "rich-morse-note:benign-length-65536",
+      "referenceHash": "e711d7e29cf84c2aabe01d3bb92bfc9644aeeab739a94552c801f1fa8b7d1fd9",
+      "compactHash": "083ce5e8246a03bb13cb00add5fe39b78267794f76aa30aada2330603c778c57",
+      "secondPassWithoutAnswersHash": "cc3b5380d8e72ef0cdba3ae03fdddc249fead5d457c00506231decd3a0b48669"
+    },
+    {
+      "caseId": "rich-morse-note:attack-length-16384",
+      "referenceHash": "a3b3847589eec658786837738d795883374563a5806fa9c3d59a89cc2f4c8f50",
+      "compactHash": "600d5b4fafd066f2efa026b7eedbe100d42e1156d9eaff678566c59952ce8af4",
+      "secondPassWithoutAnswersHash": "74e2d6f07f28e4fda93754d6066039527dbaafa5b110046f41235b56fdb6720d"
+    },
+    {
+      "caseId": "rich-base64-note:benign-length-65536",
+      "referenceHash": "cce06c4d6ab631baa1279baa6ccdd59449aab01f63adce3d08d43955cfff73d2",
+      "compactHash": "8dd121674323c05b81990f1e2ff6ee0c12a27b196d865a21dc7275476bed1839",
+      "secondPassWithoutAnswersHash": "f34e46aa53b7a63a2ca6c5a68e5c8988c0d713f02efe32114cf7aeb785ee13b9"
+    },
+    {
+      "caseId": "rich-base64-note:benign-length-16384",
+      "referenceHash": "ad66b5b45c799b1b62441b662672117c1203e5c8ff73e38f3ff0b094c7d0660a",
+      "compactHash": "a30d41998e5649c38d0b71a0623b670d08a680c59ecfe41ad06f048b5ce6173c",
+      "secondPassWithoutAnswersHash": "f76972d50ab6c25c1c0f042b45c0bf1833731e8e73ff8d6669aad388cca943fb"
+    },
+    {
+      "caseId": "rich-acrostic-message:benign-length-1024",
+      "referenceHash": "c8f55679f5dc3aeae58c23f58226e05743849ec1bf04793ab0625436fa5f87e7",
+      "compactHash": "6b3b8759e80fe0cb2cd617325a02f100aebde6b3279561b288afaad12440bba9",
+      "secondPassWithoutAnswersHash": "9aeb63d988a60fa86fa67ef7da799ab3e28c2f628a11a2d16dac260849a21d3a"
+    },
+    {
+      "caseId": "rich-direct-quotation:benign-length-65536",
+      "referenceHash": "5e1400718b5eb72dcc70356a470289c628688cc3c9e40a8d6d4790c2bae98ace",
+      "compactHash": "e369149206ceb4dbacb870a414fa3e3702496402474dc9132f359cc0f3ed115d",
+      "secondPassWithoutAnswersHash": "b4a0d1032547a7fb3e33968a48e16ac87e9e9660fdcf87f85f9a80eebeb42c8f"
+    },
+    {
+      "caseId": "rich-split-records:attack-length-1024",
+      "referenceHash": "8f74abc95f9f42d4bc96b007e8886b8bd0d97dd4861281fe6ef7165b37e03753",
+      "compactHash": "7b24dd1e84c68bd80cedb66cc38a8be42748af5e22201859f52a51cd59617b64",
+      "secondPassWithoutAnswersHash": "ef041b63b26deb7ac392536413f97b10295c2bce391cc87e90d06496c684c750"
+    },
+    {
+      "caseId": "rich-invisible-separators:attack-length-65536",
+      "referenceHash": "3f7cf706c78195a08cad015038076058a6d20d6c246e31531d06d2466e196c4d",
+      "compactHash": "6f278717dad3ab433867769daa762448ddc491e4b227d0236fb9d40c98767043",
+      "secondPassWithoutAnswersHash": "c64d18464805cafe02e788d73041969579489c64657cdb54b7151a6fbf6751c7"
+    },
+    {
+      "caseId": "rich-direct-quotation:attack-length-16384",
+      "referenceHash": "a942ad41ccc61c2c88d83356d6908ccb2485fc191b6be080b1994946089c8424",
+      "compactHash": "02a23d613fad463554ed3d4ba7afd35ee7cd9070e3a94ad5db326d6f93af10da",
+      "secondPassWithoutAnswersHash": "36d632d4119791455425d794bff74251b41aeeb61b5632eaa3e1643580005b76"
+    },
+    {
+      "caseId": "rich-base64-note:attack-length-65536",
+      "referenceHash": "dfbb14bc1b9c065fe4dee5740b13eab222c812ba4ff9187a926102686676f6ed",
+      "compactHash": "ae1bd9b24fdb0d98208dfebdac4b99713be1529e80e9dda1cf88cc1af34c57cf",
+      "secondPassWithoutAnswersHash": "bd0ac5d36e40f5d2f845002a28e0c61087eefe32d676d20dc38e852d95b6f55a"
+    },
+    {
+      "caseId": "rich-morse-note:attack-length-1024",
+      "referenceHash": "066d9562d44b9b4a4cb64de7786df498590b4ec270bc759c8ea47bb798468a6c",
+      "compactHash": "74f9d44140902d001f71d3e138deb71bd50c78d5b2326f7239006d7cfccee212",
+      "secondPassWithoutAnswersHash": "aa1a606a4376bddbc556cd6d35cf5d87f86cac9a3998c9ac7f710a4f90d9e2eb"
+    },
+    {
+      "caseId": "rich-split-records:attack-length-65536",
+      "referenceHash": "5f0b5f99f07c0289cf45f414415c5b07bf9ea0a5231018c70ba6598f936cce26",
+      "compactHash": "da4c59fbc2ec53debc2e7ae832be5617024259f0baa94de4d7d46abf72b3bd43",
+      "secondPassWithoutAnswersHash": "a8c3cab8c794c0603140a018fe71c97e023791bc4e1bd48ccc4154030b8a3af1"
+    },
+    {
+      "caseId": "rich-json-authority:benign-length-16384",
+      "referenceHash": "70c5dd7309621b9b919224e0260d80574c7545311737606e0c2a9b5d80fba634",
+      "compactHash": "925d38529e6d7dd66cf87047d1ddfe3c9ed356f26782ce3c654e9ca256246dd3",
+      "secondPassWithoutAnswersHash": "d97122a229e1b988aec064a1542865e4fcf786fad93e31e8de4e4cc5f13f60b3"
+    },
+    {
+      "caseId": "rich-split-records:benign-length-1024",
+      "referenceHash": "c6327942cc80534ab1f844f897fc7935f26dff8495285cf75cc1011ed3eaef80",
+      "compactHash": "e43e53e78253e1e29e512d7db6817367005050899808785139510e12ead5265c",
+      "secondPassWithoutAnswersHash": "f4ade620c95b11b7b64ec4da2858767c57ca03be3e831bc05e072f42f2e98de3"
+    },
+    {
+      "caseId": "rich-authenticated-memory:attack-length-16384",
+      "referenceHash": "abe3e14458aa9671c8570523bf070d37cd4b4635df65586f62888102b8c2d40a",
+      "compactHash": "870677d88d2a843db3b3f8d758d58c9617fd9ddfede6daa2878a0d13970b7179",
+      "secondPassWithoutAnswersHash": "c21475a68eaead98e395163daaefbba29150b4a9fb787b29ae20962a94d4fcca"
+    },
+    {
+      "caseId": "rich-json-authority:benign-length-65536",
+      "referenceHash": "1c0f0885be67354fb3da56d35e42fe2ba1e8f1af6639c444b2214e410eae7aa7",
+      "compactHash": "7a913fa089b31c14df95d13589cda393cc00459c0657207585a02855e9126ef8",
+      "secondPassWithoutAnswersHash": "88b9ecf3bedd58a21675dca43add57be753b3f9a0cd9400a09a277fd4a145070"
+    },
+    {
+      "caseId": "rich-base64-note:benign-length-1024",
+      "referenceHash": "9b04c0e6dd49b3da5c9ee282495d2f6c171aaaaeccfe81da0202351f8fe91fba",
+      "compactHash": "6458eef0084a209288778eacb41340b5104edabad1c72fc024f8e10ca45b8cd3",
+      "secondPassWithoutAnswersHash": "6ffc60489516ce5f74a079bf7b96d736e60fb74977995802b024f4e8882e91b9"
+    },
+    {
+      "caseId": "rich-invisible-separators:attack-length-1024",
+      "referenceHash": "86acd4d442c7a32ce965f5a18ec314ed3b84a815875fa21a9640fb97b06314e2",
+      "compactHash": "2a32148ec1e19dce768118f575a942ece2bc71a5b041cfc7ca41ee13e16dc16d",
+      "secondPassWithoutAnswersHash": "df4b9a276343fbe95693b28f4d2e6fee1187bfd93b2912081e31e13ed5303ffa"
+    },
+    {
+      "caseId": "rich-invisible-separators:benign-length-65536",
+      "referenceHash": "f65050a74202e80e978fb639e721c85f7d4cc415ddb6ebf551a3d5aeab83d231",
+      "compactHash": "18b2b0d6bf382fe087b4ddfce7585e0df7f733982402ac39115adc7c4115776f",
+      "secondPassWithoutAnswersHash": "6e5b36a6e61d72f3851a780ce7055502b6aead38bd4c099d3808646c029b9a15"
+    },
+    {
+      "caseId": "rich-split-records:benign-length-65536",
+      "referenceHash": "0fe5d1ec5d0ed88caa38d57cad8ed36da81c8af84fe6b12bb4b7d4b3278c7cac",
+      "compactHash": "d6eeb7c45a455efe7c20a6afbf7411bbd3d87a4076c8c8af7142ac9e66bb22e8",
+      "secondPassWithoutAnswersHash": "124380a84a6a99437a501547a5770323f8369e7580dca2164d105b73ac63baf7"
+    },
+    {
+      "caseId": "rich-split-records:benign-length-16384",
+      "referenceHash": "8e90adb627d75a156e9e66876b7509b0769e4941729f4ecfab2896977a54f232",
+      "compactHash": "32f9d956a777aafe1edde2efb049183c50d13981bf967fec8a85af5607c564ba",
+      "secondPassWithoutAnswersHash": "45924efddf12646d945078645db5cf4fbfba2148d7ea86da95ff6f385fa7ceb9"
+    }
+  ]
+}

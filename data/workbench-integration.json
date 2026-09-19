@@ -1,0 +1,197 @@
+{
+  "schemaVersion": "workbench-integration/1",
+  "reviewDate": "2026-09-19",
+  "status": "integrated_and_offline_validation_passed",
+  "scope": "Local source review, additive integration, offline software validation and direct browser acceptance. No live model quality evaluation or publication.",
+  "canonicalDirectory": "workbench",
+  "localUrl": "http://127.0.0.1:8794",
+  "startCommand": "npm run workbench",
+  "inputs": {
+    "fullArchive": {
+      "name": "jev-policy-workbench-0.5-rebuilt.zip",
+      "sha256": "c6f525dfbd7b86ba08dc5d97999a0d7ae1bf707bad28ff990e571a2435f97dde",
+      "manifestEntriesVerified": 391
+    },
+    "changesArchive": {
+      "name": "jev-workbench-0.5-codex-changes.zip",
+      "sha256": "6d58002f40a13047696af1b459af2489e0f193443b7f95b1523df20cf9641025",
+      "matchingFilePayloads": 38,
+      "additionalEntry": "START-HERE"
+    },
+    "handoff": "Supplied HANDOFF.md matches bundled docs/HANDOFF.md.",
+    "parentLineage": {
+      "filesVerified": 356,
+      "method": "Reconstructed from supplied parent manifest and reverse delta; not an independently obtained 0.4.1 archive."
+    }
+  },
+  "reviewFindings": [
+    {
+      "status": "fixed",
+      "scope": "browser test fixture",
+      "finding": "The Mac already has the original project, so the connection form defaults to that account. Explicitly select the synthetic standalone account before test-only account creation.",
+      "path": "workbench/scripts/ui-browser/acceptance05.py"
+    },
+    {
+      "status": "documented",
+      "scope": "product capabilities",
+      "finding": "Text descriptions suggest reviewed settings; relevance advice ranks existing groups. Continuous automatic refresh, arbitrary policy generation and new scenario/gold generation are not implemented."
+    },
+    {
+      "status": "preserved",
+      "scope": "evidence integrity",
+      "finding": "Setup, coverage selection and guardrail judgments retain distinct purposes; historical results do not validate edited policy drafts."
+    }
+  ],
+  "integrationDelta": {
+    "importedProductionSourcesChanged": false,
+    "importedFilesChanged": [
+      "README.md",
+      "scripts/ui-browser/acceptance05.py",
+      "file-manifest.json"
+    ],
+    "originalManifestPreserved": "workbench/provenance/imported-0.5-file-manifest.json",
+    "rootAdapter": "scripts/workbench.mjs",
+    "guide": "docs/workbench-integration.md",
+    "newCommands": [
+      "workbench",
+      "workbench:verify",
+      "workbench:test",
+      "workbench:account"
+    ],
+    "integrationManifestFilesChecked": 392
+  },
+  "validation": {
+    "offlineTests": {
+      "passed": 326,
+      "failed": 0,
+      "scope": "272 workbench tests and 54 retained compiler tests; fake transports and real loopback HTTP."
+    },
+    "browserAcceptance": {
+      "checks": 242,
+      "passed": 242,
+      "conditions": 88,
+      "displayRows": 6224,
+      "mode": "Direct Chromium against real ES modules and served CSP; no API bridge.",
+      "syntheticSetupCalls": 1,
+      "realProviderCalls": 0
+    },
+    "sourceAudit": {
+      "status": "passed",
+      "unchangedVendorFiles": 176,
+      "unchangedDataFiles": 9,
+      "targetRequestComparisons": 360,
+      "expectedComparisons": 360,
+      "historicalDisplayRows": 6224
+    },
+    "originalProjectSourceBindings": {
+      "matched": 61,
+      "mismatched": 0
+    },
+    "integratedUi": {
+      "inspectedIn": "Codex in-app browser",
+      "observedConsoleErrorsOrWarnings": 0,
+      "leftOn": "Describe"
+    },
+    "fullReplay": {
+      "status": "passed",
+      "scope": "Full original matrix plus 64 extension fixtures; SYNTHETIC transport, zero provider calls",
+      "jobs": 15184,
+      "events": 30368,
+      "stages": 317,
+      "initialPartial": 131,
+      "resumedNewCalls": 15053,
+      "completedResumeNewCalls": 0,
+      "reportBytes": 34606462,
+      "elapsedMs": 917348.10675,
+      "peakRssMiB": 771.953125,
+      "sourceStamp": "c2b03841d3f829624d767b04ed85df743c57a1796c5c660b8c566d25ab97c371",
+      "providerCalls": 0,
+      "simulatedUsageNotForecast": true
+    },
+    "originalEvidencePreservation": {
+      "status": "passed",
+      "checkedFiles": 38986,
+      "changed": [],
+      "missing": [],
+      "added": [],
+      "elapsedSeconds": 54.917,
+      "scope": [
+        "runs",
+        "policies",
+        "harness"
+      ]
+    },
+    "earlierAttempts": [
+      "Default sandbox denied loopback listeners; reran offline tests with local listener permissions and all passed.",
+      "Initial browser acceptance stopped before inference at account selection; corrected the synthetic fixture and all 242 checks passed."
+    ]
+  },
+  "accountCheckpoint": {
+    "kind": "existing project",
+    "directory": "/Users/jordan/Documents/Codex/2026-09-16/i-g/outputs/jev-redteam",
+    "events": 4611,
+    "maximumUsd": 3,
+    "knownUsageUsd": 1.450070202,
+    "heldUsd": 0.00266469,
+    "remainingLocalAllowanceUsd": 1.547265108,
+    "historyComplete": true,
+    "haltedReason": null,
+    "providerBalanceChecked": false,
+    "credentialsRead": false,
+    "providerCalls": 0
+  },
+  "liveProviderCallsDuringIntegration": 0,
+  "credentialsReadDuringIntegration": false,
+  "scopeBoundaries": {
+    "originalResearchFilesUnchanged": true,
+    "existingDesktopCopyAndServerPreserved": true,
+    "temporarySyntheticServerStopped": true,
+    "sitePublished": false,
+    "githubPushed": false,
+    "liveSuggestionQualityValidated": false
+  },
+  "nextWork": [
+    "Live setup suggestion quality and coverage-ranking quality remain unmeasured. Any paid smoke must be separately authorized for its exact request and account allowance.",
+    "Continuous adaptive authoring and reviewed new test generation remain tracked in WORKBENCH-001."
+  ],
+  "evidenceDirectory": "data/workbench-validation-2026-09-19",
+  "artifacts": [
+    {
+      "path": "data/workbench-validation-2026-09-19/account-check.json",
+      "sha256": "89d444792654db04df9807b90b507133a6dd308d999be75fdc0ed11b84bbad03"
+    },
+    {
+      "path": "data/workbench-validation-2026-09-19/browser-acceptance.json",
+      "sha256": "fa673d617a0e1cad239e10fa93806482720bc9ed703be84a57085aa49dc9bfe2"
+    },
+    {
+      "path": "data/workbench-validation-2026-09-19/evidence-preservation.json",
+      "sha256": "0321ac4a0f742ebe5d6e5fadcb2c1ced076f8760948976a6a401efad1a7ac8ca"
+    },
+    {
+      "path": "data/workbench-validation-2026-09-19/imported-manifest-check.json",
+      "sha256": "6cbe2bf887483903922201bf6f3336490f88dc4b281d3c38838bc685f6b7058d"
+    },
+    {
+      "path": "data/workbench-validation-2026-09-19/integrated-manifest-check.json",
+      "sha256": "f0c65d10db4d961c9dc4ec4673f9ae9dd85be2580bd9db8e21f42307e902aca6"
+    },
+    {
+      "path": "data/workbench-validation-2026-09-19/offline-tests.txt",
+      "sha256": "474f509084f4f788706a5a04b41199cbbed1c972bb00d39fe7a685d138932721"
+    },
+    {
+      "path": "data/workbench-validation-2026-09-19/replay-scale.json",
+      "sha256": "d864016298d389ea7aeef484d29a74765d2f6efa12297f6dab869965e830e1d7"
+    },
+    {
+      "path": "data/workbench-validation-2026-09-19/source-audit.json",
+      "sha256": "5889c5360dc3f80d151692cd5842b7b045d9635ca9e501a4f9feb0273c1189b8"
+    },
+    {
+      "path": "data/workbench-validation-2026-09-19/synthetic-browser-calls.json",
+      "sha256": "95b141c1650c979fefcb71448eada387e2b7573c68f581811c069a60eb7c5368"
+    }
+  ],
+  "completedAt": "2026-09-19T15:52:36.334176+00:00"
+}

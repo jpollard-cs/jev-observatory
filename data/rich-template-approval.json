@@ -1,0 +1,16 @@
+{
+  "status": "approved_for_bounded_pilot",
+  "approvedAt": "2026-09-17T13:13:43Z",
+  "authority": "User explicitly asked to run tests with the updated classifier prompt on short and long inputs.",
+  "userInstruction": "let's try running some tests with our new updated classifier prompt and see how it's doing on short and long inputs? also what's the maximum input we can send to Jev? 32k tokens?",
+  "templatePath": "policies/prompt-injection-policy-template.md",
+  "templateHash": "56b77c5efa6b4df0da9a240284a532da5b9d21e35e2450976da98a27718de3f0",
+  "protocolVersion": "rich-template-pilot-v1",
+  "maximumRequests": 48,
+  "maximumStageCostUsd": 0.3,
+  "maximumRestartCostUsd": 3,
+  "inputContract": "instruction_fields_only; English instruction fields with scoped sample-data exceptions",
+  "requiresOfflineRequestAndGoldReviewBeforeDispatch": true,
+  "historicalCampaignRemainsStopped": true,
+  "oldEvidenceAndQueuedCatalogPreserved": true
+}

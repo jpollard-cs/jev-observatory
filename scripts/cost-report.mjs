@@ -21,7 +21,7 @@ import {
 } from '../harness/cost-planning.mjs';
 export { PRICING, PLANNING_BUDGET, usageCost, summarizeEvidence };
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const DEFAULT_PROTOCOL_VERSION = 'advanced-v3';
+const DEFAULT_PROTOCOL_VERSION = 'policy-v4';
 const sha = (text) => crypto.createHash('sha256').update(text).digest('hex');
 
 /** @template T @param {import('../harness/cost-planning.mjs').Result<T>} result @returns {T} */
@@ -142,7 +142,7 @@ function planningSnapshotBasis(protocolVersion) {
     entrypointHashScope:
       'Entrypoint hash is not a transitive dependency fingerprint; requestCorpusHash is the authoritative serialized-request snapshot.',
     legacyDocumentation:
-      'docs/full-run-cost.md historical numeric snapshot is legacy-v2; new advanced-v3 proposals must be costed separately.',
+      'docs/full-run-cost.md historical numeric snapshot is legacy-v2; later protocol proposals must be costed separately.',
   };
 }
 /** File failures become tagged Results here; exported compatibility API still throws. */
@@ -185,7 +185,7 @@ export function main(argv = process.argv.slice(2)) {
   });
   if (values.help) {
     console.log(
-      'Offline only: node scripts/cost-report.mjs [--runs-dir runs] [--model jev-latest] [--protocol-version advanced-v3|legacy-v2|legacy-v1]\nPrints JSON to stdout. Historical accounting reads archived bytes/usage only. Planned requests use the selected protocol; never loads .env or launches a model.',
+      'Offline only: node scripts/cost-report.mjs [--runs-dir runs] [--model jev-latest] [--protocol-version policy-v4|advanced-v3|legacy-v2|legacy-v1]\nPrints JSON to stdout. Historical accounting reads archived bytes/usage only. Planned requests use the selected protocol; never loads .env or launches a model.',
     );
     return;
   }

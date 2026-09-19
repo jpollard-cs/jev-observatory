@@ -1,0 +1,481 @@
+{
+  "method": "Real UI modules flattened for in-page evaluation with exposed local HTTP bridge; loopback browser navigation blocked by environment administrator. HTTP and source modules tested separately. No network policy changed.",
+  "checks": [
+    {
+      "name": "orbit fits at tilt 0.1 angle 0",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "orbit fits at tilt 0.1 angle 1.57",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "orbit fits at tilt 0.1 angle 3.14",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "orbit fits at tilt 0.1 angle 4.71",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "orbit fits at tilt 1.25 angle 0",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "orbit fits at tilt 1.25 angle 1.57",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "orbit fits at tilt 1.25 angle 3.14",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "orbit fits at tilt 1.25 angle 4.71",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "default admission scope",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "galaxy enabled initially",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "no corporate byline",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "one interactive orbit point per observation",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "orbit keyboard opens matched row key",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "matrix cell filters four false alarms",
+      "passed": true,
+      "details": {
+        "block": 4
+      }
+    },
+    {
+      "name": "matrix does not relabel expected operations",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "DOM expected decisions rich_control",
+      "passed": true,
+      "details": {
+        "allow": 45,
+        "block": 3
+      }
+    },
+    {
+      "name": "DOM expected decisions compact_both",
+      "passed": true,
+      "details": {
+        "allow": 45,
+        "block": 3
+      }
+    },
+    {
+      "name": "DOM expected decisions inspection_question",
+      "passed": true,
+      "details": {
+        "allow": 64
+      }
+    },
+    {
+      "name": "DOM expected decisions inspection_criteria",
+      "passed": true,
+      "details": {
+        "allow": 64
+      }
+    },
+    {
+      "name": "DOM expected decisions strict_question",
+      "passed": true,
+      "details": {
+        "allow": 16,
+        "review": 4,
+        "block": 44
+      }
+    },
+    {
+      "name": "DOM expected decisions strict_criteria",
+      "passed": true,
+      "details": {
+        "allow": 16,
+        "review": 4,
+        "block": 44
+      }
+    },
+    {
+      "name": "DOM expected decisions contextual_question",
+      "passed": true,
+      "details": {
+        "allow": 26,
+        "review": 6,
+        "block": 32
+      }
+    },
+    {
+      "name": "DOM expected decisions contextual_criteria",
+      "passed": true,
+      "details": {
+        "allow": 26,
+        "review": 6,
+        "block": 32
+      }
+    },
+    {
+      "name": "explicit expected-block filter",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "detail source is archived and request-bound",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "reimport preserves strict selection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "reimport preserves expected distribution",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "policy compile remains usable",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "inspection draft does not rewrite strict result",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "boundary repeat filter contains 48 observations",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "repeat detail uses selected second observation",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "camelCase compact labels displayed correctly",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "baseline reference preserved as separate condition",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "code mapping labelled separately",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "different plan under same protocol has separate selector identity",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "bundled run remains selectable",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "coverage advisor retained",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "plan preview works offline",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "dossier records retained",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "provenance screen retained",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "galaxy opt-out",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "desktop all errors empty",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "anchored sidebar 1080x1920",
+      "passed": true,
+      "details": {
+        "before": {
+          "x": 0,
+          "y": 0,
+          "width": 218,
+          "height": 1920
+        },
+        "after": {
+          "x": 0,
+          "y": 0,
+          "width": 218,
+          "height": 1920
+        }
+      }
+    },
+    {
+      "name": "footer visible 1080x1920",
+      "passed": true,
+      "details": {
+        "x": 16,
+        "y": 1741.015625,
+        "width": 185,
+        "height": 156.984375
+      }
+    },
+    {
+      "name": "no horizontal overflow 1080x1920",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "anchored sidebar 1440x2560",
+      "passed": true,
+      "details": {
+        "before": {
+          "x": 0,
+          "y": 0,
+          "width": 244,
+          "height": 2560
+        },
+        "after": {
+          "x": 0,
+          "y": 0,
+          "width": 244,
+          "height": 2560
+        }
+      }
+    },
+    {
+      "name": "footer visible 1440x2560",
+      "passed": true,
+      "details": {
+        "x": 16,
+        "y": 2400.8125,
+        "width": 211,
+        "height": 137.1875
+      }
+    },
+    {
+      "name": "no horizontal overflow 1440x2560",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "anchored sidebar 844x450",
+      "passed": true,
+      "details": {
+        "before": {
+          "x": 0,
+          "y": 0,
+          "width": 218,
+          "height": 450
+        },
+        "after": {
+          "x": 0,
+          "y": 0,
+          "width": 218,
+          "height": 450
+        }
+      }
+    },
+    {
+      "name": "footer visible 844x450",
+      "passed": true,
+      "details": {
+        "x": 16,
+        "y": 296.015625,
+        "width": 185,
+        "height": 139.984375
+      }
+    },
+    {
+      "name": "no horizontal overflow 844x450",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "mobile page fits overview",
+      "passed": true,
+      "details": {
+        "scroll": 390,
+        "width": 390
+      }
+    },
+    {
+      "name": "mobile page errors overview",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "mobile page fits policy",
+      "passed": true,
+      "details": {
+        "scroll": 390,
+        "width": 390
+      }
+    },
+    {
+      "name": "mobile page errors policy",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "mobile page fits selection",
+      "passed": true,
+      "details": {
+        "scroll": 390,
+        "width": 390
+      }
+    },
+    {
+      "name": "mobile page errors selection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "mobile page fits planner",
+      "passed": true,
+      "details": {
+        "scroll": 390,
+        "width": 390
+      }
+    },
+    {
+      "name": "mobile page errors planner",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "mobile page fits evidence",
+      "passed": true,
+      "details": {
+        "scroll": 390,
+        "width": 390
+      }
+    },
+    {
+      "name": "mobile page errors evidence",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "mobile page fits context",
+      "passed": true,
+      "details": {
+        "scroll": 390,
+        "width": 390
+      }
+    },
+    {
+      "name": "mobile page errors context",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "mobile page fits provenance",
+      "passed": true,
+      "details": {
+        "scroll": 390,
+        "width": 390
+      }
+    },
+    {
+      "name": "mobile page errors provenance",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "mobile drawer anchored both ends",
+      "passed": true,
+      "details": {
+        "x": -315,
+        "y": 0,
+        "width": 300,
+        "height": 844
+      }
+    },
+    {
+      "name": "mobile drawer footer reachable",
+      "passed": true,
+      "details": {
+        "x": -297,
+        "y": 683.8125,
+        "width": 263,
+        "height": 137.1875
+      }
+    },
+    {
+      "name": "Escape closes drawer",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "mobile errors empty",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "reduced motion stops orbital animation",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "reduced motion stops galaxy transforms",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "reduced motion keeps galaxy available",
+      "passed": true,
+      "details": null
+    }
+  ],
+  "passed": 72,
+  "failed": 0,
+  "providerCalls": 0
+}

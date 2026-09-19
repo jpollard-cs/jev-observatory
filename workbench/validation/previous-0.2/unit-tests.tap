@@ -1,0 +1,436 @@
+TAP version 13
+# Subtest: Observatory projection preserves source identity and separate policy conditions
+ok 1 - Observatory projection preserves source identity and separate policy conditions
+  ---
+  duration_ms: 44.935817
+  type: 'test'
+  ...
+# Subtest: tiers are nested scenario-group prefixes with generous cap
+ok 2 - tiers are nested scenario-group prefixes with generous cap
+  ---
+  duration_ms: 1027.180755
+  type: 'test'
+  ...
+# Subtest: every selected contrast group is complete
+ok 3 - every selected contrast group is complete
+  ---
+  duration_ms: 849.490132
+  type: 'test'
+  ...
+# Subtest: all declared representation classes have mandatory probes
+ok 4 - all declared representation classes have mandatory probes
+  ---
+  duration_ms: 212.964433
+  type: 'test'
+  ...
+# Subtest: enabled contextual exception modules receive mandatory tests
+ok 5 - enabled contextual exception modules receive mandatory tests
+  ---
+  duration_ms: 231.604899
+  type: 'test'
+  ...
+# Subtest: minimum coverage overrides nominal 5 percent transparently
+ok 6 - minimum coverage overrides nominal 5 percent transparently
+  ---
+  duration_ms: 160.825158
+  type: 'test'
+  ...
+# Subtest: too-small budget is non-dispatchable, not a fake passing tier
+ok 7 - too-small budget is non-dispatchable, not a fake passing tier
+  ---
+  duration_ms: 59.313654
+  type: 'test'
+  ...
+# Subtest: frozen costs respect both money and token reservations
+ok 8 - frozen costs respect both money and token reservations
+  ---
+  duration_ms: 224.037077
+  type: 'test'
+  ...
+# Subtest: same config and seed recreates exact plan
+ok 9 - same config and seed recreates exact plan
+  ---
+  duration_ms: 530.433623
+  type: 'test'
+  ...
+# Subtest: evaluation data cannot be inserted into a confirmed plan
+ok 10 - evaluation data cannot be inserted into a confirmed plan
+  ---
+  duration_ms: 163.543677
+  type: 'test'
+  ...
+# Subtest: even a rehashed tampered manifest must match its builder
+ok 11 - even a rehashed tampered manifest must match its builder
+  ---
+  duration_ms: 330.169515
+  type: 'test'
+  ...
+# Subtest: unknown layout or unsafe budget cap fails
+ok 12 - unknown layout or unsafe budget cap fails
+  ---
+  duration_ms: 0.306453
+  type: 'test'
+  ...
+# Subtest: filtering context is explicit and honest
+ok 13 - filtering context is explicit and honest
+  ---
+  duration_ms: 220.138537
+  type: 'test'
+  ...
+# Subtest: provider requests have no evaluation labels
+ok 14 - provider requests have no evaluation labels
+  ---
+  duration_ms: 175.428541
+  type: 'test'
+  ...
+# Subtest: freeze is idempotent; request corruption stops resume
+ok 15 - freeze is idempotent; request corruption stops resume
+  ---
+  duration_ms: 1046.17426
+  type: 'test'
+  ...
+# Subtest: valid preset strict
+ok 16 - valid preset strict
+  ---
+  duration_ms: 3.014332
+  type: 'test'
+  ...
+# Subtest: valid preset contextual
+ok 17 - valid preset contextual
+  ---
+  duration_ms: 0.47151
+  type: 'test'
+  ...
+# Subtest: valid preset inspection
+ok 18 - valid preset inspection
+  ---
+  duration_ms: 0.229665
+  type: 'test'
+  ...
+# Subtest: unknown policy field fails
+ok 19 - unknown policy field fails
+  ---
+  duration_ms: 0.576369
+  type: 'test'
+  ...
+# Subtest: allowlist cannot be empty
+ok 20 - allowlist cannot be empty
+  ---
+  duration_ms: 0.234697
+  type: 'test'
+  ...
+# Subtest: unknown model fails
+ok 21 - unknown model fails
+  ---
+  duration_ms: 0.253124
+  type: 'test'
+  ...
+# Subtest: unresolved admission never fails open
+ok 22 - unresolved admission never fails open
+  ---
+  duration_ms: 0.197194
+  type: 'test'
+  ...
+# Subtest: strict cannot enable consumer exceptions
+ok 23 - strict cannot enable consumer exceptions
+  ---
+  duration_ms: 0.192076
+  type: 'test'
+  ...
+# Subtest: unknown representation rejected
+ok 24 - unknown representation rejected
+  ---
+  duration_ms: 0.387339
+  type: 'test'
+  ...
+# Subtest: language tag and duplicate validation
+ok 25 - language tag and duplicate validation
+  ---
+  duration_ms: 0.506674
+  type: 'test'
+  ...
+# Subtest: any-language policy warns against universal competence claim
+ok 26 - any-language policy warns against universal competence claim
+  ---
+  duration_ms: 0.28724
+  type: 'test'
+  ...
+# Subtest: unsupported language probes explicitly marked
+ok 27 - unsupported language probes explicitly marked
+  ---
+  duration_ms: 0.151357
+  type: 'test'
+  ...
+# Subtest: entry clears inherited exception whole field
+ok 28 - entry clears inherited exception whole field
+  ---
+  duration_ms: 0.378918
+  type: 'test'
+  ...
+# Subtest: consumer task mismatch does not grant exception
+ok 29 - consumer task mismatch does not grant exception
+  ---
+  duration_ms: 0.100725
+  type: 'test'
+  ...
+# Subtest: context cannot carry a policy override
+ok 30 - context cannot carry a policy override
+  ---
+  duration_ms: 0.143191
+  type: 'test'
+  ...
+# Subtest: context null does not silently restore shared task
+ok 31 - context null does not silently restore shared task
+  ---
+  duration_ms: 0.26699
+  type: 'test'
+  ...
+# Subtest: strict rejects benign represented acrostic without inventing an attack
+ok 32 - strict rejects benign represented acrostic without inventing an attack
+  ---
+  duration_ms: 0.299667
+  type: 'test'
+  ...
+# Subtest: contextual grants are scoped
+ok 33 - contextual grants are scoped
+  ---
+  duration_ms: 0.348989
+  type: 'test'
+  ...
+# Subtest: permitted representation does not authorize malicious meaning
+ok 34 - permitted representation does not authorize malicious meaning
+  ---
+  duration_ms: 0.125927
+  type: 'test'
+  ...
+# Subtest: inspection explicitly changes compliance as well as operation
+ok 35 - inspection explicitly changes compliance as well as operation
+  ---
+  duration_ms: 0.301462
+  type: 'test'
+  ...
+# Subtest: language restriction is separate from maliciousness
+ok 36 - language restriction is separate from maliciousness
+  ---
+  duration_ms: 0.155885
+  type: 'test'
+  ...
+# Subtest: allowing Spanish admits descriptive Spanish, not its attack
+ok 37 - allowing Spanish admits descriptive Spanish, not its attack
+  ---
+  duration_ms: 0.264898
+  type: 'test'
+  ...
+# Subtest: instruction-only language scope excludes benign descriptive data
+ok 38 - instruction-only language scope excludes benign descriptive data
+  ---
+  duration_ms: 0.127727
+  type: 'test'
+  ...
+# Subtest: missing or invalid findings cannot authorize admission
+ok 39 - missing or invalid findings cannot authorize admission
+  ---
+  duration_ms: 0.141926
+  type: 'test'
+  ...
+# Subtest: derived decisions agree with separate authored oracle across catalog and policy settings
+ok 40 - derived decisions agree with separate authored oracle across catalog and policy settings
+  ---
+  duration_ms: 17.503328
+  type: 'test'
+  ...
+# Subtest: native layout content equivalence and no eval leakage strict
+ok 41 - native layout content equivalence and no eval leakage strict
+  ---
+  duration_ms: 474.690647
+  type: 'test'
+  ...
+# Subtest: native layout content equivalence and no eval leakage contextual
+ok 42 - native layout content equivalence and no eval leakage contextual
+  ---
+  duration_ms: 428.018991
+  type: 'test'
+  ...
+# Subtest: native layout content equivalence and no eval leakage inspection
+ok 43 - native layout content equivalence and no eval leakage inspection
+  ---
+  duration_ms: 404.92921
+  type: 'test'
+  ...
+# Subtest: material role keys and template expressions remain ordinary data
+ok 44 - material role keys and template expressions remain ordinary data
+  ---
+  duration_ms: 2.930753
+  type: 'test'
+  ...
+# Subtest: oversized source fails rather than truncates
+ok 45 - oversized source fails rather than truncates
+  ---
+  duration_ms: 8.238193
+  type: 'test'
+  ...
+# Subtest: every dossier preserves its two independent task-evidence questions
+ok 46 - every dossier preserves its two independent task-evidence questions
+  ---
+  duration_ms: 67.086742
+  type: 'test'
+  ...
+# Subtest: 480 rows reconstructed with no source summary discrepancies
+ok 47 - 480 rows reconstructed with no source summary discrepancies
+  ---
+  duration_ms: 1.701552
+  type: 'test'
+  ...
+# Subtest: explicit admission vs inspection denominator
+ok 48 - explicit admission vs inspection denominator
+  ---
+  duration_ms: 0.210111
+  type: 'test'
+  ...
+# Subtest: current report contract and native/coded accuracy checked
+ok 49 - current report contract and native/coded accuracy checked
+  ---
+  duration_ms: 0.149207
+  type: 'test'
+  ...
+# Subtest: review snapshot round-trips condition identities
+ok 50 - review snapshot round-trips condition identities
+  ---
+  duration_ms: 25.654749
+  type: 'test'
+  ...
+# Subtest: reconstruction reports dishonest top-level counts
+ok 51 - reconstruction reports dishonest top-level counts
+  ---
+  duration_ms: 38.535852
+  type: 'test'
+  ...
+# Subtest: placement changes match the report without universal winner assumption
+ok 52 - placement changes match the report without universal winner assumption
+  ---
+  duration_ms: 0.689958
+  type: 'test'
+  ...
+# Subtest: prototype-like report keys remain data, not object pollution
+ok 53 - prototype-like report keys remain data, not object pollution
+  ---
+  duration_ms: 0.362951
+  type: 'test'
+  ...
+# Subtest: invalid json, oversized, unsupported shape or negative tokens rejected
+ok 54 - invalid json, oversized, unsupported shape or negative tokens rejected
+  ---
+  duration_ms: 22.286098
+  type: 'test'
+  ...
+# Subtest: complete simulated Gold run exercises all 120 calls and multiple ledger stages
+ok 55 - complete simulated Gold run exercises all 120 calls and multiple ledger stages
+  ---
+  duration_ms: 1759.209136
+  type: 'test'
+  ...
+# Subtest: invocation limit and resume do not repeat paid job identities
+ok 56 - invocation limit and resume do not repeat paid job identities
+  ---
+  duration_ms: 1291.889366
+  type: 'test'
+  ...
+# Subtest: transport failure remains held and cannot auto-retry
+ok 57 - transport failure remains held and cannot auto-retry
+  ---
+  duration_ms: 814.269132
+  type: 'test'
+  ...
+# Subtest: valid response with missing usage stops and reserves uncertain charge
+ok 58 - valid response with missing usage stops and reserves uncertain charge
+  ---
+  duration_ms: 507.40465
+  type: 'test'
+  ...
+# Subtest: model-version change records charge and halts
+ok 59 - model-version change records charge and halts
+  ---
+  duration_ms: 496.150463
+  type: 'test'
+  ...
+# Subtest: reservation without saved response is never redispatched
+ok 60 - reservation without saved response is never redispatched
+  ---
+  duration_ms: 496.207774
+  type: 'test'
+  ...
+# Subtest: operator stop happens before any new reservation
+ok 61 - operator stop happens before any new reservation
+  ---
+  duration_ms: 509.508889
+  type: 'test'
+  ...
+# Subtest: insufficient account cap blocks inference
+ok 62 - insufficient account cap blocks inference
+  ---
+  duration_ms: 503.352285
+  type: 'test'
+  ...
+# Subtest: standalone cap is explicit and cannot be reset by reinitialization
+ok 63 - standalone cap is explicit and cannot be reset by reinitialization
+  ---
+  duration_ms: 144.110546
+  type: 'test'
+  ...
+# Subtest: prior-history floor prevents misusing a missing project ledger
+ok 64 - prior-history floor prevents misusing a missing project ledger
+  ---
+  duration_ms: 513.634955
+  type: 'test'
+  ...
+# Subtest: settled evidence modification prevents replay
+ok 65 - settled evidence modification prevents replay
+  ---
+  duration_ms: 1012.829697
+  type: 'test'
+  ...
+# Subtest: server is loopback-only and serves actual evidence
+ok 66 - server is loopback-only and serves actual evidence
+  ---
+  duration_ms: 88.722513
+  type: 'test'
+  ...
+# Subtest: mutation endpoints require exact origin and CSRF token
+ok 67 - mutation endpoints require exact origin and CSRF token
+  ---
+  duration_ms: 55.661728
+  type: 'test'
+  ...
+# Subtest: unrelated host and filesystem paths denied
+ok 68 - unrelated host and filesystem paths denied
+  ---
+  duration_ms: 46.509785
+  type: 'test'
+  ...
+# Subtest: no browser route can start live inference
+ok 69 - no browser route can start live inference
+  ---
+  duration_ms: 32.106147
+  type: 'test'
+  ...
+# Subtest: custom material compiles offline without inferred gold
+ok 70 - custom material compiles offline without inferred gold
+  ---
+  duration_ms: 58.822169
+  type: 'test'
+  ...
+# Subtest: plan preview then freeze produces immutable audit inputs
+ok 71 - plan preview then freeze produces immutable audit inputs
+  ---
+  duration_ms: 724.332613
+  type: 'test'
+  ...
+1..71
+# tests 71
+# suites 0
+# pass 71
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 8508.450158

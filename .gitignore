@@ -15,3 +15,6 @@ dist/
 .data-app-offline/
 .data-app-publish/
 .sites-runtime/
+
+__pycache__/
+*.pyc

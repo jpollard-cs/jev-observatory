@@ -1,0 +1,14 @@
+{
+  "status": "approved_for_unattempted_rows_only",
+  "decisionBy": "operator_review",
+  "reviewedAt": "2026-09-17T13:24:58.296331+00:00",
+  "planHash": "e6b111a1b48421abcaee8377835c8241a3df9dbfe7c49ce8ef4e3077c73088ef",
+  "failedKey": "rich-e6b111a1b48421abcaee8377:rich-direct-quotation:benign-length-1024",
+  "rawHash": "23dd9149ff20d160db7f7bfc08bf1264b490b94cb31915e6bfdcc42ff64b6a59",
+  "reason": "The first request produced transport_error with no HTTP response and no usage or model identity. A separate no-credential HEAD probe in the default sandbox failed DNS resolution with ENOTFOUND api.typesafe.ai; the same HEAD probe outside the restricted sandbox returned HTTP405. Permit only never-dispatched frozen rows through the working network path. Preserve the original error and held reservation; no retry of that row. No template, payload, gold, threshold, order or request hash changes.",
+  "inferenceRetriesAuthorized": false,
+  "failedReservationRetainedUsd": 0.00266469,
+  "totalAttemptLimitUnchanged": 48,
+  "stageMaximumUsdUnchanged": 0.3,
+  "restartMaximumUsdUnchanged": 3
+}

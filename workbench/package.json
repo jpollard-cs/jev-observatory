@@ -1,0 +1,18 @@
+{
+  "name": "jev-policy-workbench",
+  "version": "0.5.0-rebuilt",
+  "private": true,
+  "type": "module",
+  "description": "Local-first, evidence-linked Jev policy authoring and evaluation workbench",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "audit": "node scripts/audit-report.mjs",
+    "verify": "node scripts/verify.mjs",
+    "selection": "node selection.mjs",
+    "replay": "node replay.mjs"
+  }
+}

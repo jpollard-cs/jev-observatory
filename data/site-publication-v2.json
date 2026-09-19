@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "siteUrl": "https://jev-redteam-observatory.wizard.chatgpt.site",
+  "projectId": "appgprj_6aab480f6c5c81918e6f3ed4704114a5",
+  "versionId": "appgprj_6aab480f6c5c81918e6f3ed4704114a5~appgver_613e9e997da081918119933a76afca97",
+  "deploymentId": "appgdep_6aabf9e264a08191ba51a12ea6903152",
+  "sourceCommit": "a2df41f23646f5b59b9761b3984f20fcc387cbdb",
+  "access": {
+    "mode": "custom",
+    "allowedUsers": 1,
+    "allowedGroups": 0,
+    "externalVisitors": 0
+  },
+  "readiness": {
+    "projectId": "appgprj_6aab480f6c5c81918e6f3ed4704114a5",
+    "siteUrl": "https://jev-redteam-observatory.wizard.chatgpt.site",
+    "ready": true,
+    "thinBootstrap": true,
+    "queryCount": 42,
+    "rowCount": 4968,
+    "uploads": [
+      {
+        "kind": "html",
+        "sha256": "ed03c9e73895e1b6769cde23036dbd4a9d132c9070217f9807517659ef26ec8b",
+        "bytes": 2963052,
+        "transport": {
+          "encoding": "identity",
+          "bytes": 2963052
+        },
+        "milliseconds": 5052
+      },
+      {
+        "kind": "snapshot",
+        "sha256": "4819df93094ad48cd2c83488416fb124bb12f3747abf5a9093db251070ee3e34",
+        "bytes": 30103230,
+        "transport": {
+          "encoding": "identity",
+          "bytes": 30103230
+        },
+        "milliseconds": 31746
+      }
+    ],
+    "readback": {
+      "html": {
+        "sha256": "ed03c9e73895e1b6769cde23036dbd4a9d132c9070217f9807517659ef26ec8b",
+        "bytes": 2963052,
+        "milliseconds": 1518
+      },
+      "snapshot": {
+        "sha256": "4819df93094ad48cd2c83488416fb124bb12f3747abf5a9093db251070ee3e34",
+        "bytes": 30103230,
+        "milliseconds": 2134,
+        "matchedEncoding": "snapshotResponse"
+      }
+    }
+  },
+  "checks": {
+    "localDesktopAndMobile": true,
+    "localBrowserErrors": 0,
+    "caseSelectionAndFilterReset": true,
+    "sourceInspection": true,
+    "exactGuideHashVerified": true,
+    "all48RequestHashesVerified": true,
+    "hostedReadback": "Complete HTML and snapshot SHA256 match",
+    "hostedEditing": "not verified"
+  },
+  "githubPushed": false
+}

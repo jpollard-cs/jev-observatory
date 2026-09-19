@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "operatorStop": {
+    "status": "stopped_pending_template_approval",
+    "stoppedAt": "2026-09-17T11:48:14.708Z",
+    "reason": "User requires a detailed classifier template based on the recovered security checklist, and explicit approval before any further evaluation calls.",
+    "resumeRequiresExplicitUserApproval": true,
+    "preserveAllRequestsAndObservations": true
+  },
+  "campaignId": "campaign-416bd5cf9fbc2a728a3d5edf",
+  "planHash": "416bd5cf9fbc2a728a3d5edfd1b726d3e8f171c477d1881c58491c94c06306aa",
+  "generatedAt": "2026-09-17T11:49:58.251Z",
+  "observedThrough": "2026-09-17T11:45:52.316Z",
+  "maximumUsd": 4,
+  "knownCostUsd": 1.023871296,
+  "unresolvedReservationUsd": 0.00102291,
+  "committedUsd": 1.024894206,
+  "remainingUsd": 2.975105794,
+  "haltedReason": null,
+  "catalogCases": 15120,
+  "queuedCases": 11568,
+  "dispatched": 3692,
+  "unresolvedUsage": 1,
+  "userReportedBalanceUsd": 5,
+  "providerInvoiceInspected": false,
+  "pricing": {
+    "maximumUsd": 4,
+    "maximumNanoUsd": 4000000000,
+    "inputUsdPerMillion": 0.042,
+    "outputUsdPerMillion": 0,
+    "inputNanoUsdPerToken": 42,
+    "reservationExtraBytes": 256
+  },
+  "policyProfiles": {
+    "version": "1.1",
+    "sha256": "f271c9f48af4b5966c1833a361d456ad06147e27d744bbfbbfa5ec97519bc5a8",
+    "file": "policies/profiles-v1.1.json",
+    "hashBasis": "JSON.stringify(parsed policy profiles)"
+  },
+  "validation": {
+    "validationVersion": "bounded-rounding-v1",
+    "distributionPolicy": "bounded_rounding",
+    "distributionTolerance": "abs(sum(probabilities)-1) <= optionCount*0.005 + 1e-12",
+    "probabilitiesRenormalized": false
+  },
+  "protocolHash": "04a0cbb7d47c39a6db1bbf3751acb353c0d683881ea96370a808e7117c0ac669",
+  "phases": [
+    {
+      "phase": "smoke",
+      "planned": 12,
+      "attempted": 12,
+      "recorded": 12,
+      "remaining": 0,
+      "unknownDispatch": 0,
+      "unknownUsage": 0,
+      "reservationUsd": 0.010132542,
+      "status": "Complete"
+    },
+    {
+      "phase": "representation",
+      "planned": 64,
+      "attempted": 64,
+      "recorded": 64,
+      "remaining": 0,
+      "unknownDispatch": 0,
+      "unknownUsage": 0,
+      "reservationUsd": 0.071635872,
+      "status": "Complete"
+    },
+    {
+      "phase": "matrix",
+      "planned": 3780,
+      "attempted": 3552,
+      "recorded": 3551,
+      "remaining": 228,
+      "unknownDispatch": 1,
+      "unknownUsage": 1,
+      "reservationUsd": 4.460366736,
+      "status": "Partial"
+    },
+    {
+      "phase": "extensions",
+      "planned": 64,
+      "attempted": 64,
+      "recorded": 64,
+      "remaining": 0,
+      "unknownDispatch": 0,
+      "unknownUsage": 0,
+      "reservationUsd": 0.016721376,
+      "status": "Complete"
+    },
+    {
+      "phase": "Additional corpus seeds",
+      "planned": 11340,
+      "attempted": 0,
+      "recorded": 0,
+      "remaining": 11340,
+      "unknownDispatch": 0,
+      "unknownUsage": 0,
+      "status": "Frozen and preserved for a subsequent phase"
+    }
+  ],
+  "scope": "Matrix contains seed 0 only. Other seeds remain frozen and queued; seed parity changes judge correctness, so seed 0 does not cover both correct and incorrect judge answers.",
+  "allTestsPreserved": true,
+  "githubPushed": false
+}

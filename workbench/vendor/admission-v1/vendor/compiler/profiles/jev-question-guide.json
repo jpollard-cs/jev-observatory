@@ -1,0 +1,11 @@
+{
+  "schemaVersion": "payload-profile/1",
+  "id": "jev-question-guide",
+  "renderer": "jev",
+  "examplePlacement": "criterion-local",
+  "guidePlacement": "question-local",
+  "questionGrouping": "together",
+  "omitGuideBlocks": {},
+  "maxRequestBytes": 1500000,
+  "notes": "All original guide blocks moved into each question. No scope reduction or rewriting."
+}

@@ -1,0 +1,20 @@
+{
+  "kind": "metadata-only historical tagging bridge",
+  "logicalCells": 15120,
+  "pairedGroups": 7560,
+  "templateLineages": 12,
+  "descriptors": 18,
+  "descriptorHash": "8f46ee47545c19959b0c601bb3e3ba1ba8fa37d734d2c8b71df6cca2371f1f66",
+  "sourceFiles": {
+    "vendor/legacy-runtime/cases/families.mjs": "c4e4f3789475f197566c40e52f87e008d46e25ae8c3ceabbbf49300db47144e0",
+    "vendor/legacy-runtime/harness/corpus.mjs": "f9bf466a215af728db00dd253d80cc6816a7313d1d4531b4977b0928792ae0a8",
+    "vendor/legacy-runtime/config/design.json": "361b98b12ecc853c5f8e08f18797763409929e4726821a25a8938cca4301a35d"
+  },
+  "limitations": [
+    "The 15120 experiment cells remain the original historical combinations; no new observations.",
+    "These 18 descriptors allow metadata tagging without sending 15120 payloads.",
+    "Historical expected outcomes and full replay are NOT integrated into the current admission-only evaluator.",
+    "Jev-generated tags remain proposals; they do not relabel cases or assert independent scenario counts."
+  ],
+  "paidCalls": 0
+}

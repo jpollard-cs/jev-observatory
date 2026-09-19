@@ -13,8 +13,19 @@ import {
 } from '../../data-app-public.jsx';
 import './observatory.css';
 import { CosmicBackdrop } from './CosmicBackdrop.jsx';
+import { RichPilotEvidence } from './RichPilotEvidence.jsx';
+import { EncodingEvidence, QwenEvidence } from './FollowupEvidence.jsx';
+import {
+  CampaignEvidence,
+  CampaignPolicy,
+  CampaignQueue,
+  RepresentationEvidence,
+} from './CampaignEvidence.jsx';
 
 const tabs = [
+  { id: 'rich-pilot', label: 'Rich-template pilot' },
+  { id: 'comparison', label: 'Model comparison' },
+  { id: 'encoding', label: 'Encoding diagnostic' },
   { id: 'atlas', label: 'Threat atlas' },
   { id: 'policy', label: 'Policy & trust' },
   { id: 'evidence', label: 'Evidence & uncertainty' },
@@ -81,7 +92,7 @@ function Orbit({ rows, selected, onSelect }) {
         className="orbit"
         viewBox="0 0 860 510"
         role="img"
-        aria-label="Three-dimensional map of planned attack families across three context length levels. Nodes indicate coverage, not measured success."
+        aria-label="Three-dimensional design coverage map across three target UTF-16 code-unit lengths. Position and color indicate coverage, never measured performance."
       >
         <defs>
           <radialGradient id="orb-haze">
@@ -135,7 +146,7 @@ function Orbit({ rows, selected, onSelect }) {
             className="orbit-node"
             tabIndex={p.level === 1 ? 0 : -1}
             role="button"
-            aria-label={`${p.row.label}, planned character length ${[512, 4096, 16384][p.level]}`}
+            aria-label={`${p.row.label}, target length ${[512, 4096, 16384][p.level]} UTF-16 code units; coverage node`}
             onKeyDown={(e) => {
               if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
@@ -144,7 +155,8 @@ function Orbit({ rows, selected, onSelect }) {
             }}
           >
             <title>
-              {p.row.label} · {[512, 4096, 16384][p.level]} characters · outcomes not measured
+              {p.row.label} · {[512, 4096, 16384][p.level]} target UTF-16 units · coverage only;
+              results in evidence panels
             </title>
             <circle cx={p.x} cy={p.y} r={12 * p.s} fill="transparent" />
             {p.row.family === selected && (
@@ -177,7 +189,7 @@ function Orbit({ rows, selected, onSelect }) {
         </text>
       </svg>
       <div className="orbit-foot">
-        <span>Each column = one family · height = 512 / 4,096 / 16,384 characters</span>
+        <span>Each column = one family · height = 512 / 4,096 / 16,384 target UTF-16 units</span>
         <span>Color encodes length, never performance</span>
       </div>
       <div className="camera-controls">
@@ -246,6 +258,14 @@ export function DashboardContent() {
     models: [],
     status: 'not_run',
   };
+  const campaignState = snapshot.campaign ?? null;
+  const hasCampaign = Boolean(campaignState || snapshot.campaignEvaluation);
+  const matrixReport = snapshot.campaignEvaluation;
+  const historicalReport = snapshot.historicalPilot ?? report;
+  const activeCoverage = hasCampaign
+    ? (matrixReport?.coverage ?? { attempted: 0, valid: 0 })
+    : report.coverage;
+  const ledgerSnapshot = snapshot.costPlan?.observedRequests;
   const families = reviewedRows('families');
   const [selected, setSelected] = useState(''),
     [group, setGroup] = useState('All families');
@@ -277,7 +297,7 @@ export function DashboardContent() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'prompt-injection-policy-template.md';
+    a.download = 'jev-classifier-guide-v2.md';
     a.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   };
@@ -295,14 +315,34 @@ export function DashboardContent() {
       <div className="jev-status">
         <div>
           <span className="status-pill">
-            {report.status === 'measured' ? 'DEVELOPMENT PILOT' : 'PREPARING PILOT'}
+            {tab === 'comparison'
+              ? 'LOCAL QWEN COMPARISON'
+              : tab === 'encoding'
+                ? 'ENCODING DEVELOPMENT DIAGNOSTIC'
+                : tab === 'rich-pilot'
+                  ? 'RICH-TEMPLATE DEVELOPMENT PILOT'
+                  : hasCampaign
+                    ? 'HISTORICAL GENERIC-PROMPT EXPERIMENTS'
+                    : report.status === 'measured'
+                      ? 'HISTORICAL DEVELOPMENT PILOT'
+                      : 'PREPARING PILOT'}
           </span>
           <span className="status-copy">
-            Precomputed evidence · tiny synthetic samples · no model ranking
+            Precomputed evidence · correlated synthetic fixtures · no model ranking
           </span>
         </div>
         <span className="method-tag">MODEL ONLY / NO DETECTOR ASSISTANCE</span>
       </div>
+      {!['rich-pilot', 'comparison', 'encoding'].includes(tab) && (
+        <p className="evidence-caption">
+          The generic-prompt campaign is stopped and retained for audit. Current observations appear
+          in the Rich-template pilot tab. Policy &amp; trust includes the current model-facing
+          guide; its earlier diagnostic panels retain their original prompts and budgets.
+        </p>
+      )}
+      {tab === 'rich-pilot' && <RichPilotEvidence />}
+      {tab === 'comparison' && <QwenEvidence />}
+      {tab === 'encoding' && <EncodingEvidence />}
       {tab === 'atlas' && (
         <>
           <div className="atlas-top">
@@ -326,10 +366,10 @@ export function DashboardContent() {
               id="threat-atlas"
               queryId="families"
               kind="custom"
-              title="Planned threat coverage"
+              title="Test-space coverage"
               sourceRows={visibleFamilies}
               displayRows={visibleFamilies}
-              description="This is a design map, not measured model performance. Family locations are categorical; vertical levels represent planned length strata. Native image, audio and real memory execution require separate adapters."
+              description="This design map shows the prepared catalog. Family locations are categorical; vertical levels are target UTF-16 code-unit lengths. Color does not encode performance. Matrix observations and historical pilots are counted separately; native images, audio and real memory execution require separate adapters."
               className="atlas-component"
             >
               <Orbit rows={visibleFamilies} selected={chosen?.family} onSelect={setSelected} />
@@ -339,11 +379,15 @@ export function DashboardContent() {
               <h3>{chosen?.label ?? 'No matching families'}</h3>
               <p>{chosen?.description}</p>
               <div className="inspector-meta">
-                <span>Surface</span>
+                <span>Design category</span>
                 <b>{chosen?.group}</b>
-                <span>Cases prepared</span>
+                <span>Sent as</span>
+                <b>{chosen?.serializedContainer}</b>
+                <span>Full catalog cells</span>
                 <b>{number(chosen?.cases)}</b>
-                <span>Main pilot calls</span>
+                <span>Policy-v4 matrix calls</span>
+                <b>{chosen?.matrixCalls ?? 0}</b>
+                <span>Historical pilot calls</span>
                 <b>{chosen?.pilotCalls ?? 0}</b>
               </div>
               <div className="inspector-rule">
@@ -352,7 +396,10 @@ export function DashboardContent() {
               </div>
               <div className="paired-note">
                 <span>↔</span>
-                <p>Every attack needs a benign contrast with the same unusual surface form.</p>
+                <p>
+                  Each family has authored contrast cases. Related pairs do not count as independent
+                  trials.
+                </p>
               </div>
               <label className="family-picker">
                 Select a family
@@ -369,20 +416,24 @@ export function DashboardContent() {
           <div className="stat-band">
             <Stat
               value={number(visibleFamilies.reduce((s, f) => s + f.cases, 0))}
-              label="Prepared cases"
+              label="Full catalog cells"
               note="Design coverage, not results"
             />
             <Stat
               value={visibleFamilies.length}
               label="Attack families"
-              note="Paired with benign controls"
+              note="Authored contrast cases"
             />
             <Stat
-              value={number(report.coverage?.attempted ?? 0)}
-              label="Main pilot requests"
-              note="Specialized panels reported separately"
+              value={number(activeCoverage?.attempted ?? 0)}
+              label={hasCampaign ? 'Policy-v4 matrix attempts' : 'Historical main pilot calls'}
+              note="Diagnostics and specialized panels separate"
             />
-            <Stat value="—" label="Jev robustness" note="Pilot cannot establish robustness" />
+            <Stat
+              value="—"
+              label="Jev robustness"
+              note="Synthetic cases do not establish robustness"
+            />
           </div>
           <DataComponent
             id="family-ledger"
@@ -396,8 +447,9 @@ export function DashboardContent() {
               rows={visibleFamilies}
               columns={[
                 { field: 'label', label: 'Family' },
-                { field: 'group', label: 'Surface' },
-                { field: 'cases', label: 'Cases prepared' },
+                { field: 'group', label: 'Design category' },
+                { field: 'serializedContainer', label: 'Request container' },
+                { field: 'cases', label: 'Full catalog cells' },
                 { field: 'status', label: 'Evidence' },
               ]}
             />
@@ -477,7 +529,9 @@ export function DashboardContent() {
               }
             >
               <div className="policy-detail">
-                <span className="section-index">ILLUSTRATIVE POLICY CONTRACT</span>
+                <span className="section-index">
+                  CONFIGURED POLICY · VERSION {currentPolicy?.version}
+                </span>
                 <h3>{currentPolicy?.label}</h3>
                 <p>{currentPolicy?.description}</p>
                 <dl>
@@ -501,14 +555,16 @@ export function DashboardContent() {
               </div>
             </DataComponent>
           </div>
+          <RepresentationEvidence />
+          <CampaignPolicy />
           <DataComponent
             id="debugging-context"
             queryId="debugging"
-            title="Change one fact. Test the boundary."
+            title="Historical pilot · change one trusted fact"
             kind="custom"
             sourceRows={debug}
             displayRows={pairRows}
-            description="Sixteen calls contain eleven unique requests and form eight matched pairs. Expected labels are synthetic and not independently adjudicated. Each changes exactly one trusted contextual field. Observed decisions are the actual precomputed native Jev outputs."
+            description="Historical legacy-v2 observations, separate from policy-v4. Sixteen calls contain eleven unique requests and form eight matched pairs. Expected labels are synthetic and not independently adjudicated. Each changes exactly one trusted contextual field. Observed decisions are the actual precomputed native Jev outputs."
             headerControls={
               <Dropdown
                 label="Context pair"
@@ -581,7 +637,7 @@ export function DashboardContent() {
             <DataComponent
               id="expiry-diagnostic"
               queryId="expiry_diagnostic"
-              title="Is our specification causing the mismatch?"
+              title="Historical expiry diagnostic · specification sensitivity"
               kind="custom"
               sourceRows={expiryRows}
               displayRows={expiryVisible}
@@ -643,24 +699,47 @@ export function DashboardContent() {
           <DataComponent
             id="policy-template"
             queryId="policy_template"
-            title="The reusable policy contract"
+            title="The exact classifier guide sent to Jev"
             kind="custom"
             displayRows={template}
             sourceRows={template}
           >
             <div className="policy-download">
               <p>
-                Versioned baseline, scoped exceptions, provenance, confidentiality, prior
-                contamination, and native Jev question examples. Draft policy; validation is still
-                in progress.
+                This is the approved recognition guide and baseline policy used in every
+                rich-template pilot request. It tells Jev what to look for, how to distinguish
+                attacks from legitimate data, and how trusted context changes permission. Research
+                notes and experiment instructions are excluded.
               </p>
               <button type="button" onClick={savePolicy}>
-                Download policy template ↓
+                Download the exact classifier guide ↓
               </button>
             </div>
-            <details className="policy-source">
-              <summary>Read the complete template</summary>
+            <p className="evidence-caption" data-reviewed-rows>
+              {template[0]?.protocol} · {number(template[0]?.utf8Bytes)} UTF-8 bytes · supplied
+              unchanged in {template[0]?.placement}
+            </p>
+            <details className="policy-source" data-reviewed-rows>
+              <summary>Read the model-facing guide</summary>
               <pre>{template[0]?.text}</pre>
+            </details>
+            <details className="policy-source" data-reviewed-rows>
+              <summary>See the exact shared policy configuration</summary>
+              <pre>{template[0]?.policy}</pre>
+            </details>
+            <details className="policy-source" data-reviewed-rows>
+              <summary>See the seven native questions sent with the guide</summary>
+              <pre>{template[0]?.questions}</pre>
+            </details>
+            <p className="evidence-caption">
+              Each request also supplies the case’s trusted facts and material to assess. The rich
+              pilot activates the instruction-fields-only English contract with legitimate-data
+              exceptions; it does not exercise every configurable policy override described in the
+              guide.
+            </p>
+            <details className="policy-source" data-reviewed-rows>
+              <summary>Verify the guide fingerprint</summary>
+              <pre>{template[0]?.sha256}</pre>
             </details>
           </DataComponent>
           <DataComponent
@@ -692,12 +771,13 @@ export function DashboardContent() {
               </p>
             </div>
           </div>
+          <CampaignEvidence />
           <SortableRegion id="evidence-panels" variant="freeform" className="evidence-grid">
             <SortableItem id="case-findings" label="Case-bound findings" kind="custom">
               <DataComponent
                 id="case-findings"
                 queryId="findings"
-                title="Disagreements worth investigating"
+                title="Historical pilot disagreements"
                 kind="custom"
                 sourceRows={reviewedRows('findings')}
                 displayRows={reviewedRows('findings')}
@@ -708,7 +788,7 @@ export function DashboardContent() {
                     <details key={f.id}>
                       <summary>
                         {f.id === 'debug-expiry-b'
-                          ? 'Expired approval, permission still granted'
+                          ? 'Expiry boundary: observed permission versus authored block label'
                           : f.id === 'debug-data-scope-b'
                             ? 'Blocked disclosure, missing audit'
                             : f.id.replaceAll('-', ' ')}
@@ -773,7 +853,7 @@ export function DashboardContent() {
               <DataComponent
                 id="measured-metrics"
                 queryId="metrics"
-                title="Native Jev · integration pilot"
+                title="Historical Jev · legacy-v2 integration pilot"
                 kind="custom"
                 displayRows={results}
                 sourceRows={results}
@@ -821,7 +901,7 @@ export function DashboardContent() {
               <DataComponent
                 id="subagent-controls"
                 queryId="controls"
-                title="Luna + Terra · separate control channel"
+                title="Historical Luna + Terra · eight-case controls"
                 kind="table"
                 displayRows={controlRows}
                 sourceRows={controlRows}
@@ -843,7 +923,7 @@ export function DashboardContent() {
               <DataComponent
                 id="native-judge-panel"
                 queryId="matched_panel"
-                title="Jev · the same judge contexts"
+                title="Historical Jev · matched eight-case judge panel"
                 kind="table"
                 displayRows={reviewedRows('matched_panel')}
                 sourceRows={reviewedRows('matched_panel')}
@@ -864,7 +944,7 @@ export function DashboardContent() {
               <DataComponent
                 id="length-evidence"
                 queryId="length_scaling"
-                title="Length coverage in the pilot"
+                title="Historical pilot · length coverage"
                 description="These cells differ in policy, question battery and payload position. Their latencies and outcomes do not isolate the effect of input length."
                 kind="custom"
                 displayRows={reviewedRows('length_scaling')}
@@ -874,7 +954,7 @@ export function DashboardContent() {
                   <DataTable
                     rows={reviewedRows('length_scaling')}
                     columns={[
-                      { field: 'contextChars', label: 'Context chars' },
+                      { field: 'contextChars', label: 'Target UTF-16 units' },
                       { field: 'arm', label: 'Prompt' },
                       { field: 'mode', label: 'Battery' },
                       { field: 'position', label: 'Position' },
@@ -886,7 +966,7 @@ export function DashboardContent() {
                 ) : (
                   <Empty title="Length curves await measured runs">
                     Compare length × payload position × output format. Provider-reported tokens and
-                    character counts remain separate; truncation is an explicit outcome.
+                    UTF-16 code-unit counts remain separate; truncation is an explicit outcome.
                   </Empty>
                 )}
               </DataComponent>
@@ -895,7 +975,7 @@ export function DashboardContent() {
               <DataComponent
                 id="calibration-evidence"
                 queryId="calibration"
-                title="Can confidence be trusted?"
+                title="Historical pilot · calibration availability"
                 kind="custom"
                 displayRows={reviewedRows('calibration')}
                 sourceRows={reviewedRows('calibration')}
@@ -903,9 +983,10 @@ export function DashboardContent() {
                 {reviewedRows('calibration').length ? (
                   <DataTable rows={reviewedRows('calibration')} />
                 ) : (
-                  <Empty title="No validated threshold yet">
-                    Choose the poison threshold on a calibration split, lock it, and report recall,
-                    false positives, Brier score and selective risk on untouched test families.
+                  <Empty title="No threshold established by the historical pilot">
+                    Policy-v4 threshold analyses appear in the campaign panels above. A small
+                    synthetic calibration set does not establish a deployment-safe confidence
+                    threshold.
                   </Empty>
                 )}
               </DataComponent>
@@ -924,70 +1005,95 @@ export function DashboardContent() {
               </p>
             </div>
           </div>
+          <CampaignQueue />
           <div className="stat-band">
             <Stat
-              value={number(snapshot.costPlan?.observedRequests?.recordedRequests ?? 0)}
-              label="All recorded Jev calls"
-              note="Includes diagnostics and initial failures"
+              value={number(campaignState?.dispatched ?? ledgerSnapshot?.recordedRequests ?? 0)}
+              label={hasCampaign ? 'Campaign dispatches' : 'Cost-ledger recorded calls'}
+              note={
+                hasCampaign
+                  ? 'All campaign phases; matrix is separate'
+                  : 'As of the cost-report snapshot'
+              }
             />
-            <Stat value={number(report.coverage?.valid ?? 0)} label="Main pilot valid responses" />
             <Stat
-              value={number(snapshot.specialPilot?.coverage?.attempted ?? 0)}
-              label="Specialized pilot calls"
+              value={number(activeCoverage?.valid ?? 0)}
+              label={hasCampaign ? 'Matrix valid responses' : 'Historical main pilot valid'}
+              note={`${number(activeCoverage?.attempted ?? 0)} attempted calls`}
             />
             <Stat
-              value={number(snapshot.costPlan?.observedRequests?.requestsMissingUsage ?? 0)}
-              label="Calls missing usage"
+              value={number(historicalReport.coverage?.attempted ?? 0)}
+              label="Historical main pilot calls"
+              note="Legacy-v2; specialized panels separate"
+            />
+            <Stat
+              value={number(
+                campaignState?.unresolvedUsage ?? ledgerSnapshot?.requestsMissingUsage ?? 0,
+              )}
+              label={hasCampaign ? 'Campaign usage unresolved' : 'Cost-ledger calls missing usage'}
               note="Unknown cost is not zero cost"
             />
           </div>
           <DataComponent
             id="budget-plan"
             queryId="cost"
-            title="The next run has a budget"
+            title="Historical cost proposals · retained for audit"
             kind="table"
             sourceRows={reviewedRows('cost')}
             displayRows={reviewedRows('cost')}
-            description="Public list-price planning only. User-reported balance is $5; allocate no more than $4 and leave headroom. Full grid remains deferred. New structured-question costs are versioned separately from the observed legacy pilot."
+            description="These pre-campaign estimates are superseded proposals, not the current budget or observed spend. The campaign panel above shows the authorized ceiling, known usage, held reservations and preserved queue. Each historical estimate retains its own protocol version."
           >
             <DataTable
               rows={reviewedRows('cost')}
               columns={[
-                { field: 'stage', label: 'Proposed stage' },
+                { field: 'stage', label: 'Historical proposal' },
                 { field: 'requests', label: 'Requests' },
-                { field: 'reservationUsd', label: 'Reserved USD' },
+                { field: 'reservationUsd', label: 'Estimated reservation USD' },
+                { field: 'protocol', label: 'Protocol' },
               ]}
             />
             <p className="evidence-caption">
-              {snapshot.costPlan?.observedRequests?.requestsWithUsage ?? 0} calls have recorded
-              usage. At published rates: $
-              {(snapshot.costPlan?.observedRequests?.knownUsageCostUsd ?? 0).toFixed(5)} known, plus
-              usage missing from the early validator failures. No broader run has started.
+              Cost-report snapshot: {snapshot.costPlan?.generatedAt ?? 'not available'}. It records{' '}
+              {ledgerSnapshot?.requestsWithUsage ?? 0} calls with usage and{' '}
+              {ledgerSnapshot?.requestsMissingUsage ?? 0} without usage, with $
+              {(ledgerSnapshot?.knownUsageCostUsd ?? 0).toFixed(5)} known at public prices. This
+              snapshot may precede the campaign; do not add its totals to campaign accounting
+              without deduplication. Unknown usage is not zero cost.
             </p>
           </DataComponent>
           <div className="ledger-layout">
             <DataComponent
               id="run-provenance"
               queryId="runs"
-              title="Run provenance"
+              title="Versioned run provenance"
               kind="custom"
               displayRows={reviewedRows('runs')}
               sourceRows={reviewedRows('runs')}
             >
               <div className="run-note">
                 <h3>
-                  {report.status === 'measured'
-                    ? 'Recorded integration evidence'
-                    : 'Preparing the first run'}
+                  {hasCampaign
+                    ? 'Current campaign and historical audit trail'
+                    : 'Historical integration audit trail'}
                 </h3>
                 <p>
-                  Main pilot: 12 native Jev calls after an adapter rounding correction. Specialized
-                  panels: 8 judge cases and 16 contextual-debugging calls. The initial 12-call
-                  integration run and one diagnostic call remain in the audit trail; six initial
-                  responses lost usage metadata. Luna and Terra each assessed eight blinded cases in
-                  separate Codex subagents. A subsequent 48-call expiry diagnostic varies the
-                  request specification and is reported separately from those frozen pilots.
+                  Early integration pilot — 12 cases, original prompt: 12 native Jev calls after an
+                  adapter rounding correction. Specialized panels: 8 judge cases and 16
+                  contextual-debugging calls. The initial 12-call integration run and one diagnostic
+                  call remain in the audit trail; six initial responses lost usage metadata. Luna
+                  and Terra each assessed eight blinded cases in separate Codex subagents. A
+                  subsequent 48-call expiry diagnostic varies the request specification and is
+                  reported separately from those frozen pilots.
                 </p>
+                {hasCampaign && (
+                  <p>
+                    Policy-v4 matrix: {number(activeCoverage?.attempted ?? 0)} attempted calls,{' '}
+                    {number(activeCoverage?.valid ?? 0)} complete valid responses. Campaign smoke,
+                    representation diagnostics and specialized extensions retain separate
+                    populations. All-attempt rates preserve errors, malformed responses and
+                    abstentions; native Score severity has no accuracy gold.
+                  </p>
+                )}
               </div>
               {reviewedRows('runs').length > 0 && <DataTable rows={reviewedRows('runs')} />}
               <div className="manifest-list">

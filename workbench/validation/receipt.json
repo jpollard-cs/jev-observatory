@@ -1,0 +1,97 @@
+{
+  "schemaVersion": "workbench-reconstruction-validation/1",
+  "version": "0.5.0-rebuilt",
+  "createdAtUtc": "2026-09-19T14:36:40.365280+00:00",
+  "sourceStatus": "New reconstruction from verified 0.4.1; not recovered lost 0.5 implementation",
+  "baseline": {
+    "archive": "jev-policy-workbench-0.4.1.zip",
+    "sha256": "bbaa618f7dfe02af5cbc0a5936ea2036def58f347ef15d1f9db4235036fc9ecf",
+    "manifestFilesVerified": 356
+  },
+  "software": {
+    "workbench": {
+      "tests": 272,
+      "pass": 272,
+      "fail": 0
+    },
+    "retainedCompiler": {
+      "tests": 54,
+      "pass": 54,
+      "fail": 0
+    },
+    "totalPassed": 326,
+    "newSetupTests": 26,
+    "logs": [
+      "validation/rebuilt-0.5/final-tests.tap",
+      "validation/rebuilt-0.5/compiler-tests.tap"
+    ]
+  },
+  "browser": {
+    "version": "0.5.0-rebuilt",
+    "mode": "real ES modules + API-only loopback bridge",
+    "browser": "Chromium",
+    "checks": 242,
+    "passed": 242,
+    "failures": [],
+    "checkedConditions": 88,
+    "checkedRows": 6224,
+    "syntheticSetupCalls": 1,
+    "realProviderCalls": 0,
+    "limitations": [
+      "Bridge run does not validate browser-to-loopback transport or CSP; HTTP security has separate tests."
+    ]
+  },
+  "preservation": {
+    "unchangedVendorFiles": 176,
+    "unchangedDataFiles": 9,
+    "exactTargetRequestComparisons": 360,
+    "expectedValueComparisons": 360,
+    "boundHistoricalDisplayRows": 6224,
+    "details": "validation/rebuilt-0.5/source-audit.json"
+  },
+  "fullReplay": {
+    "status": "passed",
+    "scope": "Full original matrix plus 64 extension fixtures; SYNTHETIC transport, zero provider calls",
+    "jobs": 15184,
+    "events": 30368,
+    "stages": 317,
+    "initialPartial": 131,
+    "resumedNewCalls": 15053,
+    "completedResumeNewCalls": 0,
+    "reportBytes": 34606462,
+    "elapsedMs": 68053.823617,
+    "peakRssMiB": 639.4765625,
+    "sourceStamp": "c2b03841d3f829624d767b04ed85df743c57a1796c5c660b8c566d25ab97c371",
+    "providerCalls": 0,
+    "simulatedUsageNotForecast": true
+  },
+  "setupPlan": {
+    "physicalRequests": 1,
+    "questions": 16,
+    "requestHash": "7a9c36ac605a11f9c8d392fab4c5e3e7a75da7f0d1afe72cc4317d6bce553dfc",
+    "planHash": "62622ecc7c9ede597c85bb9be839898fc8f8d492f502975bcd64fa7fe3a2bdf4",
+    "budget": {
+      "maxUsd": 0.01,
+      "maxInputTokens": 214457125112880,
+      "estimatedInputTokens": 6365,
+      "estimatedUsd": 0.00026733,
+      "reservationInputTokens": 19350,
+      "reservationUsd": 0.0008127
+    },
+    "sourceStamp": "496fc11d7d33a49d35ce0f89e4ae9432c3a33b2a4ee489e9fe7c6bf28a3e7870"
+  },
+  "providerCallsMadeHere": 0,
+  "publication": false,
+  "originalAccountModified": false,
+  "limitations": [
+    "New setup requests were executed only against synthetic transport; no live acceptance, usefulness or calibrated-confidence claim.",
+    "Direct browser-to-loopback is blocked in this environment. The browser test used separate real ES modules and an API-only bridge; served CSP/loopback browser behavior remains a Mac acceptance check.",
+    "Account/input size estimates remain local conservative heuristics, not guaranteed provider token bounds or invoices.",
+    "All historical reports remain their own experiments; software tests and screenshots are not new observations."
+  ],
+  "runtime": {
+    "node": "v22.16.0",
+    "systemChromium": "144.0.7559.96",
+    "launchDependencies": "Node >=22; no package install to run; browser developer QA separately requires Playwright/Chromium"
+  }
+}

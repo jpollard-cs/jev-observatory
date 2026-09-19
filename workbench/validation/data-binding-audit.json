@@ -1,0 +1,393 @@
+{
+  "schemaVersion": "workbench-data-binding-audit/1",
+  "baseline": "delivered 0.2 ZIP",
+  "candidate": "0.3.0",
+  "sameCompiledModelRequests": 360,
+  "unchanged": {
+    "src/policy.mjs": "60171c6520af8d4ae790c7988148e4bfcd0b95bb9d114f79b1ba394d6919aaf8",
+    "src/catalog.mjs": "02fa92c798c3596aaeb66147426ff496b13c79b43fcedd4ad26328bb8b9930d3",
+    "src/compiler.mjs": "bba13d859e3a304e5fa56edd57e83d2a1a4e192c13a362d36af51b96b73f3a86",
+    "src/planner.mjs": "10c0d3753d0d3895a0ebcee44aa6aaa03e1bda75bad11149eb98c6662ba30afa",
+    "src/runner.mjs": "f69879197d33c7d5d95b97efb45453843bb195424572819073ff73649f52ecb9",
+    "src/storage.mjs": "8887d1a38fc6788fd6cae095de6a2d6d05dd9733bae1e044cd324628b97f4a2e",
+    "cli.mjs": "0aba6cc15cee886433191374918396976c51b5abe7d6fba8deb9fa965474c055",
+    "selection.mjs": "cc3378dbc009733fe58e6c5112da32c8b1ed7c54bee907133663510c55d672b5",
+    "data/consumer-admission-v1.report.json": "f70d4cdfc639f3b8b5ab957830fbe6d0a5dd9ea99b1c56a74188f41e4e29836e",
+    "data/context-cases.json": "5c9abe5a7c16dad5dfaccc8a39304ad20779eac877be0af553953de0a7aa976e",
+    "src/selection/advisor.mjs": "1f66a2932a7b7e107f9bf489ef4cca95a40aee00930157e696907811141a0285",
+    "src/selection/allocate.mjs": "51b07721dda68222125ee1b7e89d8648074e06e72e125f455e87de6f2d326740",
+    "src/selection/application.mjs": "d826dcf995c28682f5840e108057485328b395a8932b8a29f6d7c65b09daf20c",
+    "src/selection/planner.mjs": "30b0d25e88461c237a0b38da8ab1e3b62e4ac02f7c5e592e645c2e1827c5a0f6",
+    "src/selection/registry.mjs": "e080d57d0ef1f514e0de2ddccf54e89343ba7be0efd3813bd685465e65ff681c",
+    "src/selection/runner.mjs": "4b71634cf2010e38ce3fa403a951f6e2d508ccce135a5f5bcd59a4152e1cff61"
+  },
+  "unchangedVendorFiles": 170,
+  "reportSourceBindings": [
+    {
+      "id": "consumer-admission-v1",
+      "title": "Consumer admission · inspection / strict / contextual",
+      "protocol": "consumer-admission-v1",
+      "status": "complete",
+      "sourceHash": "f70d4cdfc639f3b8b5ab957830fbe6d0a5dd9ea99b1c56a74188f41e4e29836e",
+      "planHash": "4bc192ef661de84e70299f0e1bd140a7cdd7c3321de7c5fe958620b3db79ae60",
+      "requestedCalls": 480,
+      "observationRows": 480,
+      "bindingsChecked": 480,
+      "conditions": [
+        {
+          "id": "rich_control",
+          "rows": 48,
+          "expectedDecisions": {
+            "allow": 45,
+            "block": 3
+          },
+          "matrixTotal": 48
+        },
+        {
+          "id": "compact_both",
+          "rows": 48,
+          "expectedDecisions": {
+            "allow": 45,
+            "block": 3
+          },
+          "matrixTotal": 48
+        },
+        {
+          "id": "inspection_question",
+          "rows": 64,
+          "expectedDecisions": {
+            "allow": 64
+          },
+          "matrixTotal": 64
+        },
+        {
+          "id": "inspection_criteria",
+          "rows": 64,
+          "expectedDecisions": {
+            "allow": 64
+          },
+          "matrixTotal": 64
+        },
+        {
+          "id": "strict_question",
+          "rows": 64,
+          "expectedDecisions": {
+            "allow": 16,
+            "review": 4,
+            "block": 44
+          },
+          "matrixTotal": 64
+        },
+        {
+          "id": "strict_criteria",
+          "rows": 64,
+          "expectedDecisions": {
+            "allow": 16,
+            "review": 4,
+            "block": 44
+          },
+          "matrixTotal": 64
+        },
+        {
+          "id": "contextual_question",
+          "rows": 64,
+          "expectedDecisions": {
+            "allow": 26,
+            "review": 6,
+            "block": 32
+          },
+          "matrixTotal": 64
+        },
+        {
+          "id": "contextual_criteria",
+          "rows": 64,
+          "expectedDecisions": {
+            "allow": 26,
+            "review": 6,
+            "block": 32
+          },
+          "matrixTotal": 64
+        }
+      ]
+    },
+    {
+      "id": "boundary-fewshot-v2",
+      "title": "Boundary + revised examples · historical inspection",
+      "protocol": "boundary-fewshot-v2",
+      "status": "complete",
+      "sourceHash": "1adae132353b61aeb4e7d39c24b9bcd481e2ee2225561dd9640ef0ff02d3dd0c",
+      "planHash": "61276a13881e3a2fe72b9233e1f1274a08abdb64bd848f2ad410a3c4471e18fc",
+      "requestedCalls": 928,
+      "observationRows": 928,
+      "bindingsChecked": 928,
+      "conditions": [
+        {
+          "id": "rich_control",
+          "rows": 160,
+          "expectedDecisions": {
+            "allow": 150,
+            "block": 6,
+            "review": 4
+          },
+          "matrixTotal": 160
+        },
+        {
+          "id": "core_fewshot_reference",
+          "rows": 112,
+          "expectedDecisions": {
+            "allow": 105,
+            "block": 3,
+            "review": 4
+          },
+          "matrixTotal": 112
+        },
+        {
+          "id": "compact_both",
+          "rows": 160,
+          "expectedDecisions": {
+            "allow": 150,
+            "block": 6,
+            "review": 4
+          },
+          "matrixTotal": 160
+        },
+        {
+          "id": "restored_legacy_examples",
+          "rows": 112,
+          "expectedDecisions": {
+            "allow": 105,
+            "block": 3,
+            "review": 4
+          },
+          "matrixTotal": 112
+        },
+        {
+          "id": "restored_revised_examples",
+          "rows": 112,
+          "expectedDecisions": {
+            "allow": 105,
+            "block": 3,
+            "review": 4
+          },
+          "matrixTotal": 112
+        },
+        {
+          "id": "restored_open_set",
+          "rows": 160,
+          "expectedDecisions": {
+            "allow": 150,
+            "block": 6,
+            "review": 4
+          },
+          "matrixTotal": 160
+        },
+        {
+          "id": "restored_open_set_diagnostics",
+          "rows": 112,
+          "expectedDecisions": {
+            "allow": 105,
+            "block": 3,
+            "review": 4
+          },
+          "matrixTotal": 112
+        }
+      ]
+    },
+    {
+      "id": "prompt-variant-lab-v1",
+      "title": "Prompt variants + decomposition · historical inspection",
+      "protocol": "prompt-variant-lab-v1",
+      "status": "complete",
+      "sourceHash": "ebec1475fb7856a6cdad42dfddb86fa45bb92bf05f87225ff74424ca66a575e2",
+      "planHash": "115affe5f71eabe92e0a29072a2f610800de0c7eaa34029f98e6bdc6d94039b7",
+      "requestedCalls": 768,
+      "observationRows": 768,
+      "bindingsChecked": 768,
+      "conditions": [
+        {
+          "id": "rich_control",
+          "rows": 48,
+          "expectedDecisions": {
+            "allow": 45,
+            "block": 3
+          },
+          "matrixTotal": 48
+        },
+        {
+          "id": "rich_trim_questions",
+          "rows": 48,
+          "expectedDecisions": {
+            "allow": 45,
+            "block": 3
+          },
+          "matrixTotal": 48
+        },
+        {
+          "id": "rich_trim_taxonomy",
+          "rows": 48,
+          "expectedDecisions": {
+            "allow": 45,
+            "block": 3
+          },
+          "matrixTotal": 48
+        },
+        {
+          "id": "boundary_core",
+          "rows": 48,
+          "expectedDecisions": {
+            "allow": 45,
+            "block": 3
+          },
+          "matrixTotal": 48
+        },
+        {
+          "id": "rich_fewshot",
+          "rows": 48,
+          "expectedDecisions": {
+            "allow": 45,
+            "block": 3
+          },
+          "matrixTotal": 48
+        },
+        {
+          "id": "core_fewshot",
+          "rows": 48,
+          "expectedDecisions": {
+            "allow": 45,
+            "block": 3
+          },
+          "matrixTotal": 48
+        },
+        {
+          "id": "compact_control",
+          "rows": 48,
+          "expectedDecisions": {
+            "allow": 45,
+            "block": 3
+          },
+          "matrixTotal": 48
+        },
+        {
+          "id": "compact_contract",
+          "rows": 48,
+          "expectedDecisions": {
+            "allow": 45,
+            "block": 3
+          },
+          "matrixTotal": 48
+        },
+        {
+          "id": "compact_integrity",
+          "rows": 48,
+          "expectedDecisions": {
+            "allow": 45,
+            "block": 3
+          },
+          "matrixTotal": 48
+        },
+        {
+          "id": "compact_both",
+          "rows": 48,
+          "expectedDecisions": {
+            "allow": 45,
+            "block": 3
+          },
+          "matrixTotal": 48
+        },
+        {
+          "id": "compact_array_wire",
+          "rows": 48,
+          "expectedDecisions": {
+            "allow": 45,
+            "block": 3
+          },
+          "matrixTotal": 48
+        },
+        {
+          "id": "compact_array_logical",
+          "rows": 48,
+          "expectedDecisions": {
+            "allow": 45,
+            "block": 3
+          },
+          "matrixTotal": 48
+        },
+        {
+          "id": "features_plain_code",
+          "rows": 48,
+          "expectedDecisions": {
+            "allow": 45,
+            "block": 3
+          },
+          "matrixTotal": 48
+        },
+        {
+          "id": "features_fewshot_code",
+          "rows": 48,
+          "expectedDecisions": {
+            "allow": 45,
+            "block": 3
+          },
+          "matrixTotal": 48
+        },
+        {
+          "id": "mapper_plain",
+          "rows": 48,
+          "expectedDecisions": {
+            "allow": 45,
+            "block": 3
+          },
+          "matrixTotal": 48
+        },
+        {
+          "id": "mapper_fewshot",
+          "rows": 48,
+          "expectedDecisions": {
+            "allow": 45,
+            "block": 3
+          },
+          "matrixTotal": 48
+        }
+      ]
+    },
+    {
+      "id": "compact-single-pass-48-v1",
+      "title": "Compact rerun · historical inspection",
+      "protocol": "compact-single-pass-48-v1",
+      "status": "complete",
+      "sourceHash": "079dd539d29c139ed5f3765b4fac299e2e91574c5d44ff4a80b3e67d1b2d22f1",
+      "planHash": "bd508cafb3ecc445efb539de9adeec09c2d2e9bf8c08f27852ddc4cb24a180e7",
+      "requestedCalls": 48,
+      "observationRows": 96,
+      "bindingsChecked": 96,
+      "conditions": [
+        {
+          "id": "compact_control",
+          "rows": 48,
+          "expectedDecisions": {
+            "allow": 45,
+            "block": 3
+          },
+          "matrixTotal": 48
+        },
+        {
+          "id": "historical_reference",
+          "rows": 48,
+          "expectedDecisions": {
+            "allow": 45,
+            "block": 3
+          },
+          "matrixTotal": 48
+        }
+      ]
+    }
+  ],
+  "totalBindingsChecked": 2272,
+  "policyLabelsRewritten": 0,
+  "liveCalls": 0,
+  "limitations": [
+    "This verifies supplied report bytes and their presentation binding, not provider-signed attestation or the original raw HTTP response files.",
+    "Display observations include a historical baseline and reused stage evidence; they are not additional model calls.",
+    "No historical result validates an edited policy draft."
+  ]
+}

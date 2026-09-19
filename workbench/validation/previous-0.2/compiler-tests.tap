@@ -1,0 +1,334 @@
+TAP version 13
+# Subtest: Legacy source round trips without changing bytes, strings or property order
+ok 1 - Legacy source round trips without changing bytes, strings or property order
+  ---
+  duration_ms: 9.498641
+  type: 'test'
+  ...
+# Subtest: Every shipped v2 condition round trips through canonical IR
+ok 2 - Every shipped v2 condition round trips through canonical IR
+  ---
+  duration_ms: 53.253085
+  type: 'test'
+  ...
+# Subtest: Markdown decomposition covers every source character including whitespace
+ok 3 - Markdown decomposition covers every source character including whitespace
+  ---
+  duration_ms: 0.329955
+  type: 'test'
+  ...
+# Subtest: Heading-like text in fenced examples remains inside its source block
+ok 4 - Heading-like text in fenced examples remains inside its source block
+  ---
+  duration_ms: 0.158574
+  type: 'test'
+  ...
+# Subtest: Structured guide preserves integer-key serialization and nested data
+ok 5 - Structured guide preserves integer-key serialization and nested data
+  ---
+  duration_ms: 0.2405
+  type: 'test'
+  ...
+# Subtest: Guide block tampering is rejected unless source version/hash is updated
+ok 6 - Guide block tampering is rejected unless source version/hash is updated
+  ---
+  duration_ms: 9.940531
+  type: 'test'
+  ...
+# Subtest: Unknown request fields do not silently disappear
+ok 7 - Unknown request fields do not silently disappear
+  ---
+  duration_ms: 0.847131
+  type: 'test'
+  ...
+# Subtest: Unknown state fields require an explicit importer
+ok 8 - Unknown state fields require an explicit importer
+  ---
+  duration_ms: 0.646146
+  type: 'test'
+  ...
+# Subtest: No evaluation metadata can be inserted at the case-input boundary
+ok 9 - No evaluation metadata can be inserted at the case-input boundary
+  ---
+  duration_ms: 9.272587
+  type: 'test'
+  ...
+# Subtest: Literal hostile role keys, delimiters and template syntax remain data
+ok 10 - Literal hostile role keys, delimiters and template syntax remain data
+  ---
+  duration_ms: 53.535258
+  type: 'test'
+  ...
+# Subtest: Nulls, booleans and missing fields are not filled or reconciled
+ok 11 - Nulls, booleans and missing fields are not filled or reconciled
+  ---
+  duration_ms: 30.110188
+  type: 'test'
+  ...
+# Subtest: Caller-provided authority/context is preserved, not inferred from the payload
+ok 12 - Caller-provided authority/context is preserved, not inferred from the payload
+  ---
+  duration_ms: 29.082826
+  type: 'test'
+  ...
+# Subtest: Question ID is never the only semantic instruction
+ok 13 - Question ID is never the only semantic instruction
+  ---
+  duration_ms: 7.691099
+  type: 'test'
+  ...
+# Subtest: Choice options and definitions survive criteria-local example placement
+ok 14 - Choice options and definitions survive criteria-local example placement
+  ---
+  duration_ms: 27.876468
+  type: 'test'
+  ...
+# Subtest: Examples actually reside in native criteria rather than state
+ok 15 - Examples actually reside in native criteria rather than state
+  ---
+  duration_ms: 25.481226
+  type: 'test'
+  ...
+# Subtest: Question-local versus criterion-local carries exactly the same per-question assigned evidence
+ok 16 - Question-local versus criterion-local carries exactly the same per-question assigned evidence
+  ---
+  duration_ms: 63.421278
+  type: 'test'
+  ...
+# Subtest: Factored example defaults reconstruct all inline assigned contexts and references
+ok 17 - Factored example defaults reconstruct all inline assigned contexts and references
+  ---
+  duration_ms: 65.019463
+  type: 'test'
+  ...
+# Subtest: Factored context keeps explicit null overrides
+ok 18 - Factored context keeps explicit null overrides
+  ---
+  duration_ms: 25.241467
+  type: 'test'
+  ...
+# Subtest: Uncertain classification examples are not assigned to the Noul false bucket
+ok 19 - Uncertain classification examples are not assigned to the Noul false bucket
+  ---
+  duration_ms: 38.205026
+  type: 'test'
+  ...
+# Subtest: Unknown adoption is not relabeled as a false poisoning demonstration
+ok 20 - Unknown adoption is not relabeled as a false poisoning demonstration
+  ---
+  duration_ms: 7.665807
+  type: 'test'
+  ...
+# Subtest: No ordinal example label is synthesized from behavior or the verdict
+ok 21 - No ordinal example label is synthesized from behavior or the verdict
+  ---
+  duration_ms: 26.960277
+  type: 'test'
+  ...
+# Subtest: Shared-context example profiles resolve before rendering
+ok 22 - Shared-context example profiles resolve before rendering
+  ---
+  duration_ms: 1.07294
+  type: 'test'
+  ...
+# Subtest: Foreign named demonstration bindings cannot be removed silently
+ok 23 - Foreign named demonstration bindings cannot be removed silently
+  ---
+  duration_ms: 12.024012
+  type: 'test'
+  ...
+# Subtest: Existing criterion examples plus shared examples do not silently merge
+ok 24 - Existing criterion examples plus shared examples do not silently merge
+  ---
+  duration_ms: 11.349481
+  type: 'test'
+  ...
+# Subtest: All literal guidance blocks are preserved in structured-state rendering
+ok 25 - All literal guidance blocks are preserved in structured-state rendering
+  ---
+  duration_ms: 24.866189
+  type: 'test'
+  ...
+# Subtest: Question-local guidance has an explicit binding and no state guide duplicate
+ok 26 - Question-local guidance has an explicit binding and no state guide duplicate
+  ---
+  duration_ms: 26.699495
+  type: 'test'
+  ...
+# Subtest: Silent policy omission is forbidden and explicit omission is recorded
+ok 27 - Silent policy omission is forbidden and explicit omission is recorded
+  ---
+  duration_ms: 30.308219
+  type: 'test'
+  ...
+# Subtest: Declared required policy blocks cannot be omitted
+ok 28 - Declared required policy blocks cannot be omitted
+  ---
+  duration_ms: 11.029004
+  type: 'test'
+  ...
+# Subtest: Unknown blocks and reasonless omissions fail validation
+ok 29 - Unknown blocks and reasonless omissions fail validation
+  ---
+  duration_ms: 20.348294
+  type: 'test'
+  ...
+# Subtest: Byte cap rejects rather than truncating content
+ok 30 - Byte cap rejects rather than truncating content
+  ---
+  duration_ms: 28.292475
+  type: 'test'
+  ...
+# Subtest: Split requests preserve every original question and repeat full state
+ok 31 - Split requests preserve every original question and repeat full state
+  ---
+  duration_ms: 67.994199
+  type: 'test'
+  ...
+# Subtest: Question dependencies are not simulated by ordering questions
+ok 32 - Question dependencies are not simulated by ordering questions
+  ---
+  duration_ms: 13.861832
+  type: 'test'
+  ...
+# Subtest: Missing and cyclic dependencies fail validation
+ok 33 - Missing and cyclic dependencies fail validation
+  ---
+  duration_ms: 12.190301
+  type: 'test'
+  ...
+# Subtest: Generic chat never turns a nested sample role into an actual message role
+ok 34 - Generic chat never turns a nested sample role into an actual message role
+  ---
+  duration_ms: 35.152715
+  type: 'test'
+  ...
+# Subtest: Generic chat does not fabricate native probability fields
+ok 35 - Generic chat does not fabricate native probability fields
+  ---
+  duration_ms: 14.575561
+  type: 'test'
+  ...
+# Subtest: Generative scalar judgments are explicitly not native posteriors
+ok 36 - Generative scalar judgments are explicitly not native posteriors
+  ---
+  duration_ms: 8.519945
+  type: 'test'
+  ...
+# Subtest: Strict answer parsing rejects invented options, malformed JSON and incomplete results
+ok 37 - Strict answer parsing rejects invented options, malformed JSON and incomplete results
+  ---
+  duration_ms: 12.165391
+  type: 'test'
+  ...
+# Subtest: Native normalization preserves distributions and raw provider values
+ok 38 - Native normalization preserves distributions and raw provider values
+  ---
+  duration_ms: 8.220183
+  type: 'test'
+  ...
+# Subtest: Native normalization rejects inconsistent argmax and out-of-range numbers
+ok 39 - Native normalization rejects inconsistent argmax and out-of-range numbers
+  ---
+  duration_ms: 7.756688
+  type: 'test'
+  ...
+# Subtest: Profile mutation changes rendering identity, not assessment identity
+ok 40 - Profile mutation changes rendering identity, not assessment identity
+  ---
+  duration_ms: 33.117186
+  type: 'test'
+  ...
+# Subtest: Repeated rendering is deterministic and does not mutate the IR
+ok 41 - Repeated rendering is deterministic and does not mutate the IR
+  ---
+  duration_ms: 43.727839
+  type: 'test'
+  ...
+# Subtest: Test metadata is not accepted by the core renderer as an input slot
+ok 42 - Test metadata is not accepted by the core renderer as an input slot
+  ---
+  duration_ms: 6.746757
+  type: 'test'
+  ...
+# Subtest: Reserved compiler identifiers are refused but arbitrary payload keys are allowed
+ok 43 - Reserved compiler identifiers are refused but arbitrary payload keys are allowed
+  ---
+  duration_ms: 0.781902
+  type: 'test'
+  ...
+# Subtest: Finite JSON only; no silent undefined or Date serialization
+ok 44 - Finite JSON only; no silent undefined or Date serialization
+  ---
+  duration_ms: 0.789245
+  type: 'test'
+  ...
+# Subtest: Unsupported capabilities fail closed rather than flattening to a guessed format
+ok 45 - Unsupported capabilities fail closed rather than flattening to a guessed format
+  ---
+  duration_ms: 13.207035
+  type: 'test'
+  ...
+# Subtest: Compiler tests do not read endpoint credentials or mutate budget state
+ok 46 - Compiler tests do not read endpoint credentials or mutate budget state
+  ---
+  duration_ms: 1.081906
+  type: 'test'
+  ...
+# Subtest: Renderer-reserved slots cannot overwrite application instructions
+ok 47 - Renderer-reserved slots cannot overwrite application instructions
+  ---
+  duration_ms: 15.108722
+  type: 'test'
+  ...
+# Subtest: Per-question rule scoping is explicit, limited and auditable
+ok 48 - Per-question rule scoping is explicit, limited and auditable
+  ---
+  duration_ms: 37.755017
+  type: 'test'
+  ...
+# Subtest: Per-question scoping cannot omit a declared dependency
+ok 49 - Per-question scoping cannot omit a declared dependency
+  ---
+  duration_ms: 12.142485
+  type: 'test'
+  ...
+# Subtest: Per-question rules cannot be hidden in a shared state profile
+ok 50 - Per-question rules cannot be hidden in a shared state profile
+  ---
+  duration_ms: 10.19792
+  type: 'test'
+  ...
+# Subtest: Canonical example corpus supports arbitrary judgments and explicit ordinal examples
+ok 51 - Canonical example corpus supports arbitrary judgments and explicit ordinal examples
+  ---
+  duration_ms: 4.851082
+  type: 'test'
+  ...
+# Subtest: An evaluation corpus is not accepted as a canonical demonstration bank
+ok 52 - An evaluation corpus is not accepted as a canonical demonstration bank
+  ---
+  duration_ms: 0.195649
+  type: 'test'
+  ...
+# Subtest: Factoring never drops a private reference provided in a canonical example
+ok 53 - Factoring never drops a private reference provided in a canonical example
+  ---
+  duration_ms: 5.377057
+  type: 'test'
+  ...
+# Subtest: Local rendering preserves authored semantic profiles, example family and corpus boundary text
+ok 54 - Local rendering preserves authored semantic profiles, example family and corpus boundary text
+  ---
+  duration_ms: 24.86535
+  type: 'test'
+  ...
+1..54
+# tests 54
+# suites 0
+# pass 54
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1153.239467

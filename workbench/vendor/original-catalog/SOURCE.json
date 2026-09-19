@@ -1,0 +1,20 @@
+{
+  "sourceArchive": "jev-workspace-20260918-090952.tgz",
+  "sourceArchiveSha256": "ea1ffb30456605dd8fb430fd1b55c2ad47de9191cea780c3a5312c378d05b580",
+  "files": {
+    "cases/families.mjs": "c4e4f3789475f197566c40e52f87e008d46e25ae8c3ceabbbf49300db47144e0",
+    "cases/extension-fixtures.mjs": "efea52d1f99102f910a3c6c024836f26eb5bfd0a124ffbfdbb5893647677b870",
+    "harness/corpus.mjs": "f9bf466a215af728db00dd253d80cc6816a7313d1d4531b4977b0928792ae0a8",
+    "harness/typesafe.mjs": "2c6da4ac5f2c38eea3fe2130e493877fd10b8ccce5bdc1b4eaff93c2acdd0de2",
+    "harness/domain/native-questions.mjs": "8cb3746f36212301729677539cef543d38090c4f5bc6a5f6e6ae073db2deefef",
+    "harness/domain/native-answers.mjs": "c8520ab86b6a1da4eab9e253769efcd3d7ac5b6f47deb99b9661af4b171ca535",
+    "harness/domain/policy-question-contract.mjs": "08bb3aafd8e00316a45382293ae32fdd8ed33140131e9c0fd64e613e383ea3fc",
+    "harness/domain/extension-questions.mjs": "e996fb21cb5d9c551b1da0cfb3d358bedc3c1b9ce6b0e64522072b5d6bf5bafd",
+    "harness/domain/result.mjs": "f94b787f7b823555921fd8ead01d80e619cfabbe80e11e00d29375564d657b00",
+    "config/design.json": "361b98b12ecc853c5f8e08f18797763409929e4726821a25a8938cca4301a35d",
+    "config/trusted-context.json": "b059795f36dfcf7e5eac8ff35116538e4c6648ac0949c257daa1258616907ec4",
+    "policies/profiles.json": "2f8c7132c5b5da5b0f018e5385275162a4b61c240c5ed34e41e6124498581158",
+    "policies/profiles-v1.1.json": "9376b01005313f5ed67b8eebe2c8cff8f682435b1b705b4e3e925bf497c5f40a",
+    "data/corpus-manifest.json": "bb9df6abdf708ccfee238d68a9f2aa278f91806f16f0975cc21b0f31497efc80"
+  }
+}

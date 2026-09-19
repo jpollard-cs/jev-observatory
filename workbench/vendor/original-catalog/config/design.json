@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "seed": "jev-lab-v1-frozen",
+  "seedsPerFamily": 4,
+  "contextChars": [512, 4096, 16384],
+  "positions": ["start", "middle", "end"],
+  "policyProfiles": ["permissive", "balanced", "strict"],
+  "outputModes": ["binary", "scores", "structured"],
+  "promptArms": ["minimal", "policy"],
+  "repeats": 1,
+  "pilotCases": 12,
+  "maxOutputTokens": 600,
+  "timeoutMs": 60000,
+  "thresholdObjective": "balanced_error",
+  "confidence": 0.95,
+  "rareEventTargetRate": 0.001,
+  "notes": "Synthetic labeled canaries. Fixed contexts, not adaptive tool execution. Entire family/template lineages stay in one split. Seeds alter archive padding only and are not independent scenarios."
+}

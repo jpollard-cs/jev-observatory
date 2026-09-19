@@ -1,0 +1,89 @@
+{
+  "schemaVersion": "workbench-validation/4.1",
+  "applicationVersion": "0.4.1",
+  "validatedAtUtc": "2026-09-19T02:55:32.986919+00:00",
+  "providerCallsMadeHere": 0,
+  "originalProjectEdited": false,
+  "realLedgerEdited": false,
+  "sitePublished": false,
+  "testSuites": {
+    "workbench": {
+      "tests": 246,
+      "passed": 246,
+      "failed": 0
+    },
+    "retainedCompiler": {
+      "tests": 54,
+      "passed": 54,
+      "failed": 0
+    }
+  },
+  "totalSoftwareTestsPassed": 300,
+  "connectionTestsIncluded": 28,
+  "browser": {
+    "viewChecks": 136,
+    "connectionFlowChecks": 13,
+    "totalPassed": 149,
+    "failed": 0,
+    "method": "Actual separate production ES modules with API-only bridge. Direct browser loopback navigation is blocked by this environment; HTTP routes/security also tested directly.",
+    "criticalRegression": "0.4 fails entering Evidence explorer with fields is not defined. Old concatenated-module test helper was not faithful to browser lexical scope.",
+    "simulatedConnectionCalls": 6,
+    "realProviderCalls": 0
+  },
+  "preservation": {
+    "unchangedVendorFiles": 176,
+    "unchangedDataFiles": 9,
+    "parentVersion": "0.4.0",
+    "sameCurrentPolicyRequestBodies": 360,
+    "sameCurrentPolicyExpectedAnswers": 360,
+    "boundDisplayRows": 6224,
+    "displayRowsAreNotIndependentCalls": true
+  },
+  "fullSizeSyntheticReplay": {
+    "status": "passed",
+    "scope": "Full actual original request shapes with SYNTHETIC transport only",
+    "jobs": 15184,
+    "initialBoundedPartial": 131,
+    "interruptedAfter": 8323,
+    "resumedNewCalls": 6861,
+    "completedResumeNewCalls": 0,
+    "ledgerEvents": 30368,
+    "sourceStamp": "89dea8bead1309e63b610f450461e98b9ef0c8b707f1f7e24fcb8938858312ed",
+    "providerCalls": 0,
+    "environmentInterruption": true,
+    "subsequentElapsedMs": 35543.411447
+  },
+  "budget": {
+    "largePlanningBudgetsTestedUsd": [
+      5,
+      50,
+      1000
+    ],
+    "standaloneExplicitNewCapTestedUsd": 50,
+    "originalProjectSharedLimitChanged": false,
+    "optionalTokenLimitMayBeDisabled": true,
+    "estimatesAreNotInvoiceGuarantees": true
+  },
+  "credentials": {
+    "storage": "private local Node process memory",
+    "browserStorage": false,
+    "keyFileCreated": false,
+    "osKeychainImplemented": false,
+    "freshResponseRequiredForProviderVerified": true,
+    "cachedResponsesDoNotValidateNewCredentials": true,
+    "confirmedSavedAdvisorOnly": true,
+    "expiryMinutes": 5,
+    "fixedHttpsDestination": true,
+    "redirects": "error",
+    "maxProviderResponseBytes": 2097152,
+    "headerAndBodyCredentialLogging": "Credentials omitted from app artifacts; literal credential echoes redacted; error bodies masked",
+    "productionProviderAuthTested": false
+  },
+  "releaseNotes": "Live requests for the new connection require user execution. Software/synthetic tests do not prove provider acceptance or security against local compromise.",
+  "schemaValidation": {
+    "version": "2020-12",
+    "examples": 7,
+    "passed": 7
+  },
+  "documentation": "docs/LOCAL-CONNECTION-AND-FIXES.md"
+}

@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "planHash": "416bd5cf9fbc2a728a3d5edfd1b726d3e8f171c477d1881c58491c94c06306aa",
+  "status": "ready_for_development_run",
+  "decisionBy": "operator_review",
+  "reviewedAt": "2026-09-17T11:29:54.558Z",
+  "representationReportHash": "87dd6b4859ee16b3ae89af80b8587d80cf94181b2c21209d9d6ef68044d566dd",
+  "auditdocHash": "d2d6e73397dae622bc310123bd446ae27f5229c502544aa37147843d71b59fbc",
+  "independentAuditHash": "efcac4095e4eb92f4c2ca0ede7a8b80e38b8717aed25bdd77e802bf1728f1108",
+  "offlineTests": {
+    "passed": 120,
+    "failed": 0
+  },
+  "productionFormatSelectedBeforeOutcomes": true,
+  "promptsChangedAfterPreflight": false,
+  "independentHumanAdjudication": false,
+  "findings": "No blocking request/gold/scoring mismatch found. Preserve one expiry disposition error and four incorrect production-audit reason flags. Single observations per condition cannot identify stable causal effects."
+}

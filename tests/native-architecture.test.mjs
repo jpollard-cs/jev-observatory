@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import { selectCases, hash, profiles, trustedContext } from '../harness/corpus.mjs';
+import { selectCases, hash, profiles, prospectiveProfiles, trustedContext } from '../harness/corpus.mjs';
 import { buildTypeSafeRequest } from '../harness/typesafe.mjs';
 import { buildNativeRequest } from '../harness/domain/native-questions.mjs';
 import { buildDebuggingNativeRequest } from '../harness/domain/debugging-questions.mjs';
@@ -30,7 +30,7 @@ test('default EntryType questions keep policy/context structured and state free 
   const request = buildTypeSafeRequest(caseItem);
   assert.equal(typeof request.questions.classification.instructions, 'object');
   assert.deepEqual(request.questions.classification.instructions.authorizedContext, trustedContext);
-  assert.deepEqual(request.questions.classification.instructions.trustedPolicy.rules, profiles[caseItem.policyProfile].rules);
+  assert.deepEqual(request.questions.classification.instructions.trustedPolicy.rules, prospectiveProfiles[caseItem.policyProfile].rules);
   assert.equal(typeof request.questions.classification.criteria.attack, 'object');
   assert.equal(typeof request.questions.attack_probability.criteria.true, 'object');
   assert.equal(typeof request.questions.interference_severity.criteria[0], 'object');

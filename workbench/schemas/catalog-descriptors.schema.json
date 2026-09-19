@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Metadata-only catalog descriptors for tag proposals",
+  "type": "array",
+  "minItems": 1,
+  "maxItems": 2000,
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "id",
+      "title",
+      "description",
+      "caseCount"
+    ],
+    "properties": {
+      "id": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 150,
+        "not": {
+          "enum": [
+            "__proto__",
+            "prototype",
+            "constructor"
+          ]
+        },
+        "pattern": "^[A-Za-z0-9_.:-]{1,150}$"
+      },
+      "title": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 200,
+        "pattern": "\\S"
+      },
+      "description": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 5000,
+        "pattern": "\\S"
+      },
+      "domain": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "maxLength": 200
+      },
+      "requires": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "maxLength": 150
+        }
+      },
+      "caseCount": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 9007199254740991
+      }
+    }
+  }
+}

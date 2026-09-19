@@ -2,9 +2,9 @@
   "schemaVersion": 1,
   "siteUrl": "https://jev-redteam-observatory.wizard.chatgpt.site",
   "projectId": "appgprj_6aab480f6c5c81918e6f3ed4704114a5",
-  "versionId": "appgprj_6aab480f6c5c81918e6f3ed4704114a5~appgver_246199d7e66c81918685b2d45836ecac",
-  "deploymentId": "appgdep_6aab588fc1088191800945b429804148",
-  "sourceCommit": "c7f123deb08f78f808b8ec0bcaafea2d62d215fc",
+  "versionId": "appgprj_6aab480f6c5c81918e6f3ed4704114a5~appgver_148ecdb6dca08191ace76946f3340894",
+  "deploymentId": "appgdep_6aac203f51348191ad2de8d6169eb222",
+  "sourceCommit": "303b71b97229c386e0c791ec81dbd6cd7a684fa7",
   "access": {
     "mode": "custom",
     "allowedUsers": 1,
@@ -16,49 +16,56 @@
     "siteUrl": "https://jev-redteam-observatory.wizard.chatgpt.site",
     "ready": true,
     "thinBootstrap": true,
-    "queryCount": 17,
-    "rowCount": 162,
+    "queryCount": 55,
+    "rowCount": 5111,
     "uploads": [
       {
         "kind": "html",
-        "sha256": "da76298f19671f300eef573eed18e8767871deb882cd15d36cd1a3c0d223ed99",
-        "bytes": 2914061,
+        "sha256": "fb47de418fdf94323ba057b5eded92054195c51a35fad020a96a6cc5e2f6134e",
+        "bytes": 2989257,
         "transport": {
           "encoding": "identity",
-          "bytes": 2914061
+          "bytes": 2989257
         },
-        "milliseconds": 3029
+        "milliseconds": 2000
       },
       {
         "kind": "snapshot",
-        "sha256": "0975276f0387c0b783d66e30e156fa63229509d93d261feff7ad62bb7aef6f79",
-        "bytes": 325249,
+        "sha256": "38b5fe6d119cc5ecb4f5d9b42d6a29fcc3c352f1c4bb8fd4fcd0911bd16333f3",
+        "bytes": 31347931,
         "transport": {
           "encoding": "identity",
-          "bytes": 325249
+          "bytes": 31347931
         },
-        "milliseconds": 1216
+        "milliseconds": 4172
       }
     ],
     "readback": {
       "html": {
-        "sha256": "da76298f19671f300eef573eed18e8767871deb882cd15d36cd1a3c0d223ed99",
-        "bytes": 2914061,
-        "milliseconds": 907
+        "sha256": "fb47de418fdf94323ba057b5eded92054195c51a35fad020a96a6cc5e2f6134e",
+        "bytes": 2989257,
+        "milliseconds": 1132
       },
       "snapshot": {
-        "sha256": "0975276f0387c0b783d66e30e156fa63229509d93d261feff7ad62bb7aef6f79",
-        "bytes": 325249,
-        "milliseconds": 1654,
+        "sha256": "38b5fe6d119cc5ecb4f5d9b42d6a29fcc3c352f1c4bb8fd4fcd0911bd16333f3",
+        "bytes": 31347931,
+        "milliseconds": 2140,
         "matchedEncoding": "snapshotResponse"
       }
     }
   },
   "checks": {
-    "localDesktopAndMobile": true,
-    "localBrowserErrors": 0,
-    "hostedBrowser": "ChatGPT sign-in required; authenticated rendering not checked",
-    "hostedEditing": "not verified"
+    "hostedReadback": "Complete HTML and snapshot SHA256 match",
+    "hostedComparisonRendered": true,
+    "hostedEncodingRendered": true,
+    "hostedConsoleErrorsObserved": 0,
+    "existingPresentationPreserved": true,
+    "presentationChange": "Two authorized tabs appended; every existing field and tab preserved.",
+    "presentationRevision": 3,
+    "hostedEditing": "not exercised",
+    "targetedTestsPassed": 16,
+    "localInteractionAndResponsiveChecks": "data/followup-validation.json"
   },
+  "publishedAt": "2026-09-17T17:19:19.980543+00:00",
   "githubPushed": false
 }

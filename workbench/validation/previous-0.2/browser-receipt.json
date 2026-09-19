@@ -1,0 +1,76 @@
+{
+  "errors": [],
+  "checks": [
+    {
+      "view": "overview",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "view": "policy",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "view": "selection",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "view": "planner",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "view": "evidence",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "view": "context",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "view": "provenance",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "view": "overview",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "view": "policy",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "view": "selection",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "view": "planner",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "view": "evidence",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "view": "context",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "view": "provenance",
+      "width": 390,
+      "overflow": false
+    }
+  ],
+  "method": "Real UI source rendered in-memory in Chromium. Test bridge invokes separately tested local HTTP API; direct browser loopback navigation blocked by environment policy. No browser policy changed; no provider calls."
+}

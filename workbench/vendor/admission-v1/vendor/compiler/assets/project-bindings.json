@@ -1,0 +1,6 @@
+{
+  "harness/domain/rich-pilot-request.mjs": "821d142862067ed1fb69dad249e0bf1a937daf41799a8b10a1df6bbdc2a34038",
+  "harness/domain/result.mjs": "f94b787f7b823555921fd8ead01d80e619cfabbe80e11e00d29375564d657b00",
+  "cases/rich-pilot-fixtures.mjs": "56f57c67f5b912efa82cccf073489ba8ed3a025c2f1b642849415f35cd986c08",
+  "policies/prompt-injection-policy-template.md": "27e3f71300caf5e8068a3a2504a2919dc9bc95a8d25e56fc13c841a32dcc3a32"
+}

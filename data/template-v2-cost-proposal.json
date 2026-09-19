@@ -1,0 +1,229 @@
+{
+  "kind": "hypothetical_offline_draft_sizing",
+  "generatedAt": "2026-09-17T12:01:10.424Z",
+  "pricingSource": "https://typesafe.ai/blog/introducing-system-one-models-and-jev",
+  "pricingCheckedOn": "2026-09-17",
+  "approved": false,
+  "newModelCalls": 0,
+  "environmentFilesRead": false,
+  "historicalEvidenceRead": false,
+  "capUsd": 3,
+  "priorReportedSpendUsd": 1.04,
+  "priorSpendIncludedInProspectiveCap": false,
+  "inputUsdPerMillion": 0.042,
+  "outputUsdPerMillion": 0,
+  "source": {
+    "file": "policies/prompt-injection-policy-template.md",
+    "sha256": "7c8b11651fa078b25dcc0382154ec6c07329af4472da8da088a43adf2dba6e4c",
+    "modelFacingSha256": "56b77c5efa6b4df0da9a240284a532da5b9d21e35e2450976da98a27718de3f0",
+    "modelFacingUtf8Bytes": 47739,
+    "modelFacingCodePoints": 47703,
+    "modelFacingJsonStringBytes": 48113,
+    "templateFieldBytes": 48139,
+    "bindingFieldBytes": 147,
+    "extraction": "between unique begin/end markers; trim then append LF; exclude markers and all operator notes"
+  },
+  "hypotheticalPlacement": {
+    "shared": "Add classifierContextDraft to shared state once and sharedContextAuthority binding to each question instructions.",
+    "repeated": "Add classifierContextDraft to each question instructions; no shared copy.",
+    "retainedBase": "Entire current policy-v4 request with original question definitions and policy metadata; additive sizing only, not reconciled new semantics."
+  },
+  "baseRequestCorpusHash": "e1da5b82610c64c52dd0296b70ac60893a527ed347db9664cdb396cef5896ffa",
+  "questionCountDistribution": {
+    "1": 5040,
+    "4": 6120,
+    "5": 72,
+    "9": 3672,
+    "10": 216
+  },
+  "prospectiveInputTokensAtCap": 71428571,
+  "plans": {
+    "full15120": {
+      "requests": 15120,
+      "questions": 65088,
+      "baseBytes": 420926112,
+      "sharedBytes": 1158355728,
+      "repeatedBytes": 3554197344,
+      "minSharedBytes": 51336,
+      "maxSharedBytes": 123824,
+      "minRepeatedBytes": 51189,
+      "maxRepeatedBytes": 555605,
+      "baseReserveUsd": 17.841466944000004,
+      "sharedReserveUsd": 48.813510816000004,
+      "repeatedReserveUsd": 149.438858688,
+      "sharedIllustrativeUsd": {
+        "0.2": 9.892758355200002,
+        "0.25": 12.325305384000002,
+        "0.33": 16.21738063008,
+        "0.5": 24.488040528000003
+      },
+      "repeatedIllustrativeUsd": {
+        "0.2": 30.017827929600006,
+        "0.25": 37.481642352,
+        "0.33": 49.423745427840004,
+        "0.5": 74.80071446400001
+      },
+      "sharedWorstCellReserveUsd": 0.005211360000000001,
+      "repeatedWorstCellReserveUsd": 0.023346162000000004,
+      "sharedMaxCallsAtWorstCell": 575,
+      "repeatedMaxCallsAtWorstCell": 128
+    },
+    "matrixSeed0": {
+      "requests": 3780,
+      "questions": 16272,
+      "baseBytes": 105231528,
+      "sharedBytes": 289588932,
+      "repeatedBytes": 888549336,
+      "minSharedBytes": 51336,
+      "maxSharedBytes": 123824,
+      "minRepeatedBytes": 51189,
+      "maxRepeatedBytes": 555605,
+      "baseReserveUsd": 4.460366736000001,
+      "sharedReserveUsd": 12.203377704000001,
+      "repeatedReserveUsd": 37.359714672,
+      "sharedIllustrativeUsd": {
+        "0.2": 2.4731895888000004,
+        "0.25": 3.0813263460000004,
+        "0.33": 4.05434515752,
+        "0.5": 6.122010132000001
+      },
+      "repeatedIllustrativeUsd": {
+        "0.2": 7.504456982400002,
+        "0.25": 9.370410588,
+        "0.33": 12.355936356960001,
+        "0.5": 18.700178616000002
+      },
+      "sharedWorstCellReserveUsd": 0.005211360000000001,
+      "repeatedWorstCellReserveUsd": 0.023346162000000004,
+      "sharedMaxCallsAtWorstCell": 575,
+      "repeatedMaxCallsAtWorstCell": 128
+    },
+    "pilot12": {
+      "requests": 12,
+      "questions": 46,
+      "baseBytes": 238179,
+      "sharedBytes": 822609,
+      "repeatedBytes": 2452573,
+      "minSharedBytes": 53586,
+      "maxSharedBytes": 103065,
+      "minRepeatedBytes": 53439,
+      "maxRepeatedBytes": 486854,
+      "baseReserveUsd": 0.010132542000000001,
+      "sharedReserveUsd": 0.034678602,
+      "repeatedReserveUsd": 0.10313709000000001,
+      "sharedIllustrativeUsd": {
+        "0.2": 0.007038939600000002,
+        "0.25": 0.008766418500000001,
+        "0.33": 0.011530384740000003,
+        "0.5": 0.017403813
+      },
+      "repeatedIllustrativeUsd": {
+        "0.2": 0.020730637200000006,
+        "0.25": 0.025881040500000004,
+        "0.33": 0.03412168578000001,
+        "0.5": 0.05163305700000001
+      },
+      "sharedWorstCellReserveUsd": 0.004339482,
+      "repeatedWorstCellReserveUsd": 0.020458620000000004,
+      "sharedMaxCallsAtWorstCell": 691,
+      "repeatedMaxCallsAtWorstCell": 146
+    },
+    "pilot24": {
+      "requests": 24,
+      "questions": 92,
+      "baseBytes": 476358,
+      "sharedBytes": 1645218,
+      "repeatedBytes": 4905146,
+      "minSharedBytes": 53586,
+      "maxSharedBytes": 103065,
+      "minRepeatedBytes": 53439,
+      "maxRepeatedBytes": 486854,
+      "baseReserveUsd": 0.020265084000000003,
+      "sharedReserveUsd": 0.069357204,
+      "repeatedReserveUsd": 0.20627418000000003,
+      "sharedIllustrativeUsd": {
+        "0.2": 0.014077879200000004,
+        "0.25": 0.017532837000000003,
+        "0.33": 0.023060769480000007,
+        "0.5": 0.034807626
+      },
+      "repeatedIllustrativeUsd": {
+        "0.2": 0.04146127440000001,
+        "0.25": 0.05176208100000001,
+        "0.33": 0.06824337156000002,
+        "0.5": 0.10326611400000002
+      },
+      "sharedWorstCellReserveUsd": 0.004339482,
+      "repeatedWorstCellReserveUsd": 0.020458620000000004,
+      "sharedMaxCallsAtWorstCell": 691,
+      "repeatedMaxCallsAtWorstCell": 146
+    },
+    "shortPolicy72": {
+      "requests": 72,
+      "questions": 652,
+      "baseBytes": 3962116,
+      "sharedBytes": 7523968,
+      "repeatedBytes": 35348744,
+      "minSharedBytes": 104273,
+      "maxSharedBytes": 107952,
+      "minRepeatedBytes": 488062,
+      "maxRepeatedBytes": 539733,
+      "baseReserveUsd": 0.16718301600000002,
+      "sharedReserveUsd": 0.31678080000000003,
+      "repeatedReserveUsd": 1.4854213920000001,
+      "sharedIllustrativeUsd": {
+        "0.2": 0.0639754752,
+        "0.25": 0.079775808,
+        "0.33": 0.10505634048000001,
+        "0.5": 0.15877747200000003
+      },
+      "repeatedIllustrativeUsd": {
+        "0.2": 0.2977035936000001,
+        "0.25": 0.37193595600000007,
+        "0.33": 0.4907077358400001,
+        "0.5": 0.743097768
+      },
+      "sharedWorstCellReserveUsd": 0.004544736000000001,
+      "repeatedWorstCellReserveUsd": 0.022679538000000003,
+      "sharedMaxCallsAtWorstCell": 660,
+      "repeatedMaxCallsAtWorstCell": 132
+    },
+    "policy216": {
+      "requests": 216,
+      "questions": 1956,
+      "baseBytes": 13287180,
+      "sharedBytes": 23972736,
+      "repeatedBytes": 107447064,
+      "minSharedBytes": 104273,
+      "maxSharedBytes": 123824,
+      "minRepeatedBytes": 488062,
+      "maxRepeatedBytes": 555605,
+      "baseReserveUsd": 0.5603839920000001,
+      "sharedReserveUsd": 1.009177344,
+      "repeatedReserveUsd": 4.51509912,
+      "sharedIllustrativeUsd": {
+        "0.2": 0.20369341440000002,
+        "0.25": 0.25403616,
+        "0.33": 0.33458455296000006,
+        "0.5": 0.5057498880000001
+      },
+      "repeatedIllustrativeUsd": {
+        "0.2": 0.9048777696000001,
+        "0.25": 1.130516604,
+        "0.33": 1.4915387390400003,
+        "0.5": 2.2587107760000005
+      },
+      "sharedWorstCellReserveUsd": 0.005211360000000001,
+      "repeatedWorstCellReserveUsd": 0.023346162000000004,
+      "sharedMaxCallsAtWorstCell": 575,
+      "repeatedMaxCallsAtWorstCell": 128
+    }
+  },
+  "assumptions": [
+    "One token per serialized UTF-8 request byte plus 256 tokens/request is a conservative planning convention, not a verified tokenizer or billing bound.",
+    "Ratios are illustrative tokens per total serialized request byte, not predictions or calibrated values for this draft.",
+    "No caching discount or shared-state billing guarantee is assumed.",
+    "No new four-state, contract-compliance, audit, reason, or other question battery has been approved or costed here.",
+    "Existing cells and gold require review under richer definitions; the full grid is a sizing inventory, not an approved experiment."
+  ]
+}

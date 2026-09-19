@@ -1,0 +1,12 @@
+{
+  "tier": "bronze",
+  "maxUsd": 0.15,
+  "maxInputTokens": 3000000,
+  "layouts": [
+    "question",
+    "criteria"
+  ],
+  "seed": "workbench-1",
+  "includeContext": true,
+  "repeat": 1
+}

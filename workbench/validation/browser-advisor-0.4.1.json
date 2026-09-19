@@ -1,0 +1,58 @@
+{
+  "checks": [
+    {
+      "name": "Loading key makes zero transport calls",
+      "passed": true
+    },
+    {
+      "name": "Password field cleared",
+      "passed": true
+    },
+    {
+      "name": "No key value retained in browser localStorage",
+      "passed": true
+    },
+    {
+      "name": "Loaded is not falsely provider verified",
+      "passed": true
+    },
+    {
+      "name": "Review still makes zero calls",
+      "passed": true
+    },
+    {
+      "name": "Cancel makes zero calls",
+      "passed": true
+    },
+    {
+      "name": "Explicit confirmed plan makes six simulated calls",
+      "passed": true
+    },
+    {
+      "name": "Advice automatically imports recorded results",
+      "passed": true
+    },
+    {
+      "name": "Execution has zero page errors",
+      "passed": true
+    },
+    {
+      "name": "Returned advice is usable in evaluation planner",
+      "passed": true
+    },
+    {
+      "name": "Provider-verified only after valid response",
+      "passed": true
+    },
+    {
+      "name": "Forget clears connection",
+      "passed": true
+    },
+    {
+      "name": "No key appears in rendered content",
+      "passed": true
+    }
+  ],
+  "transport": "Injected synthetic inference; zero provider traffic. Actual production UI modules and HTTP routes via test bridge.",
+  "simulatedCalls": 6
+}

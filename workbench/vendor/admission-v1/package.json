@@ -1,0 +1,9 @@
+{
+  "name": "jev-consumer-admission-lab",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {"node": ">=22"},
+  "exports": "./index.mjs",
+  "scripts": {"test": "bash tests/run-tests.sh"}
+}

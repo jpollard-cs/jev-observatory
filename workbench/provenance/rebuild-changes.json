@@ -1,0 +1,236 @@
+{
+  "schemaVersion": "manual-codex-change-set/1",
+  "baseVersion": "0.4.1",
+  "baseArchiveSha256": "bbaa618f7dfe02af5cbc0a5936ea2036def58f347ef15d1f9db4235036fc9ecf",
+  "version": "0.5.0-rebuilt",
+  "notInstaller": true,
+  "notRecoveredCandidate": true,
+  "modified": [
+    {
+      "path": "CHANGELOG.md",
+      "beforeSha256": "e8b4aa469d1f296906b49c9cdf32ad2f9a13863fe8c4e7300f572fb20532a2e3",
+      "afterSha256": "5c5090e9c741ceb568f04cc9418ae4b187c59ce59c03b5eeaa531b527ef696fe"
+    },
+    {
+      "path": "README.md",
+      "beforeSha256": "09a1f546e71bc834b4774ec76e04d25f27d291a4a6cae031832ea11576fd87e7",
+      "afterSha256": "5df766b4e36cfc17f3a16d465aef2b0fe32f2baa4419a401b9a4bab1fb936e87"
+    },
+    {
+      "path": "docs/ARCHITECTURE.md",
+      "beforeSha256": "65848ed021cf8b44dada8036bc9ea8617e0412ee36808a06d7ba4688a1a2b990",
+      "afterSha256": "05ab621df3b8dca11e20977573d9fc3756ae91ed1864dfcf3805366102a88d2f"
+    },
+    {
+      "path": "docs/HANDOFF.md",
+      "beforeSha256": "25275f42040e329c71a70391e74911c7555ac5c95290fbcade31bc73707cc0eb",
+      "afterSha256": "94a10a23117557d55f85761cc54216ddf07387c02740b633aab09a0fbcd2e6fc"
+    },
+    {
+      "path": "package.json",
+      "beforeSha256": "b9737f425c3cd9d192d7a73a5a3efe09bec74413eceefecb20ab8f6314c1e5bb",
+      "afterSha256": "8fea2adc93eff1dde054e5cac284be320e4b909ed0c3fe4a7baa138f0dbebf85"
+    },
+    {
+      "path": "provenance/lineage.json",
+      "beforeSha256": "69350c010b7e0caf6c39edfaebfd541e6b630eddc6c93d00c460c10abc869e8d",
+      "afterSha256": "ca222531a9d45b99f2f06c2e34f368c84f7bcda9f0da6e580ea3137e31359c89"
+    },
+    {
+      "path": "public/app.js",
+      "beforeSha256": "f1c8b31feacfd318c7e3289eb1016b8a8670c9bdf1adb69676b9e3c7c5427b2b",
+      "afterSha256": "a8ab136c0e6b659e86ee16589c79bd605bb044e162a06ba0141bc5db6ce22786"
+    },
+    {
+      "path": "public/connection-ui.js",
+      "beforeSha256": "77c99034479197a7978cf919879954527ee91f4854aebc253a7a5af196a1b8de",
+      "afterSha256": "f5c56664b00bc0c0a08f20576fd2512ca19fc695c2ad4d2158359296ff101eff"
+    },
+    {
+      "path": "public/index.html",
+      "beforeSha256": "265017f2cb5b3f2cf3bf51dbf93b2b5166a30eb3f21011b7bbf3561cc2f665de",
+      "afterSha256": "048926b36ab37ef8c7a4523d6f8967a984e51b0cbd5b3a502e56de245293dcb3"
+    },
+    {
+      "path": "scripts/ui-browser/module_bridge.py",
+      "beforeSha256": "b24cc1de546f87204163e5094cc727a79d7a1261c042d270fd9cacc00700cc6d",
+      "afterSha256": "0cc2e6d3d9ff66c8e0a3eb1ebc432f9613f7b7beb48c2d35de74503eff2326fe"
+    },
+    {
+      "path": "selection.mjs",
+      "beforeSha256": "cc3378dbc009733fe58e6c5112da32c8b1ed7c54bee907133663510c55d672b5",
+      "afterSha256": "0a613a2b7aa8f0a969cfbe850428f8cb98c189b2d3212a6ca3906399875e826d"
+    },
+    {
+      "path": "server.mjs",
+      "beforeSha256": "085f2861b521ad3bb1a522804bb55d9c1b9b8798fcacb67ff66732df81d437c9",
+      "afterSha256": "ca5bcfed55d0eb43a8afe406f776cddc21e6f976ccd8094e313d37a0d0d56acf"
+    },
+    {
+      "path": "src/local-connection.mjs",
+      "beforeSha256": "fd6ec84ec7f5f7075ed48184b0d2010ac4e7f2f93441af219ae119369d503c53",
+      "afterSha256": "a015c077cb8d2a4c4c5d592b772faebf39cb7e3bf5ab15de850594234746bc8f"
+    },
+    {
+      "path": "src/selection/advisor.mjs",
+      "beforeSha256": "b58941849f2912a52cd99bbf969912015f88b49abe5363baab86ee775863faba",
+      "afterSha256": "e93e1a49eefed1af9534298edb41297817ced53059ec9b3825fd54d4646d9eff"
+    },
+    {
+      "path": "tests/selection-server.test.mjs",
+      "beforeSha256": "2a188ea62312502ff1edfb12a0a4adf971acf829ec997991e01edb82660acec6",
+      "afterSha256": "fe9960fe42f8ade4ff79117d597bdb11de0d33eda3be55d38ff486c59a1afd2e"
+    },
+    {
+      "path": "validation/receipt.json",
+      "beforeSha256": "d212d01eb1133b1dca882eb9c05d3ff310c92e99b8716d6993f7e77e8aad0758",
+      "afterSha256": "f7785f3f1cf879c59f5ea518bfedac50c0021f9d9334c92ce1d74170b5cf7b7f"
+    },
+    {
+      "path": "validation/replay-scale.json",
+      "beforeSha256": "cea2e4428c314500db9730d43a966e48d1a70cbb985140db4b8c521e3ee93162",
+      "afterSha256": "5c9d56276a4765a5ee17a8bcac47c2f9ecb514cc850db126dd7fe3b610f444b9"
+    }
+  ],
+  "added": [
+    {
+      "path": ".gitignore",
+      "afterSha256": "c2e8d7a3d94e180707189031199681af1104a6e71376d8763277b93b8f17ba3b"
+    },
+    {
+      "path": "docs/ACCEPTANCE-0.5.md",
+      "afterSha256": "7d66469e2b1eaa9566e629b207ca78b37c3a7f4e6246d1e6cb6174541dbf3ab4"
+    },
+    {
+      "path": "docs/REBUILD-0.5.md",
+      "afterSha256": "0b51c9a706a4cb76e40009386a4e3673ebd29ebf0a898be6286f44870cb6cf73"
+    },
+    {
+      "path": "docs/archive/ARCHITECTURE-0.4.1.md",
+      "afterSha256": "65848ed021cf8b44dada8036bc9ea8617e0412ee36808a06d7ba4688a1a2b990"
+    },
+    {
+      "path": "docs/archive/CHANGELOG-0.4.1.md",
+      "afterSha256": "e8b4aa469d1f296906b49c9cdf32ad2f9a13863fe8c4e7300f572fb20532a2e3"
+    },
+    {
+      "path": "docs/archive/HANDOFF-0.4.1.md",
+      "afterSha256": "25275f42040e329c71a70391e74911c7555ac5c95290fbcade31bc73707cc0eb"
+    },
+    {
+      "path": "docs/archive/README-0.4.1.md",
+      "afterSha256": "09a1f546e71bc834b4774ec76e04d25f27d291a4a6cae031832ea11576fd87e7"
+    },
+    {
+      "path": "provenance/base-0.4.1-file-manifest.json",
+      "afterSha256": "893585936b3a0e88c5f6424e3bbf04a257aafca2f450c7f30ddeead0aa0f06ef"
+    },
+    {
+      "path": "provenance/lineage-0.4.1-historical.json",
+      "afterSha256": "69350c010b7e0caf6c39edfaebfd541e6b630eddc6c93d00c460c10abc869e8d"
+    },
+    {
+      "path": "provenance/parent-0.4.1-reverse-delta.zip",
+      "afterSha256": "d7f87b4a11937712de4b5da1e76a73a7f6ddbe7c8512ca2de31513397de3bb63"
+    },
+    {
+      "path": "provenance/rebuild-lineage.json",
+      "afterSha256": "b4658b803c5260ec40ef7373398ce76998aa237956aecd913b39490ec2339d5a"
+    },
+    {
+      "path": "public/guided.css",
+      "afterSha256": "15db6cabb28bbf5726c313f48b01283442ad1c985a96cdd3b0c2ae0b42dca703"
+    },
+    {
+      "path": "public/guided.js",
+      "afterSha256": "6609e1ed53159ca7b9ebeacb54426d6c6354324a80e7632818c9fe9c6d291e76"
+    },
+    {
+      "path": "public/workflow-model.js",
+      "afterSha256": "eeb112f45488fd0a825338521e0361aceb15e0237a13561eb12cc188b8d4e699"
+    },
+    {
+      "path": "scripts/audit-rebuild.mjs",
+      "afterSha256": "6e6e04a4c6a6cd3faeed4ea8d506ac5be10befa63195c236828085ab50c97186"
+    },
+    {
+      "path": "scripts/ui-browser/acceptance05.py",
+      "afterSha256": "6576aadff8854462687d4ec01faf987b278deef72debf56069e5d1d7f6d77ddd"
+    },
+    {
+      "path": "scripts/ui-browser/mock-setup-server.mjs",
+      "afterSha256": "1813c5b9c3ae48aa75ee48a11ad5c71975a017bee4e7f9fa9be179e17e7a0b1d"
+    },
+    {
+      "path": "src/setup.mjs",
+      "afterSha256": "37c3f555b25b5df684ca9bbb223e8560e05c7d1af75d4413c4ca21dbeeb94872"
+    },
+    {
+      "path": "tests/setup.test.mjs",
+      "afterSha256": "b297dbc07e8050ce431d5e19cd6f4c04c4ac86cc3eea48a63f009dcebda68627"
+    },
+    {
+      "path": "validation/previous-0.4.1/receipt.json",
+      "afterSha256": "d212d01eb1133b1dca882eb9c05d3ff310c92e99b8716d6993f7e77e8aad0758"
+    },
+    {
+      "path": "validation/previous-0.4.1/replay-scale.json",
+      "afterSha256": "cea2e4428c314500db9730d43a966e48d1a70cbb985140db4b8c521e3ee93162"
+    },
+    {
+      "path": "validation/rebuilt-0.5/browser-receipt.json",
+      "afterSha256": "c2bd10be67490356f9fa28e35d4c7a993923168346dfd5b39a5830458d63110f"
+    },
+    {
+      "path": "validation/rebuilt-0.5/compiler-tests.tap",
+      "afterSha256": "80b37920a00d86ac1bd7d56e756cb589e7007df3c8f103febf158532df4437d2"
+    },
+    {
+      "path": "validation/rebuilt-0.5/evidence.png",
+      "afterSha256": "271ef3e86e6e70a69cf17d68f7d416dc52ba67323c5b309ea2c31786e72209eb"
+    },
+    {
+      "path": "validation/rebuilt-0.5/final-tests.tap",
+      "afterSha256": "4b576dcde6c56f0062da530a8717b0e5334f94a231db4cb445e45e2137d3d0fe"
+    },
+    {
+      "path": "validation/rebuilt-0.5/mobile-token-help.png",
+      "afterSha256": "02cf3adb496b4f81e2f9c36064e57f1a5719f7f0a399e7dc0adbbbc5bb3c19a8"
+    },
+    {
+      "path": "validation/rebuilt-0.5/planner.png",
+      "afterSha256": "68db6dcad73a58b00f67f4a9b7e37f3df15e3241dfb9256e144e72b2b886fdb4"
+    },
+    {
+      "path": "validation/rebuilt-0.5/replay-scale.json",
+      "afterSha256": "5c9d56276a4765a5ee17a8bcac47c2f9ecb514cc850db126dd7fe3b610f444b9"
+    },
+    {
+      "path": "validation/rebuilt-0.5/review.png",
+      "afterSha256": "ff642538f7fd7441fe04c4dbf5d03faa373b23d327981f1a9f158a6afc8db5e8"
+    },
+    {
+      "path": "validation/rebuilt-0.5/rules.png",
+      "afterSha256": "083c832c2a7a4e0081e5df5d653697cbefddfb5bb9c24dcc4bab04ce8ced9ccc"
+    },
+    {
+      "path": "validation/rebuilt-0.5/setup-tests.tap",
+      "afterSha256": "ff83743b7d43d52abfc5550cc6f4fab9c087f6c77c32de9711ff3d9e2f1a8a6a"
+    },
+    {
+      "path": "validation/rebuilt-0.5/source-audit.json",
+      "afterSha256": "5889c5360dc3f80d151692cd5842b7b045d9635ca9e501a4f9feb0273c1189b8"
+    },
+    {
+      "path": "validation/rebuilt-0.5/start-1080x1920.png",
+      "afterSha256": "8d5039e6c8f63937d9303e7feab4c5dc03b286219db8ca46d53e5de9de9223e9"
+    },
+    {
+      "path": "validation/rebuilt-0.5/start.png",
+      "afterSha256": "0c1db9eceb746e7e661eb3b66be9322d24a0761802bb3291c0a7cd24be426174"
+    }
+  ],
+  "removed": [],
+  "unchangedCount": 340,
+  "note": "This change list omits its own hash and the regenerated root file-manifest.json to avoid self-reference. The release manifest is the complete integrity record. Review/merge only into the intended development tree."
+}

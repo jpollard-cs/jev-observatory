@@ -1,0 +1,120 @@
+{
+  "artifact": "policy-payload-compiler",
+  "version": "0.1.0",
+  "status": "validated_offline",
+  "unitTests": {
+    "tests": 54,
+    "passed": 54,
+    "failed": 0
+  },
+  "integration": {
+    "status": "passed_offline",
+    "historicalByteIdenticalControls": 48,
+    "caseCount": 112,
+    "profileCount": 8,
+    "renderings": 896,
+    "serializedBodies": 1568,
+    "profileTotals": {
+      "chat-criteria": {
+        "cases": 112,
+        "requests": 112,
+        "bytes": 47330762
+      },
+      "jev-criteria-examples": {
+        "cases": 112,
+        "requests": 112,
+        "bytes": 42030224
+      },
+      "jev-criteria-factored": {
+        "cases": 112,
+        "requests": 112,
+        "bytes": 21676016
+      },
+      "jev-criteria-single": {
+        "cases": 112,
+        "requests": 784,
+        "bytes": 70361648
+      },
+      "jev-legacy": {
+        "cases": 112,
+        "requests": 112,
+        "bytes": 7942800
+      },
+      "jev-question-examples": {
+        "cases": 112,
+        "requests": 112,
+        "bytes": 42803472
+      },
+      "jev-question-guide": {
+        "cases": 112,
+        "requests": 112,
+        "bytes": 56649584
+      },
+      "jev-structured-guide": {
+        "cases": 112,
+        "requests": 112,
+        "bytes": 42059792
+      }
+    },
+    "liveCalls": 0
+  },
+  "independentSchemaValidation": {
+    "status": "passed",
+    "validator": "Python jsonschema Draft202012Validator (independent structural check)",
+    "checks": {
+      "schemaDefinitions": 6,
+      "canonicalDocuments": 49,
+      "profiles": 8,
+      "nativePayloads": 146,
+      "policyPacks": 1
+    },
+    "originalBoundProjectFilesUnchanged": true,
+    "liveCalls": 0
+  },
+  "typescriptDeclarations": "tsc --noEmit --strict passed",
+  "cli": {
+    "defaultCaseCount": 48,
+    "defaultPayloadFiles": 144,
+    "invokedFromDifferentDirectoryWithSpaces": true,
+    "duplicateOutputRejected": true
+  },
+  "scope": {
+    "liveRequests": 0,
+    "providerAcceptanceTested": false,
+    "modelPerformanceTested": false,
+    "tokenCountsMeasured": false,
+    "credentialsUsed": false,
+    "originalProjectChanged": false,
+    "currentExperimentBundleChanged": false
+  },
+  "codeSchemaProfileHashes": {
+    "src/answers.mjs": "8e33e7ef5972ae5bd5be958f62ab9454b757e5569e06702156509bafa7312b99",
+    "src/core.mjs": "553b61d94172cd9a3ee73405d3bb16265a2cf3fbf31866a4ee6d68261942db76",
+    "src/examples.mjs": "b86ab507f008abced0595159c737c6523a2bbd4177dc95e4bdecc891d9a9a360",
+    "src/guidance.mjs": "641edbfe103ff77f95bf39efcca5c94499b462a7f985cbda41795f5046a5c299",
+    "src/harness-bridge.mjs": "298ba367192ef66ef622fe1b28c120ecaf318ce4c219e678468c950d3d72a2f7",
+    "src/index.d.mts": "e9c8a91513cc7ca7ae42826d7c5ffad75ec244b9b54fd1103cfe83ab27450d73",
+    "src/index.mjs": "557b35930c06ddaa2585ceed2c78cedb927f96f89875efdca353c2b0590ac361",
+    "src/ir.mjs": "578f290a64563832aac051557c239658df855b0d25a2db73a8030af953cf942b",
+    "src/render.mjs": "787e4ea241af580a76b5e379b3bcf0f787c6380a6ec8ca0ea312e091ff711b69",
+    "src/types.d.ts": "6b0fd6798948f4d575c673b5bed659c93be1101f83d42809b4af6f94efa079a7",
+    "src/workspace.mjs": "94cc9424e9edc5f13856e21baf6a22b80ca37fc4aa78ec3c94563e76e9de92c5",
+    "adapters/frozen-v2/cases.mjs": "9488288c57bcaa38aa50d8580c81efd3222a7491a244c6aae25fbbf21955ef2e",
+    "adapters/frozen-v2/io.mjs": "804d2d845471ea934c2a7329e3e780b80012f7156aafbe8f28a05f40afd3417a",
+    "adapters/frozen-v2/variants.mjs": "699c73f6bb8941d2203ee426bc92f69b10c67ece296c7f8774c909e96af2aeea",
+    "profiles/chat-criteria.json": "6c37c8c9899270c14a4a6b6939db8f5b74a24916ea559f7bbfb0e8c727d0fe17",
+    "profiles/jev-criteria-examples.json": "c22621ab8b0cb961bde368462dec1abbc0721fc85f8745ba95fe28de97644700",
+    "profiles/jev-criteria-factored.json": "83123c9ff6a5fd271e10f35d6e013e81c1a00e8c305bc10bb9df3eae5853c191",
+    "profiles/jev-criteria-single.json": "de2650c4bf07a84101e56626a3b8f6f10faefd65e7823b2a65ec320b091b9e74",
+    "profiles/jev-legacy.json": "c6d7d679d57c7b0dacdb4bb479ce6c75f9efed8ca3aeb1d33d18253859eccca7",
+    "profiles/jev-question-examples.json": "3ad6cf25ed49d7b988c74ee54411bd17065b584c01b879df1a8ee47c49708dd7",
+    "profiles/jev-question-guide.json": "176976c0fc772c1040456233de3daffd9aab798380aed91d31370ca48fbe5851",
+    "profiles/jev-structured-guide.json": "003c1de8801fa333a0ef6ee9ee7ce1bef1175f5dfc13799a977578411a5d7e79",
+    "schemas/case-input.schema.json": "458e09737956e9835b9679187abf835988a22ed076a61534f1a93e3b8a5abbca",
+    "schemas/demonstration-corpus.schema.json": "c20c787920a713427f294636a8451da06622cbb05e6cbc24584d2117148c0be2",
+    "schemas/evaluation-document.schema.json": "d74219eba969e67720309c3431f7ca979f4fa76b027df193cbb8508817f1fd87",
+    "schemas/jev-request-shape.schema.json": "d7f50399382d8a112330a601051a2c7deef0a227b995acd1e3326cdd11183a0b",
+    "schemas/policy-pack.schema.json": "74fa883caadc5fdab8005d83573e2145bf51abd99e24740acc9f9cdc60d9c542",
+    "schemas/render-profile.schema.json": "4df623ed27b26f49fbd2fcf99c809aba1852a1b9dd6a3964d09dfcf1f9dcf04f"
+  }
+}

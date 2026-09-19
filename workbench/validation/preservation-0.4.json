@@ -1,0 +1,25 @@
+{
+  "parentVersion": "0.3.0",
+  "parentArchiveSha256": "6ce52c6ae6f64ae076d239aafbaeb6eac6dce1a220a813aaf90f76cc9a6769fd",
+  "unchangedVendorFiles": 170,
+  "unchangedCurrentPolicyFiles": [
+    "src/policy.mjs",
+    "src/catalog.mjs",
+    "src/compiler.mjs",
+    "src/planner.mjs",
+    "src/runner.mjs",
+    "src/storage.mjs",
+    "cli.mjs",
+    "selection.mjs",
+    "data/consumer-admission-v1.report.json",
+    "data/context-cases.json",
+    "src/selection/application.mjs",
+    "src/selection/registry.mjs",
+    "src/selection/runner.mjs",
+    "src/selection/planner.mjs",
+    "src/selection/advisor.mjs",
+    "src/selection/allocate.mjs"
+  ],
+  "note": "New historical replay is separate. No current-policy requests or gold changed.",
+  "newOriginalBoundSourceFiles": 14
+}

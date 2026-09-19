@@ -1,0 +1,137 @@
+{
+  "schemaVersion": "workbench-validation/4",
+  "applicationVersion": "0.4.0",
+  "validatedAtUtc": "2026-09-19T01:45:51.014498+00:00",
+  "providerCallsMadeHere": 0,
+  "originalProjectEdited": false,
+  "realLedgerEdited": false,
+  "sitePublished": false,
+  "testSuites": {
+    "workbench": {
+      "tests": 218,
+      "passed": 218,
+      "failed": 0
+    },
+    "retainedCompiler": {
+      "tests": 54,
+      "passed": 54,
+      "failed": 0
+    }
+  },
+  "totalSoftwareTestsPassed": 272,
+  "browser": {
+    "checks": 44,
+    "passed": 44,
+    "failed": 0,
+    "method": "Real production UI through localhost API bridge; direct browser loopback blocked by administrator, HTTP routes tested separately.",
+    "details": "browser-0.4.json",
+    "viewports": [
+      "1600x1040",
+      "1080x1920",
+      "390x844",
+      "852x393"
+    ],
+    "modelRequests": 0
+  },
+  "preservation": {
+    "sourceVersion": "0.3.0",
+    "parentArchiveSha256": "6ce52c6ae6f64ae076d239aafbaeb6eac6dce1a220a813aaf90f76cc9a6769fd",
+    "sameCurrentPolicyRequestBodies": 360,
+    "sameCurrentPolicyExpectations": 360,
+    "unchangedExistingVendorFiles": 170,
+    "reportExpectationAndAnswerBindings": 6224,
+    "details": "release-data-audit.json"
+  },
+  "originalCatalog": {
+    "matrixCells": 15120,
+    "matrixPairs": 7560,
+    "originalExtensionCases": 64,
+    "extensionGroups": 26,
+    "availableReplayCells": 15184,
+    "matrixFamilies": 18,
+    "matrixLineages": 12,
+    "originalSourceFilesHashVerified": 14,
+    "originalGeneratorManifestMatched": true,
+    "currentPolicyPlannerCases": 60,
+    "historicalReplayIsNotCurrentPolicyAdapter": true
+  },
+  "recordedArchiveImport": {
+    "originalCampaignPlanned": 3920,
+    "originalCampaignValidSavedResponses": 3691,
+    "unknownHistoricalDispatches": 1,
+    "unattemptedHistoricalRows": 228,
+    "exactRequestHashesChecked": 3920,
+    "savedRawResponseHashesChecked": 3691,
+    "additionalEncodingDiagnosticRows": 32,
+    "newModelObservationsInvented": 0,
+    "details": "original-archive-audit.json"
+  },
+  "fullSizeExecutionSimulation": {
+    "status": "passed",
+    "scope": "Full original matrix plus 64 extension fixtures; SYNTHETIC transport, zero provider calls",
+    "jobs": 15184,
+    "events": 30368,
+    "stages": 317,
+    "initialPartial": 131,
+    "resumedNewCalls": 15053,
+    "completedResumeNewCalls": 0,
+    "reportBytes": 34606462,
+    "elapsedMs": 66151.70513500001,
+    "peakRssMiB": 633.60546875,
+    "sourceStamp": "0bf3705d985adc28f716bc3b2e201e37002a19b4c6abf0b1abc222606123f015",
+    "providerCalls": 0,
+    "simulatedUsageNotForecast": true
+  },
+  "planChecks": {
+    "presets": [
+      {
+        "preset": "families",
+        "planHash": "e9d85c5b80bcf3165cf0954836988aef94b6bd235ddaac855072db41059c8b69",
+        "state": "prepared",
+        "requests": 36
+      },
+      {
+        "preset": "contexts",
+        "planHash": "6eb04f27226a17ad114df32827c71f7f54b64e4432d615356859ce8756c31c7f",
+        "state": "prepared",
+        "requests": 324
+      },
+      {
+        "preset": "profiles",
+        "planHash": "0613e0bb72081ec14534c102d6adfa9e723132a5efbffea9a68d8dd5e8fd14dd",
+        "state": "prepared",
+        "requests": 108
+      },
+      {
+        "preset": "extensions",
+        "planHash": "934d9f39a8840c697047fcf240becf35ff2f952136180df5f92e9863f04a18e7",
+        "state": "prepared",
+        "requests": 64
+      },
+      {
+        "preset": "full",
+        "planHash": "2653e82138ea1d0d4accf0f995e410046d28f0a31ffffa16debc4b33fe805253",
+        "state": "budget_limited",
+        "requests": 15120
+      },
+      {
+        "preset": "all",
+        "planHash": "7601327b1622cb7d248ce6298b7cca839ee2998665960c8d7741b08f33cc37a9",
+        "state": "budget_limited",
+        "requests": 15184
+      }
+    ],
+    "fitBudgetCells": 352,
+    "fitBudgetReservedUsd": 0.399966504,
+    "details": "replay-plan-checks.json"
+  },
+  "limitations": [
+    "All 15,184 execution responses in scale validation were synthetic test-transport responses, not Jev measurements. They are not included in the evidence library.",
+    "Full matrix is dependent synthetic factor expansion, not independent attacks or a realistic full-window benchmark.",
+    "Replay uses original native contracts and gold; the current policy editor and Jev-assisted application selector still operate on their separate 60-case catalog.",
+    "Cost forecasts and reservations are byte-based estimates, not provider token counts or a guaranteed invoice cap. The original shared account limit remains $3.",
+    "Checksums prove equality to local evidence, not TypeSafe-signed attestation. Current raw records on the Mac are not accessible here; newly recovered original archive records were checked against supplied archive bytes.",
+    "Browser loopback navigation was unavailable. Real production UI was exercised through a test-only local API bridge; HTTP routes and security boundaries were tested separately.",
+    "Archive verification and clean launch are recorded in the separate release-check artifact after packaging."
+  ]
+}

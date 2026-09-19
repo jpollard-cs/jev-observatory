@@ -1,0 +1,39 @@
+{
+  "browser": "Chromium",
+  "execution": "Real UI source using exposed local HTTP bridge; browser loopback navigation blocked by environment policy. No browser policy changed. HTTP security separately tested.",
+  "desktopOverflow": false,
+  "mobile": [
+    {
+      "tab": "overview",
+      "overflow": false,
+      "errors": []
+    },
+    {
+      "tab": "policy",
+      "overflow": false,
+      "errors": []
+    },
+    {
+      "tab": "planner",
+      "overflow": false,
+      "errors": []
+    },
+    {
+      "tab": "evidence",
+      "overflow": false,
+      "errors": []
+    },
+    {
+      "tab": "context",
+      "overflow": false,
+      "errors": []
+    },
+    {
+      "tab": "provenance",
+      "overflow": false,
+      "errors": []
+    }
+  ],
+  "pageErrors": [],
+  "liveCalls": 0
+}

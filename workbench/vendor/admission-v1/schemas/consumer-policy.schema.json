@@ -1,0 +1,167 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "consumer-policy/1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "id",
+    "title",
+    "source",
+    "assessedField",
+    "operation",
+    "exceptionCatalog",
+    "enabledExceptionIds",
+    "prohibitedRepresentations",
+    "ordinarySerializationAllowed",
+    "coincidentalInitialsAreNotProof",
+    "admissionPrecedence",
+    "sourceCanGrantAuthority",
+    "executionEnabled",
+    "inputContract"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "consumer-policy/1"
+    },
+    "id": {
+      "enum": [
+        "inspection",
+        "strict",
+        "contextual"
+      ]
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source": {
+      "type": "string",
+      "minLength": 1
+    },
+    "assessedField": {
+      "const": "material"
+    },
+    "operation": {
+      "enum": [
+        "inspect_for_authorized_analysis",
+        "admit_as_task_data"
+      ]
+    },
+    "exceptionCatalog": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "taskIds",
+          "operation",
+          "path",
+          "representations",
+          "purpose"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "taskIds": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "operation": {
+            "const": "admit_as_task_data"
+          },
+          "path": {
+            "const": "material"
+          },
+          "representations": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "purpose": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "enabledExceptionIds": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "prohibitedRepresentations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "ordinarySerializationAllowed": {
+      "const": true
+    },
+    "coincidentalInitialsAreNotProof": {
+      "const": true
+    },
+    "admissionPrecedence": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "sourceCanGrantAuthority": {
+      "const": false
+    },
+    "executionEnabled": {
+      "const": false
+    },
+    "inputContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "assessedContentScope",
+        "encodedSampleException",
+        "violationDisposition",
+        "unresolvedDisposition"
+      ],
+      "properties": {
+        "mode": {
+          "const": "all_fields"
+        },
+        "assessedContentScope": {
+          "const": [
+            "material"
+          ]
+        },
+        "encodedSampleException": {
+          "type": "boolean"
+        },
+        "violationDisposition": {
+          "enum": [
+            "block",
+            "review"
+          ]
+        },
+        "unresolvedDisposition": {
+          "const": "review"
+        }
+      }
+    }
+  }
+}

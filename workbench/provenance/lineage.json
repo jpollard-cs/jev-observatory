@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "workbench-lineage/2",
+  "applicationVersion": "0.5.0-rebuilt",
+  "parentRelease": {
+    "path": "provenance/parent-workbench-0.4.zip",
+    "sha256": "2df732a06f5ce8630d4f7de88d7c1f066334cd05578d6594a96bc0c5095c2522",
+    "version": "0.4.0",
+    "relationship": "Earlier retained ancestor, not the immediate 0.4.1 baseline. See reconstruction for its identity."
+  },
+  "nestedHistoricalArtifacts": [
+    {
+      "name": "previous-handoff.zip",
+      "container": "provenance/parent-workbench-0.4.zip",
+      "member": "jev-policy-workbench-0.4/provenance/previous-handoff.zip",
+      "sha256": "f1da5a74853dd9e2326b6fd8b602cffcd79acb2ff3a263d032c262f633cc17d7"
+    },
+    {
+      "name": "parent-workbench-0.1.zip",
+      "container": "provenance/parent-workbench-0.4.zip",
+      "member": "jev-policy-workbench-0.4/provenance/parent-workbench-0.1.zip",
+      "sha256": "fe9fbc67db400d847938a9f671286b58688753ed758624b29779d155bfe47059"
+    },
+    {
+      "name": "parent-workbench-0.2.zip",
+      "container": "provenance/parent-workbench-0.4.zip",
+      "member": "jev-policy-workbench-0.4/provenance/parent-workbench-0.2.zip",
+      "sha256": "618a8af1b5d5d6bc05f77da35c018fd50ed5a49dd64930ab68f7e9760ec79161"
+    },
+    {
+      "name": "parent-workbench-0.3.zip",
+      "container": "provenance/parent-workbench-0.4.zip",
+      "member": "jev-policy-workbench-0.4/provenance/parent-workbench-0.3.zip",
+      "sha256": "6ce52c6ae6f64ae076d239aafbaeb6eac6dce1a220a813aaf90f76cc9a6769fd"
+    }
+  ],
+  "currentMeasuredRun": {
+    "path": "data/consumer-admission-v1.report.json",
+    "sha256": "f70d4cdfc639f3b8b5ab957830fbe6d0a5dd9ea99b1c56a74188f41e4e29836e",
+    "protocol": "consumer-admission-v1",
+    "status": "complete",
+    "planHash": "4bc192ef661de84e70299f0e1bd140a7cdd7c3321de7c5fe958620b3db79ae60",
+    "calls": 480
+  },
+  "currentCoverage": {
+    "tailoredCases": 60,
+    "granularSelectionGroups": 32,
+    "originalMatrixCells": 15120,
+    "originalExtensionCases": 64
+  },
+  "newProviderObservations": 0,
+  "originalProject": "outputs/jev-redteam",
+  "mergeStatus": "New local source distribution; not merged into original Git checkout. Original website unchanged.",
+  "notes": "New reconstruction on verified 0.4.1; unavailable 0.5 is not recovered ancestry. Prior source/evidence chain retained. Session credentials and runtime outputs excluded.",
+  "reconstruction": {
+    "lostCandidateRecovered": false,
+    "baselineArchive": "jev-policy-workbench-0.4.1.zip",
+    "baselineSha256": "bbaa618f7dfe02af5cbc0a5936ea2036def58f347ef15d1f9db4235036fc9ecf",
+    "record": "provenance/rebuild-lineage.json",
+    "changes": "provenance/rebuild-changes.json"
+  }
+}

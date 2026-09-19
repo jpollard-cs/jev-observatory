@@ -1,0 +1,376 @@
+{
+  "schemaVersion": "workbench-lineage/3",
+  "version": "0.3.0",
+  "parentVersion": "0.2.0",
+  "parentBundleSha256": "618a8af1b5d5d6bc05f77da35c018fd50ed5a49dd64930ab68f7e9760ec79161",
+  "changes": "Presentation, report protocol adapters and evidence-source binding only; policy/compiler/catalog/selection/runner preserved.",
+  "originalGalaxySource": {
+    "path": "outputs/jev-redteam/site/src/content/dashboard/CosmicBackdrop.jsx",
+    "archivedFileSha256": "5a18fdc456dc5de7a70a8a9d55c880b0b80e47c85efc4bb85410096f9319b902",
+    "paintFunctionByteIdentical": true,
+    "paintFunctionSha256": "0da4e1bbee59c3e5b14276fc52c166f0ba1bf1586eb0e66825ca89f8f661abcd"
+  },
+  "historicalReports": [
+    {
+      "id": "consumer-admission-v1",
+      "title": "Consumer admission \u00b7 inspection / strict / contextual",
+      "protocol": "consumer-admission-v1",
+      "status": "complete",
+      "sourceHash": "f70d4cdfc639f3b8b5ab957830fbe6d0a5dd9ea99b1c56a74188f41e4e29836e",
+      "planHash": "4bc192ef661de84e70299f0e1bd140a7cdd7c3321de7c5fe958620b3db79ae60",
+      "requestedCalls": 480,
+      "observationRows": 480,
+      "bindingsChecked": 480,
+      "conditions": [
+        {
+          "id": "rich_control",
+          "rows": 48,
+          "expectedDecisions": {
+            "allow": 45,
+            "block": 3
+          },
+          "matrixTotal": 48
+        },
+        {
+          "id": "compact_both",
+          "rows": 48,
+          "expectedDecisions": {
+            "allow": 45,
+            "block": 3
+          },
+          "matrixTotal": 48
+        },
+        {
+          "id": "inspection_question",
+          "rows": 64,
+          "expectedDecisions": {
+            "allow": 64
+          },
+          "matrixTotal": 64
+        },
+        {
+          "id": "inspection_criteria",
+          "rows": 64,
+          "expectedDecisions": {
+            "allow": 64
+          },
+          "matrixTotal": 64
+        },
+        {
+          "id": "strict_question",
+          "rows": 64,
+          "expectedDecisions": {
+            "allow": 16,
+            "review": 4,
+            "block": 44
+          },
+          "matrixTotal": 64
+        },
+        {
+          "id": "strict_criteria",
+          "rows": 64,
+          "expectedDecisions": {
+            "allow": 16,
+            "review": 4,
+            "block": 44
+          },
+          "matrixTotal": 64
+        },
+        {
+          "id": "contextual_question",
+          "rows": 64,
+          "expectedDecisions": {
+            "allow": 26,
+            "review": 6,
+            "block": 32
+          },
+          "matrixTotal": 64
+        },
+        {
+          "id": "contextual_criteria",
+          "rows": 64,
+          "expectedDecisions": {
+            "allow": 26,
+            "review": 6,
+            "block": 32
+          },
+          "matrixTotal": 64
+        }
+      ]
+    },
+    {
+      "id": "boundary-fewshot-v2",
+      "title": "Boundary + revised examples \u00b7 historical inspection",
+      "protocol": "boundary-fewshot-v2",
+      "status": "complete",
+      "sourceHash": "1adae132353b61aeb4e7d39c24b9bcd481e2ee2225561dd9640ef0ff02d3dd0c",
+      "planHash": "61276a13881e3a2fe72b9233e1f1274a08abdb64bd848f2ad410a3c4471e18fc",
+      "requestedCalls": 928,
+      "observationRows": 928,
+      "bindingsChecked": 928,
+      "conditions": [
+        {
+          "id": "rich_control",
+          "rows": 160,
+          "expectedDecisions": {
+            "allow": 150,
+            "block": 6,
+            "review": 4
+          },
+          "matrixTotal": 160
+        },
+        {
+          "id": "core_fewshot_reference",
+          "rows": 112,
+          "expectedDecisions": {
+            "allow": 105,
+            "block": 3,
+            "review": 4
+          },
+          "matrixTotal": 112
+        },
+        {
+          "id": "compact_both",
+          "rows": 160,
+          "expectedDecisions": {
+            "allow": 150,
+            "block": 6,
+            "review": 4
+          },
+          "matrixTotal": 160
+        },
+        {
+          "id": "restored_legacy_examples",
+          "rows": 112,
+          "expectedDecisions": {
+            "allow": 105,
+            "block": 3,
+            "review": 4
+          },
+          "matrixTotal": 112
+        },
+        {
+          "id": "restored_revised_examples",
+          "rows": 112,
+          "expectedDecisions": {
+            "allow": 105,
+            "block": 3,
+            "review": 4
+          },
+          "matrixTotal": 112
+        },
+        {
+          "id": "restored_open_set",
+          "rows": 160,
+          "expectedDecisions": {
+            "allow": 150,
+            "block": 6,
+            "review": 4
+          },
+          "matrixTotal": 160
+        },
+        {
+          "id": "restored_open_set_diagnostics",
+          "rows": 112,
+          "expectedDecisions": {
+            "allow": 105,
+            "block": 3,
+            "review": 4
+          },
+          "matrixTotal": 112
+        }
+      ]
+    },
+    {
+      "id": "prompt-variant-lab-v1",
+      "title": "Prompt variants + decomposition \u00b7 historical inspection",
+      "protocol": "prompt-variant-lab-v1",
+      "status": "complete",
+      "sourceHash": "ebec1475fb7856a6cdad42dfddb86fa45bb92bf05f87225ff74424ca66a575e2",
+      "planHash": "115affe5f71eabe92e0a29072a2f610800de0c7eaa34029f98e6bdc6d94039b7",
+      "requestedCalls": 768,
+      "observationRows": 768,
+      "bindingsChecked": 768,
+      "conditions": [
+        {
+          "id": "rich_control",
+          "rows": 48,
+          "expectedDecisions": {
+            "allow": 45,
+            "block": 3
+          },
+          "matrixTotal": 48
+        },
+        {
+          "id": "rich_trim_questions",
+          "rows": 48,
+          "expectedDecisions": {
+            "allow": 45,
+            "block": 3
+          },
+          "matrixTotal": 48
+        },
+        {
+          "id": "rich_trim_taxonomy",
+          "rows": 48,
+          "expectedDecisions": {
+            "allow": 45,
+            "block": 3
+          },
+          "matrixTotal": 48
+        },
+        {
+          "id": "boundary_core",
+          "rows": 48,
+          "expectedDecisions": {
+            "allow": 45,
+            "block": 3
+          },
+          "matrixTotal": 48
+        },
+        {
+          "id": "rich_fewshot",
+          "rows": 48,
+          "expectedDecisions": {
+            "allow": 45,
+            "block": 3
+          },
+          "matrixTotal": 48
+        },
+        {
+          "id": "core_fewshot",
+          "rows": 48,
+          "expectedDecisions": {
+            "allow": 45,
+            "block": 3
+          },
+          "matrixTotal": 48
+        },
+        {
+          "id": "compact_control",
+          "rows": 48,
+          "expectedDecisions": {
+            "allow": 45,
+            "block": 3
+          },
+          "matrixTotal": 48
+        },
+        {
+          "id": "compact_contract",
+          "rows": 48,
+          "expectedDecisions": {
+            "allow": 45,
+            "block": 3
+          },
+          "matrixTotal": 48
+        },
+        {
+          "id": "compact_integrity",
+          "rows": 48,
+          "expectedDecisions": {
+            "allow": 45,
+            "block": 3
+          },
+          "matrixTotal": 48
+        },
+        {
+          "id": "compact_both",
+          "rows": 48,
+          "expectedDecisions": {
+            "allow": 45,
+            "block": 3
+          },
+          "matrixTotal": 48
+        },
+        {
+          "id": "compact_array_wire",
+          "rows": 48,
+          "expectedDecisions": {
+            "allow": 45,
+            "block": 3
+          },
+          "matrixTotal": 48
+        },
+        {
+          "id": "compact_array_logical",
+          "rows": 48,
+          "expectedDecisions": {
+            "allow": 45,
+            "block": 3
+          },
+          "matrixTotal": 48
+        },
+        {
+          "id": "features_plain_code",
+          "rows": 48,
+          "expectedDecisions": {
+            "allow": 45,
+            "block": 3
+          },
+          "matrixTotal": 48
+        },
+        {
+          "id": "features_fewshot_code",
+          "rows": 48,
+          "expectedDecisions": {
+            "allow": 45,
+            "block": 3
+          },
+          "matrixTotal": 48
+        },
+        {
+          "id": "mapper_plain",
+          "rows": 48,
+          "expectedDecisions": {
+            "allow": 45,
+            "block": 3
+          },
+          "matrixTotal": 48
+        },
+        {
+          "id": "mapper_fewshot",
+          "rows": 48,
+          "expectedDecisions": {
+            "allow": 45,
+            "block": 3
+          },
+          "matrixTotal": 48
+        }
+      ]
+    },
+    {
+      "id": "compact-single-pass-48-v1",
+      "title": "Compact rerun \u00b7 historical inspection",
+      "protocol": "compact-single-pass-48-v1",
+      "status": "complete",
+      "sourceHash": "079dd539d29c139ed5f3765b4fac299e2e91574c5d44ff4a80b3e67d1b2d22f1",
+      "planHash": "bd508cafb3ecc445efb539de9adeec09c2d2e9bf8c08f27852ddc4cb24a180e7",
+      "requestedCalls": 48,
+      "observationRows": 96,
+      "bindingsChecked": 96,
+      "conditions": [
+        {
+          "id": "compact_control",
+          "rows": 48,
+          "expectedDecisions": {
+            "allow": 45,
+            "block": 3
+          },
+          "matrixTotal": 48
+        },
+        {
+          "id": "historical_reference",
+          "rows": 48,
+          "expectedDecisions": {
+            "allow": 45,
+            "block": 3
+          },
+          "matrixTotal": 48
+        }
+      ]
+    }
+  ],
+  "liveCalls": 0,
+  "ledgerModified": false,
+  "originalWebsitePublished": false
+}

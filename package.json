@@ -9,6 +9,10 @@
   },
   "scripts": {
     "test": "node --test tests/*.test.mjs",
+    "workbench": "node scripts/workbench.mjs start",
+    "workbench:verify": "node scripts/workbench.mjs verify",
+    "workbench:test": "node scripts/workbench.mjs test",
+    "workbench:account": "node scripts/workbench.mjs account",
     "corpus": "node scripts/corpus.mjs",
     "plan": "node scripts/run.mjs",
     "pilot": "node scripts/run.mjs",

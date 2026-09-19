@@ -1,0 +1,104 @@
+{
+  "schemaVersion": "workbench-validation/1",
+  "applicationVersion": "0.1.0",
+  "validatedAtUtc": "2026-09-18T22:59:36.646973+00:00",
+  "testSuites": {
+    "workbench": {
+      "tests": 71,
+      "pass": 71,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "retainedCompiler": {
+      "tests": 54,
+      "pass": 54,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    }
+  },
+  "totalPassed": 125,
+  "jsonSchema": {
+    "draft": "2020-12",
+    "exampleDocumentsValidated": 4
+  },
+  "historicalReport": {
+    "protocol": "consumer-admission-v1",
+    "sourceSha256": "f70d4cdfc639f3b8b5ab957830fbe6d0a5dd9ea99b1c56a74188f41e4e29836e",
+    "summaryBlocks": 34,
+    "derivedComparisons": 384,
+    "rows": 480,
+    "inputTokens": 4208402,
+    "usageUsd": 0.176752884,
+    "requestBindings": {
+      "status": "All exact request bodies rebuilt against the supplied source snapshot",
+      "matched": 480,
+      "planHash": "4bc192ef661de84e70299f0e1bd140a7cdd7c3321de7c5fe958620b3db79ae60"
+    },
+    "rawResponsesVerified": false,
+    "paidCalls": 0
+  },
+  "browser": {
+    "browser": "Chromium",
+    "execution": "Real UI source using exposed local HTTP bridge; browser loopback navigation blocked by environment policy. No browser policy changed. HTTP security separately tested.",
+    "desktopOverflow": false,
+    "mobile": [
+      {
+        "tab": "overview",
+        "overflow": false,
+        "errors": []
+      },
+      {
+        "tab": "policy",
+        "overflow": false,
+        "errors": []
+      },
+      {
+        "tab": "planner",
+        "overflow": false,
+        "errors": []
+      },
+      {
+        "tab": "evidence",
+        "overflow": false,
+        "errors": []
+      },
+      {
+        "tab": "context",
+        "overflow": false,
+        "errors": []
+      },
+      {
+        "tab": "provenance",
+        "overflow": false,
+        "errors": []
+      }
+    ],
+    "pageErrors": [],
+    "liveCalls": 0
+  },
+  "executionTests": {
+    "fullSimulatedGoldRequests": 120,
+    "inference": "Synthetic transport responses in tests only",
+    "coverage": [
+      "completion",
+      "partial invocation and resume",
+      "no duplicate job dispatch",
+      "unknown reservation without response",
+      "transport failure holds",
+      "missing usage holds",
+      "model-version change",
+      "operator stop",
+      "account cap",
+      "prior-history floor",
+      "raw evidence mutation",
+      "shared lock"
+    ]
+  },
+  "providerCallsMadeHere": 0,
+  "newProviderPayloadAcceptance": "not live-tested",
+  "newPolicyPerformance": "unmeasured",
+  "productionGatewayDeployed": false,
+  "websitePublished": false
+}

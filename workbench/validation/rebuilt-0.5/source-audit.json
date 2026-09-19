@@ -1,0 +1,84 @@
+{
+  "version": "0.5.0-rebuilt",
+  "scope": "Independent offline comparisons with the supplied 0.4.1 archive",
+  "parentFilesVerified": 356,
+  "paidCalls": 0,
+  "requestComparisons": 360,
+  "expectedComparisons": 360,
+  "unchanged": {
+    "vendor": 176,
+    "data": 9,
+    "namedCore": [
+      "src/policy.mjs",
+      "src/catalog.mjs",
+      "src/compiler.mjs",
+      "src/runner.mjs",
+      "src/budget.mjs",
+      "src/selection/runner.mjs",
+      "src/selection/allocate.mjs",
+      "src/history/catalog.mjs",
+      "src/history/planner.mjs",
+      "src/history/runner.mjs",
+      "public/atlas.js",
+      "public/atlas-data.js",
+      "public/cosmos.js",
+      "public/evidence-model.js"
+    ]
+  },
+  "reportBindings": [
+    {
+      "id": "original-campaign",
+      "rows": 3920,
+      "sourceHash": "06ea63c458d8bb981a8ec8cc2aac0670002dd325e245c657c6ce009598cb5b05",
+      "planHash": "416bd5cf9fbc2a728a3d5edfd1b726d3e8f171c477d1881c58491c94c06306aa"
+    },
+    {
+      "id": "original-encoding",
+      "rows": 32,
+      "sourceHash": "2084fc6b2606b0dcd77484da428f8aca9088288550a726315f3ac359bc0c4098",
+      "planHash": "538762ae954b79bf193ea03e2a31e87c2b5bd90db115970241174e679d42f53d"
+    },
+    {
+      "id": "consumer-admission-v1",
+      "rows": 480,
+      "sourceHash": "f70d4cdfc639f3b8b5ab957830fbe6d0a5dd9ea99b1c56a74188f41e4e29836e",
+      "planHash": "4bc192ef661de84e70299f0e1bd140a7cdd7c3321de7c5fe958620b3db79ae60"
+    },
+    {
+      "id": "boundary-fewshot-v2",
+      "rows": 928,
+      "sourceHash": "1adae132353b61aeb4e7d39c24b9bcd481e2ee2225561dd9640ef0ff02d3dd0c",
+      "planHash": "61276a13881e3a2fe72b9233e1f1274a08abdb64bd848f2ad410a3c4471e18fc"
+    },
+    {
+      "id": "prompt-variant-lab-v1",
+      "rows": 768,
+      "sourceHash": "ebec1475fb7856a6cdad42dfddb86fa45bb92bf05f87225ff74424ca66a575e2",
+      "planHash": "115affe5f71eabe92e0a29072a2f610800de0c7eaa34029f98e6bdc6d94039b7"
+    },
+    {
+      "id": "compact-single-pass-48-v1",
+      "rows": 96,
+      "sourceHash": "079dd539d29c139ed5f3765b4fac299e2e91574c5d44ff4a80b3e67d1b2d22f1",
+      "planHash": "bd508cafb3ecc445efb539de9adeec09c2d2e9bf8c08f27852ddc4cb24a180e7"
+    }
+  ],
+  "setup": {
+    "physicalRequests": 1,
+    "questions": 16,
+    "requestHash": "7a9c36ac605a11f9c8d392fab4c5e3e7a75da7f0d1afe72cc4317d6bce553dfc",
+    "planHash": "62622ecc7c9ede597c85bb9be839898fc8f8d492f502975bcd64fa7fe3a2bdf4",
+    "budget": {
+      "maxUsd": 0.01,
+      "maxInputTokens": 214457125112880,
+      "estimatedInputTokens": 6365,
+      "estimatedUsd": 0.00026733,
+      "reservationInputTokens": 19350,
+      "reservationUsd": 0.0008127
+    },
+    "sourceStamp": "496fc11d7d33a49d35ce0f89e4ae9432c3a33b2a4ee489e9fe7c6bf28a3e7870"
+  },
+  "totalReportBindings": 6224,
+  "status": "passed",
+  "note": "Displayed rows include references, repeated/derived observations and unattempted historical definitions; not a new paid-call count. Source equality does not validate new setup-model behavior."
+}

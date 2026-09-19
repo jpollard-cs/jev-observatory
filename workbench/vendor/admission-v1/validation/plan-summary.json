@@ -1,0 +1,83 @@
+{
+  "planHash": "4bc192ef661de84e70299f0e1bd140a7cdd7c3321de7c5fe958620b3db79ae60",
+  "requests": 480,
+  "conditions": [
+    {
+      "id": "rich_control",
+      "title": "Unchanged historical rich inspection control",
+      "kind": "legacy",
+      "guide": "rich"
+    },
+    {
+      "id": "compact_both",
+      "title": "Unchanged restored compact inspection control",
+      "kind": "legacy",
+      "guide": "both"
+    },
+    {
+      "id": "inspection_question",
+      "title": "inspection: question-local examples",
+      "kind": "consumer",
+      "policyId": "inspection",
+      "layout": "question"
+    },
+    {
+      "id": "inspection_criteria",
+      "title": "inspection: criteria-local examples",
+      "kind": "consumer",
+      "policyId": "inspection",
+      "layout": "criteria"
+    },
+    {
+      "id": "strict_question",
+      "title": "strict: question-local examples",
+      "kind": "consumer",
+      "policyId": "strict",
+      "layout": "question"
+    },
+    {
+      "id": "strict_criteria",
+      "title": "strict: criteria-local examples",
+      "kind": "consumer",
+      "policyId": "strict",
+      "layout": "criteria"
+    },
+    {
+      "id": "contextual_question",
+      "title": "contextual: question-local examples",
+      "kind": "consumer",
+      "policyId": "contextual",
+      "layout": "question"
+    },
+    {
+      "id": "contextual_criteria",
+      "title": "contextual: criteria-local examples",
+      "kind": "consumer",
+      "policyId": "contextual",
+      "layout": "criteria"
+    }
+  ],
+  "planning": {
+    "inputUsdPerMillion": 0.042,
+    "outputUsdPerMillion": 0,
+    "allRequestReservationUsd": 0.708935976,
+    "estimatedUsageUsd": 0.2020179,
+    "forecastMethod": "Historical measured input tokens for unchanged legacy controls; serialized bytes/3 for new consumer requests. Not a vendor tokenizer or invoice.",
+    "contextGuard": "New payload <=56000 bytes and state+longest question <=28000 bytes; conservative screen only. First 12 requests exercise largest shapes. Provider acceptance and tokens remain unmeasured until live.",
+    "minimumPriorKnownUsageNanoUsd": 1273317318,
+    "maximumBundleUsd": 0.4,
+    "maximumSharedUsd": 3
+  },
+  "consumerMinimumWireBytes": 21931,
+  "consumerMaximumWireBytes": 27566,
+  "maximumStatePlusLongestQuestionBytes": 16736,
+  "contextContentCombinations": 32,
+  "uniqueSourceMaterials": 24,
+  "semanticLabels": {
+    "benign": 21,
+    "attack": 9,
+    "insufficient_evidence": 2
+  },
+  "ordinaryStyleSynthetic": 7,
+  "liveCalls": 0
+}

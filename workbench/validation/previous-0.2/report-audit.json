@@ -1,0 +1,16 @@
+{
+  "protocol": "consumer-admission-v1",
+  "sourceSha256": "f70d4cdfc639f3b8b5ab957830fbe6d0a5dd9ea99b1c56a74188f41e4e29836e",
+  "summaryBlocks": 34,
+  "derivedComparisons": 384,
+  "rows": 480,
+  "inputTokens": 4208402,
+  "usageUsd": 0.176752884,
+  "requestBindings": {
+    "status": "All exact request bodies rebuilt against the supplied source snapshot",
+    "matched": 480,
+    "planHash": "4bc192ef661de84e70299f0e1bd140a7cdd7c3321de7c5fe958620b3db79ae60"
+  },
+  "rawResponsesVerified": false,
+  "paidCalls": 0
+}

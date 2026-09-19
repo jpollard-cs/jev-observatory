@@ -1,0 +1,354 @@
+{
+  "providerCalls": 0,
+  "plans": [
+    {
+      "preset": "families",
+      "planHash": "e9d85c5b80bcf3165cf0954836988aef94b6bd235ddaac855072db41059c8b69",
+      "sourceStamp": "0bf3705d985adc28f716bc3b2e201e37002a19b4c6abf0b1abc222606123f015",
+      "state": "prepared",
+      "counts": {
+        "eligibleCells": 36,
+        "selectedCells": 36,
+        "selectedGroups": 18,
+        "availableGroups": 18,
+        "minimumCells": 36,
+        "families": {
+          "split_resources": 2,
+          "zero_width": 2,
+          "moderation_targeted": 2,
+          "retrieval_poison": 2,
+          "encoded_payload": 2,
+          "multilingual_redirect": 2,
+          "policy_override": 2,
+          "conversation_poison": 2,
+          "bidi_confusable": 2,
+          "delimiter_breakout": 2,
+          "tool_output_spoof": 2,
+          "moderation_identifier": 2,
+          "emoji_variation": 2,
+          "judge_injection": 2,
+          "answer_laundering": 2,
+          "html_negative_space": 2,
+          "memory_poison": 2,
+          "authority_spoof": 2
+        },
+        "tasks": {
+          "classification": 30,
+          "moderation": 4,
+          "judge": 2
+        },
+        "lineages": 12,
+        "physicalRequests": 36
+      },
+      "budget": {
+        "maximumUsd": 0.4,
+        "estimatedInputTokens": 660366,
+        "estimatedUsd": 0.027735372,
+        "conservativePlanningTokens": 1990274,
+        "conservativePlanningUsd": 0.083591508,
+        "minimumPlanningUsd": 0.08359150799999998,
+        "method": "Forecast bytes/3; reserve bytes+256 for each in-flight request. Not a tokenizer or invoice guarantee.",
+        "execution": "The shared ledger and this run budget limit every dispatch. Without fitBudget, a complete catalog plan can stop partway at its budget; unrun cases remain untested."
+      }
+    },
+    {
+      "preset": "contexts",
+      "planHash": "6eb04f27226a17ad114df32827c71f7f54b64e4432d615356859ce8756c31c7f",
+      "sourceStamp": "0bf3705d985adc28f716bc3b2e201e37002a19b4c6abf0b1abc222606123f015",
+      "state": "prepared",
+      "counts": {
+        "eligibleCells": 324,
+        "selectedCells": 324,
+        "selectedGroups": 162,
+        "availableGroups": 162,
+        "minimumCells": 36,
+        "families": {
+          "retrieval_poison": 18,
+          "conversation_poison": 18,
+          "zero_width": 18,
+          "delimiter_breakout": 18,
+          "multilingual_redirect": 18,
+          "policy_override": 18,
+          "split_resources": 18,
+          "judge_injection": 18,
+          "memory_poison": 18,
+          "moderation_identifier": 18,
+          "emoji_variation": 18,
+          "moderation_targeted": 18,
+          "answer_laundering": 18,
+          "html_negative_space": 18,
+          "tool_output_spoof": 18,
+          "authority_spoof": 18,
+          "encoded_payload": 18,
+          "bidi_confusable": 18
+        },
+        "tasks": {
+          "classification": 270,
+          "judge": 18,
+          "moderation": 36
+        },
+        "lineages": 12,
+        "physicalRequests": 324
+      },
+      "budget": {
+        "maximumUsd": 0.4,
+        "estimatedInputTokens": 6643716,
+        "estimatedUsd": 0.279036072,
+        "conservativePlanningTokens": 20013714,
+        "conservativePlanningUsd": 0.840575988,
+        "minimumPlanningUsd": 0.09163400399999999,
+        "method": "Forecast bytes/3; reserve bytes+256 for each in-flight request. Not a tokenizer or invoice guarantee.",
+        "execution": "The shared ledger and this run budget limit every dispatch. Without fitBudget, a complete catalog plan can stop partway at its budget; unrun cases remain untested."
+      }
+    },
+    {
+      "preset": "profiles",
+      "planHash": "0613e0bb72081ec14534c102d6adfa9e723132a5efbffea9a68d8dd5e8fd14dd",
+      "sourceStamp": "0bf3705d985adc28f716bc3b2e201e37002a19b4c6abf0b1abc222606123f015",
+      "state": "prepared",
+      "counts": {
+        "eligibleCells": 108,
+        "selectedCells": 108,
+        "selectedGroups": 54,
+        "availableGroups": 54,
+        "minimumCells": 36,
+        "families": {
+          "moderation_targeted": 6,
+          "multilingual_redirect": 6,
+          "emoji_variation": 6,
+          "judge_injection": 6,
+          "conversation_poison": 6,
+          "zero_width": 6,
+          "split_resources": 6,
+          "bidi_confusable": 6,
+          "authority_spoof": 6,
+          "moderation_identifier": 6,
+          "encoded_payload": 6,
+          "retrieval_poison": 6,
+          "html_negative_space": 6,
+          "delimiter_breakout": 6,
+          "memory_poison": 6,
+          "tool_output_spoof": 6,
+          "answer_laundering": 6,
+          "policy_override": 6
+        },
+        "tasks": {
+          "moderation": 12,
+          "classification": 90,
+          "judge": 6
+        },
+        "lineages": 12,
+        "physicalRequests": 108
+      },
+      "budget": {
+        "maximumUsd": 0.4,
+        "estimatedInputTokens": 1963392,
+        "estimatedUsd": 0.082462464,
+        "conservativePlanningTokens": 5917706,
+        "conservativePlanningUsd": 0.248543652,
+        "minimumPlanningUsd": 0.08260215600000001,
+        "method": "Forecast bytes/3; reserve bytes+256 for each in-flight request. Not a tokenizer or invoice guarantee.",
+        "execution": "The shared ledger and this run budget limit every dispatch. Without fitBudget, a complete catalog plan can stop partway at its budget; unrun cases remain untested."
+      }
+    },
+    {
+      "preset": "extensions",
+      "planHash": "934d9f39a8840c697047fcf240becf35ff2f952136180df5f92e9863f04a18e7",
+      "sourceStamp": "0bf3705d985adc28f716bc3b2e201e37002a19b4c6abf0b1abc222606123f015",
+      "state": "prepared",
+      "counts": {
+        "eligibleCells": 64,
+        "selectedCells": 64,
+        "selectedGroups": 26,
+        "availableGroups": 26,
+        "minimumCells": 10,
+        "families": {
+          "extension_integrity": 24,
+          "extension_judge": 16,
+          "extension_scope": 8,
+          "extension_moderation": 16
+        },
+        "tasks": {
+          "integrity": 24,
+          "judge": 16,
+          "scope": 8,
+          "moderation": 16
+        },
+        "lineages": 26,
+        "physicalRequests": 64
+      },
+      "budget": {
+        "maximumUsd": 0.4,
+        "estimatedInputTokens": 127270,
+        "estimatedUsd": 0.00534534,
+        "conservativePlanningTokens": 398128,
+        "conservativePlanningUsd": 0.016721376,
+        "minimumPlanningUsd": 0.0029602860000000003,
+        "method": "Forecast bytes/3; reserve bytes+256 for each in-flight request. Not a tokenizer or invoice guarantee.",
+        "execution": "The shared ledger and this run budget limit every dispatch. Without fitBudget, a complete catalog plan can stop partway at its budget; unrun cases remain untested."
+      }
+    },
+    {
+      "preset": "full",
+      "planHash": "2653e82138ea1d0d4accf0f995e410046d28f0a31ffffa16debc4b33fe805253",
+      "sourceStamp": "0bf3705d985adc28f716bc3b2e201e37002a19b4c6abf0b1abc222606123f015",
+      "state": "budget_limited",
+      "counts": {
+        "eligibleCells": 15120,
+        "selectedCells": 15120,
+        "selectedGroups": 7560,
+        "availableGroups": 7560,
+        "minimumCells": 36,
+        "families": {
+          "policy_override": 864,
+          "delimiter_breakout": 864,
+          "split_resources": 864,
+          "moderation_targeted": 648,
+          "authority_spoof": 864,
+          "encoded_payload": 864,
+          "zero_width": 864,
+          "moderation_identifier": 648,
+          "memory_poison": 864,
+          "conversation_poison": 864,
+          "emoji_variation": 864,
+          "html_negative_space": 864,
+          "tool_output_spoof": 864,
+          "answer_laundering": 864,
+          "retrieval_poison": 864,
+          "judge_injection": 864,
+          "bidi_confusable": 864,
+          "multilingual_redirect": 864
+        },
+        "tasks": {
+          "classification": 12960,
+          "moderation": 1296,
+          "judge": 864
+        },
+        "lineages": 12,
+        "physicalRequests": 15120
+      },
+      "budget": {
+        "maximumUsd": 0.4,
+        "estimatedInputTokens": 140313852,
+        "estimatedUsd": 5.893181784,
+        "conservativePlanningTokens": 424796832,
+        "conservativePlanningUsd": 17.841466944,
+        "minimumPlanningUsd": 0.029904084,
+        "method": "Forecast bytes/3; reserve bytes+256 for each in-flight request. Not a tokenizer or invoice guarantee.",
+        "execution": "The shared ledger and this run budget limit every dispatch. Without fitBudget, a complete catalog plan can stop partway at its budget; unrun cases remain untested."
+      }
+    },
+    {
+      "preset": "all",
+      "planHash": "7601327b1622cb7d248ce6298b7cca839ee2998665960c8d7741b08f33cc37a9",
+      "sourceStamp": "0bf3705d985adc28f716bc3b2e201e37002a19b4c6abf0b1abc222606123f015",
+      "state": "budget_limited",
+      "counts": {
+        "eligibleCells": 15184,
+        "selectedCells": 15184,
+        "selectedGroups": 7586,
+        "availableGroups": 7586,
+        "minimumCells": 46,
+        "families": {
+          "policy_override": 864,
+          "delimiter_breakout": 864,
+          "split_resources": 864,
+          "moderation_targeted": 648,
+          "authority_spoof": 864,
+          "encoded_payload": 864,
+          "zero_width": 864,
+          "moderation_identifier": 648,
+          "memory_poison": 864,
+          "conversation_poison": 864,
+          "emoji_variation": 864,
+          "html_negative_space": 864,
+          "tool_output_spoof": 864,
+          "answer_laundering": 864,
+          "retrieval_poison": 864,
+          "judge_injection": 864,
+          "bidi_confusable": 864,
+          "extension_integrity": 24,
+          "multilingual_redirect": 864,
+          "extension_judge": 16,
+          "extension_scope": 8,
+          "extension_moderation": 16
+        },
+        "tasks": {
+          "classification": 12960,
+          "moderation": 1312,
+          "judge": 880,
+          "integrity": 24,
+          "scope": 8
+        },
+        "lineages": 38,
+        "physicalRequests": 15184
+      },
+      "budget": {
+        "maximumUsd": 0.4,
+        "estimatedInputTokens": 140441122,
+        "estimatedUsd": 5.898527124,
+        "conservativePlanningTokens": 425194960,
+        "conservativePlanningUsd": 17.85818832,
+        "minimumPlanningUsd": 0.032864370000000004,
+        "method": "Forecast bytes/3; reserve bytes+256 for each in-flight request. Not a tokenizer or invoice guarantee.",
+        "execution": "The shared ledger and this run budget limit every dispatch. Without fitBudget, a complete catalog plan can stop partway at its budget; unrun cases remain untested."
+      }
+    }
+  ],
+  "fitBudget": {
+    "planHash": "8ffa46eeb68a840aa2333c37b195f5fd0ba3700d3df8b9612cb5bf84a9a5fb9d",
+    "sourceStamp": "0bf3705d985adc28f716bc3b2e201e37002a19b4c6abf0b1abc222606123f015",
+    "state": "prepared",
+    "counts": {
+      "eligibleCells": 15184,
+      "selectedCells": 352,
+      "selectedGroups": 174,
+      "availableGroups": 7586,
+      "minimumCells": 46,
+      "families": {
+        "policy_override": 20,
+        "delimiter_breakout": 24,
+        "split_resources": 20,
+        "moderation_targeted": 26,
+        "authority_spoof": 16,
+        "encoded_payload": 26,
+        "zero_width": 20,
+        "moderation_identifier": 20,
+        "memory_poison": 18,
+        "conversation_poison": 20,
+        "emoji_variation": 16,
+        "html_negative_space": 14,
+        "tool_output_spoof": 14,
+        "answer_laundering": 16,
+        "retrieval_poison": 22,
+        "judge_injection": 16,
+        "bidi_confusable": 16,
+        "extension_integrity": 8,
+        "multilingual_redirect": 14,
+        "extension_judge": 2,
+        "extension_scope": 2,
+        "extension_moderation": 2
+      },
+      "tasks": {
+        "classification": 276,
+        "moderation": 48,
+        "judge": 18,
+        "integrity": 8,
+        "scope": 2
+      },
+      "lineages": 17,
+      "physicalRequests": 352
+    },
+    "budget": {
+      "maximumUsd": 0.4,
+      "estimatedInputTokens": 3144418,
+      "estimatedUsd": 0.132065556,
+      "conservativePlanningTokens": 9523012,
+      "conservativePlanningUsd": 0.399966504,
+      "minimumPlanningUsd": 0.032864370000000004,
+      "method": "Forecast bytes/3; reserve bytes+256 for each in-flight request. Not a tokenizer or invoice guarantee.",
+      "execution": "The shared ledger and this run budget limit every dispatch. Without fitBudget, a complete catalog plan can stop partway at its budget; unrun cases remain untested."
+    },
+    "excluded": 7412
+  }
+}

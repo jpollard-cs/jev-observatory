@@ -1,0 +1,761 @@
+{
+  "checks": [
+    {
+      "name": "ES-module Evidence view renders actual rows",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Actual expected labels rich_control",
+      "passed": true,
+      "details": {
+        "allow": 45,
+        "block": 3
+      }
+    },
+    {
+      "name": "Actual expected labels compact_both",
+      "passed": true,
+      "details": {
+        "allow": 45,
+        "block": 3
+      }
+    },
+    {
+      "name": "Actual expected labels inspection_question",
+      "passed": true,
+      "details": {
+        "allow": 64
+      }
+    },
+    {
+      "name": "Actual expected labels inspection_criteria",
+      "passed": true,
+      "details": {
+        "allow": 64
+      }
+    },
+    {
+      "name": "Actual expected labels strict_question",
+      "passed": true,
+      "details": {
+        "allow": 16,
+        "review": 4,
+        "block": 44
+      }
+    },
+    {
+      "name": "Actual expected labels strict_criteria",
+      "passed": true,
+      "details": {
+        "allow": 16,
+        "review": 4,
+        "block": 44
+      }
+    },
+    {
+      "name": "Actual expected labels contextual_question",
+      "passed": true,
+      "details": {
+        "allow": 26,
+        "review": 6,
+        "block": 32
+      }
+    },
+    {
+      "name": "Actual expected labels contextual_criteria",
+      "passed": true,
+      "details": {
+        "allow": 26,
+        "review": 6,
+        "block": 32
+      }
+    },
+    {
+      "name": "Expected block filter",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "Inspector uses clicked observation identity",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "Archived report is selectable compact-single-pass-48-v1",
+      "passed": true,
+      "details": [
+        "original-campaign",
+        "original-encoding",
+        "consumer-admission-v1",
+        "boundary-fewshot-v2",
+        "prompt-variant-lab-v1",
+        "compact-single-pass-48-v1"
+      ]
+    },
+    {
+      "name": "Render compact-single-pass-48-v1/compact_control",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render compact-single-pass-48-v1/historical_reference",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Archived report is selectable prompt-variant-lab-v1",
+      "passed": true,
+      "details": [
+        "original-campaign",
+        "original-encoding",
+        "consumer-admission-v1",
+        "boundary-fewshot-v2",
+        "prompt-variant-lab-v1",
+        "compact-single-pass-48-v1"
+      ]
+    },
+    {
+      "name": "Render prompt-variant-lab-v1/rich_control",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render prompt-variant-lab-v1/rich_trim_questions",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render prompt-variant-lab-v1/rich_trim_taxonomy",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render prompt-variant-lab-v1/boundary_core",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render prompt-variant-lab-v1/rich_fewshot",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render prompt-variant-lab-v1/core_fewshot",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render prompt-variant-lab-v1/compact_control",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render prompt-variant-lab-v1/compact_contract",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render prompt-variant-lab-v1/compact_integrity",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render prompt-variant-lab-v1/compact_both",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render prompt-variant-lab-v1/compact_array_wire",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render prompt-variant-lab-v1/compact_array_logical",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render prompt-variant-lab-v1/features_plain_code",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render prompt-variant-lab-v1/features_fewshot_code",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render prompt-variant-lab-v1/mapper_plain",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render prompt-variant-lab-v1/mapper_fewshot",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Archived report is selectable boundary-fewshot-v2",
+      "passed": true,
+      "details": [
+        "original-campaign",
+        "original-encoding",
+        "consumer-admission-v1",
+        "boundary-fewshot-v2",
+        "prompt-variant-lab-v1",
+        "compact-single-pass-48-v1"
+      ]
+    },
+    {
+      "name": "Render boundary-fewshot-v2/rich_control",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render boundary-fewshot-v2/core_fewshot_reference",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render boundary-fewshot-v2/compact_both",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render boundary-fewshot-v2/restored_legacy_examples",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render boundary-fewshot-v2/restored_revised_examples",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render boundary-fewshot-v2/restored_open_set",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render boundary-fewshot-v2/restored_open_set_diagnostics",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Archived report is selectable original-campaign",
+      "passed": true,
+      "details": [
+        "original-campaign",
+        "original-encoding",
+        "consumer-admission-v1",
+        "boundary-fewshot-v2",
+        "prompt-variant-lab-v1",
+        "compact-single-pass-48-v1"
+      ]
+    },
+    {
+      "name": "Render original-campaign/smoke:classification:minimal:balanced:binary",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/smoke:classification:policy:permissive:structured",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/smoke:classification:policy:permissive:binary",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/smoke:classification:policy:balanced:scores",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/smoke:classification:minimal:balanced:scores",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/smoke:classification:minimal:balanced:structured",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/representation:structured:primary_only:original",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/representation:structured:primary_only:reversed",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/representation:structured:full:original",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/representation:lossless_string:full:original",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/representation:structured:full:reversed",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/representation:lossless_string:primary_only:original",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/representation:lossless_string:primary_only:reversed",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/representation:lossless_string:full:reversed",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/matrix:classification:policy:permissive:binary",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/matrix:classification:policy:strict:binary",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/matrix:moderation:policy:balanced:structured",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/matrix:judge:policy:strict:binary",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/matrix:classification:minimal:balanced:scores",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/matrix:classification:policy:strict:structured",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/matrix:classification:policy:balanced:structured",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/matrix:classification:minimal:balanced:structured",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/matrix:classification:policy:balanced:binary",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/matrix:moderation:policy:permissive:structured",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/matrix:classification:policy:strict:scores",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/matrix:classification:policy:permissive:structured",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/matrix:moderation:policy:balanced:binary",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/matrix:classification:policy:permissive:scores",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/matrix:moderation:policy:permissive:binary",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/matrix:moderation:policy:strict:structured",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/matrix:classification:policy:balanced:scores",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/matrix:judge:minimal:balanced:structured",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/matrix:judge:policy:balanced:structured",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/matrix:judge:policy:permissive:scores",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/matrix:judge:policy:permissive:binary",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/matrix:classification:minimal:balanced:binary",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/matrix:judge:policy:permissive:structured",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/matrix:judge:policy:strict:scores",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/matrix:moderation:policy:balanced:scores",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/matrix:judge:policy:balanced:binary",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/matrix:moderation:policy:strict:binary",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/matrix:judge:policy:balanced:scores",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/matrix:judge:policy:strict:structured",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/matrix:moderation:policy:permissive:scores",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/matrix:judge:minimal:balanced:binary",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/matrix:moderation:policy:strict:scores",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/matrix:judge:minimal:balanced:scores",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/extensions:judge",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/extensions:integrity",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/extensions:scope",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-campaign/extensions:moderation",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Archived report is selectable original-encoding",
+      "passed": true,
+      "details": [
+        "original-campaign",
+        "original-encoding",
+        "consumer-admission-v1",
+        "boundary-fewshot-v2",
+        "prompt-variant-lab-v1",
+        "compact-single-pass-48-v1"
+      ]
+    },
+    {
+      "name": "Render original-encoding/recovery:plaintext",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-encoding/classification:plaintext",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-encoding/recovery:encoded",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render original-encoding/classification:encoded",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Archived report is selectable consumer-admission-v1",
+      "passed": true,
+      "details": [
+        "original-campaign",
+        "original-encoding",
+        "consumer-admission-v1",
+        "boundary-fewshot-v2",
+        "prompt-variant-lab-v1",
+        "compact-single-pass-48-v1"
+      ]
+    },
+    {
+      "name": "Render consumer-admission-v1/rich_control",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render consumer-admission-v1/compact_both",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render consumer-admission-v1/inspection_question",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render consumer-admission-v1/inspection_criteria",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render consumer-admission-v1/strict_question",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render consumer-admission-v1/strict_criteria",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render consumer-admission-v1/contextual_question",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Render consumer-admission-v1/contextual_criteria",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Changing suite ignores unfinished budget",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "Inactive matrix factors are disabled",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "Export selection not blocked by budget",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "Original planner accepts large budget",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Catalog saturation message shown",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "Current policy planner accepts $50",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Unused budget visible",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "Invalid active budget shows recoverable error",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "Unfinished planner budget cannot block policy compilation",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Unfinished planner budget cannot block evidence",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "Connection source selector present",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "Key never stored in localStorage",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "Ranking prep ignores invalid test budget",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "No-key review routes to connection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "Remaining view overview",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Remaining view context",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Remaining view provenance",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Mobile no overflow connection",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Mobile no render exceptions connection",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Mobile no overflow evidence",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Mobile no render exceptions evidence",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Mobile no overflow planner",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Mobile no render exceptions planner",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Mobile no overflow selection",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Mobile no render exceptions selection",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Mobile no overflow original",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Mobile no render exceptions original",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Mobile no overflow overview",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Mobile no render exceptions overview",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Sidebar remains full portrait height",
+      "passed": true,
+      "details": {
+        "x": 0,
+        "y": 0,
+        "width": 218,
+        "height": 1920
+      }
+    },
+    {
+      "name": "No render errors across ES modules",
+      "passed": true,
+      "details": []
+    }
+  ],
+  "count": 136,
+  "browser": "Chromium",
+  "transport": "Local API test bridge; ES modules loaded separately preserving lexical scopes. Direct loopback navigation blocked by environment.",
+  "providerCalls": 0
+}

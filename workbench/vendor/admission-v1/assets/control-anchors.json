@@ -1,0 +1,584 @@
+{
+  "rich_control": {
+    "rich-direct-quotation:benign-length-1024": {
+      "requestHash": "7be03aee6f3db4c869b16c8d6b0598e27f9dd230d20b3fa9c5410448c816fa07",
+      "inputTokens": 13361
+    },
+    "rich-acrostic-message:attack-length-65536": {
+      "requestHash": "50667d76eb221aaa6ae1e26ed452967edb0cc998a1f2e741d110629d82d44a00",
+      "inputTokens": 28487
+    },
+    "rich-direct-quotation:attack-length-1024": {
+      "requestHash": "7375bd1537886dda0766b3c9a1f7d0835a3f66807dec5a1b99d8a1b7b3858ead",
+      "inputTokens": 13378
+    },
+    "rich-base64-note:attack-length-16384": {
+      "requestHash": "0189960b36713f6169efb911982b7319df2a7e24a7bbba2d98495104f4d9966a",
+      "inputTokens": 16966
+    },
+    "rich-morse-note:benign-length-1024": {
+      "requestHash": "13373a26f09f74f55f344435d3a0a211abd80c01c16b5aa14697805fb1474daa",
+      "inputTokens": 13559
+    },
+    "rich-acrostic-message:attack-length-1024": {
+      "requestHash": "98b49b1ffd06f943649b7d15ead54a8df28ae12e9082f8fb7bb12f74e34112cc",
+      "inputTokens": 13375
+    },
+    "rich-invisible-separators:attack-length-16384": {
+      "requestHash": "0869253f8f4ba124347933d5ffb947c792646d5006a734bdb9d39e065e89a388",
+      "inputTokens": 16982
+    },
+    "rich-direct-quotation:benign-length-16384": {
+      "requestHash": "d34084f68a327c0efe726a0e14b7ef3b6bb31b230a39efe74fdfd2eba6d8479e",
+      "inputTokens": 16877
+    },
+    "rich-json-authority:attack-length-65536": {
+      "requestHash": "30013ea7f08d0fbcd5be25b7fb315736263bd1fb6fd698b448449dc6cb7900bb",
+      "inputTokens": 28495
+    },
+    "rich-split-records:attack-length-16384": {
+      "requestHash": "b598480f4bf2e6c1603324214927dd9c3af4376ecac8a7f682f3effe128faca1",
+      "inputTokens": 16927
+    },
+    "rich-invisible-separators:benign-length-1024": {
+      "requestHash": "eb993fb6595e2aae31b8246a1e0f2db4604568f28f1d35d8e4e240fd92f9b90c",
+      "inputTokens": 13456
+    },
+    "rich-authenticated-memory:benign-length-1024": {
+      "requestHash": "14deb86b1edaad1120f0025d1e9da75f4829d38ad45b5124612b3063a171bbdf",
+      "inputTokens": 13479
+    },
+    "rich-json-authority:benign-length-1024": {
+      "requestHash": "5758168e88c23bc7b7988d0d9760c31d91a28b8053671aa4235fc8b8bcfb42c0",
+      "inputTokens": 13358
+    },
+    "rich-authenticated-memory:benign-length-16384": {
+      "requestHash": "63000b723427c483a206ada29d6a23b23d494f0a4e76f47a918cf2b0a1417f76",
+      "inputTokens": 16999
+    },
+    "rich-authenticated-memory:benign-length-65536": {
+      "requestHash": "1633863a702eb3ede3d7ccfc47c5dead4c8dc46408ed279862f6c30c509c133c",
+      "inputTokens": 28601
+    },
+    "rich-json-authority:attack-length-1024": {
+      "requestHash": "9e03fcea42617ce0fc586adec42a081ef6e85f6acdf8015619999b892be17015",
+      "inputTokens": 13366
+    },
+    "rich-acrostic-message:benign-length-65536": {
+      "requestHash": "99db324971ca552c0295f4e60fe16e744371604fec23a8a33b953eea2bbd0004",
+      "inputTokens": 28489
+    },
+    "rich-morse-note:benign-length-16384": {
+      "requestHash": "9f2861a33492c1d88a0c30879d57563856ae7f4843b5d7abb7a2fef9093deb22",
+      "inputTokens": 17076
+    },
+    "rich-authenticated-memory:attack-length-1024": {
+      "requestHash": "d2d21885bd1876ca8d4091a2e29aa70cd6cde77dea9f853d14a0a6c0d96b0145",
+      "inputTokens": 13478
+    },
+    "rich-acrostic-message:attack-length-16384": {
+      "requestHash": "f06e8816b50eef14dd475b74c332ad3900904f02909d904027832c4d2e4c1ad0",
+      "inputTokens": 16889
+    },
+    "rich-morse-note:attack-length-65536": {
+      "requestHash": "bc984846afb85cef90fb62d58a387f0cb8225ae1461a30b58c90a9fd4114c35f",
+      "inputTokens": 28676
+    },
+    "rich-invisible-separators:benign-length-16384": {
+      "requestHash": "5ce5f28b7bebabf356bd3a6b5c809ab689c34d2175c9bc08a0ff0c48ddeb02f5",
+      "inputTokens": 16981
+    },
+    "rich-base64-note:attack-length-1024": {
+      "requestHash": "82d3a202beb177cf4926ecdd31d6fb0f33027042087a3f7d2ce67fc0a1c377c6",
+      "inputTokens": 13442
+    },
+    "rich-direct-quotation:attack-length-65536": {
+      "requestHash": "93835de8cf6a32ce02e1c159b7b625cf9c6d0c1cbb345f4c3367e6fe9155a2a0",
+      "inputTokens": 28500
+    },
+    "rich-json-authority:attack-length-16384": {
+      "requestHash": "c964047d71b65ebf33ec4b00a31710290fbc2696b45444a37bf6a0710f161921",
+      "inputTokens": 16891
+    },
+    "rich-authenticated-memory:attack-length-65536": {
+      "requestHash": "818231015b5a9767578dccde22b0cf548864a2795abcfd27922960b1d56727e2",
+      "inputTokens": 28603
+    },
+    "rich-acrostic-message:benign-length-16384": {
+      "requestHash": "fa404c60d7b8333db8b01647136519d96cde3632cee66e2f80218abffe8964cf",
+      "inputTokens": 16889
+    },
+    "rich-morse-note:benign-length-65536": {
+      "requestHash": "e711d7e29cf84c2aabe01d3bb92bfc9644aeeab739a94552c801f1fa8b7d1fd9",
+      "inputTokens": 28674
+    },
+    "rich-morse-note:attack-length-16384": {
+      "requestHash": "a3b3847589eec658786837738d795883374563a5806fa9c3d59a89cc2f4c8f50",
+      "inputTokens": 17078
+    },
+    "rich-base64-note:benign-length-65536": {
+      "requestHash": "cce06c4d6ab631baa1279baa6ccdd59449aab01f63adce3d08d43955cfff73d2",
+      "inputTokens": 28567
+    },
+    "rich-base64-note:benign-length-16384": {
+      "requestHash": "ad66b5b45c799b1b62441b662672117c1203e5c8ff73e38f3ff0b094c7d0660a",
+      "inputTokens": 16965
+    },
+    "rich-acrostic-message:benign-length-1024": {
+      "requestHash": "c8f55679f5dc3aeae58c23f58226e05743849ec1bf04793ab0625436fa5f87e7",
+      "inputTokens": 13375
+    },
+    "rich-direct-quotation:benign-length-65536": {
+      "requestHash": "5e1400718b5eb72dcc70356a470289c628688cc3c9e40a8d6d4790c2bae98ace",
+      "inputTokens": 28479
+    },
+    "rich-split-records:attack-length-1024": {
+      "requestHash": "8f74abc95f9f42d4bc96b007e8886b8bd0d97dd4861281fe6ef7165b37e03753",
+      "inputTokens": 13408
+    },
+    "rich-invisible-separators:attack-length-65536": {
+      "requestHash": "3f7cf706c78195a08cad015038076058a6d20d6c246e31531d06d2466e196c4d",
+      "inputTokens": 28586
+    },
+    "rich-direct-quotation:attack-length-16384": {
+      "requestHash": "a942ad41ccc61c2c88d83356d6908ccb2485fc191b6be080b1994946089c8424",
+      "inputTokens": 16900
+    },
+    "rich-base64-note:attack-length-65536": {
+      "requestHash": "dfbb14bc1b9c065fe4dee5740b13eab222c812ba4ff9187a926102686676f6ed",
+      "inputTokens": 28568
+    },
+    "rich-morse-note:attack-length-1024": {
+      "requestHash": "066d9562d44b9b4a4cb64de7786df498590b4ec270bc759c8ea47bb798468a6c",
+      "inputTokens": 13561
+    },
+    "rich-split-records:attack-length-65536": {
+      "requestHash": "5f0b5f99f07c0289cf45f414415c5b07bf9ea0a5231018c70ba6598f936cce26",
+      "inputTokens": 28525
+    },
+    "rich-json-authority:benign-length-16384": {
+      "requestHash": "70c5dd7309621b9b919224e0260d80574c7545311737606e0c2a9b5d80fba634",
+      "inputTokens": 16883
+    },
+    "rich-split-records:benign-length-1024": {
+      "requestHash": "c6327942cc80534ab1f844f897fc7935f26dff8495285cf75cc1011ed3eaef80",
+      "inputTokens": 13408
+    },
+    "rich-authenticated-memory:attack-length-16384": {
+      "requestHash": "abe3e14458aa9671c8570523bf070d37cd4b4635df65586f62888102b8c2d40a",
+      "inputTokens": 17002
+    },
+    "rich-json-authority:benign-length-65536": {
+      "requestHash": "1c0f0885be67354fb3da56d35e42fe2ba1e8f1af6639c444b2214e410eae7aa7",
+      "inputTokens": 28484
+    },
+    "rich-base64-note:benign-length-1024": {
+      "requestHash": "9b04c0e6dd49b3da5c9ee282495d2f6c171aaaaeccfe81da0202351f8fe91fba",
+      "inputTokens": 13441
+    },
+    "rich-invisible-separators:attack-length-1024": {
+      "requestHash": "86acd4d442c7a32ce965f5a18ec314ed3b84a815875fa21a9640fb97b06314e2",
+      "inputTokens": 13457
+    },
+    "rich-invisible-separators:benign-length-65536": {
+      "requestHash": "f65050a74202e80e978fb639e721c85f7d4cc415ddb6ebf551a3d5aeab83d231",
+      "inputTokens": 28586
+    },
+    "rich-split-records:benign-length-65536": {
+      "requestHash": "0fe5d1ec5d0ed88caa38d57cad8ed36da81c8af84fe6b12bb4b7d4b3278c7cac",
+      "inputTokens": 28527
+    },
+    "rich-split-records:benign-length-16384": {
+      "requestHash": "8e90adb627d75a156e9e66876b7509b0769e4941729f4ecfab2896977a54f232",
+      "inputTokens": 16927
+    }
+  },
+  "core_fewshot": {
+    "rich-direct-quotation:benign-length-1024": {
+      "requestHash": "46b8d7b2c1d0d8963a47c94d07b9e3db97b31393310e85ea5e0bc40edd307c61",
+      "inputTokens": 14254
+    },
+    "rich-acrostic-message:attack-length-65536": {
+      "requestHash": "7e7a80ed77f022f74c56808f208ee4d7e640742525afbdba1253c02a11411a06",
+      "inputTokens": 29380
+    },
+    "rich-direct-quotation:attack-length-1024": {
+      "requestHash": "36be7d2476fa7face38165d03911c35b6bf91c05f4524297995ef8dfe2004818",
+      "inputTokens": 14271
+    },
+    "rich-base64-note:attack-length-16384": {
+      "requestHash": "79c2cf47ac52b62b4a09ad0b0f4cda6e3f1287444522abde83e2be3ee3646ca5",
+      "inputTokens": 17859
+    },
+    "rich-morse-note:benign-length-1024": {
+      "requestHash": "9fe1c8bcd2f637c6d8c61f5f9e3066ce95b1e1fc568c99c39873091588ea6827",
+      "inputTokens": 14452
+    },
+    "rich-acrostic-message:attack-length-1024": {
+      "requestHash": "a7d91bde8c44598610cf7219b09d4e231132b68e7e5dd702dcfb53f605cb8cc4",
+      "inputTokens": 14268
+    },
+    "rich-invisible-separators:attack-length-16384": {
+      "requestHash": "032c8e24fb2f3a7775069b527e0950cdc9d5bc416143b4903c30f060546ec86b",
+      "inputTokens": 17875
+    },
+    "rich-direct-quotation:benign-length-16384": {
+      "requestHash": "5f9718357697d7525cea4bc0258294dfadd2f8b7cdce0f1a977057a4a63bdb7c",
+      "inputTokens": 17770
+    },
+    "rich-json-authority:attack-length-65536": {
+      "requestHash": "acaaaeb9c37fdfb7f86b82485cabbbabd1627ead58cfdc93ae7f3592aafca6ab",
+      "inputTokens": 29388
+    },
+    "rich-split-records:attack-length-16384": {
+      "requestHash": "14e305e18cf0d0d43054138ec6775a32defc3fe4a969c8fe5eb5b5925e340d91",
+      "inputTokens": 17820
+    },
+    "rich-invisible-separators:benign-length-1024": {
+      "requestHash": "5f5335612e1d63a1bfbe0ad115578ee15a4df5aaa51cd650e30a3a5ef6efec5d",
+      "inputTokens": 14349
+    },
+    "rich-authenticated-memory:benign-length-1024": {
+      "requestHash": "5bfb9d2adf336e3a3888698d71e6fe732944ace1fe0c5d16272903ea84d6a2dd",
+      "inputTokens": 14372
+    },
+    "rich-json-authority:benign-length-1024": {
+      "requestHash": "c8776eb2c61fe260b1bbd14fe2c71259e73764aebbe0769e160b01b29a9fff34",
+      "inputTokens": 14251
+    },
+    "rich-authenticated-memory:benign-length-16384": {
+      "requestHash": "f806b8c486bc62cd7ca68833337296a2d227d336134be697b12f5d39554e0a99",
+      "inputTokens": 17892
+    },
+    "rich-authenticated-memory:benign-length-65536": {
+      "requestHash": "5a79e9881da7c2bd2121faf5cc0491665f4087b3f8db5a916165626578b7027a",
+      "inputTokens": 29494
+    },
+    "rich-json-authority:attack-length-1024": {
+      "requestHash": "d76cbfc6bcc921393146aaa763dac5081c45e40ae9e504a91d68ed49e6d65977",
+      "inputTokens": 14259
+    },
+    "rich-acrostic-message:benign-length-65536": {
+      "requestHash": "f65bb9567cab61edb682a2e2d5bceab17cccea58d45cf6452eb13bfc8560e3f3",
+      "inputTokens": 29382
+    },
+    "rich-morse-note:benign-length-16384": {
+      "requestHash": "f4af8409c72e119bc9231f2e1a293cc50a8b1f024513b727406f8ae454bff79e",
+      "inputTokens": 17969
+    },
+    "rich-authenticated-memory:attack-length-1024": {
+      "requestHash": "656d1e6bb49d818bb96b78bf036c9b8da436b11b2589bed4561bb50887efd0c5",
+      "inputTokens": 14371
+    },
+    "rich-acrostic-message:attack-length-16384": {
+      "requestHash": "5fc3e8ece2d0fc640df75852c82c90e806cb88721afb49dc84fa774d8e8ac8ea",
+      "inputTokens": 17782
+    },
+    "rich-morse-note:attack-length-65536": {
+      "requestHash": "85e2a9371c46a29742783f949263f1c6a382a08fc31d2e411fc4e03edd0800c7",
+      "inputTokens": 29569
+    },
+    "rich-invisible-separators:benign-length-16384": {
+      "requestHash": "99bccd22a882a5bce2be44b0fe4e426f97482a8a6ee0af741a0d2b2c31dbb358",
+      "inputTokens": 17874
+    },
+    "rich-base64-note:attack-length-1024": {
+      "requestHash": "3813dfc99165ba0b97d808f2a95f3b7a539f83135202b5adaba6cd480c71a32b",
+      "inputTokens": 14335
+    },
+    "rich-direct-quotation:attack-length-65536": {
+      "requestHash": "3d40120b8b475cfff24cb86d3592fdded82164f3e48cde704f99a858b5656718",
+      "inputTokens": 29393
+    },
+    "rich-json-authority:attack-length-16384": {
+      "requestHash": "992cbc533c2c94b3025583808246f9b0710ca344a618e7c3ebde52b249e9c5c2",
+      "inputTokens": 17784
+    },
+    "rich-authenticated-memory:attack-length-65536": {
+      "requestHash": "381887b85dab07cd82c90546d2f00906f7f07a468a6144688edf1dd607fd4e8e",
+      "inputTokens": 29496
+    },
+    "rich-acrostic-message:benign-length-16384": {
+      "requestHash": "8eba6d3a22791f139c42fd2b94a7458a602fb48d8ef9abd89b0b97255ea1fc06",
+      "inputTokens": 17782
+    },
+    "rich-morse-note:benign-length-65536": {
+      "requestHash": "c8b1541a5278f1cad208f487952b89481b8982a7b08ec11557dd515feed8cc56",
+      "inputTokens": 29567
+    },
+    "rich-morse-note:attack-length-16384": {
+      "requestHash": "d6fb26bc86971c62b44ee4ed480a60373ce5fd4b7d82ad28937a9a9458e45839",
+      "inputTokens": 17971
+    },
+    "rich-base64-note:benign-length-65536": {
+      "requestHash": "a58b0e009f1923880818803818a4fb49766c41a095e235b3e483f3e781fd4906",
+      "inputTokens": 29460
+    },
+    "rich-base64-note:benign-length-16384": {
+      "requestHash": "a40e00a14d98d8ebed6f736e4bbbcaef0780f333debcc73381edb77dd927e2de",
+      "inputTokens": 17858
+    },
+    "rich-acrostic-message:benign-length-1024": {
+      "requestHash": "963634074cccba69b4bd2e3618d586d88074c49de193aff6c1b706f7fc637401",
+      "inputTokens": 14268
+    },
+    "rich-direct-quotation:benign-length-65536": {
+      "requestHash": "25989c84f18fba3dd46a1a20a9b0a6dc3d9032fdf4a87683b9ee4ccf69d53091",
+      "inputTokens": 29372
+    },
+    "rich-split-records:attack-length-1024": {
+      "requestHash": "cbe802711c720b8acb1613798bf9db8eec211e3cdb2d1129c51cb9387ab39cb8",
+      "inputTokens": 14301
+    },
+    "rich-invisible-separators:attack-length-65536": {
+      "requestHash": "cc969581fe732d11c1a10cadddd90ff02acc317aaa96d7c0e592a0ade96703df",
+      "inputTokens": 29479
+    },
+    "rich-direct-quotation:attack-length-16384": {
+      "requestHash": "69558e5f63dda61bee6a12bb53627bd1a8ac901c5716056a35b9c5ecbf6f0b83",
+      "inputTokens": 17793
+    },
+    "rich-base64-note:attack-length-65536": {
+      "requestHash": "3cb8d2619521598b2658a91d8ca428c10dfcfe6a04a777e2f51bb5e2c270fb76",
+      "inputTokens": 29461
+    },
+    "rich-morse-note:attack-length-1024": {
+      "requestHash": "320909082ffa82a95ece71785b2bdfe785ef543a2d733423ea772b8f94eb6426",
+      "inputTokens": 14454
+    },
+    "rich-split-records:attack-length-65536": {
+      "requestHash": "523e53a6e817de401b4c41f04e26281e8f4f1606e92801d11a996806e44d0f6d",
+      "inputTokens": 29418
+    },
+    "rich-json-authority:benign-length-16384": {
+      "requestHash": "30c6ee0d393a86e73edeb8e2abb752015dc345a3c0053f2c928d3c671c97f659",
+      "inputTokens": 17776
+    },
+    "rich-split-records:benign-length-1024": {
+      "requestHash": "55156c77c326d7dee0ba1b1b6af8a28f92c3ab08e0a8bd43a4ee23a9a9753616",
+      "inputTokens": 14301
+    },
+    "rich-authenticated-memory:attack-length-16384": {
+      "requestHash": "cba2ccfd892c02e2ee084494cbb9a8e1c32e7afe96da46148b1da5a4cadaa007",
+      "inputTokens": 17895
+    },
+    "rich-json-authority:benign-length-65536": {
+      "requestHash": "e53dc36485683189d40d9d34e352763f6f71af1e0700fd721928e8ed946f415c",
+      "inputTokens": 29377
+    },
+    "rich-base64-note:benign-length-1024": {
+      "requestHash": "a36c3d3af394d38f1a777430f9daf80b6d8b4c6bf7a47abb3cd0897987db1909",
+      "inputTokens": 14334
+    },
+    "rich-invisible-separators:attack-length-1024": {
+      "requestHash": "d204353eeff041c8182a3f5576dd9096d695da10efaa81f08149d0edd9d1e4b4",
+      "inputTokens": 14350
+    },
+    "rich-invisible-separators:benign-length-65536": {
+      "requestHash": "e61f58a37295b49f8f45163a33a8ae98896614ce8d5a9cbf895dabc4f59ab7ab",
+      "inputTokens": 29479
+    },
+    "rich-split-records:benign-length-65536": {
+      "requestHash": "c07f5b6c093d18e9c2576bccb4bad6f00ae10f9c02369a24014ee78b8c0c9ef0",
+      "inputTokens": 29420
+    },
+    "rich-split-records:benign-length-16384": {
+      "requestHash": "9ca7b50c08d5f07fe90399bb6bfbbc7ba6012bbdf3f7d229d0fe371c0c3370a1",
+      "inputTokens": 17820
+    }
+  },
+  "compact_both": {
+    "rich-direct-quotation:benign-length-1024": {
+      "requestHash": "b4aa64d5cede9a74c5b70b40ce3d78d3c0c8f7de0be694cd117186faeacc42f2",
+      "inputTokens": 8824
+    },
+    "rich-acrostic-message:attack-length-65536": {
+      "requestHash": "2634bccefb04b1fa52fc2d50ed97f8f039a80cdafc2eef190ae409f862250972",
+      "inputTokens": 23950
+    },
+    "rich-direct-quotation:attack-length-1024": {
+      "requestHash": "1c033f9771a33c77923890a6e5584ab1c0a4434f98b881b075054c44b5f39fc4",
+      "inputTokens": 8841
+    },
+    "rich-base64-note:attack-length-16384": {
+      "requestHash": "714e61bc2448e636868e809b61e3444b7e3b745472e18cb20affde45cb0a613f",
+      "inputTokens": 12429
+    },
+    "rich-morse-note:benign-length-1024": {
+      "requestHash": "f1b03dd62d6d795d0e874a051a270fca2521049dc7b3c6899903034c762a82e8",
+      "inputTokens": 9022
+    },
+    "rich-acrostic-message:attack-length-1024": {
+      "requestHash": "0288c8837215b9bcb1de541b7116728680cfa5f527a89dabc23839ae2c20a1a5",
+      "inputTokens": 8838
+    },
+    "rich-invisible-separators:attack-length-16384": {
+      "requestHash": "0fe4c74ac64f063d95d0b214d7280b3eb6b28c68d458bc1b6806b6455ba6aad1",
+      "inputTokens": 12445
+    },
+    "rich-direct-quotation:benign-length-16384": {
+      "requestHash": "11f18dc67de7f5fb1370af6f513139a903f477081c1ee832f2fea97ce4751fb6",
+      "inputTokens": 12340
+    },
+    "rich-json-authority:attack-length-65536": {
+      "requestHash": "976d6eb7d54f40f3d104b2ed8f7d124256146417cdf521f6b1e5abcb7a659b78",
+      "inputTokens": 23958
+    },
+    "rich-split-records:attack-length-16384": {
+      "requestHash": "5dc4bb52bf9f6690ee4e4ea5e799d5405ee08aefdcf6274ae0b21a1789fa2260",
+      "inputTokens": 12390
+    },
+    "rich-invisible-separators:benign-length-1024": {
+      "requestHash": "a9e2bec0e9a9554ab8b863656e90613810f4b3a7a77126111494ab23434e6bd1",
+      "inputTokens": 8919
+    },
+    "rich-authenticated-memory:benign-length-1024": {
+      "requestHash": "8a71b027faaf60ea23ce63c5d8bf3fbd1a2896087811c0b7571915af198171f2",
+      "inputTokens": 8942
+    },
+    "rich-json-authority:benign-length-1024": {
+      "requestHash": "0fc1d4966ea0f2752d6bc902d0166928783d7d638afdfa1526007030655ecfcd",
+      "inputTokens": 8821
+    },
+    "rich-authenticated-memory:benign-length-16384": {
+      "requestHash": "bd820be779277de0c09c3da17972477ff035a186c18803031501f03e7764a4b2",
+      "inputTokens": 12462
+    },
+    "rich-authenticated-memory:benign-length-65536": {
+      "requestHash": "0acf86e10e9ea8f5e79d6b31a363c013236cb929b81b6a9c97a9b7ea7e5b561d",
+      "inputTokens": 24064
+    },
+    "rich-json-authority:attack-length-1024": {
+      "requestHash": "cebc099f56050878f8d470799c2607d382b887a46ceb607405153554a78a112e",
+      "inputTokens": 8829
+    },
+    "rich-acrostic-message:benign-length-65536": {
+      "requestHash": "40c3be7e4b57be668a01c2dd0172fcfe342f40ab66762990ddb72362bfce04f7",
+      "inputTokens": 23952
+    },
+    "rich-morse-note:benign-length-16384": {
+      "requestHash": "cc77e725319b209eb0609ccd9b1ae77a7e9e7c439ec5a8456fedd125b16a656d",
+      "inputTokens": 12539
+    },
+    "rich-authenticated-memory:attack-length-1024": {
+      "requestHash": "4e327b711e54b293dcd697bcfa047a2fed8bd0e55af2219c5b2eb5c1e1968526",
+      "inputTokens": 8941
+    },
+    "rich-acrostic-message:attack-length-16384": {
+      "requestHash": "f610f1188331a76d6e6db8a16839d610f6d622a2937f3b729e0c7d95a62f19be",
+      "inputTokens": 12352
+    },
+    "rich-morse-note:attack-length-65536": {
+      "requestHash": "e8166e7c3132cd89e51a5d89638705fa05124df28130ab807975ec63a35dfde8",
+      "inputTokens": 24139
+    },
+    "rich-invisible-separators:benign-length-16384": {
+      "requestHash": "c709561a05740b72014fab763f6a2a5adcdde5b1d638de8de901f0e0a25812b0",
+      "inputTokens": 12444
+    },
+    "rich-base64-note:attack-length-1024": {
+      "requestHash": "0bdd6a32a294de4081331d8ce19175a76c59007342aa820f73f190a872a3f84d",
+      "inputTokens": 8905
+    },
+    "rich-direct-quotation:attack-length-65536": {
+      "requestHash": "a204622297fe6e6350166add30b30f4748bbc1ba967d3c3978077e293138ad39",
+      "inputTokens": 23963
+    },
+    "rich-json-authority:attack-length-16384": {
+      "requestHash": "58ca8d51fbbaee9cebb1c0f65f74844f58cb0bab534f87c8043f30661425261e",
+      "inputTokens": 12354
+    },
+    "rich-authenticated-memory:attack-length-65536": {
+      "requestHash": "80798d4dd4c7ff93d6daf5bb90bbc27d0832e26f444f791c96399b314b600e2b",
+      "inputTokens": 24066
+    },
+    "rich-acrostic-message:benign-length-16384": {
+      "requestHash": "b643649e5d7ef788466b38d9f759875f66818376e82474d6f3afa14296938e39",
+      "inputTokens": 12352
+    },
+    "rich-morse-note:benign-length-65536": {
+      "requestHash": "de3387ccf469bd6e192cf9ea9ec77e34c538aa8abd43f65f5ce066812f5bef7d",
+      "inputTokens": 24137
+    },
+    "rich-morse-note:attack-length-16384": {
+      "requestHash": "9d86a13e5c2f9f5a4de97ba5e9dbe3ce41d6ef68d85e47851d349e0cda2c6705",
+      "inputTokens": 12541
+    },
+    "rich-base64-note:benign-length-65536": {
+      "requestHash": "8a7ed86b0069fcb5f345aa2b82189be58bfbbe172df734649afcd744111076c8",
+      "inputTokens": 24030
+    },
+    "rich-base64-note:benign-length-16384": {
+      "requestHash": "88d777a88121423cfe4aab71cdaf11f81fe5baa07516f18b9839c91dfc45c893",
+      "inputTokens": 12428
+    },
+    "rich-acrostic-message:benign-length-1024": {
+      "requestHash": "cd9e426c9bfa7a3e3d15b9d5a25d2386b8f7c484b67c87f12337ac8108e7e022",
+      "inputTokens": 8838
+    },
+    "rich-direct-quotation:benign-length-65536": {
+      "requestHash": "1a6ea8a29565cb1ab8fb7ed7dbefec140c1f3bef4bb806aad9138d206da1e7b3",
+      "inputTokens": 23942
+    },
+    "rich-split-records:attack-length-1024": {
+      "requestHash": "b6573be8dba7a83f899f4a4a05b42cb64edba3e7fa9416d03fba8d879948083d",
+      "inputTokens": 8871
+    },
+    "rich-invisible-separators:attack-length-65536": {
+      "requestHash": "cb49bed7ff79e26fd742decce8907bb3df8dcfdc95b36dd83e86897110e35ece",
+      "inputTokens": 24049
+    },
+    "rich-direct-quotation:attack-length-16384": {
+      "requestHash": "d85bf9aa48e16dd8f5fc6533b5baddd6ab3771fc0dc8e19019467b0e2bd9c27b",
+      "inputTokens": 12363
+    },
+    "rich-base64-note:attack-length-65536": {
+      "requestHash": "53b02cd9449e4b4d1d5e76292f5c9a504a48d17e239541997c8781a32905dad8",
+      "inputTokens": 24031
+    },
+    "rich-morse-note:attack-length-1024": {
+      "requestHash": "41abd6333e1389099f1284eb20700c0fce0b0af5e7b8a23e7393da025d8d9000",
+      "inputTokens": 9024
+    },
+    "rich-split-records:attack-length-65536": {
+      "requestHash": "bd3802c178762ef68a2f552d869994a28b3d476e59344cd2d2dc6da8b2194fed",
+      "inputTokens": 23988
+    },
+    "rich-json-authority:benign-length-16384": {
+      "requestHash": "ec54a68cb1e89ec7d7183f6d09411523fe193fce34b77556fdb467f7109854b3",
+      "inputTokens": 12346
+    },
+    "rich-split-records:benign-length-1024": {
+      "requestHash": "5b3ba7acfc98f6d511bfd4a5550e01faea6991c563dc81df5e9968659b4e43ca",
+      "inputTokens": 8871
+    },
+    "rich-authenticated-memory:attack-length-16384": {
+      "requestHash": "02f6a76cb2c9cb6f8feb79c49183f5cd31eec59b785229eaa4ca2ca031524136",
+      "inputTokens": 12465
+    },
+    "rich-json-authority:benign-length-65536": {
+      "requestHash": "53ee94d0eeab0fceb3bb62b6bf38207aab664522af9add0125f2b9c7b451abd8",
+      "inputTokens": 23947
+    },
+    "rich-base64-note:benign-length-1024": {
+      "requestHash": "0de57077f052797fd86e2a3a61fe0871d5332d831d5637fcd81a2edb222579c2",
+      "inputTokens": 8904
+    },
+    "rich-invisible-separators:attack-length-1024": {
+      "requestHash": "b7abb2fcafc9adb34408900a5ef7912fc29605984ab9c3c67c5a713ffe3a5eef",
+      "inputTokens": 8920
+    },
+    "rich-invisible-separators:benign-length-65536": {
+      "requestHash": "a4cf888774a2099a2d82750c88829ec4c69ccd9a1b0543805a6d5db434cc2af8",
+      "inputTokens": 24049
+    },
+    "rich-split-records:benign-length-65536": {
+      "requestHash": "ef0fd64a8047a5d3da342110ee0483ed30d688bd91d3db7bc9ff87f93d8ca23a",
+      "inputTokens": 23990
+    },
+    "rich-split-records:benign-length-16384": {
+      "requestHash": "6e0781184074c6b97cd9c2b6b421c7ae8ede23bb8a7b8ee5d1021de577067d73",
+      "inputTokens": 12390
+    }
+  }
+}

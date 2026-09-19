@@ -1,0 +1,11 @@
+{
+  "schemaVersion": "payload-profile/1",
+  "id": "jev-question-examples",
+  "renderer": "jev",
+  "examplePlacement": "question-local",
+  "guidePlacement": "legacy-state",
+  "questionGrouping": "together",
+  "omitGuideBlocks": {},
+  "maxRequestBytes": 1500000,
+  "notes": "Resolved labeled examples in question instructions. Matched evidence comparator for criterion placement."
+}
