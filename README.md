@@ -2,6 +2,8 @@
 
 **Private GitHub repository:** [jpollard-cs/jev-observatory](https://github.com/jpollard-cs/jev-observatory). Source, policy templates, precomputed reports and validation evidence are checked in. Credentials, raw run directories, account ledgers, model weights and runtime caches remain local.
 
+**Community site:** `community-site/` adds a GitHub-backed policy library and persistent, portable evidence uploads. Public read routes require no account; the hosted audience remains private during validation. Policy changes use PRs. See the [community implementation](community-site/README.md) and [contributor-funded verification design](docs/community-verification.md). Ordinary uploads are contributor-reported, not signed verification.
+
 **Current local application:** the rebuilt 0.5 policy workbench is integrated under [`workbench/`](workbench/README.md). Run `npm run workbench` from this repository, then open `http://127.0.0.1:8794`. It supports application-description suggestions, reviewed policy settings, policy-aware catalog selection and six separately identified historical reports. See the [integration and operating guide](docs/workbench-integration.md). Starting it makes no model calls; the original research account and frozen experiments remain in this repository.
 
 **Accounting checkpoint, 2026-09-19:** the existing restart ledger contains **$1.450972152 known usage and $0.002664690 held**, within the existing **$3 limit**. Use `npm run workbench:account` for a fresh offline reading. The older pilot amounts below describe their historical checkpoints, not today's remaining allowance.

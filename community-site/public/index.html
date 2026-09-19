@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#0b1421" />
+    <title>Jev Observatory · Community</title>
+    <link rel="stylesheet" href="/community.css" />
+    <script src="/community.js" type="module"></script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <div class="cosmos" aria-hidden="true"><div class="spiral"></div></div>
+    <header>
+      <a class="brand" href="/" aria-label="Jev Observatory home"
+        ><span class="mark">✳</span
+        ><span>JEV <strong>OBSERVATORY</strong><small>COLLECTIVE RESEARCH</small></span></a
+      >
+      <nav aria-label="Primary">
+        <a href="#library">Policy library</a><a href="#evidence">Shared evidence</a
+        ><a href="/observatory">Research ↗</a>
+      </nav>
+      <a
+        id="account"
+        class="button subtle"
+        href="/signin-with-chatgpt?return_to=%2F%23contribute"
+        target="_top"
+        >Sign in to contribute</a
+      >
+    </header>
+    <main id="main">
+      <section class="hero">
+        <div class="eyebrow"><span class="pulse"></span> OPEN METHODS · INSPECTABLE EVIDENCE</div>
+        <h1>Better boundaries.<br /><span>Built together.</span></h1>
+        <p>
+          A shared laboratory for prompt injection policies. Explore the rules, inspect the
+          evidence, and propose the next improvement.
+        </p>
+        <div class="actions">
+          <a class="button primary" href="#library">Explore the policy library <span>↗</span></a
+          ><a class="text-link" href="https://github.com/jpollard-cs/jev-observatory"
+            >Contribute on GitHub ↗</a
+          >
+        </div>
+        <div class="orbit-label" aria-hidden="true">
+          EST. 2026 <span>◌</span> ALWAYS UNDER REVIEW
+        </div>
+      </section>
+      <div class="principles">
+        <span><b>01</b> Composable policies</span><span><b>02</b> Evidence with provenance</span
+        ><span><b>03</b> Open, portable formats</span>
+      </div>
+      <section id="library">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">THE POLICY LIBRARY</div>
+            <h2>A shared core. Different contexts.</h2>
+          </div>
+          <p>
+            Profiles for distinct operations, built from explicit rules. Review the exact policy
+            before using it.
+          </p>
+        </div>
+        <div id="profiles" class="grid profiles"><p>Loading policy library…</p></div>
+        <details class="component-library">
+          <summary>Explore the shared policy components <span>↘</span></summary>
+          <p class="muted">
+            These describe the existing workbench rules. Component selection must be approved by the
+            application owner; inspected content cannot grant itself an exception.
+          </p>
+          <div id="components" class="grid components"></div>
+        </details>
+      </section>
+      <section id="evidence">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">THE EVIDENCE EXCHANGE</div>
+            <h2>Show the work.</h2>
+          </div>
+          <p>
+            Download the full bundle: policy, cases, expected values, observed outputs and run
+            settings.
+          </p>
+        </div>
+        <div class="toolbar">
+          <div class="segmented">
+            <button id="shared-tab" aria-pressed="true">Shared evidence</button
+            ><button id="mine-tab" aria-pressed="false">My contributions</button>
+          </div>
+          <a class="text-link" href="#contribute">Add evidence +</a>
+        </div>
+        <p class="notice">
+          Uploads are <strong>contributor-reported</strong>. Content hashes detect changed files;
+          they do not certify execution or prove that a policy is safe.
+        </p>
+        <div id="results" class="result-list" aria-live="polite"></div>
+        <button id="more" class="button subtle" hidden>Load more</button>
+      </section>
+      <section id="contribute" class="contribution">
+        <div>
+          <div class="eyebrow">MAKE IT BETTER</div>
+          <h2>A contribution starts<br />with a question.</h2>
+          <p>
+            Change a policy through a GitHub pull request. Attach reproducible evidence, preserve
+            failures, and let reviewers inspect the tradeoffs.
+          </p>
+          <ol class="steps">
+            <li>
+              <strong>Propose a change</strong
+              ><span>Fork a profile or improve a component in GitHub.</span>
+            </li>
+            <li>
+              <strong>Test a frozen suite</strong
+              ><span
+                >Run locally with your own Jev key. Include baseline and candidate evidence.</span
+              >
+            </li>
+            <li>
+              <strong>Share the whole picture</strong
+              ><span
+                >Upload portable bundles or attach them to the PR. No ChatGPT account is needed to
+                view shared evidence once the site is public.</span
+              >
+            </li>
+          </ol>
+          <a
+            class="text-link"
+            href="https://github.com/jpollard-cs/jev-observatory/blob/main/docs/community-verification.md"
+            >Read the contribution & verification design ↗</a
+          >
+        </div>
+        <div class="upload-card">
+          <div class="eyebrow">UPLOAD EVIDENCE</div>
+          <h3>Your key stays with your runner.</h3>
+          <p>
+            This site accepts result files, never API keys. Uploads begin private; share them when
+            they are ready.
+          </p>
+          <form id="upload">
+            <label
+              >Contributor display name<input
+                name="author"
+                required
+                maxlength="80"
+                autocomplete="nickname"
+                placeholder="How you’d like to be credited" /></label
+            ><label
+              >Result bundle <span class="muted">JSON · up to 4 MiB</span
+              ><input name="bundle" type="file" accept=".json,application/json" required /></label
+            ><label class="checkbox"
+              ><input name="reviewed" type="checkbox" required /><span
+                >I reviewed the complete bundle for credentials, personal information and private
+                content.</span
+              ></label
+            ><button class="button primary" id="upload-button" type="submit">
+              Save private contribution ↑
+            </button>
+            <p id="upload-status" role="status"></p>
+          </form>
+          <a class="text-link" href="/api/community/example" download="jev-bundle-example.json"
+            >Download format example ↓</a
+          >
+          <p class="fine">
+            The example contains no measured results. Signed verification is a proposed follow-up;
+            ordinary uploads never receive a verified badge.
+          </p>
+        </div>
+      </section>
+      <footer>
+        <span>JEV OBSERVATORY <small>Evidence over impressions.</small></span>
+        <div>
+          <a href="https://github.com/jpollard-cs/jev-observatory">Source & discussions ↗</a
+          ><a href="/observatory">Original research ↗</a>
+        </div>
+        <p>
+          Preparing for public release. The hosted site and repository remain private during
+          validation.
+        </p>
+      </footer>
+    </main>
+    <dialog id="detail">
+      <div class="dialog-head">
+        <span class="eyebrow">INSPECT THE SOURCE</span
+        ><button id="close-detail" aria-label="Close details">×</button>
+      </div>
+      <div id="detail-body"></div>
+    </dialog>
+    <div id="toast" role="status"></div>
+  </body>
+</html>

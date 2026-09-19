@@ -1,0 +1,18 @@
+{
+  "source": "Verified Sites v4 publication Worker; retained without edits.",
+  "sha256": "7baf28791bcbe6699fd65824b3df22220d99da0a4150d403cb84ee309880943d",
+  "projectId": "appgprj_6aab480f6c5c81918e6f3ed4704114a5",
+  "purpose": "Preserve the existing Observatory and its R2 evidence assets at /observatory.",
+  "deploymentAssets": {
+    "html": {
+      "key": "data-app/html/fb47de418fdf94323ba057b5eded92054195c51a35fad020a96a6cc5e2f6134e",
+      "sha256": "fb47de418fdf94323ba057b5eded92054195c51a35fad020a96a6cc5e2f6134e",
+      "bytes": 2989257
+    },
+    "snapshot": {
+      "key": "data-app/snapshot/38b5fe6d119cc5ecb4f5d9b42d6a29fcc3c352f1c4bb8fd4fcd0911bd16333f3",
+      "sha256": "38b5fe6d119cc5ecb4f5d9b42d6a29fcc3c352f1c4bb8fd4fcd0911bd16333f3",
+      "bytes": 31347931
+    }
+  }
+}

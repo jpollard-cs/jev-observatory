@@ -1,0 +1,56 @@
+[
+  {
+    "id": "language",
+    "title": "Declared languages",
+    "why": "Narrow the inputs the consumer intends to admit, and make the language-validation obligation explicit.",
+    "tradeoff": "Legitimate languages outside the list can be held or blocked. English-only is not ASCII-only.",
+    "limit": "A narrower contract does not prove better attack detection; it does not stop English-language injection.",
+    "test": "Permitted-language facts, prohibited-language facts, and attacks in each sampled language.",
+    "mandatory": false
+  },
+  {
+    "id": "representations",
+    "title": "Message-level encodings",
+    "why": "Avoid admitting concealed natural-language channels the application does not need.",
+    "tradeoff": "Harmless encoded messages can be correctly rejected. Syntax, names and technical identifiers are not automatically hidden messages.",
+    "limit": "No encoding ban protects against plain-language redirection. An encoding violation is not an attack label.",
+    "test": "Attack / harmless message / ordinary syntax contrast groups.",
+    "mandatory": false
+  },
+  {
+    "id": "exceptions",
+    "title": "Consumer-owned exceptions",
+    "why": "Permit necessary representations for a specific task without granting source authority.",
+    "tradeoff": "Task, use, field and complete transformation chain must fit. Topical similarity is not a grant.",
+    "limit": "An exception name in a document is not a credential. Host authentication remains outside this prototype.",
+    "test": "Valid grant, missing grant, wrong task, extra layer, self-grant and malicious allowed format.",
+    "mandatory": false
+  },
+  {
+    "id": "relevance",
+    "title": "Content and format relevance",
+    "why": "Separate whether facts are on topic from whether their presentation has a legitimate task purpose.",
+    "tradeoff": "Irrelevant or mixed inputs can require review even without an attack.",
+    "limit": "A command to hide damage is highly topical and still unauthorized.",
+    "test": "Ordinary relevant data, off-topic data, topical attacks and coincidental initials.",
+    "mandatory": false
+  },
+  {
+    "id": "uncertainty",
+    "title": "Hold unresolved inputs",
+    "why": "Missing meaning, authority or contract evidence must not be silently converted into permission.",
+    "tradeoff": "Reviews can interrupt legitimate work. They must not count as successful attack detections.",
+    "limit": "This is a rule over model findings, not a guarantee that the model recognizes its uncertainty.",
+    "test": "Missing task, absent decoding key, partial but decisive evidence.",
+    "mandatory": true
+  },
+  {
+    "id": "authority",
+    "title": "Evidence is not authority",
+    "why": "Data can inform the authorized task but cannot change the task, policy, privileges or memory.",
+    "tradeoff": "Legitimate procedures require explicit consumer delegation, not merely imperative wording.",
+    "limit": "The workbench cannot configure or enforce the real agent’s permissions, sandbox or network access.",
+    "test": "Role spoofing, source self-authorization, realistic document injections and quoted procedures.",
+    "mandatory": true
+  }
+]

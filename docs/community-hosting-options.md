@@ -1,6 +1,6 @@
 # Community Observatory hosting options
 
-Researched 2026-09-19. This is a proposal, not a deployment or change to current sharing.
+Researched 2026-09-19. Historical options note; implementation now lives in `community-site/`. See `community-verification.md` for the revised GitHub-first policy workflow and proposed contributor-funded verification. Sharing remains private.
 
 **ChatGPT Sites can host the community application.** Official documentation describes server-side authorization, ChatGPT sign-in, D1 for structured records and R2 for uploaded files. A public site can offer sign-in for identity-aware features. Sharing options depend on account/workspace settings. [Official Sites documentation](https://learn.chatgpt.com/docs/sites).
 
@@ -12,7 +12,7 @@ Researched 2026-09-19. This is a proposal, not a deployment or change to current
 
 ## Recommended first version
 
-Start with the first option. Contributors sign in, create or fork a policy version, attach a suite manifest, and upload a result bundle. Public browsing can be added later; submissions begin private and become shared through an explicit action. Keep GitHub as the source-code and issue-review home.
+Start with the first option. Contributors propose policy changes through GitHub PRs and may sign in to upload a complete result bundle. Public browsing can be added later; submissions begin private and become shared through an explicit action. Keep GitHub as the source-code and issue-review home.
 
 - Store policy revisions, authorship, parent revisions, suite identities, visibility and review state in D1.
 - Store immutable result bundles and exports in R2, linked to their hashes and metadata.
@@ -23,7 +23,7 @@ Start with the first option. Contributors sign in, create or fork a policy versi
 
 ## What must change in this project
 
-The existing hosted Observatory is configured as a static build. The new local workbench uses Node filesystem access, local account locks and local credentials. Neither automatically becomes a multi-user backend when published.
+The original authored Observatory is configured as a static build, but its published v4 representation already uses a Worker with D1/R2. The community wrapper preserves that runtime and its assets. The new local workbench uses Node filesystem access, local account locks and local credentials. Neither automatically becomes a multi-user backend when published.
 
 Keep policy compilation and evaluation semantics in the domain layer. Introduce separate storage and identity adapters for the hosted application, using Sites' supported server runtime and logical D1/R2 bindings. Preserve the existing local runner for reproducible evaluation and local provider credentials. An upload-only community does not need to collect contributors' Jev keys.
 
