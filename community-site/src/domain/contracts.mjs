@@ -101,9 +101,10 @@ export async function validateBundle(input) {
     );
   if (
     input.provenance.pullRequest !== undefined &&
-    !/^https:\/\/github\.com\/jpollard-cs\/jev-observatory\/pull\/[1-9][0-9]*$/.test(
-      input.provenance.pullRequest,
-    )
+    (typeof input.provenance.pullRequest !== 'string' ||
+      !/^https:\/\/github\.com\/jpollard-cs\/jev-observatory\/pull\/[1-9][0-9]*$/.test(
+        input.provenance.pullRequest,
+      ))
   )
     return error('invalid_pull_request', 'Use a pull request URL in the Observatory repository.');
   if (!Array.isArray(input.observations) || input.observations.length !== cases.size)

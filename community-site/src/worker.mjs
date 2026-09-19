@@ -1,7 +1,14 @@
+import workspaceAssets from 'workspace:assets';
 import legacy from '../legacy/observatory-worker.mjs';
 import { repository } from './adapters/d1.mjs';
 import { communityService } from './service.mjs';
-import { api, securityHeaders } from './http.mjs';
+import { api, json } from './http.mjs';
+import {
+  securityHeaders,
+  workspaceHeaders,
+  sameOriginWrite,
+  protectLegacyResponse,
+} from './security.mjs';
 import html from '../public/index.html';
 import css from '../public/app.css';
 import js from '../public/app.js';
@@ -10,9 +17,28 @@ import example from '../catalog/example.json';
 export default {
   async fetch(request, env, context) {
     const url = new URL(request.url);
+    if (!['GET', 'HEAD', 'OPTIONS'].includes(request.method) && !sameOriginWrite(request))
+      return json({ error: 'invalid_origin', message: 'Cross-site writes are not allowed.' }, 403);
     if (url.pathname === '/observatory' || (url.pathname === '/' && url.searchParams.has('tab'))) {
       url.pathname = '/';
-      return legacy.fetch(new Request(url, request), env, context);
+      return protectLegacyResponse(await legacy.fetch(new Request(url, request), env, context));
+    }
+    if (workspaceAssets[url.pathname] && ['GET', 'HEAD'].includes(request.method)) {
+      const asset = workspaceAssets[url.pathname];
+      return new Response(
+        request.method === 'HEAD'
+          ? null
+          : Uint8Array.from(atob(asset.body), (c) => c.charCodeAt(0)),
+        {
+          encodeBody: 'manual',
+          headers: {
+            ...workspaceHeaders,
+            'Content-Type':
+              asset.type + (asset.type === 'application/gzip' ? '' : '; charset=utf-8'),
+            ...(asset.encoding ? { 'Content-Encoding': asset.encoding } : {}),
+          },
+        },
+      );
     }
     if (url.pathname.startsWith('/api/community/')) {
       const id = request.headers.get('oai-authenticated-user-id');
@@ -24,7 +50,7 @@ export default {
       });
     }
     const assets = {
-      '/': { body: html, type: 'text/html' },
+      '/community': { body: html, type: 'text/html' },
       '/community.css': { body: css, type: 'text/css' },
       '/community.js': { body: js, type: 'text/javascript' },
     };
@@ -34,6 +60,6 @@ export default {
         headers: { ...securityHeaders, 'Content-Type': asset.type + '; charset=utf-8' },
       });
     }
-    return legacy.fetch(request, env, context);
+    return protectLegacyResponse(await legacy.fetch(request, env, context));
   },
 };

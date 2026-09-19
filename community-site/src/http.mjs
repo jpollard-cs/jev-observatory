@@ -1,15 +1,10 @@
 import { MAX_BYTES, error, validId } from './domain/contracts.mjs';
-export const securityHeaders = {
-  'X-Content-Type-Options': 'nosniff',
-  'Referrer-Policy': 'same-origin',
-  'Cache-Control': 'no-store',
-  'Content-Security-Policy':
-    "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'",
-};
+import { dataHeaders, sameOriginWrite } from './security.mjs';
+export { securityHeaders } from './security.mjs';
 export function json(value, status = 200) {
   return new Response(JSON.stringify(value), {
     status,
-    headers: { ...securityHeaders, 'Content-Type': 'application/json; charset=utf-8' },
+    headers: { ...dataHeaders, 'Content-Type': 'application/json; charset=utf-8' },
   });
 }
 const respond = (result) =>
@@ -59,10 +54,7 @@ export async function api(request, { service, actor, catalog, example }) {
     if (method !== 'GET') {
       if (!actor)
         return respond(error('sign_in_required', 'Sign in to manage contributions.', 401));
-      if (
-        request.headers.get('origin') !== url.origin ||
-        request.headers.get('x-observatory-intent') !== 'write'
-      )
+      if (!sameOriginWrite(request) || request.headers.get('x-observatory-intent') !== 'write')
         return respond(error('invalid_origin', 'Use the contribution form on this site.', 403));
     }
     if (path === '/api/community/results' && method === 'GET') {
@@ -83,7 +75,7 @@ export async function api(request, { service, actor, catalog, example }) {
       if (result.tag === 'error') return respond(result);
       return new Response(result.value.body, {
         headers: {
-          ...securityHeaders,
+          ...dataHeaders,
           'Content-Type': 'application/json',
           'Content-Disposition': `attachment; filename="${result.value.filename}"`,
         },

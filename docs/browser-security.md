@@ -1,0 +1,13 @@
+# Browser security boundary
+
+This is a focused hardening pass, not a claim of an exhaustive penetration test.
+
+- No Jev API key is collected by or persisted in the hosted app. Browser storage contains policy/application drafts, workflow preferences and the original research app's presentation preferences; it is not a credential vault. The local connection continues to hold its optional key only in the loopback server's memory.
+- Untrusted community fields are rendered as text. Hosted legacy workbench template sinks are sanitized with DOMPurify and restricted with Trusted Types where supported. CSP blocks inline event handlers, inline/eval scripts, unapproved workers, remote connections, frames and objects. Inline styles remain allowed for existing charts/layout calculations.
+- The original research document is hash-pinned before nonce assignment. A changed document fails closed. No uploaded document receives this treatment.
+- Same-origin writes, server ownership checks, prepared SQL, bounded JSON, quotas, private-by-default visibility, safe GitHub PR URL validation, restrictive download headers, no-referrer and nosniff remain in effect. Identity trusts only Sites' authenticated dispatch boundary; other hosts must replace that adapter.
+- Local test payloads containing script, SVG event-handler, iframe and image markup remained inert in community evidence. Controlled browser probes rejected inline/data scripts, event handlers, an external connection and an unauthorized Trusted Types sink. No real credential was used in testing.
+
+Nonextractable Web Crypto keys can help some at-rest threats, but cannot stop malicious same-origin JavaScript from reading an unlocked field, invoking a permitted operation or using a key. [OWASP's browser storage guidance](https://cheatsheetseries.owasp.org/cheatsheets/HTML5_Security_Cheat_Sheet.html) and [XSS prevention guidance](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html) inform this boundary. We therefore do not claim device encryption prevents XSS or collect provider keys before implementing a reviewed execution boundary.
+
+Dependency advisory verification was unavailable during the initial hardening check (registry advisory endpoints returned 400/503); this is not a clean audit result. Public release still requires operational abuse limits, reporting/moderation, backups and a deployment identity/cookie review. A trusted BYOK runner and signed receipts remain unimplemented and must not be advertised as verified by these UI/API tests.

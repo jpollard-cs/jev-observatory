@@ -1,6 +1,8 @@
 # Community Observatory
 
-A portable, account-optional reading surface for the existing Observatory. GitHub owns policy iteration; this app owns persistent evidence uploads, private drafts, explicit sharing and downloads. No provider key, model call or paid CI execution is part of this app.
+The portable browser workspace and community layer for the Observatory. The root preserves policy building, adaptive coverage, the interactive atlas and historical evidence. Community uploads and shared evidence live at `/community`; GitHub remains the review/versioning route for policy proposals. No provider key, model call or paid CI execution is part of the hosted app.
+
+See [Browser workspace](../docs/browser-workspace.md) and [Browser security](../docs/browser-security.md) for capabilities, implementation and remaining boundaries.
 
 ```sh
 cd community-site
@@ -21,7 +23,8 @@ Node 24+ is required for the SQLite development adapter. Local preview runs on `
 - `src/adapters/d1.mjs`: prepared SQL and atomic per-owner quotas. `scripts/local-storage.mjs`: SQLite/filesystem development adapter.
 - `src/http.mjs`: bounded imports, JSON responses, server-side ownership and same-origin write checks.
 - `src/worker.mjs`: Sites identity adapter, community assets and existing research routing. A non-Sites deployment must replace the trusted identity adapter; never expose the Worker directly while trusting arbitrary inbound identity headers.
-- `public/`: dependency-free UI. Uploaded strings use text nodes, never HTML. Animation transforms one prepainted decorative layer and honors reduced motion.
+- `src/workspace/`: browser adapters for the shared workbench compiler, planners and evidence.
+- `public/`: dependency-free community UI. Uploaded strings use text nodes, never HTML. Animation transforms one prepainted decorative layer and honors reduced motion.
 - `legacy/`: byte-preserved v4 Worker plus provenance. It still serves its existing R2 assets and APIs, under `/observatory`. Existing `/?tab=...` research bookmarks remain supported. No historical evidence or protected Data app runtime is rewritten.
 
 D1 metadata and R2 bundles persist independently of deployments. There are no anonymous writes. Uploads start private, are immutable, and can be shared/withdrawn/deleted by their owner. Per-account limits: 200 bundles / 100 MiB, 4 MiB per bundle. JSON nesting is bounded. All ordinary uploads remain contributor-reported; claiming verification in bundle metadata is rejected.
@@ -40,4 +43,4 @@ Anonymous routes are implemented and tested. The platform-level Site audience an
 
 Before opening community uploads broadly, establish moderation/reporting and operator retention/backups, global abuse/spend limits and the intended content policy for hostile test text. The current private preview has per-owner quotas and ownership enforcement, not a production abuse-management service.
 
-See `../docs/community-verification.md` for the proposed contributor-funded trusted runner. It is intentionally not claimed as implemented by this upload-only app.
+See `../docs/community-verification.md` for the proposed contributor-funded trusted runner. It is intentionally not claimed as implemented by this browser workspace and sharing app.

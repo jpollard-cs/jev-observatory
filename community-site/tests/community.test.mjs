@@ -237,14 +237,14 @@ test('catalog profiles match the canonical workbench policies and policy IDs', a
     ['authority', 'uncertainty'],
   );
 });
-test('compiled worker preserves the exact legacy runtime and anonymous routes', async () => {
+test('compiled worker preserves the legacy runtime and rejects tampered legacy HTML', async () => {
   const worker = (await import('../dist/server/index.js')).default;
   const source = await fs.readFile(new URL('../legacy/observatory-worker.mjs', import.meta.url));
   const provenance = JSON.parse(
     await fs.readFile(new URL('../legacy/provenance.json', import.meta.url), 'utf8'),
   );
   assert.equal(await sha256(source), provenance.sha256);
-  const home = await worker.fetch(new Request('https://site.test/'), {}, {});
+  const home = await worker.fetch(new Request('https://site.test/community'), {}, {});
   assert.equal(home.status, 200);
   assert.match(await home.text(), /Better boundaries/);
   assert.match(home.headers.get('content-security-policy'), /script-src 'self'/);
@@ -266,16 +266,13 @@ test('compiled worker preserves the exact legacy runtime and anonymous routes', 
       },
     },
   };
-  const legacy = (await import('../legacy/observatory-worker.mjs')).default;
   for (const query of ['', '?tab=policy']) {
     const actual = await worker.fetch(
       new Request('https://site.test/observatory' + query),
       env,
       {},
     );
-    const expected = await legacy.fetch(new Request('https://site.test/' + query), env, {});
-    assert.equal(actual.status, 200);
-    assert.equal(actual.status, expected.status);
-    assert.equal(await actual.text(), await expected.text());
+    assert.equal(actual.status, 503);
+    assert.match(await actual.text(), /integrity check/);
   }
 });

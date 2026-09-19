@@ -17,13 +17,13 @@
         ><span>JEV <strong>OBSERVATORY</strong><small>COLLECTIVE RESEARCH</small></span></a
       >
       <nav aria-label="Primary">
-        <a href="#library">Policy library</a><a href="#evidence">Shared evidence</a
-        ><a href="/observatory">Research ↗</a>
+        <a href="/">Workspace</a><a href="#library">Policy library</a
+        ><a href="#evidence">Shared evidence</a><a href="/observatory">Research ↗</a>
       </nav>
       <a
         id="account"
         class="button subtle"
-        href="/signin-with-chatgpt?return_to=%2F%23contribute"
+        href="/signin-with-chatgpt?return_to=%2Fcommunity%23contribute"
         target="_top"
         >Sign in to contribute</a
       >
@@ -136,7 +136,7 @@
             This site accepts result files, never API keys. Uploads begin private; share them when
             they are ready.
           </p>
-          <form id="upload">
+          <form id="upload" method="post" action="/api/community/results">
             <label
               >Contributor display name<input
                 name="author"
