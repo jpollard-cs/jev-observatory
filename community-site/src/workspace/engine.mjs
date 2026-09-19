@@ -12,7 +12,8 @@ import {
   EXCEPTIONS,
   LANGUAGE_NAMES,
 } from '../../../workbench/src/policy.mjs';
-import { CATALOG, catalogView, expectedFor } from '../../../workbench/src/catalog.mjs';
+import {modelLanguageCatalog} from '../../../workbench/src/model-capabilities.mjs';
+import { CATALOG, catalogView, expectedFor, LANGUAGE_PROBE_CODES } from '../../../workbench/src/catalog.mjs';
 import { compileCase } from '../../../workbench/src/compiler.mjs';
 import { makePlan } from '../../../workbench/src/planner.mjs';
 import { makeAssistedPlan } from '../../../workbench/src/selection/planner.mjs';
@@ -125,6 +126,8 @@ export async function dispatch(route, input = {}) {
       representations: REPRESENTATIONS,
       exceptions: EXCEPTIONS,
       languages: LANGUAGE_NAMES,
+      modelLanguages: modelLanguageCatalog(),
+      languageProbeCodes: LANGUAGE_PROBE_CODES,
       historical: await loadRecord('consumer-admission-v1'),
       recordedRuns: records,
       newCalls: 0,

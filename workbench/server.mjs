@@ -16,7 +16,8 @@ import os from 'node:os';
 import {randomBytes} from 'node:crypto';
 import {pathToFileURL} from 'node:url';
 import {preset,validatePolicy,policyWarnings,RULE_CARDS,REPRESENTATIONS,EXCEPTIONS,LANGUAGE_NAMES} from './src/policy.mjs';
-import {CATALOG,catalogView,expectedFor} from './src/catalog.mjs';
+import {modelLanguageCatalog} from './src/model-capabilities.mjs';
+import {CATALOG,catalogView,expectedFor,LANGUAGE_PROBE_CODES} from './src/catalog.mjs';
 import {compileCase} from './src/compiler.mjs';
 import {makePlan} from './src/planner.mjs';
 import {importReport} from './src/report.mjs';
@@ -40,7 +41,7 @@ export function startServer({port=8792,host='127.0.0.1',runtime=path.join(ROOT,'
    if(route.startsWith('/api/')&&(['cross-site','same-site'].includes(req.headers['sec-fetch-site'])||(req.headers.origin&&req.headers.origin!==`http://${req.headers.host}`))){send(res,403,{error:'Cross-origin local API access denied'});return;}
    if(req.method==='GET'&&route==='/api/connection'){send(res,200,await connection.status());return;}
    if(req.method==='GET'&&route==='/api/connection/run'){send(res,200,connection.runStatus(url.searchParams.get('id')));return;}
-   if(req.method==='GET'&&route==='/api/bootstrap'){send(res,200,{csrf,version:'0.5.0-rebuilt',taskStarters:TASK_STARTERS,connectionDefaults:{defaultAccount,defaultProject,projectExists:fs.existsSync(defaultProject)},originalCatalog:originalCatalogView(),appRoot:ROOT,selectionRegistry:registryView(),defaultApplication:defaultApplication(preset()),selectionSurfaces:SURFACES,selectionCapabilities:CAPABILITIES,defaultPolicy:preset(),catalog:catalogView(),rules:RULE_CARDS,representations:REPRESENTATIONS,exceptions:EXCEPTIONS,languages:LANGUAGE_NAMES,historical:HISTORICAL,recordedRuns:evidenceLibrary(),defaultProject:path.join(os.homedir(),'Documents/Codex/2026-09-16/i-g/outputs/jev-redteam'),newCalls:0});return;}
+   if(req.method==='GET'&&route==='/api/bootstrap'){send(res,200,{csrf,version:'0.5.0-rebuilt',taskStarters:TASK_STARTERS,connectionDefaults:{defaultAccount,defaultProject,projectExists:fs.existsSync(defaultProject)},originalCatalog:originalCatalogView(),appRoot:ROOT,selectionRegistry:registryView(),defaultApplication:defaultApplication(preset()),selectionSurfaces:SURFACES,selectionCapabilities:CAPABILITIES,defaultPolicy:preset(),catalog:catalogView(),rules:RULE_CARDS,representations:REPRESENTATIONS,exceptions:EXCEPTIONS,languages:LANGUAGE_NAMES,modelLanguages:modelLanguageCatalog(),languageProbeCodes:LANGUAGE_PROBE_CODES,historical:HISTORICAL,recordedRuns:evidenceLibrary(),defaultProject:path.join(os.homedir(),'Documents/Codex/2026-09-16/i-g/outputs/jev-redteam'),newCalls:0});return;}
    if(req.method==='GET'&&route==='/api/evidence'){send(res,200,loadEvidence(url.searchParams.get('id')));return;}
    if(req.method==='GET'&&route==='/api/evidence-specimen'){send(res,200,evidenceSpecimen({protocol:url.searchParams.get('protocol'),planHash:url.searchParams.get('planHash'),caseId:url.searchParams.get('caseId'),condition:url.searchParams.get('condition'),id:url.searchParams.get('id'),requestHash:url.searchParams.get('requestHash')}));return;}
    if(req.method==='GET'&&route==='/api/original/archived-request'){const hash=url.searchParams.get('hash');assert(/^[a-f0-9]{64}$/.test(hash),'Invalid request identity');const requests=JSON.parse(gunzipSync(fs.readFileSync(path.join(ROOT,'data/history/original-extra-requests.json.gz'))));const request=requests[hash];assert(request&&sha(JSON.stringify(request))===hash,'No exact archived request registered');send(res,200,{request,requestHash:hash});return;}

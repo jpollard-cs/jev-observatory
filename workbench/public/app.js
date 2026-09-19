@@ -295,7 +295,9 @@ document.addEventListener('change',async e=>{const t=e.target;try{
  else if(t.id==='advice-file'&&t.files[0]){const f=t.files[0];if(f.size>12*1024*1024)throw Error('Advisor report exceeds 12 MiB');const data=await api('selection/import',{raw:await f.text(),policy:state.policy,application:state.application});if(data.report.mode==='tag')state.tagSummary=data.summary;else{state.adviceReport=data.report;state.adviceSummary=data.summary;state.plan=null;state.frozen=null;}state.nav='selection';shell();t.value='';toast('Advisor evidence imported; no tests run or tags auto-applied.');}
  else if(t.dataset.setting){invalidateDraft();state.adviceReport=null;state.adviceSummary=null;state.advisorFrozen=null;const name=t.dataset.setting,p=state.policy;
   if(name.startsWith('rep:')||name.startsWith('exception:')){const [type,value]=name.split(':'),list=p.representations[type==='rep'?'prohibited':'enabledExceptions'];if(t.checked&&!list.includes(value))list.push(value);else if(!t.checked)list.splice(list.indexOf(value),1);}
-  else if(name==='languages.allowed')p.languages.allowed=t.value.split(',').map(x=>x.trim()).filter(Boolean);
+  else if(name.startsWith('language:')){const value=name.slice(9),list=p.languages.allowed;if(!boot.modelLanguages?.[p.model]?.options.some(x=>x.code===value))throw Error('Language is not offered for this model');if(t.checked&&!list.includes(value))list.push(value);else if(!t.checked){if(list.length===1){t.checked=true;throw Error('Keep at least one permitted language, or choose Any human language.');}p.languages.allowed=list.filter(x=>x!==value);}}
+  else if(name==='languages.allowed')p.languages.allowed=[...new Set(t.value.split(',').map(x=>x.trim()).filter(Boolean))];
+  else if(name==='languages.mode'){p.languages.mode=t.value;if(t.value==='allowlist'&&!p.languages.allowed.length){const first=boot.modelLanguages?.[p.model]?.options[0]?.code;p.languages.allowed=first?[first]:[];}}
   else if(name.includes('.')){const [parent,key]=name.split('.');p[parent][key]=t.value;}
   else p[name]=t.type==='checkbox'?t.checked:t.value;
   state.compiled=null;state.plan=null;state.frozen=null;save();renderPage();

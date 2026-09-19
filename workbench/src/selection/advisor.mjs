@@ -1,4 +1,4 @@
-import {SETUP_FIELDS,SETUP_VERSION,setupRequest,setupSummaryFromValidated} from '../setup.mjs';
+import {setupFieldsForModel,SETUP_VERSION,setupRequest,setupSummaryFromValidated} from '../setup.mjs';
 import {validateBudget,validateTokenLimit,coverageBudget} from '../budget.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -46,7 +46,7 @@ export function makeAdvisorPlan(policy,application,options={},catalogDescriptors
  o.maxInputTokens=validateTokenLimit(o.maxInputTokens);
  assert(Number.isInteger(o.chunkSize)&&o.chunkSize>0&&o.chunkSize<=8,'Chunk size must be 1–8 groups');
  assert(catalogDescriptors===null||o.mode==='tag','Imported descriptors are review-only tagging, not an executable evaluation catalog');
- const ds=o.mode==='setup'?SETUP_FIELDS:(catalogDescriptors===null?descriptors():validateDescriptors(catalogDescriptors)),chunks=[];let chunk=[];
+ const ds=o.mode==='setup'?setupFieldsForModel(p.model):(catalogDescriptors===null?descriptors():validateDescriptors(catalogDescriptors)),chunks=[];let chunk=[];
  if(o.mode!=='setup'){
  for(const d of ds){const candidate=[...chunk,d],r=advisorRequest(o.mode,p,a,candidate);
   // Byte screens are conservative local limits, not assertions about the provider tokenizer.
@@ -90,7 +90,7 @@ export function validateAdviceReport(report,{policy,application,mode}={}){
   assert(r.valid===true&&r.evidence.reportedProviderModel===prepared.manifest.model,'Invalid or changed advisor model');
   const res=r.evidence.response;assert(res.status==='ok'&&Number.isSafeInteger(res.usage?.inputTokens)&&res.usage.inputTokens>=0&&Number.isSafeInteger(res.usage?.outputTokens)&&res.usage.outputTokens>=0,'Advisor missing usage');assert(validateNativeAnswers(res.answers,j.request,{distributionPolicy:'bounded_rounding'}).tag==='ok','Invalid native advisor answer structure');assert(sha(JSON.stringify(r.evidence)+'\n')===r.rawHash,'Advisor stored raw hash mismatch');
   assert(Object.keys(res.answers??{}).length===j.mapping.length,'Advisor answer count mismatch');
-  for(const m of j.mapping){const ans=res.answers[m.questionId];if(m.field==='setup'){const def=SETUP_FIELDS.find(f=>f.id===m.questionId);assert(def&&ans?.type==='choice'&&Object.hasOwn(def.criteria,ans.choice),'Invalid setup option');}else if(m.field==='fit')fitSignal(ans);else if(m.field==='taxonomy_fit'){assert(ans?.type==='choice'&&Object.hasOwn(TAG_FIT,ans.choice),'Invalid taxonomy fit');}else assert(ans?.type==='noul'&&Number.isFinite(ans.noul)&&ans.noul>=0&&ans.noul<=1,'Invalid tag answer');}
+  for(const m of j.mapping){const ans=res.answers[m.questionId];if(m.field==='setup'){const def=setupFieldsForModel(prepared.manifest.model).find(f=>f.id===m.questionId);assert(def&&ans?.type==='choice'&&Object.hasOwn(def.criteria,ans.choice),'Invalid setup option');}else if(m.field==='fit')fitSignal(ans);else if(m.field==='taxonomy_fit'){assert(ans?.type==='choice'&&Object.hasOwn(TAG_FIT,ans.choice),'Invalid taxonomy fit');}else assert(ans?.type==='noul'&&Number.isFinite(ans.noul)&&ans.noul>=0&&ans.noul<=1,'Invalid tag answer');}
  }
  const known=report.rows.reduce((n,r)=>n+r.evidence.response.usage.inputTokens*42,0);assert(report.budget?.knownNanoUsd===known,'Advisor usage accounting mismatch');assert(Number.isSafeInteger(report.budget.inputTokens)&&report.budget.inputTokens*42===known,'Advisor token accounting mismatch');assert(report.budget.heldNanoUsd===0&&report.budget.heldInputTokens===0,'Unresolved advisor reservations cannot guide a paid plan');
  return {report,prepared};

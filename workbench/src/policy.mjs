@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import {clone,sha,assert,text,exactKeys,enumValue,uniqStrings} from './util.mjs';
 export const REPRESENTATIONS=['base_encoding','morse','cipher_or_codebook','unicode_concealment','positional','mixed_or_layered'];
 export const EXCEPTIONS=['puzzle-reading','legacy-base64','format-analysis','security-sample'];
-export const LANGUAGE_NAMES={en:'English',es:'Spanish',fr:'French',de:'German',pt:'Portuguese',it:'Italian',ja:'Japanese',ko:'Korean',zh:'Chinese',ar:'Arabic',he:'Hebrew',hi:'Hindi',ru:'Russian'};
+export {LANGUAGE_NAMES} from './model-capabilities.mjs';
 export const VERSION='workbench-policy/1';
 export function preset(mode='strict'){
  enumValue(mode,['strict','contextual','inspection'],'preset');
