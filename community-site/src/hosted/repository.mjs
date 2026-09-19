@@ -29,7 +29,7 @@ export function executionRepository(db) {
     list: async (owner) =>
       (
         await db
-          .prepare('SELECT * FROM execution_runs WHERE owner=? ORDER BY created_at DESC LIMIT 40')
+          .prepare('SELECT * FROM execution_runs WHERE owner=? ORDER BY created_at DESC LIMIT 100')
           .bind(owner)
           .all()
       ).results,

@@ -1,8 +1,8 @@
 # Community Observatory
 
-The portable browser workspace and community layer for the Observatory. The root preserves policy building, adaptive coverage, the interactive atlas and historical evidence. Community uploads and shared evidence live at `/community`; GitHub remains the review/versioning route for policy proposals. No provider key, model call or paid CI execution is part of the hosted app.
+The portable browser workspace and community layer for the Observatory. The root introduces the workflow; `/workspace` preserves policy building, adaptive coverage, the interactive atlas and historical evidence. Community uploads and shared evidence live at `/community`; GitHub remains the review/versioning route for policy proposals. Reviewed hosted execution supports a contributor’s own Jev key and a persistent private spending ledger. CI never runs paid model requests.
 
-See [Browser workspace](../docs/browser-workspace.md) and [Browser security](../docs/browser-security.md) for capabilities, implementation and remaining boundaries.
+See [Browser workspace](../docs/browser-workspace.md) , [Browser security](../docs/browser-security.md) and [Hosted execution](../docs/hosted-execution.md) for capabilities, implementation and remaining boundaries.
 
 ```sh
 cd community-site
@@ -43,4 +43,4 @@ Anonymous routes are implemented and tested. The platform-level Site audience an
 
 Before opening community uploads broadly, establish moderation/reporting and operator retention/backups, global abuse/spend limits and the intended content policy for hostile test text. The current private preview has per-owner quotas and ownership enforcement, not a production abuse-management service.
 
-See `../docs/community-verification.md` for the proposed contributor-funded trusted runner. It is intentionally not claimed as implemented by this browser workspace and sharing app.
+See `../docs/community-verification.md` for the proposed signed regression-verification protocol. The hosted BYOK runner observes execution; it does not yet issue provider-signed or no-regression certificates.
