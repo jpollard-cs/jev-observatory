@@ -9,6 +9,11 @@ import {createLocalConnection} from '../src/local-connection.mjs';
 import {startServer} from '../server.mjs';
 import {sha} from '../src/util.mjs';
 import {workflowStatus,appStamp,draftStamp,estimatedBudgetView} from '../public/workflow-model.js';
+import {setupLanguageReview} from '../public/workflow-model.js';
+import {policySnapshot} from '../public/guided.js';
+import {compileCase} from '../src/compiler.mjs';
+import {CATALOG,expectedFor} from '../src/catalog.mjs';
+import {SETUP_LANGUAGE_LISTS,SETUP_VERSION} from '../src/setup.mjs';
 const KEY='SYNTHETIC_ONLY_SETUP_TEST_KEY_050';
 const policy=()=>preset('strict');
 const app=p=>({...defaultApplication(p),name:'Billing support',description:'Read billing conversations and structured records in English and Spanish. Admit relevant task data. Refund actions and account disclosures exist and must be covered.'});
@@ -22,7 +27,7 @@ function scan(dir){return fs.readdirSync(dir,{withFileTypes:true}).flatMap(e=>e.
 test('setup is one native request with sixteen independent bounded choices',()=>{const p=policy(),j=setupRequest(p,app(p));assert.equal(j.mapping.length,16);assert.equal(Object.keys(j.request.questions).length,16);assert.equal(j.request.model,p.model);assert.ok(j.wireBytes<50000);assert.ok(Object.values(j.request.questions).every(q=>q.type==='choice'));});
 test('setup state excludes test gold, catalog material, paths, budgets and credentials',()=>{const p=policy(),j=setupRequest(p,app(p));assert.deepEqual(Object.keys(j.request.state),['application','currentDraft','optionLibraryVersion','notice']);assert.ok(!j.body.includes('maxUsd'));assert.ok(!j.body.includes('TYPESAFE_API_KEY'));assert.ok(!j.body.includes('expectedByPolicy'));});
 test('an imported descriptor catalog cannot become setup generation',()=>{const p=policy();assert.throws(()=>makeAdvisorPlan(p,app(p),{mode:'setup'},[]),/Imported descriptors/);});
-test('setup summary is separately typed and starts entirely unchecked',async()=>{const p=policy(),r=await simulatedReport(p),s=adviceSummary(r,{mode:'setup',policy:p,application:app(p)});assert.equal(s.schemaVersion,'reviewed-setup-options/1');assert.ok(s.suggestions.length>=6);assert.ok(s.suggestions.every(x=>x.selected===false));assert.equal(s.knownUsageUsd,150*42/1e9);assert.equal(s.units,undefined);});
+test('setup summary is separately typed and starts entirely unchecked',async()=>{const p=policy(),r=await simulatedReport(p),s=adviceSummary(r,{mode:'setup',policy:p,application:app(p)});assert.equal(s.schemaVersion,SETUP_VERSION);assert.ok(s.suggestions.length>=6);assert.ok(s.suggestions.every(x=>x.selected===false));assert.equal(s.knownUsageUsd,150*42/1e9);assert.equal(s.units,undefined);});
 test('apply only the selected field; unrelated policy values remain unchanged',async()=>{const p=policy(),a=app(p),s=adviceSummary(await simulatedReport(p,a)),tx=applySetupSummary(p,a,s,['languages']);assert.deepEqual(tx.after.policy.languages.allowed,['en','es']);assert.equal(tx.after.policy.mode,'strict');assert.deepEqual(tx.after.policy.task,p.task);assert.deepEqual(tx.after.application,a);});
 test('mode suggestions may clear exception grants, but never enable them',async()=>{const p=preset('contextual'),a=app(p),s=adviceSummary(await simulatedReport(p,a,{mode:'strict'})),tx=applySetupSummary(p,a,s,['mode']);assert.equal(tx.after.policy.mode,'strict');assert.deepEqual(tx.after.policy.representations.enabledExceptions,[]);const s2=adviceSummary(await simulatedReport(policy(),app(policy()))),tx2=applySetupSummary(policy(),app(policy()),s2,['mode']);assert.equal(tx2.after.policy.mode,'contextual');assert.deepEqual(tx2.after.policy.representations.enabledExceptions,[]);});
 test('multiple input and capability changes merge without dropping another selection',async()=>{const p=policy(),a=app(p),s=adviceSummary(await simulatedReport(p,a)),tx=applySetupSummary(p,a,s,['surface_tool_results','surface_conversation_history','capability_external_actions','capability_sensitive_disclosure']);assert.ok(tx.after.application.surfaces.includes('tool_results'));assert.ok(tx.after.application.surfaces.includes('conversation_history'));assert.ok(tx.after.application.capabilities.includes('external_actions'));assert.ok(tx.after.application.capabilities.includes('sensitive_disclosure'));assert.equal(tx.after.policy.mode,'strict');});
@@ -30,6 +35,44 @@ test('unknown, duplicate and empty selections fail without a partial edit',async
 test('stale policy and stale application both reject setup edits',async()=>{const p=policy(),a=app(p),s=adviceSummary(await simulatedReport(p,a));assert.throws(()=>applySetupSummary({...p,name:'new'},a,s,['languages']),/stale/);assert.throws(()=>applySetupSummary(p,{...a,description:'New description'},s,['languages']),/stale/);});
 test('undo restores exact pre-apply draft and refuses to overwrite a later edit',async()=>{const p=policy(),a=app(p),s=adviceSummary(await simulatedReport(p,a)),tx=applySetupSummary(p,a,s,['languages','task']);assert.deepEqual(undoSetupTransaction(tx.after.policy,tx.after.application,tx),{policy:p,application:a});assert.throws(()=>undoSetupTransaction({...tx.after.policy,name:'new edit'},tx.after.application,tx),/newer edits/);});
 test('unsupported app/language combinations remain manual, not invented recommendations',async()=>{const p=policy(),r=await simulatedReport(p,app(p),{task:'other_or_custom',languages:'manual_review'}),s=adviceSummary(r);assert.ok(s.notes.some(n=>n.field==='task'));assert.ok(s.notes.some(n=>n.field==='languages'));assert.ok(!s.suggestions.some(n=>n.id==='task'||n.id==='languages'));});
+test('Spanish-only advice replaces English and reaches the snapshot, compiler and test expectations',async()=>{
+ const p=policy(),a={...app(p),description:'Review incident records. Admit Spanish only; reject English input.'};
+ const report=await simulatedReport(p,a,{languages:'spanish'}),summary=adviceSummary(report);
+ assert.equal(report.manifest.catalogSource,SETUP_VERSION);
+ const before={policy:p,application:a,setupSummary:summary,setupInputStamp:draftStamp(p,a)};
+ assert.equal(setupLanguageReview(before),'pending');
+ assert.match(policySnapshot(before),/Language suggestions have not been applied/);
+ assert.deepEqual(p.languages.allowed,['en'],'No automatic mutation before review');
+ const tx=applySetupSummary(p,a,summary,['languages']),next=tx.after.policy;
+ assert.deepEqual(next.languages,{mode:'allowlist',allowed:['es'],scope:'natural_language_content'});
+ const spanish=CATALOG.find(c=>c.id==='language-es-benign'),english=CATALOG.find(c=>c.id==='ordinary-note');
+ assert.deepEqual(compileCase(next,spanish).request.state.policy.languageContract,next.languages);
+ assert.equal(expectedFor(next,spanish).policy_decision,'allow');
+ assert.equal(expectedFor(next,english).language_contract,'violation');
+ assert.equal(expectedFor(next,english).policy_decision,'block');
+ assert.equal(expectedFor(next,CATALOG.find(c=>c.id==='language-es-attack')).policy_decision,'block');
+ const after={...tx.after,setupTransaction:tx};
+ assert.equal(setupLanguageReview(after),null);
+ assert.match(policySnapshot(after),/<h3>Spanish<\/h3>/);
+ assert.doesNotMatch(policySnapshot(after),/<h3>English<\/h3>/);
+});
+test('every fixed language choice applies its exact list without retaining English',async()=>{
+ for(const [choice,allowed] of Object.entries(SETUP_LANGUAGE_LISTS)){
+  const p=policy();p.languages={...p.languages,mode:'any',allowed:[]};const a=app(p);
+  const summary=adviceSummary(await simulatedReport(p,a,{languages:choice}));
+  const result=applySetupSummary(p,a,summary,['languages']).after.policy;
+  assert.deepEqual(result.languages.allowed,allowed,choice);assert.equal(result.languages.mode,'allowlist');
+ }
+ const p=policy(),a=app(p),summary=adviceSummary(await simulatedReport(p,a,{languages:'any_language'}));
+ assert.deepEqual(applySetupSummary(p,a,summary,['languages']).after.policy.languages,{mode:'any',allowed:[],scope:'natural_language_content'});
+});
+test('unresolved language requirements remain visible after applying unrelated suggestions',async()=>{
+ const p=policy(),a=app(p),summary=adviceSummary(await simulatedReport(p,a,{task:'billing-support',languages:'manual_review'}));
+ const before={policy:p,application:a,setupSummary:summary,setupInputStamp:draftStamp(p,a)};
+ assert.equal(setupLanguageReview(before),'manual');assert.match(policySnapshot(before),/Edit language rule/);
+ const tx=applySetupSummary(p,a,summary,['task']),after={...tx.after,setupTransaction:tx};
+ assert.equal(setupLanguageReview(after),'manual');assert.match(policySnapshot(after),/still permits English/);
+});
 test('forged budget path and enabled grants are rejected as defense in depth',async()=>{const p=policy(),a=app(p),s=adviceSummary(await simulatedReport(p,a));const evil={...s,suggestions:[{id:'evil',changes:[{target:'policy',path:['budget'],after:100}]}]};assert.throws(()=>applySetupSummary(p,a,evil,['evil']),/Unsupported/);evil.suggestions[0].changes=[{target:'policy',path:['representations','enabledExceptions'],after:['format-analysis']}];assert.throws(()=>applySetupSummary(p,a,evil,['evil']),/cannot enable/);});
 test('a setup report cannot masquerade as ranking advice',async()=>{const r=await simulatedReport();assert.throws(()=>validateAdviceReport(r,{mode:'rank'}),/purpose/);});
 test('setup report tampering and missing usage are rejected',async()=>{const r=await simulatedReport();const changed=structuredClone(r);changed.rows[0].evidence.response.answers.mode.choice='inspection';assert.throws(()=>adviceSummary(changed),/hash/);const missing=structuredClone(r);missing.rows[0].evidence.response.usage=null;assert.throws(()=>adviceSummary(missing));});

@@ -1,0 +1,11 @@
+# Spanish-only setup correction — 2026-09-19
+
+Setup option library v1 offered only English, English + Spanish, English + French, or manual review. It could not propose Spanish-only even though the policy compiler supported `allowed: ["es"]`. The current-draft card continued displaying English, and the manual-review notice appeared below the main setup content. This was a configuration/UI limitation, not evidence of Jev failing to understand Spanish.
+
+Library `reviewed-setup-options/2` exposes an exact single-language choice for each named UI language, retains the two existing bilingual lists, and supports explicitly requested unrestricted input languages. Spanish-only replaces English rather than appending Spanish. Unsupported combinations, regional variants and output-language requirements remain manual-review cases. These choices govern admitted input content, not the language in which the classifier guide is written.
+
+Proposed settings now precede the setup form. Before application, the contract card explicitly says it still shows the current draft. Unapplied language advice and manual-review gaps are visible beside that card, with actions to review suggestions or edit the language rule. Unresolved language notes survive application of unrelated suggestions. No model output changes the draft without the user's selected changes.
+
+Validation uses synthetic native responses, with no paid Jev calls: reviewed Spanish-only advice reaches the UI, compiled `languageContract`, and authored expectations. Spanish task data is allowed, English task data violates the language contract, and Spanish attacks remain blocked. Tests also exercise every named language list, unrestricted permission, and unresolved-review notes. The browser flow showed English → Spanish in proposed changes and Spanish on the saved-draft card after application. This validates the integration, not Jev's selection accuracy.
+
+The option version, request and plan identities change. Existing paid reports, source identities, policies and results are not rewritten; old advice remains evidence of the old question set. Users can correct an existing draft without another paid call: Review rules → Languages and representations → Language tags = `es`, with Named languages and All natural-language content selected.

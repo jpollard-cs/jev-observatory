@@ -1,12 +1,12 @@
 // Deterministic transport fixture. Never included in the production Worker.
-export function mockProvider(request) {
+export function mockProvider(request, selections = {}) {
   return {
     model: 'jev-1.13.0',
     usage: { input_tokens: 1234, output_tokens: 0 },
     answers: Object.fromEntries(
       Object.entries(request.questions).map(([id, q]) => {
         const options = Object.keys(q.criteria ?? {}),
-          choice = options[0],
+          choice = selections[id] ?? options[0],
           probabilities = Object.fromEntries(options.map((k) => [k, k === choice ? 1 : 0]));
         return [
           id,

@@ -13,7 +13,12 @@ if (mocked) {
     if (url !== 'https://api.typesafe.ai/v1/systemone')
       throw Error('Mock preview blocks external network');
     if (mockFailure) return new Response('Synthetic malformed provider response');
-    return Response.json(mockProvider(JSON.parse(options.body)));
+    return Response.json(
+      mockProvider(
+        JSON.parse(options.body),
+        process.argv.includes('--mock-spanish-only') ? { languages: 'spanish' } : {},
+      ),
+    );
   };
 }
 // Explicit preview identity only; never trust incoming identity headers locally.

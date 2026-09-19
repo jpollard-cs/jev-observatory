@@ -158,6 +158,8 @@ async function openHosted(frozen=null){
  }});
 }
 async function action(name){
+ if(name==='edit-languages'){state.nav='policy';shell();document.getElementById('policy-languages')?.scrollIntoView({block:'start'});return;}
+ if(name==='review-setup-suggestions'){state.nav='start';shell();document.getElementById('setup-suggestions')?.scrollIntoView({block:'start'});return;}
  if(name==='setup-assisted'){await action('setup-prepare');await action('setup-review');return;}
  if(boot.hosted&&name==='hosted-history'){await openHosted();return;}
  if(boot.hosted&&name==='hosted-evaluation'){if(!state.frozen)throw Error('Save a plan first');await openHosted(state.frozen);return;}
