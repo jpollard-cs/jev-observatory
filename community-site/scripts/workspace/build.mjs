@@ -2,7 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
-import { gzipSync } from 'node:zlib';
+import { gzipSync, gunzipSync } from 'node:zlib';
 import { createHash } from 'node:crypto';
 import { build } from 'esbuild';
 import { parse } from 'acorn';
@@ -34,6 +34,17 @@ const reportFiles = {
   'prompt-variant-lab-v1': 'data/history/prompt-variant-lab-v1.report.json',
   'compact-single-pass-48-v1': 'data/history/compact-single-pass-48-v1.report.json',
 };
+// Sites source storage caps individual Git objects. Its checkout may carry the
+// byte-identical report as .gz; materialize only these six known build inputs.
+for (const name of Object.values(reportFiles)) {
+  const target = path.join(workbench, name);
+  try {
+    await fs.access(target);
+  } catch (error) {
+    if (error.code !== 'ENOENT') throw error;
+    await fs.writeFile(target, gunzipSync(await fs.readFile(target + '.gz')));
+  }
+}
 const records = evidenceLibrary().map((record) => ({ ...record, file: reportFiles[record.id] }));
 const archived = await fs.readFile(
   path.join(workbench, 'data/history/original-extra-requests.json.gz'),

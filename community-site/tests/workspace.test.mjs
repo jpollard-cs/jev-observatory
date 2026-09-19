@@ -85,8 +85,12 @@ test('browser preparation cannot dispatch provider calls or accept a credential'
   await assert.rejects(dispatch('workspace/export', { planHash: 'unknown' }), /Save this plan/);
 });
 test('archived request inspection verifies the exact request bytes', async () => {
-  const raw = await fs.readFile(new URL('../../workbench/data/history/original-extra-requests.json.gz', import.meta.url));
-  const requests = JSON.parse(gunzipSync(raw)); const hash = Object.keys(requests)[0];
+  const raw = await fs.readFile(
+    new URL('../../workbench/data/history/original-extra-requests.json.gz', import.meta.url),
+  );
+  const requests = JSON.parse(gunzipSync(raw));
+  const hash = Object.keys(requests)[0];
   const archived = await dispatch('original/archived-request?hash=' + hash);
-  assert.equal(archived.requestHash, hash); assert.deepEqual(archived.request, requests[hash]);
+  assert.equal(archived.requestHash, hash);
+  assert.deepEqual(archived.request, requests[hash]);
 });
