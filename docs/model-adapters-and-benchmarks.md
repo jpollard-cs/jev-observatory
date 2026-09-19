@@ -34,3 +34,11 @@ Our design recommendation: publish policy components, harnesses, development cas
 - Standardize optional cost/performance metadata in portable uploads and build comparisons only between compatible tasks/contracts.
 - Support composable policy-component revisions and GitHub PR review with regression evidence; provider-authenticated receipts remain separate work.
 - Consider `redteam-observatory` branding/address when Sites supports a safe URL migration. The available title-update operation does not rename the URL. Keep the current site identity, saved runs and existing links intact meanwhile.
+
+## Budget sources and anonymous access
+
+Current limits are both per-plan (`options.maxUsd`) and per-account (a persistent local total cap on this Site). They are local authorizations, not provider credit balances. Fresh accounts start with zero carried spending; continuing a prior budget requires its actual charges. A new Site has a separate identity scope and ledger.
+
+Future provider adapters should expose a read-only balance capability when the provider supports it, including currency, scope and fetched-at time. Unsupported, stale or unavailable balances must remain unknown. Available provider credit is not permission to spend it: retain explicit per-run authorization and optional stricter local caps. Concurrent external usage, usage-report delays and uncertain charges prevent a cached balance from being a guaranteed hard budget.
+
+Landing, workspace planning and shared-result reads already permit anonymous application requests. Sites' private audience gate still requires ChatGPT sign-in before any of those routes. Public audience removes that outer gate. Hosted execution and contribution writes currently require ChatGPT identity; GitHub/non-ChatGPT authentication is separate future work, not delivered by changing the audience. Keep source and storage portable.

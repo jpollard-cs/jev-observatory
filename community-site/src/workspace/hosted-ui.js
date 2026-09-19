@@ -152,7 +152,7 @@ export async function hostedRun({ spec = null, onReport = async () => {} } = {})
     const stats = el('div', null, { className: 'stats' });
     for (const [label, value] of [
       ['Requests', q.requests],
-      ['Planning allowance', usd(q.reservationUsd)],
+      ['This run’s reservation', usd(q.reservationUsd)],
       ['Known usage', usd(q.knownUsd)],
       ['Held', usd(q.heldUsd)],
     ]) {
@@ -307,11 +307,11 @@ export async function hostedRun({ spec = null, onReport = async () => {} } = {})
       return;
     }
     if (!session.account) {
-      title.textContent = 'Set your total allowance.';
+      title.textContent = 'Set a local spending cap.';
       body.append(
         el(
           'p',
-          'This persistent hosted ledger cannot be reset by changing keys or reloading. Include prior usage if you are continuing the same budget. It does not read your provider balance or local ledger.',
+          'This limit is a local safety override shared across your runs on this site. Each run also has its own approved budget. We do not currently read your provider balance. Changing keys or reloading does not reset this ledger.',
         ),
       );
       const max = el('input', null, {
@@ -326,10 +326,10 @@ export async function hostedRun({ spec = null, onReport = async () => {} } = {})
           min: '0',
           max: '3',
           step: 'any',
-          value: '1.450070202',
+          value: '0',
         });
       for (const [label, input] of [
-        ['Total budget, including prior usage ($)', max],
+        ['Local total spending cap across runs ($)', max],
         ['Already spent from this budget elsewhere ($)', prior],
       ]) {
         const f = el('label', null, { className: 'field' });
@@ -339,13 +339,13 @@ export async function hostedRun({ spec = null, onReport = async () => {} } = {})
       body.append(
         el(
           'p',
-          'Prior usage defaults to the last reconciled original research ledger ($1.450070202); correct it to include newer local charges. Use 0 only for a genuinely separate budget. Initial hosted allowance is capped at $3.',
+          'A new budget starts with $0 prior usage. If continuing an existing research budget, enter its actual spending above. This initial release requires a local cap of up to $3; it is not a provider credit balance.',
           { className: 'fine' },
         ),
       );
       body.append(
         button(
-          'Create allowance — no model call',
+          'Save local cap — no model call',
           safe(async () => {
             await remote('account', {
               maximumUsd: Number(max.value),

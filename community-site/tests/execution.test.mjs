@@ -371,3 +371,46 @@ test('execution port supports a different response contract and output-token bil
   });
   await assert.rejects(changed.detail(owner, q.id), /original execution adapter version/);
 });
+
+test('anonymous visitors can browse and plan while private runs and contribution writes stay protected', async (t) => {
+  const { storage, q } = await fixture(t),
+    env = { DB: storage.db, BUCKET: storage.blobs };
+  for (const route of [
+    '/',
+    '/workspace',
+    '/community',
+    '/api/community/catalog',
+    '/api/community/results',
+  ]) {
+    const r = await worker.fetch(new Request('https://site.test' + route), env, {});
+    assert.equal(r.status, 200, route);
+    assert.equal(r.headers.get('location'), null, route);
+  }
+  const session = await (
+    await worker.fetch(new Request('https://site.test/api/execution/session'), env, {})
+  ).json();
+  assert.deepEqual(session, { signedIn: false, account: null, runs: [] });
+  assert.equal(
+    (await worker.fetch(new Request('https://site.test/api/execution/runs/' + q.id), env, {}))
+      .status,
+    401,
+  );
+  assert.equal(
+    (
+      await worker.fetch(
+        new Request('https://site.test/api/community/results', {
+          method: 'POST',
+          headers: {
+            origin: 'https://site.test',
+            'content-type': 'application/json',
+            'x-observatory-intent': 'write',
+          },
+          body: '{}',
+        }),
+        env,
+        {},
+      )
+    ).status,
+    401,
+  );
+});

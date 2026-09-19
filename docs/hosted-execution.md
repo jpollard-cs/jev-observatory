@@ -5,7 +5,7 @@ The browser workspace at `/workspace` can run policy evaluations, reviewed setup
 ## Review and run
 
 1. Describe the application and review its policy. Prepare setup advice, coverage advice, or a test plan.
-2. Choose its hosted review action. Sign in for a persistent private account. Initialize a total allowance up to $3, carrying forward prior spending if this is the same budget. The original research default is $1.450070202 already spent; correct this for any later local charges. This is **not** synchronized with the local ledger or TypeSafe balance. The local research ledger is unchanged.
+2. Choose its hosted review action. Sign in for a persistent private account. Initialize a total allowance up to $3, carrying forward prior spending if this is the same budget. New accounts default to $0 prior usage. Enter actual prior charges only when continuing the same budget. Existing account ledgers are never reset by this default. This is **not** synchronized with the local ledger or TypeSafe balance. The local research ledger is unchanged.
 3. Inspect request count, estimate, planning allowance, account headroom and exact request bodies. Expected labels are shown separately and never sent to Jev.
 4. Enter a Jev key for this run and explicitly authorize it. Keep the tab open. An ongoing run can be reopened from **Execution options → Private runs & spending** after reload; enter the key again to continue. A dispatched request with an uncertain outcome is never retried automatically.
 5. Inspect results in the same workspace or download the report. Setup suggestions stay unchecked until reviewed. Sharing is a separate community action.
@@ -47,3 +47,5 @@ future provider capabilities and cross-model comparison requirements.
 The description page offers **Suggest a policy with Jev** and **Define rules myself**. Suggestions
 prepare an offline packet, then open the hosted request/cost review where the user enters a key.
 They propose supported options for explicit review, not arbitrary automatically trusted policy text.
+
+The active neutral Site is https://redteam-observatory.wizard.chatgpt.site. It starts with fresh hosted storage. The previous Jev Site and its manual test run remain intact; no provider credits, prior charges or private runs were copied. Visibility is governed separately by the Sites audience setting.
