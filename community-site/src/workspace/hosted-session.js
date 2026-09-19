@@ -19,7 +19,12 @@ function refresh() {
   status.textContent = state.ready ? 'Jev key ready · this tab only' : 'Optional Jev guidance';
   controls.hidden = state.ready;
   next.hidden = !state.ready;
-  if (state.ready) connection.open = false;
+  for (const node of document.querySelectorAll('[data-session-needed]')) node.hidden = state.ready;
+  // Connection state never opens or collapses a section under the user.
+  for (const button of document.querySelectorAll('[data-action=connect-guidance]'))
+    button.textContent = state.ready
+      ? 'Jev key ready · session settings'
+      : 'Add Jev key · optional';
 }
 export function mountHostedAssistant(anchor) {
   if (!shell) {
@@ -27,7 +32,7 @@ export function mountHostedAssistant(anchor) {
     shell.id = 'hosted-assistant';
     shell.setAttribute('aria-label', 'Jev session and execution');
     connection = node('details', '', 'card hosted-session');
-    connection.open = true;
+    connection.open = false;
     const summary = node('summary', '', 'card-body');
     status = node('strong');
     summary.append(status);
@@ -57,6 +62,7 @@ export function mountHostedAssistant(anchor) {
       input.value = '';
       try {
         credentialSession.connect(value);
+        connection.open = false;
         error.hidden = true;
       } catch (e) {
         error.textContent = e.message;
@@ -95,7 +101,7 @@ export function mountHostedAssistant(anchor) {
     connection.append(summary, body);
     runHost = node('div');
     runHost.id = 'hosted-run-inline';
-    shell.append(connection, runHost);
+    shell.append(connection);
     credentialSession.subscribe(refresh);
     window.addEventListener('pagehide', () => {
       input.value = '';
@@ -105,6 +111,10 @@ export function mountHostedAssistant(anchor) {
   }
   if (shell.parentElement !== anchor.parentElement || shell.nextElementSibling !== anchor)
     anchor.before(shell);
+  const slot = anchor.querySelector('[data-execution-slot]') ?? anchor;
+  if (runHost.parentElement !== slot) slot.append(runHost);
+  if (!connection.isConnected) shell.append(connection);
+  refresh();
   return runHost;
 }
 export function hostedRunContainer() {
@@ -112,7 +122,10 @@ export function hostedRunContainer() {
   return runHost;
 }
 export function showHostedConnection() {
+  // Reuse the same credential fields beside the request that needs them.
+  if (runHost?.firstChild) runHost.firstChild.querySelector('.modal-body')?.prepend(connection);
+  else shell.append(connection);
   connection.open = true;
-  connection.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  connection.scrollIntoView({ block: 'nearest', behavior: 'instant' });
   if (!credentialSession.status().ready) input.focus({ preventScroll: true });
 }

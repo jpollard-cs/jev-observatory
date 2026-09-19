@@ -6,6 +6,16 @@ Policy and coverage advice now use inline request review, allowance setup, progr
 
 Successful policy advice is attached automatically as unchecked suggestions. The user still chooses which edits to apply. Successful coverage advice is attached to its matching draft and used to build an offline preview of the suite. No evaluation is started automatically. Failed advice stays read-only; stale drafts cannot authorize an obsolete advisor request or silently accept mismatched advice. Private saved reports, immutable request/policy provenance, cumulative ledgers and no-automatic-retry behavior are retained.
 
-The manual workflow stays available without a key. The browser-only adapter mounts the session and execution surface outside the rerendered editor, so navigation and checkbox changes do not discard the connection or interrupt the review. The local CLI/server boundary remains separate.
+The manual workflow stays available without a key. The browser adapter owns persistent session and execution DOM nodes and reattaches them across editor renders, so navigation and checkbox changes do not discard the connection or interrupt the review. The local CLI/server boundary remains separate.
 
 Security scope: a tab-memory key reduces persistence exposure; it cannot make a compromised page safe. The existing CSP, Trusted Types/DOM sanitization, same-origin writes, owner checks and server-side credential exclusion remain required. This UI change does not introduce an encrypted browser key vault or save keys for later visits.
+
+## Stable request lifecycle
+
+A single click opens progress beside the initiating form, before any local compilation or network request. Concurrent preparation/execution is guarded; controls show busy state immediately. Preparation, account-cap setup, authorization, execution and results use the same inline surface. Server responses do not scroll, rebuild the shell, or navigate. Successful advice is held in state until the user explicitly opens its proposed settings or coverage; this prevents background completion from taking over another page. The reviewed cost and authorization remain in place when results arrive.
+
+Ordinary editor redraws restore expanded sections, control focus/selection and viewport anchors. The session disclosure starts compact; automatic refresh never toggles it. Connecting explicitly collapses it. Planner worker failure rejects pending and future calls, and local preparation has a 60-second deadline. Neither path dispatches a model request or retries a paid call. Non-JSON hosted responses are surfaced as errors without document navigation.
+
+Blocked coverage now has one explanation with links to declared scope and original suites. Spending headroom cannot resolve missing evaluators. Scope is never silently narrowed; unsupported requirements remain blocking, and original suites are explicitly separate evidence.
+
+For regression QA, run the development server with `--signed-in --mock-jev --mock-spanish-only --slow-preview`. This inserts 2.2-second delays before every execution HTTP response and mock provider response and blocks external provider traffic. Check immediate feedback, unchanged scroll through preparation/completion, retained key across steps, stale-draft handling, mobile width, and explicit next-step navigation. Mock observations are not model-performance evidence.

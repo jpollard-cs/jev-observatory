@@ -22,6 +22,10 @@ async function remote(path, data) {
     headers: data ? { 'Content-Type': 'application/json', 'x-observatory-intent': 'write' } : {},
     body: data ? JSON.stringify(data) : undefined,
   });
+  if (!r.headers.get('content-type')?.includes('application/json'))
+    throw Error(
+      'The server returned an unexpected page, possibly because sign-in expired. Your draft is still here. Inspect saved runs before retrying any approved request.',
+    );
   const v = await r.json();
   if (!r.ok) throw Error(v.message ?? 'Hosted execution could not be confirmed');
   return v;
@@ -36,6 +40,7 @@ function download(value, name) {
 }
 export async function hostedRun({
   spec = null,
+  prepareSpec = null,
   onReport = async () => {},
   isCurrent = () => true,
   onNext = null,
@@ -48,9 +53,11 @@ export async function hostedRun({
   activeView?.dispose();
   const dialog = el('section', null, { className: 'card hosted-run section-space' }),
     head = el('header', null, { className: 'modal-head' }),
-    body = el('div', null, { className: 'modal-body' }),
+    reviewBody = el('div', null, { className: 'modal-body' }),
     title = el('h2', 'Preparing your request…'),
     alert = el('p', null, { className: 'note warn' });
+  let body = reviewBody;
+  title.setAttribute('aria-live', 'polite');
   alert.setAttribute('role', 'status');
   alert.hidden = true;
   let active = null,
@@ -65,7 +72,7 @@ export async function hostedRun({
     unsubscribe();
     dialog.remove();
   };
-  const focus = () => dialog.scrollIntoView({ block: 'start', behavior: 'smooth' });
+  const focus = () => dialog.scrollIntoView({ block: 'nearest', behavior: 'instant' });
   activeView = { busy: () => busy || loading, focus, dispose };
   const forget = () => {
     credentialSession.forget();
@@ -88,7 +95,14 @@ export async function hostedRun({
   dialog.setAttribute('aria-label', 'Request review and progress');
   head.append(title, close);
   dialog.append(head, alert, body);
+  body.append(
+    el('p', 'Preparing the request and checking your account. No model call has been sent.', {
+      className: 'note',
+      role: 'status',
+    }),
+  );
   hostedRunContainer().replaceChildren(dialog);
+  // One deliberate reveal on the user's click, never after a network response.
   focus();
   const safe = (fn) => async () => {
     alert.hidden = true;
@@ -101,9 +115,18 @@ export async function hostedRun({
   async function finished(run) {
     busy = true;
     try {
+      if (active && body === reviewBody) {
+        // Keep the reviewed cost and authorization controls in place when a call finishes.
+        body = el('section', null, {
+          className: 'hosted-result section-space',
+          'aria-label': 'Run result',
+        });
+        reviewBody.append(body);
+      }
       body.replaceChildren();
       title.textContent =
         run.status === 'complete' ? 'Run saved. Follow the evidence.' : 'Run paused or stopped.';
+      body.append(el('h3', run.status === 'complete' ? 'Request complete' : 'Request stopped'));
       body.append(
         el(
           'p',
@@ -208,11 +231,22 @@ export async function hostedRun({
             el(
               'p',
               full.report.mode === 'setup'
-                ? 'Suggestions are shown below. Review and apply only the changes you want.'
-                : 'The workspace now shows the suggested coverage. Review its tests, cost and gaps before running.',
+                ? 'Review the proposed settings next. Your current policy has not changed.'
+                : 'Review the proposed tests, cost and coverage gaps next. No evaluation has started.',
             ),
           );
-          if (onNext) body.append(button(nextLabel, safe(onNext), 'btn primary'));
+          if (onNext)
+            body.append(
+              button(
+                nextLabel,
+                safe(async () => {
+                  dispose();
+                  activeView = null;
+                  await onNext();
+                }),
+                'btn primary',
+              ),
+            );
         } catch (error) {
           alert.textContent = error.message + ' The saved report remains available for inspection.';
           alert.hidden = false;
@@ -252,6 +286,7 @@ export async function hostedRun({
     q = { ...q, ...(await remote('runs/' + q.id)) };
     if (!['ready', 'running'].includes(q.status) || q.inflight !== null) return finished(q);
     active = q;
+    body = reviewBody;
     body.replaceChildren();
     title.textContent = 'Ready when you are.';
     body.append(
@@ -317,14 +352,14 @@ export async function hostedRun({
     disclosure.append(select, code);
     body.append(disclosure);
     if (!credentialSession.status().ready) {
-      body.append(
-        el(
-          'p',
-          'Add a Jev key in the session panel above to run this request. Your prepared request stays here.',
-          { className: 'note' },
-        ),
+      const keyPrompt = el('div', null, { 'data-session-needed': '' });
+      keyPrompt.append(
+        el('p', 'Add your session key here to continue. Your prepared request stays here.', {
+          className: 'note',
+        }),
         button('Add session key', showHostedConnection),
       );
+      body.append(keyPrompt);
     }
     const check = el('input', null, { type: 'checkbox' }),
       agreement = el('label', null, { className: 'check section-space' });
@@ -349,10 +384,14 @@ export async function hostedRun({
           );
         if (!credentialSession.status().ready) {
           showHostedConnection();
-          throw Error('Add your Jev key above, then authorize this prepared request.');
+          throw Error('Add your session key, then authorize this prepared request.');
         }
         stop = false;
         busy = true;
+        title.textContent = 'Running your approved request…';
+        progress.textContent =
+          'Starting the approved run. Keep this tab open; no need to submit again.';
+        begin.textContent = 'Running…';
         begin.disabled = true;
         check.disabled = true;
         const expires = Date.now() + 30 * 60 * 1000;
@@ -373,6 +412,12 @@ export async function hostedRun({
             active = run;
           }
           if (stop) run = await remote('runs/' + q.id + '/stop', {});
+          begin.textContent = run.status === 'complete' ? 'Run complete' : 'Run stopped';
+          stopButton.disabled = true;
+          progress.textContent =
+            run.status === 'complete'
+              ? 'Complete. Review the results below.'
+              : 'Stopped. Review the recorded status below.';
           await finished(run);
         } catch (e) {
           stop = true;
@@ -403,8 +448,9 @@ export async function hostedRun({
   }
   async function home() {
     const session = await remote('session');
-    body.replaceChildren();
+    if (!spec) body.replaceChildren();
     if (!session.signedIn) {
+      body.replaceChildren();
       title.textContent = 'Sign in to save and run.';
       body.append(
         el(
@@ -419,6 +465,7 @@ export async function hostedRun({
       return;
     }
     if (!session.account) {
+      body.replaceChildren();
       title.textContent = 'Set a local spending cap.';
       body.append(
         el(
@@ -526,6 +573,12 @@ export async function hostedRun({
     }
   }
   try {
+    // Show progress synchronously, before local compilation or any network work.
+    if (prepareSpec) spec = await prepareSpec();
+    if (spec && !isCurrent())
+      throw Error(
+        'Your draft changed while preparing. Prepare a new request for the current draft. Nothing was sent to the model.',
+      );
     await home();
   } catch (e) {
     fail(e);

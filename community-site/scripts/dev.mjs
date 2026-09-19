@@ -3,6 +3,8 @@ import http from 'node:http';
 import { localStorage } from './local-storage.mjs';
 import worker from '../dist/server/index.js';
 const mocked = process.argv.includes('--mock-jev');
+const slow = mocked && process.argv.includes('--slow-preview');
+const delay = () => new Promise(resolve => setTimeout(resolve, 2200));
 const mockFailure = mocked && process.argv.includes('--mock-jev-failure');
 const storage = await localStorage(
   mocked ? (mockFailure ? 'runtime/mock-execution-failure' : 'runtime/mock-execution') : 'runtime',
@@ -12,6 +14,7 @@ if (mocked) {
   globalThis.fetch = async (url, options) => {
     if (url !== 'https://api.typesafe.ai/v1/systemone')
       throw Error('Mock preview blocks external network');
+    if (slow) await delay();
     if (mockFailure) return new Response('Synthetic malformed provider response');
     return Response.json(
       mockProvider(
@@ -42,6 +45,7 @@ http
         ...(!['GET', 'HEAD'].includes(req.method) ? { body: req, duplex: 'half' } : {}),
       });
       const pathname = new URL(request.url).pathname;
+      if (slow && pathname.startsWith('/api/execution/')) await delay();
       let response =
         pathname === '/observatory'
           ? Response.redirect(

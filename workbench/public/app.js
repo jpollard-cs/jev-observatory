@@ -1,3 +1,4 @@
+import { preserveView } from './view-continuity.js';
 import { rememberDisclosures, restoreDisclosures } from './disclosures.js';
 import { hostedRun, mountHostedAssistant, showHostedConnection } from './hosted.js';
 import {api,setToken} from './transport.js';
@@ -46,6 +47,7 @@ function attachHelp(){
 }
 
 function renderPage(){
+ const restoreView=preserveView(document.getElementById('content'));
  rememberPage();disposeOrbit();document.querySelectorAll('.inline-help-popover').forEach(x=>x.remove());
  const pages={start:()=>guidedHome(state,boot),review:()=>runReview(state,boot,state.frozen?runCommand():''),connection:()=>connectionPage(state,boot),overview,policy:()=>guidedPolicy(state,boot),selection:()=>selectionPage(state,boot),planner:()=>guidedPlanner(state,boot)+(state.plan?orbitMarkup(plannedAtlas()):''),original:()=>libraryPage(state,boot),evidence:evidencePage,context:contextPage,provenance:provenancePage};
  const browserExport=boot.hosted?({start:state.setupFrozen?button('Download setup request bundle','download-setup-plan'):null,selection:state.advisorFrozen?button('Download advisor request bundle','download-advisor-plan'):null,original:state.originalFrozen?button('Review hosted run','hosted-original','primary')+button('Download original suite bundle','download-original-plan'):null})[state.nav]:null;
@@ -55,6 +57,7 @@ function renderPage(){
  if(state.nav==='overview')disposeOrbit=mountOrbit(atlasCondition(),{animate:state.galaxy,onInspect:id=>modalRow(id).catch(showError)});
  if(state.nav==='planner'&&state.plan)disposeOrbit=mountOrbit(plannedAtlas(),{animate:state.galaxy,onInspect:id=>plannedModal(id).catch(showError)});
  if(state.nav==='original'&&state.originalPlan)disposeOrbit=mountOrbit(originalAtlas(state.originalPlan),{animate:state.galaxy,onInspect:id=>originalModal(id).catch(showError)});
+ restoreView();
 }
 
 function plannedAtlas(){return {id:'selected-policy-tests',title:'Selected policy tests · not run',rows:state.plan.jobs.map(j=>({...j,rowKey:j.id,group:j.group,isCatalog:true,valid:false,status:'not_run',answers:{},expected:{selection:'selected'},repeat:j.repeat??1}))};}
@@ -148,22 +151,30 @@ async function pollSetup(id){
   }const p=document.getElementById('setup-run-progress');if(p)p.textContent=`${run.completed} / ${run.total} requests completed`;await new Promise(r=>setTimeout(r,400));}
  }catch(e){state.setupRun={...state.setupRun,status:'review_required',error:e.message};showError(e);}
 }
-async function openHosted(frozen=null){
- const spec=frozen?await api('workspace/execution-spec',{planHash:frozen.planHash}):null;
+async function openHosted(frozen=null,mode=null){
  const stamp=draftStamp(state.policy,state.application);
- const setup=frozen?.manifest?.options?.mode==='setup';
- await hostedRun({spec,isCurrent:()=>!frozen||stamp===draftStamp(state.policy,state.application),nextLabel:setup?'Review proposed settings':'View suggested coverage',onNext:async()=>{state.nav=setup?'start':frozen?.manifest?.options?.mode==='tag'?'selection':'planner';shell();document.getElementById(setup?'setup-suggestions':'content')?.scrollIntoView({block:'start',behavior:'smooth'});},onReport:async(report)=>{
+ const setup=mode==='setup'||frozen?.manifest?.options?.mode==='setup';
+ await hostedRun({prepareSpec:async()=>{
+  if(mode){frozen=await api(mode==='setup'?'setup/prepare':'selection/prepare',{policy:state.policy,application:state.application,...(mode==='rank'?{options:{mode:'rank'}}:{})});
+   if(stamp!==draftStamp(state.policy,state.application))throw Error('Your draft changed while preparing. Please prepare again. Nothing was sent to the model.');
+   if(setup){state.setupFrozen=frozen;state.setupInputStamp=stamp;}else state.advisorFrozen=frozen;
+  }
+  return frozen?api('workspace/execution-spec',{planHash:frozen.planHash}):null;
+ },isCurrent:()=>!frozen||stamp===draftStamp(state.policy,state.application),nextLabel:setup?'Review proposed settings':'View suggested coverage',onNext:async()=>{state.nav=setup?'start':frozen?.manifest?.options?.mode==='tag'?'selection':'planner';shell();document.getElementById(setup?'setup-suggestions':'content')?.scrollIntoView({block:'start',behavior:'smooth'});},onReport:async(report)=>{
   if(report.protocol==='catalog-advisor-report/1'){
-   if(report.mode==='setup'){await importSetup(report);state.nav='start';}
-   else{const data=await api('selection/import',{raw:JSON.stringify(report),policy:state.policy,application:state.application});if(data.report.mode==='tag')state.tagSummary=data.summary;else{state.adviceReport=data.report;state.adviceSummary=data.summary;state.plan=null;state.frozen=null;state.planningMode='assisted';state.options.tier='budget';}state.nav=report.mode==='rank'?'planner':'selection';}
+   if(report.mode==='setup'){await importSetup(report);}
+   else{const data=await api('selection/import',{raw:JSON.stringify(report),policy:state.policy,application:state.application});if(data.report.mode==='tag')state.tagSummary=data.summary;else{state.adviceReport=data.report;state.adviceSummary=data.summary;state.plan=null;state.frozen=null;state.planningMode='assisted';state.options.tier='budget';}}
   }else{const evidence=await api('import-report',{raw:JSON.stringify(report),name:'Private hosted run'});setEvidence(evidence);state.nav='evidence';}
-  shell();
-  if(report.protocol==='catalog-advisor-report/1'&&report.mode==='rank')await action('plan');
+  if(report.protocol!=='catalog-advisor-report/1')shell();
+  if(report.protocol==='catalog-advisor-report/1'&&report.mode==='rank'){const inputStamp=draftStamp(state.policy,state.application);const plan=await api('selection/plan',{policy:state.policy,application:state.application,options:state.options,report:state.adviceReport});if(inputStamp!==draftStamp(state.policy,state.application))throw Error('Draft changed while planning; prepare new advice.');state.plan=plan;}
  }});
 }
 async function action(name){
+ if(name==='review-declared-scope'){state.nav='start';shell();const d=document.getElementById('declared-scope');if(d){d.open=true;d.scrollIntoView({block:'start'});}return;}
  if(name==='edit-languages'){state.nav='policy';shell();document.getElementById('policy-languages')?.scrollIntoView({block:'start'});return;}
  if(name==='review-setup-suggestions'){state.nav='start';shell();document.getElementById('setup-suggestions')?.scrollIntoView({block:'start'});return;}
+ if(boot.hosted&&name==='setup-assisted'){await openHosted(null,'setup');return;}
+ if(boot.hosted&&name==='coverage-assisted'){await openHosted(null,'rank');return;}
  if(name==='setup-assisted'){await action('setup-prepare');await action('setup-review');return;}
  if(boot.hosted&&name==='connect-guidance'){showHostedConnection();return;}
  if(name==='coverage-assisted'){const stamp=draftStamp(state.policy,state.application);await action('prepare-rank');if(stamp!==draftStamp(state.policy,state.application))throw Error('Draft changed while preparing suggestions');await action('review-advisor');return;}
@@ -265,7 +276,8 @@ state.error=null;
  if(name==='plan'){const stamp=JSON.stringify([state.policy,state.application,state.options,state.planningMode,state.adviceReport?.reportHash]);toast('Computing exact requests and coverage…');const plan=await api(state.planningMode==='assisted'?'selection/plan':'plan',{policy:state.policy,options:state.options,application:state.application,report:state.adviceReport});if(stamp!==JSON.stringify([state.policy,state.application,state.options,state.planningMode,state.adviceReport?.reportHash]))return;state.plan=plan;state.frozen=null;renderPage();return;}
  if(name==='prepare'){if(!state.plan)throw Error('Preview a plan first');const expected=state.plan.planHash;const frozen=await api(state.planningMode==='assisted'?'selection/freeze':'prepare',{policy:state.policy,options:state.options,application:state.application,report:state.adviceReport});if(state.plan?.planHash!==expected)return;state.frozen=frozen;state.plan=frozen.manifest;renderPage();toast('Exact test plan saved locally. Nothing sent.');return;}
 }
-document.addEventListener('click',async e=>{const t=e.target.closest('[data-action],[data-nav],[data-preset],[data-tier],[data-previewtab],[data-condition],[data-row],[data-matrix-field],[data-expected-decision],[data-original-preset],[data-original-case],[data-starter]');if(!t)return;
+document.addEventListener('click',async e=>{const t=e.target.closest('[data-action],[data-nav],[data-preset],[data-tier],[data-previewtab],[data-condition],[data-row],[data-matrix-field],[data-expected-decision],[data-original-preset],[data-original-case],[data-starter]');if(!t||t.disabled)return;
+ const pending=t.dataset.action;if(pending){t.disabled=true;t.setAttribute('aria-busy','true');}
  try{
   if(t.dataset.starter){const x=boot.taskStarters[t.dataset.starter];if(!x)throw Error('Unknown starting point');invalidateDraft();state.application.name=x.title;state.application.description=x.description;state.application.focusDomains=[t.dataset.starter];state.policy.task={id:t.dataset.starter,description:x.description};save();saveApplication();renderPage();}
   else if(t.dataset.originalPreset){originalEpoch++;const picked=boot.originalCatalog.presets.find(p=>p.id===t.dataset.originalPreset),d=picked.defaults;state.originalOptions={...structuredClone(boot.originalCatalog.defaultOptions),...Object.fromEntries(Object.entries(d).filter(([k])=>!['title','description'].includes(k))),preset:picked.id,maxUsd:state.originalOptions.maxUsd,fitBudget:state.originalOptions.fitBudget};state.originalPlan=null;state.originalFrozen=null;state.originalPage=0;state.error=null;renderPage();}
@@ -280,6 +292,7 @@ document.addEventListener('click',async e=>{const t=e.target.closest('[data-acti
   else if(t.dataset.condition){state.condition=t.dataset.condition;state.nav='evidence';resetView();rememberCondition();shell();}
   else if(t.dataset.row)await modalRow(t.dataset.row);
  }catch(err){showError(err);toast(err.message);}
+ finally{if(pending){t.disabled=false;t.removeAttribute('aria-busy');}}
 });
 document.addEventListener('input',e=>{const t=e.target;if(t.dataset.start){invalidateDraft();state.application[t.dataset.start]=t.value;saveApplication();const caption=document.querySelector('.journey-caption');if(caption)caption.textContent='Application edited · review the rules again before running.';}});
 document.addEventListener('change',async e=>{const t=e.target;try{
