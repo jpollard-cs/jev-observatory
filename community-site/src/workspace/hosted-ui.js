@@ -1,5 +1,8 @@
-// UI adapter. The credential exists only in this dialog's closure during a run.
-// Never put it in app state, storage, URLs, messages, reports or error text.
+// Inline execution adapter. Credentials remain in the separate tab-session port.
+// Never put them in app state, storage, URLs, messages, reports or error text.
+import { credentialSession, hostedRunContainer, showHostedConnection } from './hosted-session.js';
+export { mountHostedAssistant, showHostedConnection } from './hosted-session.js';
+let activeView = null;
 import { canReviewAdvice, failureDescription } from './hosted-evidence.js';
 const usd = (n) => '$' + Number(n ?? 0).toFixed(5);
 function el(tag, text, props = {}) {
@@ -31,47 +34,62 @@ function download(value, name) {
   a.click();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
-export async function hostedRun({ spec = null, onReport = async () => {} } = {}) {
-  const dialog = el('dialog', null, { className: 'hosted-dialog' }),
+export async function hostedRun({
+  spec = null,
+  onReport = async () => {},
+  isCurrent = () => true,
+  onNext = null,
+  nextLabel = 'Continue',
+} = {}) {
+  if (activeView?.busy()) {
+    activeView.focus();
+    return;
+  }
+  activeView?.dispose();
+  const dialog = el('section', null, { className: 'card hosted-run section-space' }),
     head = el('header', null, { className: 'modal-head' }),
     body = el('div', null, { className: 'modal-body' }),
-    title = el('h2', 'Hosted execution'),
+    title = el('h2', 'Preparing your request…'),
     alert = el('p', null, { className: 'note warn' });
   alert.setAttribute('role', 'status');
   alert.hidden = true;
-  let key = '',
-    active = null,
+  let active = null,
     busy = false,
+    loading = true,
     stop = false;
+  const imported = new Set();
+  const unsubscribe = credentialSession.subscribe((state) => {
+    if (!state.ready) stop = true;
+  });
+  const dispose = () => {
+    unsubscribe();
+    dialog.remove();
+  };
+  const focus = () => dialog.scrollIntoView({ block: 'start', behavior: 'smooth' });
+  activeView = { busy: () => busy || loading, focus, dispose };
   const forget = () => {
-    key = '';
+    credentialSession.forget();
     stop = true;
   };
   const fail = (e) => {
-    key = '';
-    busy = false;
     alert.textContent = e.message;
     alert.hidden = false;
   };
-  const close = button('Close', () => {
-    if (busy) {
+  const close = button('Dismiss', () => {
+    if (busy || loading) {
       alert.textContent =
-        'Stop after the current request before closing. Closing the tab prevents later dispatch; a request already sent can still be billed.';
+        'Stop after the current request before dismissing. A request already sent may still be billed.';
       alert.hidden = false;
       return;
     }
-    forget();
-    dialog.close();
-    dialog.remove();
+    dispose();
+    activeView = null;
   });
+  dialog.setAttribute('aria-label', 'Request review and progress');
   head.append(title, close);
   dialog.append(head, alert, body);
-  document.body.append(dialog);
-  dialog.showModal();
-  dialog.addEventListener('cancel', (e) => {
-    e.preventDefault();
-    close.click();
-  });
+  hostedRunContainer().replaceChildren(dialog);
+  focus();
   const safe = (fn) => async () => {
     alert.hidden = true;
     try {
@@ -81,134 +99,161 @@ export async function hostedRun({ spec = null, onReport = async () => {} } = {})
     }
   };
   async function finished(run) {
-    busy = false;
-    key = '';
-    body.replaceChildren();
-    title.textContent =
-      run.status === 'complete' ? 'Run saved. Follow the evidence.' : 'Run paused or stopped.';
-    body.append(
-      el(
-        'p',
-        `${run.completed} / ${run.requests} requests recorded · ${usd(run.knownUsd)} known usage · ${usd(run.heldUsd)} held`,
-      ),
-    );
-    if (run.reason || run.inflight !== null)
-      body.append(
-        el(
-          'p',
-          run.reason ??
-            'An unresolved request is still in flight. It will not be retried automatically.',
-          { className: 'note warn' },
-        ),
-      );
-    if (run.heldUsd > 0)
-      body.append(
-        el(
-          'p',
-          'Held is a local budget reservation, not a confirmed provider charge. It remains reserved until billing is reconciled. No automatic retry will occur.',
-          { className: 'fine' },
-        ),
-      );
-    body.append(
-      el(
-        'p',
-        'Requests and evidence are private to your signed-in account. Sharing is a separate action.',
-      ),
-    );
-    const full = await remote('runs/' + run.id + '?report=1');
-    body.append(
-      button('Download report', () => download(full.report, 'jev-hosted-' + run.id + '.json')),
-    );
-    const advice = full.report?.protocol === 'catalog-advisor-report/1';
-    const inspect = () => {
-      title.textContent = 'Run evidence';
+    busy = true;
+    try {
       body.replaceChildren();
+      title.textContent =
+        run.status === 'complete' ? 'Run saved. Follow the evidence.' : 'Run paused or stopped.';
       body.append(
         el(
           'p',
-          advice
-            ? 'Read-only inspection. Failed advice does not change your policy or test selection.'
-            : 'Read-only inspection of the recorded run.',
+          `${run.completed} / ${run.requests} requests recorded · ${usd(run.knownUsd)} known usage · ${usd(run.heldUsd)} held`,
         ),
       );
-      if (run.reason)
-        body.append(el('p', failureDescription(run.reason), { className: 'note warn' }));
-      for (const failure of full.report.failures ?? []) {
-        const record = el('section', null, { className: 'note' });
-        record.append(el('h3', failure.error ?? 'Unusable response'));
-        const fields = el('dl');
-        for (const [name, value] of [
-          ['Request', failure.jobId],
-          ['Request hash', failure.requestHash],
-          [
-            'Latency (ms)',
-            Number.isFinite(failure.evidence?.response?.latencyMs)
-              ? failure.evidence.response.latencyMs.toFixed(2)
-              : null,
-          ],
-          ['Failure stage', failure.evidence?.response?.diagnostics?.phase],
-          ['HTTP status', failure.evidence?.response?.diagnostics?.httpStatus],
-        ])
-          if (value !== null && value !== undefined) {
-            fields.append(el('dt', name), el('dd', String(value), { className: 'hash' }));
-          }
-        record.append(fields);
-        body.append(record);
-      }
-      const raw = el('details');
-      raw.append(
-        el('summary', 'Complete recorded report'),
-        el('pre', JSON.stringify(full.report, null, 2), { className: 'code dark' }),
-      );
+      if (run.reason || run.inflight !== null)
+        body.append(
+          el(
+            'p',
+            run.reason ??
+              'An unresolved request is still in flight. It will not be retried automatically.',
+            { className: 'note warn' },
+          ),
+        );
+      if (run.heldUsd > 0)
+        body.append(
+          el(
+            'p',
+            'Held is a local budget reservation, not a confirmed provider charge. It remains reserved until billing is reconciled. No automatic retry will occur.',
+            { className: 'fine' },
+          ),
+        );
       body.append(
-        raw,
+        el(
+          'p',
+          'Requests and evidence are private to your signed-in account. Sharing is a separate action.',
+        ),
+      );
+      const full = await remote('runs/' + run.id + '?report=1');
+      body.append(
         button('Download report', () => download(full.report, 'jev-hosted-' + run.id + '.json')),
-        button(
-          'Back to run',
-          safe(() => finished(run)),
-        ),
       );
-    };
-    body.append(
-      button(
-        'Inspect recorded evidence',
-        inspect,
-        advice && !canReviewAdvice(full.report) ? 'btn primary' : 'btn',
-      ),
-    );
-    if (!advice || canReviewAdvice(full.report))
+      const advice = full.report?.protocol === 'catalog-advisor-report/1';
+      const inspect = () => {
+        title.textContent = 'Run evidence';
+        body.replaceChildren();
+        body.append(
+          el(
+            'p',
+            advice
+              ? 'Read-only inspection. Failed advice does not change your policy or test selection.'
+              : 'Read-only inspection of the recorded run.',
+          ),
+        );
+        if (run.reason)
+          body.append(el('p', failureDescription(run.reason), { className: 'note warn' }));
+        for (const failure of full.report.failures ?? []) {
+          const record = el('section', null, { className: 'note' });
+          record.append(el('h3', failure.error ?? 'Unusable response'));
+          const fields = el('dl');
+          for (const [name, value] of [
+            ['Request', failure.jobId],
+            ['Request hash', failure.requestHash],
+            [
+              'Latency (ms)',
+              Number.isFinite(failure.evidence?.response?.latencyMs)
+                ? failure.evidence.response.latencyMs.toFixed(2)
+                : null,
+            ],
+            ['Failure stage', failure.evidence?.response?.diagnostics?.phase],
+            ['HTTP status', failure.evidence?.response?.diagnostics?.httpStatus],
+          ])
+            if (value !== null && value !== undefined) {
+              fields.append(el('dt', name), el('dd', String(value), { className: 'hash' }));
+            }
+          record.append(fields);
+          body.append(record);
+        }
+        const raw = el('details');
+        raw.append(
+          el('summary', 'Complete recorded report'),
+          el('pre', JSON.stringify(full.report, null, 2), { className: 'code dark' }),
+        );
+        body.append(
+          raw,
+          button('Download report', () => download(full.report, 'jev-hosted-' + run.id + '.json')),
+          button(
+            'Back to run',
+            safe(() => finished(run)),
+          ),
+        );
+      };
       body.append(
         button(
-          advice ? 'Review suggestions in workspace' : 'Inspect in workspace',
-          safe(async () => {
+          'Inspect recorded evidence',
+          inspect,
+          advice && !canReviewAdvice(full.report) ? 'btn primary' : 'btn',
+        ),
+      );
+      if (advice && canReviewAdvice(full.report)) {
+        try {
+          if (!imported.has(full.report.reportHash)) {
             await onReport(full.report);
-            dialog.close();
-            dialog.remove();
-          }),
-          'btn primary',
-        ),
-      );
-    if (run.status === 'running' && run.inflight === null)
+            imported.add(full.report.reportHash);
+          }
+          title.textContent =
+            full.report.mode === 'setup'
+              ? 'Policy suggestions are ready to review.'
+              : 'Your suggested suite is ready.';
+          body.append(
+            el(
+              'p',
+              full.report.mode === 'setup'
+                ? 'Suggestions are shown below. Review and apply only the changes you want.'
+                : 'The workspace now shows the suggested coverage. Review its tests, cost and gaps before running.',
+            ),
+          );
+          if (onNext) body.append(button(nextLabel, safe(onNext), 'btn primary'));
+        } catch (error) {
+          alert.textContent = error.message + ' The saved report remains available for inspection.';
+          alert.hidden = false;
+        }
+      } else if (!advice) {
+        body.append(
+          button(
+            'Inspect in workspace',
+            safe(async () => {
+              await onReport(full.report);
+              dispose();
+              activeView = null;
+            }),
+            'btn primary',
+          ),
+        );
+      }
+      if (run.status === 'running' && run.inflight === null)
+        body.append(
+          button(
+            'Review continuation',
+            safe(() => review(run)),
+          ),
+        );
       body.append(
-        button(
-          'Review continuation',
-          safe(() => review(run)),
+        el(
+          'p',
+          'A hosted observation is not a provider-signed attestation or a no-regression certificate.',
+          { className: 'fine section-space' },
         ),
       );
-    body.append(
-      el(
-        'p',
-        'A hosted observation is not a provider-signed attestation or a no-regression certificate.',
-        { className: 'fine section-space' },
-      ),
-    );
+    } finally {
+      busy = false;
+    }
   }
   async function review(q) {
     q = { ...q, ...(await remote('runs/' + q.id)) };
     if (!['ready', 'running'].includes(q.status) || q.inflight !== null) return finished(q);
     active = q;
     body.replaceChildren();
-    title.textContent = 'Review before spending.';
+    title.textContent = 'Ready when you are.';
     body.append(
       el(
         'p',
@@ -251,8 +296,7 @@ export async function hostedRun({ spec = null, onReport = async () => {} } = {})
           { className: 'fine' },
         ),
       );
-    body.append(el('p', 'Plan ' + q.planHash, { className: 'hash' }));
-    if (q.policyHash) body.append(el('p', 'Policy ' + q.policyHash, { className: 'hash' }));
+
     const disclosure = el('details'),
       summary = el('summary', 'Inspect exact requests and separate expectations'),
       select = el('select'),
@@ -268,26 +312,20 @@ export async function hostedRun({ spec = null, onReport = async () => {} } = {})
     disclosure.addEventListener('toggle', () => {
       if (disclosure.open && !code.textContent) inspect();
     });
-    disclosure.append(summary, select, code);
+    disclosure.append(summary, el('p', 'Plan ' + q.planHash, { className: 'hash' }));
+    if (q.policyHash) disclosure.append(el('p', 'Policy ' + q.policyHash, { className: 'hash' }));
+    disclosure.append(select, code);
     body.append(disclosure);
-    const label = el('label', null, { className: 'field section-space' }),
-      input = el('input', null, {
-        type: 'password',
-        autocomplete: 'off',
-        maxLength: 4096,
-        placeholder: (q.providerLabel ?? 'Provider') + ' API key',
-      });
-    input.setAttribute('autocapitalize', 'off');
-    input.spellcheck = false;
-    label.append(
-      el('span', 'Key for this run only'),
-      input,
-      el(
-        'small',
-        'Kept in this tab’s memory during execution; forgotten on stop, completion, error, or reload. The site operator handles it transiently to call TypeSafe. No key is saved in browser or server storage.',
-      ),
-    );
-    body.append(label);
+    if (!credentialSession.status().ready) {
+      body.append(
+        el(
+          'p',
+          'Add a Jev key in the session panel above to run this request. Your prepared request stays here.',
+          { className: 'note' },
+        ),
+        button('Add session key', showHostedConnection),
+      );
+    }
     const check = el('input', null, { type: 'checkbox' }),
       agreement = el('label', null, { className: 'check section-space' });
     agreement.append(
@@ -305,9 +343,14 @@ export async function hostedRun({ spec = null, onReport = async () => {} } = {})
       safe(async () => {
         if (busy) return;
         if (!check.checked) throw Error('Review and check the spending authorization first.');
-        key = input.value.trim();
-        input.value = '';
-        if (key.length < 8) throw Error('Enter your provider API key.');
+        if (!isCurrent())
+          throw Error(
+            'Your draft changed. Prepare fresh suggestions for the current policy and description before spending.',
+          );
+        if (!credentialSession.status().ready) {
+          showHostedConnection();
+          throw Error('Add your Jev key above, then authorize this prepared request.');
+        }
         stop = false;
         busy = true;
         begin.disabled = true;
@@ -324,14 +367,16 @@ export async function hostedRun({ spec = null, onReport = async () => {} } = {})
               break;
             }
             progress.textContent = `${run.completed} / ${run.requests} recorded. Sending request ${run.completed + 1}. Keep this tab open.`;
-            run = await remote('runs/' + q.id + '/step', { index: run.completed, apiKey: key });
+            run = await credentialSession.use((apiKey) =>
+              remote('runs/' + q.id + '/step', { index: run.completed, apiKey }),
+            );
             active = run;
           }
-          key = '';
           if (stop) run = await remote('runs/' + q.id + '/stop', {});
           await finished(run);
         } catch (e) {
-          forget();
+          stop = true;
+          busy = false;
           fail(e);
           progress.textContent =
             'No automatic retry. Open saved runs to inspect the durable status before continuing.';
@@ -341,9 +386,9 @@ export async function hostedRun({ spec = null, onReport = async () => {} } = {})
       'btn primary',
     );
     const stopButton = button(
-      'Stop / forget key',
+      'Stop run',
       safe(async () => {
-        forget();
+        stop = true;
         if (active) {
           const r = await remote('runs/' + q.id + '/stop', {});
           progress.textContent =
@@ -484,5 +529,7 @@ export async function hostedRun({ spec = null, onReport = async () => {} } = {})
     await home();
   } catch (e) {
     fail(e);
+  } finally {
+    loading = false;
   }
 }

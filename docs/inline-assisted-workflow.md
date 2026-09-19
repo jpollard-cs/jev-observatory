@@ -1,0 +1,11 @@
+# Inline assisted setup
+
+The hosted workspace offers one optional Jev key session at the start. `credential-session.mjs` owns the key in a closure; application state, worker messages, storage, plans, exports and logs receive no credential. The key is cleared on disconnect, page exit/reload, or after 30 minutes. A deadline check also rejects dispatch if a backgrounded browser delays its timer. Connecting makes no provider request and does not prove the key is valid. Each run still needs an explicit review of its frozen inputs, cost and spending authorization.
+
+Policy and coverage advice now use inline request review, allowance setup, progress, errors and results. Saving an initial account cap continues the pending request automatically. Preparing suggested coverage opens that same review directly; users no longer need to click the initiating button twice. Subsequent runs reuse the session key. Stop prevents subsequent dispatch but does not disconnect the session; disconnect also prevents subsequent dispatch, while an already-sent request can still finish and be billed.
+
+Successful policy advice is attached automatically as unchecked suggestions. The user still chooses which edits to apply. Successful coverage advice is attached to its matching draft and used to build an offline preview of the suite. No evaluation is started automatically. Failed advice stays read-only; stale drafts cannot authorize an obsolete advisor request or silently accept mismatched advice. Private saved reports, immutable request/policy provenance, cumulative ledgers and no-automatic-retry behavior are retained.
+
+The manual workflow stays available without a key. The browser-only adapter mounts the session and execution surface outside the rerendered editor, so navigation and checkbox changes do not discard the connection or interrupt the review. The local CLI/server boundary remains separate.
+
+Security scope: a tab-memory key reduces persistence exposure; it cannot make a compromised page safe. The existing CSP, Trusted Types/DOM sanitization, same-origin writes, owner checks and server-side credential exclusion remain required. This UI change does not introduce an encrypted browser key vault or save keys for later visits.

@@ -1,5 +1,5 @@
 import { rememberDisclosures, restoreDisclosures } from './disclosures.js';
-import { hostedRun } from './hosted.js';
+import { hostedRun, mountHostedAssistant, showHostedConnection } from './hosted.js';
 import {api,setToken} from './transport.js';
 import {guidedHome,guidedPolicy,guidedPlanner,workflowRail,runReview} from './guided.js';
 import {draftStamp,appStamp} from './workflow-model.js';
@@ -50,6 +50,7 @@ function renderPage(){
  const pages={start:()=>guidedHome(state,boot),review:()=>runReview(state,boot,state.frozen?runCommand():''),connection:()=>connectionPage(state,boot),overview,policy:()=>guidedPolicy(state,boot),selection:()=>selectionPage(state,boot),planner:()=>guidedPlanner(state,boot)+(state.plan?orbitMarkup(plannedAtlas()):''),original:()=>libraryPage(state,boot),evidence:evidencePage,context:contextPage,provenance:provenancePage};
  const browserExport=boot.hosted?({start:state.setupFrozen?button('Download setup request bundle','download-setup-plan'):null,selection:state.advisorFrozen?button('Download advisor request bundle','download-advisor-plan'):null,original:state.originalFrozen?button('Review hosted run','hosted-original','primary')+button('Download original suite bundle','download-original-plan'):null})[state.nav]:null;
  document.getElementById('content').innerHTML=(['start','policy','planner','review','evidence','selection','connection'].includes(state.nav)?workflowRail(state):'')+pages[state.nav]()+(browserExport?`<div class="note">${browserExport}<p>Plan preparation is offline. Review a hosted run to save it privately and authorize execution, or export the bundle for your local runner.</p></div>`:'');restoreDisclosures(document.getElementById('content'),disclosurePages.get(state.nav));renderedPage=state.nav;attachHelp();
+ if(boot.hosted)mountHostedAssistant(document.getElementById('content'));
  if(state.error)document.getElementById('content').insertAdjacentHTML('afterbegin',`<div class="error" role="alert">${esc(state.error)}</div>`);
  if(state.nav==='overview')disposeOrbit=mountOrbit(atlasCondition(),{animate:state.galaxy,onInspect:id=>modalRow(id).catch(showError)});
  if(state.nav==='planner'&&state.plan)disposeOrbit=mountOrbit(plannedAtlas(),{animate:state.galaxy,onInspect:id=>plannedModal(id).catch(showError)});
@@ -149,18 +150,23 @@ async function pollSetup(id){
 }
 async function openHosted(frozen=null){
  const spec=frozen?await api('workspace/execution-spec',{planHash:frozen.planHash}):null;
- await hostedRun({spec,onReport:async(report)=>{
+ const stamp=draftStamp(state.policy,state.application);
+ const setup=frozen?.manifest?.options?.mode==='setup';
+ await hostedRun({spec,isCurrent:()=>!frozen||stamp===draftStamp(state.policy,state.application),nextLabel:setup?'Review proposed settings':'View suggested coverage',onNext:async()=>{state.nav=setup?'start':frozen?.manifest?.options?.mode==='tag'?'selection':'planner';shell();document.getElementById(setup?'setup-suggestions':'content')?.scrollIntoView({block:'start',behavior:'smooth'});},onReport:async(report)=>{
   if(report.protocol==='catalog-advisor-report/1'){
    if(report.mode==='setup'){await importSetup(report);state.nav='start';}
-   else{const data=await api('selection/import',{raw:JSON.stringify(report),policy:state.policy,application:state.application});if(data.report.mode==='tag')state.tagSummary=data.summary;else{state.adviceReport=data.report;state.adviceSummary=data.summary;state.plan=null;state.frozen=null;}state.nav='selection';}
+   else{const data=await api('selection/import',{raw:JSON.stringify(report),policy:state.policy,application:state.application});if(data.report.mode==='tag')state.tagSummary=data.summary;else{state.adviceReport=data.report;state.adviceSummary=data.summary;state.plan=null;state.frozen=null;state.planningMode='assisted';state.options.tier='budget';}state.nav=report.mode==='rank'?'planner':'selection';}
   }else{const evidence=await api('import-report',{raw:JSON.stringify(report),name:'Private hosted run'});setEvidence(evidence);state.nav='evidence';}
   shell();
+  if(report.protocol==='catalog-advisor-report/1'&&report.mode==='rank')await action('plan');
  }});
 }
 async function action(name){
  if(name==='edit-languages'){state.nav='policy';shell();document.getElementById('policy-languages')?.scrollIntoView({block:'start'});return;}
  if(name==='review-setup-suggestions'){state.nav='start';shell();document.getElementById('setup-suggestions')?.scrollIntoView({block:'start'});return;}
  if(name==='setup-assisted'){await action('setup-prepare');await action('setup-review');return;}
+ if(boot.hosted&&name==='connect-guidance'){showHostedConnection();return;}
+ if(name==='coverage-assisted'){const stamp=draftStamp(state.policy,state.application);await action('prepare-rank');if(stamp!==draftStamp(state.policy,state.application))throw Error('Draft changed while preparing suggestions');await action('review-advisor');return;}
  if(boot.hosted&&name==='hosted-history'){await openHosted();return;}
  if(boot.hosted&&name==='hosted-evaluation'){if(!state.frozen)throw Error('Save a plan first');await openHosted(state.frozen);return;}
  if(boot.hosted&&name==='hosted-original'){if(!state.originalFrozen)throw Error('Save an original suite first');await openHosted(state.originalFrozen);return;}
@@ -231,7 +237,7 @@ state.error=null;
  if(name==='import-application'){document.getElementById('application-file').click();return;}
  if(name==='export-application'){download('application-selection.json',state.application);return;}
  if(name==='application-from-policy'){state.application.name=state.policy.name;state.application.description=state.policy.task.description;saveApplication();state.adviceReport=null;state.adviceSummary=null;state.advisorFrozen=null;state.plan=null;state.frozen=null;renderPage();return;}
- if(name==='prepare-rank'||name==='prepare-tag'){state.advisorFrozen=await api('selection/prepare',{policy:state.policy,application:state.application,options:{mode:name==='prepare-tag'?'tag':'rank'}});renderPage();toast('Metadata requests frozen offline. Nothing sent.');return;}
+ if(name==='prepare-rank'||name==='prepare-tag'){const stamp=draftStamp(state.policy,state.application),frozen=await api('selection/prepare',{policy:state.policy,application:state.application,options:{mode:name==='prepare-tag'?'tag':'rank'}});if(stamp!==draftStamp(state.policy,state.application))throw Error('Draft changed while preparing suggestions');state.advisorFrozen=frozen;renderPage();toast('Metadata requests frozen offline. Nothing sent.');return;}
  if(name==='copy-advisor'){await navigator.clipboard.writeText(advisorCommand(state.advisorFrozen,boot.defaultProject,boot.appRoot));toast('Advisor command copied.');return;}
  if(name==='export-advisor-manifest'){download('advisor-manifest.json',state.advisorFrozen.manifest);return;}
  if(name==='export-tags'){download('tagging-proposals.json',state.tagSummary);return;}
