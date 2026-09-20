@@ -12,6 +12,37 @@ import { communityService } from '../src/service.mjs';
 import { api } from '../src/http.mjs';
 import { makeCatalog, makeExample } from '../scripts/catalog.mjs';
 
+test('preparation failures do not imply dispatch or a spending hold; dispatch failures remain uncertain', async () => {
+  const deps = {
+    actor: { id: 'alice' },
+    service: {
+      prepare() { throw Error('private internal details'); },
+      step() { throw Error('private internal details'); },
+    },
+  };
+  const request = (route) => new Request('https://observatory.test/api/execution/' + route, {
+    method: 'POST',
+    headers: {
+      Origin: 'https://observatory.test',
+      'Content-Type': 'application/json',
+      'x-observatory-intent': 'write',
+    },
+    body: '{}',
+  });
+  const preparation = await executionApi(request('prepare'), deps);
+  assert.equal(preparation.status, 503);
+  const p = await preparation.json();
+  assert.equal(p.error, 'preparation_unavailable');
+  assert.match(p.message, /No model call was sent/);
+  assert.doesNotMatch(p.message, /hold|private internal/);
+  const dispatch = await executionApi(request('runs/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa/step'), deps);
+  assert.equal(dispatch.status, 503);
+  const d = await dispatch.json();
+  assert.equal(d.error, 'execution_unavailable');
+  assert.match(d.message, /spending hold/);
+  assert.doesNotMatch(d.message, /No model call was sent|private internal/);
+});
+
 test('the evidence migration withdraws legacy uploads without deleting owner records', async (t) => {
   const db = new DatabaseSync(':memory:');
   t.after(() => db.close());

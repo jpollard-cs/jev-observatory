@@ -103,6 +103,15 @@ export async function hostedRun({
     stop = true;
   };
   const fail = (e) => {
+    if (!active && title.textContent === 'Preparing your request…') {
+      title.textContent = 'Could not prepare your request';
+      body.replaceChildren(
+        el('p', 'Preparation stopped. Your draft is still here. Dismiss this panel to return to it.', {
+          className: 'note',
+          role: 'status',
+        }),
+      );
+    }
     alert.textContent = e.message;
     alert.hidden = false;
   };

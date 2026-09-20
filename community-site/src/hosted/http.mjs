@@ -57,6 +57,15 @@ export async function executionApi(request, { service, actor, admitWrite = async
     return json({ error: 'method_not_allowed' }, 405);
   } catch {
     // Neither provider bodies nor credentials appear in errors or application logs.
+    if (route === 'prepare')
+      return json(
+        {
+          error: 'preparation_unavailable',
+          message:
+            'The request could not be prepared. No model call was sent. Your draft is unchanged; dismiss this panel and try preparing again once the service is available.',
+        },
+        503,
+      );
     return json(
       {
         error: 'execution_unavailable',
