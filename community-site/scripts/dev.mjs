@@ -1,15 +1,29 @@
 import { gunzipSync } from 'node:zlib';
 import http from 'node:http';
+import fs from 'node:fs/promises';
 import { localStorage } from './local-storage.mjs';
-import worker from '../dist/server/index.js';
+import productionWorker, { createWorker } from '../dist/server/index.js';
+let worker = productionWorker;
 const mocked = process.argv.includes('--mock-jev');
 const slow = mocked && process.argv.includes('--slow-preview');
-const delay = () => new Promise(resolve => setTimeout(resolve, 2200));
+const delay = () => new Promise((resolve) => setTimeout(resolve, 2200));
 const mockFailure = mocked && process.argv.includes('--mock-jev-failure');
 const storage = await localStorage(
   mocked ? (mockFailure ? 'runtime/mock-execution-failure' : 'runtime/mock-execution') : 'runtime',
 );
 if (mocked) {
+  const { testReceipts } = await import('../tests/fixtures/receipts.mjs');
+  // Mock-only identity, never accepted by the production trust registry.
+  const keyFile = 'runtime/mock-receipt-key.json';
+  let saved = null;
+  try {
+    saved = await fs.readFile(keyFile, 'utf8');
+  } catch (e) {
+    if (e.code !== 'ENOENT') throw e;
+  }
+  const receipts = await testReceipts(saved);
+  if (!saved) await fs.writeFile(keyFile, receipts.secret, { mode: 0o600, flag: 'wx' });
+  worker = createWorker({ receiptTrust: receipts.trust, receiptsFor: () => receipts.authority });
   const { mockProvider } = await import('../tests/fixtures/provider.mjs');
   globalThis.fetch = async (url, options) => {
     if (url !== 'https://api.typesafe.ai/v1/systemone')
@@ -19,7 +33,11 @@ if (mocked) {
     return Response.json(
       mockProvider(
         JSON.parse(options.body),
-        process.argv.includes('--mock-spanish-only') ? { languages: 'spanish' } : process.argv.includes('--mock-english-only') ? { languages: 'english' } : {},
+        process.argv.includes('--mock-spanish-only')
+          ? { languages: 'spanish' }
+          : process.argv.includes('--mock-english-only')
+            ? { languages: 'english' }
+            : {},
       ),
     );
   };
@@ -48,11 +66,11 @@ http
       if (slow && pathname.startsWith('/api/execution/')) await delay();
       let response =
         pathname === '/signin-with-chatgpt'
-            ? new Response(
-                'Local preview: restart with npm run dev -- --signed-in. Hosted sign-in is handled by Sites.',
-                { headers: { 'Content-Type': 'text/plain' } },
-              )
-            : await worker.fetch(request, { DB: storage.db, BUCKET: storage.blobs }, {});
+          ? new Response(
+              'Local preview: restart with npm run dev -- --signed-in. Hosted sign-in is handled by Sites.',
+              { headers: { 'Content-Type': 'text/plain' } },
+            )
+          : await worker.fetch(request, { DB: storage.db, BUCKET: storage.blobs }, {});
       if (mocked && response.headers.get('content-type')?.startsWith('text/html')) {
         const raw = Buffer.from(await response.arrayBuffer());
         const html = (

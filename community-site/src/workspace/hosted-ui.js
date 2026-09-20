@@ -185,6 +185,21 @@ export async function hostedRun({
         button('Download report', () => download(full.report, 'jev-hosted-' + run.id + '.json')),
       );
       const advice = full.report?.protocol === 'catalog-advisor-report/1';
+      if (
+        full.report?.protocol === 'policy-workbench-v1' &&
+        ['complete', 'stopped'].includes(run.status) &&
+        run.completed > 0 &&
+        run.inflight === null
+      )
+        body.append(
+          button(
+            'Download evidence with provenance',
+            safe(async () => {
+              const bundle = await remote('runs/' + run.id + '/evidence');
+              download(bundle, 'observatory-evidence-' + run.id + '.json');
+            }),
+          ),
+        );
       const inspect = () => {
         title.textContent = 'Run evidence';
         body.replaceChildren();

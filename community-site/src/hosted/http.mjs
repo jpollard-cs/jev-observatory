@@ -43,13 +43,15 @@ export async function executionApi(request, { service, actor, admitWrite = async
     }
     if (route === 'account' && body) return respond(await service.initialize(owner, body));
     if (route === 'prepare' && body) return respond(await service.prepare(owner, body));
-    const match = route.match(/^runs\/([a-f0-9-]{36})(?:\/(start|step|stop|request))?$/);
+    const match = route.match(/^runs\/([a-f0-9-]{36})(?:\/(start|step|stop|request|evidence))?$/);
     if (!match) return json({ error: 'not_found' }, 404);
     const [, id, action] = match;
     if (request.method === 'GET' && !action)
       return respond(await service.detail(owner, id, url.searchParams.get('report') === '1'));
     if (request.method === 'GET' && action === 'request')
       return respond(await service.request(owner, id, Number(url.searchParams.get('index'))));
+    if (request.method === 'GET' && action === 'evidence')
+      return respond(await service.contribution(owner, id));
     if (body && ['start', 'step', 'stop'].includes(action))
       return respond(await service[action](owner, id, body));
     return json({ error: 'method_not_allowed' }, 405);

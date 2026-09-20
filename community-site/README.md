@@ -44,3 +44,7 @@ Anonymous routes are implemented and tested. The Site and GitHub source are bein
 New-work admission uses durable per-account and site-wide minute limits in addition to retained-storage quotas. Security/privacy reporting and the operator takedown/retention procedure are documented in [the public-preview runbook](../docs/public-preview-operations.md). Automated backups and a dedicated moderation console remain follow-ups; this is a public preview, not a production abuse-management service.
 
 See `../docs/community-verification.md` for the proposed signed regression-verification protocol. The hosted BYOK runner observes execution; it does not yet issue provider-signed or no-regression certificates.
+
+## Signed evidence
+
+Production execution requires a runtime `OBSERVATORY_RECEIPT_SIGNING_KEY` secret matching the pinned public registry. New plans, responses, terminal records and exported evidence receive Ed25519 signatures. Missing signing configuration fails before dispatch. Verification and key rotation are documented in [signed receipts](../docs/signed-receipts.md). The private key is never a build input. Mock preview uses a separate `test.invalid` key stored with mode 0600 in ignored `runtime/mock-receipt-key.json`; production verification rejects that key.

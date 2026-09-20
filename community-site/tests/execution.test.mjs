@@ -16,7 +16,9 @@ import { makeAdvisorPlan, adviceSummary } from '../../workbench/src/selection/ad
 import { makePlan } from '../../workbench/src/planner.mjs';
 import { makeReplayPlan } from '../../workbench/src/history/planner.mjs';
 import { importReport } from '../../workbench/src/report.mjs';
-import worker from '../dist/server/index.js';
+import productionWorker, { createWorker } from '../dist/server/index.js';
+import { testReceipts } from './fixtures/receipts.mjs';
+const worker = productionWorker;
 const owner = 'test-owner',
   key = 'test-only-never-a-real-key',
   policy = preset(),
@@ -244,6 +246,8 @@ test('admission and original suite reports import without turning missing observ
 test('compiled hosted API authenticates owners, rejects cross-site writes and only sends allowlisted server-built requests', async (t) => {
   const { storage } = await fixture(t);
   const env = { DB: storage.db, BUCKET: storage.blobs };
+  const signed = await testReceipts();
+  const worker = createWorker({ receiptTrust: signed.trust, receiptsFor: () => signed.authority });
   const previous = globalThis.fetch;
   let calls = 0;
   t.after(() => {
@@ -276,6 +280,8 @@ test('compiled hosted API authenticates owners, rejects cross-site writes and on
     (await worker.fetch(request('prepare', spec, owner, 'https://evil.test'), env, {})).status,
     403,
   );
+  assert.equal((await productionWorker.fetch(request('prepare', spec), env, {})).status, 503);
+  assert.equal(calls, 0, 'missing production signing key must fail before dispatch');
   const prepared = await worker.fetch(request('prepare', spec), env, {});
   assert.equal(prepared.status, 200);
   const q = await prepared.json();

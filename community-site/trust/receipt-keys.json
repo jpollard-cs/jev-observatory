@@ -1,0 +1,23 @@
+{
+  "protocol": "observatory-trust/1",
+  "keys": [
+    {
+      "id": "ed25519-66a598c342ef4bb54fc1156b",
+      "issuer": "https://redteam-observatory.wizard.chatgpt.site",
+      "algorithm": "Ed25519",
+      "publicKey": "PTxS7uTwyYrxDo92NsVYN_D1Kf3y57BjlkO4QxG5zDg",
+      "status": "active",
+      "notBefore": "2026-09-20T00:00:00.000Z",
+      "notAfter": "2027-09-20T00:00:00.000Z"
+    },
+    {
+      "id": "ed25519-f2db6524dfb05e02f83302fc",
+      "issuer": "https://jev-redteam-observatory.wizard.chatgpt.site",
+      "algorithm": "Ed25519",
+      "publicKey": "jj8yM8q87yckVE_7cPkvnbJ1BjnnQ2bzfpI4AV9RTjU",
+      "status": "active",
+      "notBefore": "2026-09-20T00:00:00.000Z",
+      "notAfter": "2027-09-20T00:00:00.000Z"
+    }
+  ]
+}

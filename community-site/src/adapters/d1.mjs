@@ -6,7 +6,7 @@ export function repository(db) {
       (
         await db
           .prepare(
-            `SELECT ${columns} FROM community_results WHERE ${owner ? 'owner=?' : "visibility='public' AND evidence_kind='hosted-run'"} ORDER BY created_at DESC,id LIMIT 51 OFFSET ?`,
+            `SELECT ${columns} FROM community_results WHERE ${owner ? 'owner=?' : "visibility='public' AND evidence_kind IN ('hosted-run','signed-run')"} ORDER BY created_at DESC,id LIMIT 51 OFFSET ?`,
           )
           .bind(...(owner ? [owner, offset] : [offset]))
           .all()

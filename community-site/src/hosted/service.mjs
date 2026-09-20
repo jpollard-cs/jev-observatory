@@ -1,5 +1,8 @@
 import { sha } from '../../../workbench/src/util.mjs';
 import { hostedBundle } from './sharing.mjs';
+import core from '../../trust/admission-core-v1.json' with { type: 'json' };
+import { verifySignedBundle } from '../receipts/verify.mjs';
+import { canonical, sha256 } from '../domain/contracts.mjs';
 import { ok, error } from '../domain/contracts.mjs';
 const stamp = () => new Date().toISOString();
 const publicRun = (r) => ({
@@ -22,6 +25,7 @@ export function executionService({
   repo,
   blobs,
   adapter,
+  receipts = null,
   now = stamp,
   uuid = () => crypto.randomUUID(),
 }) {
@@ -31,6 +35,12 @@ export function executionService({
     const raw = await new Response(stored.body).text();
     if (sha(raw) !== run.prepared_hash) throw Error('Stored plan integrity failure');
     const p = JSON.parse(raw);
+    if (p.attestation) {
+      if (!receipts) throw Error('This run requires receipt verification');
+      const { attestation, ...prepared } = p;
+      if (attestation.runId !== run.id) throw Error('Signed plan belongs to another run');
+      await receipts.verify('plan', { runId: run.id, prepared }, attestation.receipt);
+    }
     if (p.manifest.planHash !== run.plan_hash) throw Error('Stored plan identity failure');
     const identity = p.execution ?? adapter.legacyIdentity;
     if (
@@ -61,12 +71,56 @@ export function executionService({
       )
         throw Error('Response integrity failure');
       observations.push(observation);
+      if (p.attestation) {
+        const { attestation, ...record } = observation;
+        await receipts.verify(
+          'observation',
+          {
+            runId: run.id,
+            planHash: p.manifest.planHash,
+            index: i,
+            observation: record,
+          },
+          attestation,
+        );
+      }
     }
     return { p, observations };
   }
   async function report(run) {
     const { p, observations } = await evidence(run);
     return adapter.report(p, run, observations);
+  }
+  async function completion(run, p, observations, create = false) {
+    if (!p.attestation) return null;
+    const expected = {
+      runId: run.id,
+      planHash: run.plan_hash,
+      status: run.status,
+      reason: run.reason,
+      planned: p.jobs.length,
+      recorded: run.next_index,
+      knownNano: run.known_nano,
+      heldNano: run.held_nano,
+      observationHashes: await Promise.all(observations.map((o) => sha256(canonical(o)))),
+    };
+    const key = run.object_key + '/completion';
+    const stored = await blobs.get(key);
+    if (stored) {
+      const seal = JSON.parse(await new Response(stored.body).text());
+      await receipts.verify('completion', seal.record, seal.receipt);
+      if (canonical(seal.record) !== canonical(expected)) throw Error('Sealed run has changed');
+      return seal;
+    }
+    if (!create) throw Error('Signed completion is unavailable; this run cannot be attested');
+    const seal = { record: expected, receipt: await receipts.sign('completion', expected) };
+    await blobs.put(key, JSON.stringify(seal));
+    return seal;
+  }
+  async function sealTerminal(run) {
+    if (!['complete', 'stopped'].includes(run.status) || run.inflight !== null) return;
+    const { p, observations } = await evidence(run);
+    await completion(run, p, observations, true);
   }
   const account = async (owner) => {
     const a = await repo.account(owner);
@@ -124,16 +178,21 @@ export function executionService({
         requests.push(
           ...(await Promise.all(p.jobs.slice(i, i + 8).map((j) => requestBody(run, j)))),
         );
-      return ok(
-        await hostedBundle(
-          p,
-          run,
-          observations,
-          requests,
-          adapter.report(p, run, observations),
-          adapter.describe(p),
-        ),
+      const bundle = await hostedBundle(
+        p,
+        run,
+        observations,
+        requests,
+        adapter.report(p, run, observations),
+        adapter.describe(p),
+        p.attestation ? receipts : null,
+        await completion(run, p, observations),
       );
+      if (bundle.version === 3) {
+        const checked = await verifySignedBundle(bundle, receipts.trust, core);
+        if (checked.tag === 'error') return checked;
+      }
+      return ok(bundle);
     },
     async session(owner) {
       return ok({
@@ -177,8 +236,13 @@ export function executionService({
       const id = uuid(),
         objectKey = 'execution/' + owner + '/' + id;
       const bodies = [...new Map(p.jobs.map((j) => [j.requestHash, j.body])).entries()];
-      const frozen = { ...p, jobs: p.jobs.map(({ body, request, receipt, ...j }) => j) },
-        raw = JSON.stringify(frozen);
+      const frozen = { ...p, jobs: p.jobs.map(({ body, request, receipt, ...j }) => j) };
+      if (receipts) {
+        frozen.verificationCore = p.manifest.policy ? core : null;
+        const receipt = await receipts.sign('plan', { runId: id, prepared: frozen });
+        frozen.attestation = { runId: id, receipt };
+      }
+      const raw = JSON.stringify(frozen);
       // Store each immutable request separately; each dispatch reads only its own payload.
       const stored = [];
       try {
@@ -310,6 +374,7 @@ export function executionService({
         );
       const p = await load(run),
         jobs = p.jobs.slice(index, index + count);
+      if (p.attestation) await receipts.ready();
       if (!jobs.length) throw Error('Request integrity failure');
       // Verify every body before claiming or sending any request in this batch.
       const bodies = await Promise.all(jobs.map((j) => requestBody(run, j)));
@@ -358,6 +423,13 @@ export function executionService({
               : cost > reservations[offset]
                 ? 'reservation_exceeded'
                 : null);
+          if (p.attestation)
+            o.attestation = await receipts.sign('observation', {
+              runId: id,
+              planHash: p.manifest.planHash,
+              index: index + offset,
+              observation: o,
+            });
           await blobs.put(run.object_key + '/response/' + (index + offset), JSON.stringify(o));
           return { cost: cost ?? 0, unknown: cost === null ? reservations[offset] : 0, reason };
         }),
@@ -374,13 +446,17 @@ export function executionService({
       };
       if (!(await repo.settle(id, owner, index, receipt, now())))
         throw Error('Batch settlement could not be confirmed; do not retry');
-      return ok(publicRun(await repo.get(id, owner)));
+      const finished = await repo.get(id, owner);
+      await sealTerminal(finished);
+      return ok(publicRun(finished));
     },
     async stop(owner, id) {
       const r = await repo.get(id, owner);
       if (!r) return error('not_found', 'Run not found.', 404);
       await repo.stop(id, owner, now());
-      return ok(publicRun(await repo.get(id, owner)));
+      const finished = await repo.get(id, owner);
+      await sealTerminal(finished);
+      return ok(publicRun(finished));
     },
   };
 }

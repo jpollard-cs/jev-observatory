@@ -64,3 +64,5 @@ Main source areas: `workbench/` contains the shared policy compiler, planners an
 ## License status
 
 No repository-wide open-source license has been selected. Public source availability does not establish a license grant. Dependency and copied-runtime licensing remains separate; this repository does not redistribute model weights.
+
+Hosted evidence now supports [signed receipts and independent offline verification](docs/signed-receipts.md), with pinned core coverage kept separate from correctness or regression claims.

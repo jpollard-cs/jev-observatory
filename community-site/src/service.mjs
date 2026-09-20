@@ -9,10 +9,13 @@ import {
   publicResult,
   validId,
 } from './domain/contracts.mjs';
+import { verifySignedBundle } from './receipts/verify.mjs';
+import requiredCore from '../trust/admission-core-v1.json' with { type: 'json' };
 export function communityService({
   repo,
   blobs,
   evidence,
+  trust,
   newId = () => crypto.randomUUID(),
   now = () => new Date().toISOString(),
 }) {
@@ -33,6 +36,10 @@ export function communityService({
     const body = await new Response(object.body).text();
     if ((await sha256(body)) !== row.bundleHash)
       return error('evidence_changed', 'Stored evidence failed its integrity check.', 503);
+    if (row.evidenceKind === 'signed-run') {
+      const checked = await verifySignedBundle(JSON.parse(body), trust, requiredCore);
+      if (checked.tag === 'error') return checked;
+    }
     return ok(body);
   }
   return {
@@ -76,8 +83,12 @@ export function communityService({
         return error('sharing_unavailable', 'Hosted evidence sharing is unavailable.', 503);
       const source = await evidence.contribution(actor.id, input.runId);
       if (source.tag === 'error') return source;
-      if (source.value?.version !== 2)
+      if (![2, 3].includes(source.value?.version))
         return error('invalid_evidence', 'The hosted evidence contract is unsupported.');
+      if (source.value.version === 3) {
+        const checked = await verifySignedBundle(source.value, trust, requiredCore);
+        if (checked.tag === 'error') return checked;
+      }
       const valid = await validateBundle(source.value);
       if (valid.tag === 'error') return valid;
       const bundle = valid.value,
@@ -95,7 +106,7 @@ export function communityService({
         suiteHash: await sha256(canonical(bundle.suite)),
         bundleHash: await sha256(serialized),
         sourceRevision: bundle.provenance.sourceStamp ?? bundle.provenance.sourceRevision,
-        evidenceKind: 'hosted-run',
+        evidenceKind: bundle.version === 3 ? 'signed-run' : 'hosted-run',
         sourceRunId: input.runId,
         objectKey,
         bytes: new TextEncoder().encode(serialized).length,
@@ -123,7 +134,7 @@ export function communityService({
         return error('invalid_visibility', 'Choose public or private.');
       const row = await repo.get(id);
       if (!row || row.owner !== actor.id) return missing();
-      if (input.visibility === 'public' && row.evidenceKind !== 'hosted-run')
+      if (input.visibility === 'public' && !['hosted-run', 'signed-run'].includes(row.evidenceKind))
         return error(
           'hosted_run_required',
           'Legacy uploaded files cannot be published. Share server-held evaluation evidence instead.',

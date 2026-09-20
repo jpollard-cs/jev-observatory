@@ -1,6 +1,6 @@
 # Community policies and contributor-funded verification
 
-Status: 2026-09-20. GitHub remains the review authority. Public submissions must reference owned, saved hosted policy evaluations. The server constructs complete evidence; uploaded answers are not accepted. The host transiently handles a contributor's Jev key during explicitly authorized execution. Independent receipt signing and PR-bound core-suite regression verification remain proposed, not implemented guarantees.
+Status: 2026-09-20. GitHub remains the review authority. Public submissions must reference owned, saved hosted policy evaluations. The server constructs complete evidence; uploaded answers are not accepted. The host transiently handles a contributor's Jev key during explicitly authorized execution. New runs carry independently verifiable runner signatures and a pinned core-coverage record; see [signed receipts](signed-receipts.md). PR-bound baseline/candidate regression verification remains proposed.
 
 ## A library of policies
 
@@ -18,7 +18,7 @@ A bundle hash establishes the identity of uploaded bytes. Schema validation esta
 
 The community service now accepts only a saved run ID, display name and privacy-review acknowledgment. It resolves ownership on the server, verifies frozen requests and persisted responses, and packages the full policy, source fingerprint, manifest, request bodies, outcomes and report. It neither reruns the evaluation nor accepts replacement answers, supplied hashes or a contributor's “verified” label. Only terminal policy evaluations with no unresolved dispatch qualify; stopped runs preserve errors and unrun cases. Existing uploaded files become private and cannot be republished. External/local results go through repository review until a separate attestation path exists.
 
-Contributions still start private and need an explicit share action. Anonymous users can read public evidence. The label is **host-observed**, not verified, safe or no-regression. The compiled evaluator controls the case definitions, but users choose policies and run scope; this does not enforce an independent mandatory core suite or expose all of a contributor's private failed experiments. A content hash detects later changes only relative to a trusted stored hash. A compromised service or database remains a threat; hashes alone cannot protect against an attacker who can replace both evidence and its digest.
+Contributions still start private and need an explicit share action. Anonymous users can read public evidence. Unsigned historical runs are labeled **host-observed**. New runs have signed receipts; neither label means safe or no-regression. The compiled evaluator controls the case definitions, but users choose policies and run scope; this does not enforce an independent mandatory core suite or expose all of a contributor's private failed experiments. For unsigned historical evidence, a content hash detects later changes only relative to a trusted stored hash. New runs additionally sign plans, observations, completion and exported bundles; replacing stored evidence and its digest does not produce a valid signature. A compromised service or database remains a threat; hashes alone cannot protect against an attacker who can replace both evidence and its digest.
 
 ## Recommended trusted-runner protocol
 
@@ -47,5 +47,5 @@ Do not compare profiles as if they share one definition of permission. Strict ad
 - Review and freeze the mandatory core, per-profile expectations and regression margins.
 - Confirm TypeSafe credential delegation and receipt capabilities.
 - Audit the hosted runner and isolate publication/signing authority before relying on it for PR regression verification.
-- Implement and audit receipt signing, validation, key rotation, replay/staleness checks and complete attempt accounting before displaying a verified badge.
+- Independently audit the implemented receipt signing and verification. Add PR-bound regression checks and a campaign-level attempt registry before displaying a regression-verification badge.
 - Keep GitHub PRs usable without ChatGPT. Hosted sharing uses Sites identity; contributors without ChatGPT can attach external evidence to a PR for review, without automatic public benchmark admission.

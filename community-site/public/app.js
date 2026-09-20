@@ -136,9 +136,11 @@ async function inspectResult(row) {
     const counts = facts([
       [
         'Evidence',
-        row.evidenceStatus === 'host-observed'
-          ? 'Host-observed · not a safety certification'
-          : 'Legacy upload · ineligible for public sharing',
+        row.evidenceStatus === 'signed-run'
+          ? 'Runner signature checked · not a safety certification'
+          : row.evidenceStatus === 'host-observed'
+            ? 'Host-observed · not a safety certification'
+            : 'Legacy upload · ineligible for public sharing',
       ],
       ['Model', row.model],
       ['Valid answers', `${row.completed} / ${row.total} planned requests`],
@@ -148,7 +150,7 @@ async function inspectResult(row) {
       ['Bundle SHA-256', row.bundleHash],
       ['Evaluator source fingerprint', row.sourceRevision],
     ]);
-    if (bundle.version === 2) {
+    if (bundle.version >= 2) {
       const manifest = bundle.provenance.settings.manifest;
       counts.append(
         element('dt', 'Run scope'),
@@ -166,6 +168,27 @@ async function inspectResult(row) {
         ),
       );
     }
+    if (bundle.version === 3) {
+      counts.append(
+        ...[
+          ['Signed by', bundle.attestation.issuer],
+          ['Signing key', bundle.attestation.keyId],
+          [
+            'Evaluator revision',
+            bundle.provenance.settings.prepared.attestation.receipt.evaluatorRevision,
+          ],
+          ['Required core', `${bundle.verification.core.id} · ${bundle.verification.core.status}`],
+          [
+            'Core requests missing or invalid',
+            bundle.verification.core.missing.length + bundle.verification.core.invalid.length,
+          ],
+          [
+            'Regression verdict',
+            'Not evaluated; signature validity is separate from model performance.',
+          ],
+        ].flatMap(([label, value]) => [element('dt', label), element('dd', value)]),
+      );
+    }
     const actions = element('div', undefined, 'detail-actions');
     actions.append(
       link(
@@ -174,6 +197,14 @@ async function inspectResult(row) {
         'button subtle',
       ),
     );
+    if (bundle.version === 3)
+      actions.append(
+        link(
+          'Verify independently ↗',
+          'https://github.com/jpollard-cs/jev-observatory/blob/main/docs/signed-receipts.md',
+          'button subtle',
+        ),
+      );
     if (bundle.provenance.pullRequest)
       actions.append(link('Review pull request ↗', bundle.provenance.pullRequest));
     const view = element('details');
@@ -213,7 +244,11 @@ function resultCard(row) {
   main.append(
     element(
       'span',
-      (row.evidenceStatus === 'host-observed' ? 'Host-observed' : 'Legacy upload · private only') +
+      (row.evidenceStatus === 'signed-run'
+        ? 'Signed receipt attached'
+        : row.evidenceStatus === 'host-observed'
+          ? 'Host-observed · unsigned'
+          : 'Legacy upload · private only') +
         ' · ' +
         row.visibility,
       'badge',
@@ -227,7 +262,7 @@ function resultCard(row) {
     link('Download ↓', '/api/community/results/' + row.id + '/download'),
   );
   if (row.owned) {
-    if (row.evidenceStatus === 'host-observed' || row.visibility === 'public')
+    if (['host-observed', 'signed-run'].includes(row.evidenceStatus) || row.visibility === 'public')
       links.append(
         button(row.visibility === 'public' ? 'Make private' : 'Share with community', async () => {
           try {
@@ -250,11 +285,7 @@ function resultCard(row) {
       );
     links.append(
       button('Delete', async () => {
-        if (
-          !confirm(
-            'Delete this uploaded contribution? Download a copy first if you need to keep it.',
-          )
-        )
+        if (!confirm('Delete this contribution? Download a copy first if you need to keep it.'))
           return;
         try {
           await request('results/' + row.id, { method: 'DELETE' });

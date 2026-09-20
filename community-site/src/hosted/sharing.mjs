@@ -1,18 +1,28 @@
 import { canonical, sha256 } from '../domain/contracts.mjs';
+import { coreCoverage } from '../receipts/core.mjs';
 
 // Only the hosted execution port calls this with integrity-checked persisted records.
 // This is source attribution, not a provider signature or a regression verdict.
-export async function hostedBundle(prepared, run, observations, requests, report, provider) {
+export async function hostedBundle(
+  prepared,
+  run,
+  observations,
+  requests,
+  report,
+  provider,
+  receipts = null,
+  completion = null,
+) {
   const manifest = prepared.manifest;
   const cases = prepared.jobs.map((job, index) => ({
     id: job.id,
     expected: job.expected,
     requestHash: job.requestHash,
-    request: JSON.parse(requests[index]),
+    ...(receipts ? { requestBody: requests[index] } : { request: JSON.parse(requests[index]) }),
   }));
-  return {
+  const bundle = {
     format: 'jev-observatory-bundle',
-    version: 2,
+    version: receipts ? 3 : 2,
     title: manifest.policy.name + ' · ' + run.created_at.slice(0, 10),
     model: provider.model,
     policy: {
@@ -25,7 +35,14 @@ export async function hostedBundle(prepared, run, observations, requests, report
       sourceStamp: manifest.sourceStamp,
       method:
         'Host-observed evaluation. The service assembled the entire frozen plan and all saved responses. Not a provider-signed attestation or a no-regression certificate.',
-      settings: { runId: run.id, execution: prepared.execution, manifest, report, observations },
+      settings: {
+        runId: run.id,
+        execution: prepared.execution,
+        manifest,
+        report,
+        observations,
+        ...(receipts ? { prepared, completion } : {}),
+      },
     },
     observations: prepared.jobs.map((job, index) => {
       const observation = observations[index];
@@ -47,4 +64,12 @@ export async function hostedBundle(prepared, run, observations, requests, report
       };
     }),
   };
+  if (receipts) {
+    bundle.verification = {
+      core: await coreCoverage(prepared, observations, prepared.verificationCore),
+      regressionVerdict: 'not_evaluated',
+    };
+    bundle.attestation = await receipts.sign('bundle', bundle);
+  }
+  return bundle;
 }
