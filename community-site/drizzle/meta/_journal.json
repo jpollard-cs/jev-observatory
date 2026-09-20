@@ -22,6 +22,13 @@
       "when": 1789914422919,
       "tag": "0002_yielding_rhodey",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1789923936175,
+      "tag": "0003_panoramic_titanium_man",
+      "breakpoints": true
     }
   ]
 }

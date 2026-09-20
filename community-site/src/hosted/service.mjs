@@ -9,6 +9,8 @@ const publicRun = (r) => ({
   requests: r.requests,
   completed: r.next_index,
   inflight: r.inflight,
+  inflightCount: r.inflight === null ? 0 : (r.inflight_count ?? 1),
+  maxParallel: 3,
   knownUsd: r.known_nano / 1e9,
   heldUsd: r.held_nano / 1e9,
   reservationUsd: r.reserve_nano / 1e9,
@@ -224,7 +226,15 @@ export function executionService({
         );
       return ok(publicRun(await repo.get(id, owner)));
     },
-    async step(owner, id, { index, apiKey }) {
+    async step(owner, id, { index, apiKey, count = 1 }) {
+      if (
+        !Number.isSafeInteger(count) ||
+        count < 1 ||
+        count > 3 ||
+        !Number.isSafeInteger(index) ||
+        index < 0
+      )
+        return error('invalid_dispatch', 'Dispatch 1–3 requests from the next saved index.');
       if (
         typeof apiKey !== 'string' ||
         apiKey.length < 8 ||
@@ -241,39 +251,71 @@ export function executionService({
           409,
         );
       const p = await load(run),
-        j = p.jobs[index];
-      if (!j) throw Error('Request integrity failure');
-      const body = await requestBody(run, j);
-      const reserve = adapter.reservation(j);
-      if (!(await repo.claim(id, owner, index, reserve, now())))
+        jobs = p.jobs.slice(index, index + count);
+      if (!jobs.length) throw Error('Request integrity failure');
+      // Verify every body before claiming or sending any request in this batch.
+      const bodies = await Promise.all(jobs.map((j) => requestBody(run, j)));
+      const reservations = jobs.map((j) => adapter.reservation(j));
+      const reserve = reservations.reduce((n, r) => n + r, 0);
+      if (!(await repo.claim(id, owner, index, reserve, jobs.length, now())))
         return error(
           'already_claimed',
           'Another request owns this dispatch. No retry was sent.',
           409,
         );
-      // The claim is durable BEFORE network I/O. A crash keeps it unresolved; never resend it.
-      let e;
-      try {
-        e = await adapter.infer(JSON.parse(body), apiKey);
-      } catch {
-        e = {
-          reportedProviderModel: null,
-          response: { status: 'error', error: 'transport_exception', usage: null },
-        };
-      }
-      if (JSON.stringify(e).includes(apiKey))
-        e = {
-          reportedProviderModel: null,
-          response: { status: 'error', error: 'credential_echo_rejected', usage: null },
-        };
-      e = { ...e, jobId: j.id, requestHash: j.requestHash, receivedAt: now() };
-      const o = adapter.assess({ ...j, body }, e, p);
-      const cost = adapter.cost(o);
-      if (cost !== null && (!Number.isSafeInteger(cost) || cost < 0))
-        throw Error('Invalid adapter billing result; dispatch remains held');
-      const reason = o.error ?? (cost > reserve ? 'reservation_exceeded' : null);
-      await blobs.put(run.object_key + '/response/' + index, JSON.stringify(o));
-      await repo.settle(id, owner, index, cost, reserve, reason, now());
+      // A single atomic claim owns the entire bounded batch, including after a crash.
+      // Await every response write before settling; failures keep the whole hold unresolved.
+      const outcomes = await Promise.allSettled(
+        jobs.map(async (j, offset) => {
+          const body = bodies[offset];
+          let e;
+          try {
+            e = await adapter.infer(JSON.parse(body), apiKey);
+          } catch {
+            e = {
+              reportedProviderModel: null,
+              response: { status: 'error', error: 'transport_exception', usage: null },
+            };
+          }
+          if (JSON.stringify(e).includes(apiKey))
+            e = {
+              reportedProviderModel: null,
+              response: { status: 'error', error: 'credential_echo_rejected', usage: null },
+            };
+          e = {
+            ...e,
+            jobId: j.id,
+            requestHash: j.requestHash,
+            receivedAt: now(),
+            dispatch: { batchStart: index, batchSize: jobs.length },
+          };
+          const o = adapter.assess({ ...j, body }, e, p),
+            cost = adapter.cost(o);
+          if (cost !== null && (!Number.isSafeInteger(cost) || cost < 0))
+            throw Error('Invalid adapter billing result; dispatch remains held');
+          const reason =
+            o.error ??
+            (cost === null
+              ? 'missing_usage'
+              : cost > reservations[offset]
+                ? 'reservation_exceeded'
+                : null);
+          await blobs.put(run.object_key + '/response/' + (index + offset), JSON.stringify(o));
+          return { cost: cost ?? 0, unknown: cost === null ? reservations[offset] : 0, reason };
+        }),
+      );
+      if (outcomes.some((o) => o.status === 'rejected'))
+        throw Error('Batch evidence could not be confirmed; dispatch remains held');
+      const settled = outcomes.map((o) => o.value);
+      const receipt = {
+        cost: settled.reduce((n, o) => n + o.cost, 0),
+        unknown: settled.reduce((n, o) => n + o.unknown, 0),
+        reason: settled.find((o) => o.reason)?.reason ?? null,
+        reserve,
+        count: jobs.length,
+      };
+      if (!(await repo.settle(id, owner, index, receipt, now())))
+        throw Error('Batch settlement could not be confirmed; do not retry');
       return ok(publicRun(await repo.get(id, owner)));
     },
     async stop(owner, id) {

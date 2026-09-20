@@ -54,6 +54,7 @@ export const executionRuns = sqliteTable(
     heldNano: integer('held_nano').notNull().default(0),
     nextIndex: integer('next_index').notNull().default(0),
     inflight: integer('inflight'),
+    inflightCount: integer('inflight_count').notNull().default(1),
     inflightReserve: integer('inflight_reserve').notNull().default(0),
     createdAt: text('created_at').notNull(),
     updatedAt: text('updated_at').notNull(),

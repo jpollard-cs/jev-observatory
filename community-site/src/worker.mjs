@@ -1,3 +1,4 @@
+import { publicRedirect } from './public-routing.mjs';
 import { executionApi } from './hosted/http.mjs';
 import { executionService } from './hosted/service.mjs';
 import { executionRepository } from './hosted/repository.mjs';
@@ -27,23 +28,11 @@ export default {
     const url = new URL(request.url);
     if (!['GET', 'HEAD', 'OPTIONS'].includes(request.method) && !sameOriginWrite(request))
       return json({ error: 'invalid_origin', message: 'Cross-site writes are not allowed.' }, 403);
-    if (url.pathname === '/observatory' || (url.pathname === '/' && url.searchParams.has('tab'))) {
-      // The renamed site has its own storage. Historical Data assets stay at their original origin.
-      if (
-        url.origin === 'https://redteam-observatory.wizard.chatgpt.site' &&
-        ['GET', 'HEAD'].includes(request.method)
-      ) {
-        const archive = new URL('https://jev-redteam-observatory.wizard.chatgpt.site/observatory');
-        for (const key of ['view', 'tab'])
-          if (url.searchParams.has(key)) archive.searchParams.set(key, url.searchParams.get(key));
-        return new Response(null, {
-          status: 302,
-          headers: { ...securityHeaders, Location: archive.href, 'Cache-Control': 'no-store' },
-        });
-      }
-      url.pathname = '/';
-      return protectLegacyResponse(await legacy.fetch(new Request(url, request), env, context));
-    }
+    const redirect = publicRedirect(request);
+    if (redirect) return new Response(null, {
+      status: 302,
+      headers: { ...securityHeaders, Location: redirect, 'Cache-Control': 'no-store' },
+    });
     if (workspaceAssets[url.pathname] && ['GET', 'HEAD'].includes(request.method)) {
       const asset = workspaceAssets[url.pathname];
       return new Response(

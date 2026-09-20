@@ -1,0 +1,1 @@
+ALTER TABLE `execution_runs` ADD `inflight_count` integer DEFAULT 1 NOT NULL;

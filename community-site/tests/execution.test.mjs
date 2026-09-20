@@ -71,7 +71,7 @@ const value = (r) => {
   assert.equal(r.tag, 'ok', JSON.stringify(r));
   return r.value;
 };
-async function fixture(t, infer = async (r) => mock(r)) {
+async function fixture(t, infer = async (r) => mock(r), requestedSpec = spec) {
   const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'hosted-test-')),
     storage = await localStorage(dir),
     repo = executionRepository(storage.db);
@@ -85,7 +85,7 @@ async function fixture(t, infer = async (r) => mock(r)) {
     adapter: { ...jevExecutionAdapter, infer },
   });
   value(await service.initialize(owner, { maximumUsd: 3, carriedPriorUsd: 1.450070202 }));
-  const q = value(await service.prepare(owner, spec));
+  const q = value(await service.prepare(owner, requestedSpec));
   return { service, repo, storage, q };
 }
 test('paid setup preserves native request identity, advice report contract and durable private accounting', async (t) => {
@@ -417,4 +417,181 @@ test('anonymous visitors can browse and plan while private runs and contribution
     ).status,
     401,
   );
+});
+
+const batchInput = { policy, options: { tier: 'bronze', maxUsd: 0.15, layouts: ['question'] } };
+const batchManifest = makePlan(policy, batchInput.options).manifest;
+const batchSpec = { route: 'prepare', input: batchInput, planHash: batchManifest.planHash };
+
+test(
+  'bounded batches overlap, prevent duplicate claims, and settle in manifest order',
+  { timeout: 15000 },
+  async (t) => {
+    const releases = [];
+    let allEntered,
+      calls = 0;
+    const entered = new Promise((resolve) => {
+      allEntered = resolve;
+    });
+    const { service, q } = await fixture(
+      t,
+      async (r) => {
+        const n = calls++;
+        if (n < 3)
+          await new Promise((resolve) => {
+            releases[n] = resolve;
+            if (releases.length === 3) allEntered();
+          });
+        return mock(r);
+      },
+      batchSpec,
+    );
+    value(await service.start(owner, q.id, { planHash: q.planHash, confirmPaid: true }));
+    assert.equal(
+      (await service.step(owner, q.id, { index: 0, count: 4, apiKey: key })).tag,
+      'error',
+    );
+    assert.equal(calls, 0);
+    const flight = service.step(owner, q.id, { index: 0, count: 3, apiKey: key });
+    await entered;
+    assert.equal(value(await service.detail(owner, q.id)).inflightCount, 3);
+    assert.equal(
+      (await service.step(owner, q.id, { index: 0, count: 3, apiKey: key })).tag,
+      'error',
+    );
+    releases[2]();
+    releases[0]();
+    releases[1]();
+    let run = value(await flight);
+    assert.equal(run.completed, 3);
+    assert.equal(run.knownUsd, (3 * 1234 * 42) / 1e9);
+    while (run.status === 'running')
+      run = value(await service.step(owner, q.id, { index: run.completed, count: 3, apiKey: key }));
+    assert.equal(run.status, 'complete');
+    assert.equal(run.completed, q.requests);
+    assert.equal(calls, q.requests);
+    assert.equal(run.heldUsd, 0);
+    const report = value(await service.detail(owner, q.id, true)).report;
+    assert.equal(report.dispatched, q.requests);
+    assert.equal(report.validCalls, q.requests);
+    const rows = Object.values(report.conditions).flatMap((c) => c.rows);
+    assert.deepEqual(
+      rows.map((r) => r.plannedRequestHash),
+      batchManifest.jobs.map((j) => j.requestHash),
+    );
+    assert.deepEqual(rows[0].dispatch, { batchStart: 0, batchSize: 3 });
+  },
+);
+
+test(
+  'stop during a parallel batch waits for all calls and holds only unknown charges',
+  { timeout: 10000 },
+  async (t) => {
+    let entered,
+      release,
+      calls = 0;
+    const ready = new Promise((r) => {
+        entered = r;
+      }),
+      gate = new Promise((r) => {
+        release = r;
+      });
+    const { service, q, repo } = await fixture(
+      t,
+      async (r) => {
+        const n = calls++;
+        if (calls === 3) entered();
+        await gate;
+        return n === 1
+          ? {
+              reportedProviderModel: null,
+              response: { status: 'error', error: 'rate_limited', usage: null },
+            }
+          : mock(r);
+      },
+      batchSpec,
+    );
+    value(await service.start(owner, q.id, { planHash: q.planHash, confirmPaid: true }));
+    const flight = service.step(owner, q.id, { index: 0, count: 3, apiKey: key });
+    await ready;
+    const row = await repo.get(q.id, owner);
+    const stopped = value(await service.stop(owner, q.id));
+    assert.equal(stopped.heldUsd, row.inflight_reserve / 1e9);
+    const unresolved = value(await service.detail(owner, q.id, true)).report;
+    assert.equal(unresolved.dispatched, 3);
+    assert.equal(
+      Object.values(unresolved.conditions)
+        .flatMap((c) => c.rows)
+        .filter((r) => r.status === 'uncertain_dispatch').length,
+      3,
+    );
+    release();
+    const done = value(await flight);
+    assert.equal(done.status, 'stopped');
+    assert.equal(done.completed, 3);
+    assert.equal(done.knownUsd, (2 * 1234 * 42) / 1e9);
+    assert.equal(done.heldUsd, (batchManifest.jobs[1].reservationInputTokens * 42) / 1e9);
+    assert.equal(
+      (await service.step(owner, q.id, { index: 3, count: 3, apiKey: key })).tag,
+      'error',
+    );
+    assert.equal(calls, 3);
+  },
+);
+
+test(
+  'failed batch evidence persistence retains its claim and prohibits replay',
+  { timeout: 10000 },
+  async (t) => {
+    let calls = 0;
+    const { service, q, storage } = await fixture(
+      t,
+      async (r) => {
+        calls++;
+        return mock(r);
+      },
+      batchSpec,
+    );
+    value(await service.start(owner, q.id, { planHash: q.planHash, confirmPaid: true }));
+    const put = storage.blobs.put;
+    storage.blobs.put = (path, body) =>
+      path.endsWith('/response/1') ? Promise.reject(Error('storage failure')) : put(path, body);
+    await assert.rejects(
+      service.step(owner, q.id, { index: 0, count: 3, apiKey: key }),
+      /Batch evidence/,
+    );
+    const run = value(await service.detail(owner, q.id));
+    assert.equal(run.inflightCount, 3);
+    assert.equal(run.completed, 0);
+    assert.equal(run.heldUsd, run.reservationUsd);
+    assert.equal(
+      (await service.step(owner, q.id, { index: 0, count: 3, apiKey: key })).tag,
+      'error',
+    );
+    assert.equal(calls, 3);
+  },
+);
+
+test('one invalid parallel response stops subsequent batches while accounting for successful siblings', async (t) => {
+  let calls = 0;
+  const { service, q } = await fixture(
+    t,
+    async (r) =>
+      ++calls === 2
+        ? {
+            reportedProviderModel: null,
+            response: { status: 'error', error: 'rate_limited', usage: null },
+          }
+        : mock(r),
+    batchSpec,
+  );
+  value(await service.start(owner, q.id, { planHash: q.planHash, confirmPaid: true }));
+  const done = value(await service.step(owner, q.id, { index: 0, count: 3, apiKey: key }));
+  assert.equal(done.status, 'stopped');
+  assert.equal(done.reason, 'rate_limited');
+  assert.equal(done.completed, 3);
+  assert.equal(done.knownUsd, (2 * 1234 * 42) / 1e9);
+  assert.equal(done.heldUsd, (batchManifest.jobs[1].reservationInputTokens * 42) / 1e9);
+  assert.equal((await service.step(owner, q.id, { index: 3, count: 3, apiKey: key })).tag, 'error');
+  assert.equal(calls, 3);
 });

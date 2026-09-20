@@ -237,7 +237,7 @@ test('catalog profiles match the canonical workbench policies and policy IDs', a
     ['authority', 'uncertainty'],
   );
 });
-test('compiled worker preserves the legacy runtime and rejects tampered legacy HTML', async () => {
+test('compiled worker preserves legacy source and routes public archive reads to the workspace', async () => {
   const worker = (await import('../dist/server/index.js')).default;
   const source = await fs.readFile(new URL('../legacy/observatory-worker.mjs', import.meta.url));
   const provenance = JSON.parse(
@@ -255,24 +255,12 @@ test('compiled worker preserves the legacy runtime and rejects tampered legacy H
   );
   assert.equal(library.status, 200);
   assert.equal((await library.json()).profiles.length, 3);
-  const env = {
-    BUCKET: {
-      async get() {
-        return {
-          body: new TextEncoder().encode('<html>existing research</html>'),
-          size: provenance.deploymentAssets.html.bytes,
-          customMetadata: { sha256: provenance.deploymentAssets.html.sha256 },
-        };
-      },
-    },
-  };
   for (const query of ['', '?tab=policy']) {
-    const actual = await worker.fetch(
-      new Request('https://site.test/observatory' + query),
-      env,
-      {},
+    const actual = await worker.fetch(new Request('https://site.test/observatory' + query), {}, {});
+    assert.equal(actual.status, 302);
+    assert.equal(
+      actual.headers.get('Location'),
+      'https://redteam-observatory.wizard.chatgpt.site/workspace#overview',
     );
-    assert.equal(actual.status, 503);
-    assert.match(await actual.text(), /integrity check/);
   }
 });

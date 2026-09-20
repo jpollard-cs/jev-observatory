@@ -1,37 +1,36 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import worker from '../dist/server/index.js';
-
-// Archive storage is intentionally not copied between the two public sites.
-test('anonymous archive reads at the renamed site reach the original archive with bounded parameters', async () => {
-  for (const method of ['GET', 'HEAD'])
-    for (const path of [
-      '/observatory?view=1&tab=rich-pilot&ignored=private',
-      '/?view=1&tab=policy',
-    ]) {
-      const response = await worker.fetch(
-        new Request('https://redteam-observatory.wizard.chatgpt.site' + path, { method }),
-        {},
-        {},
-      );
-      assert.equal(response.status, 302);
-      const location = new URL(response.headers.get('Location'));
-      assert.equal(location.origin, 'https://jev-redteam-observatory.wizard.chatgpt.site');
-      assert.equal(location.pathname, '/observatory');
-      assert.equal(location.searchParams.get('view'), '1');
-      assert.equal(location.searchParams.has('ignored'), false);
-      assert.equal(response.headers.get('Cache-Control'), 'no-store');
-    }
+import { publicRedirect } from '../src/public-routing.mjs';
+const current = 'https://redteam-observatory.wizard.chatgpt.site';
+const old = 'https://jev-redteam-observatory.wizard.chatgpt.site';
+test('both archive entry points reach the preserved workspace evidence without the retired site', async () => {
+  for (const origin of [current, old])
+    for (const method of ['GET', 'HEAD'])
+      for (const path of [
+        '/observatory?view=1&tab=rich-pilot&ignored=private',
+        '/?view=1&tab=policy',
+        '/_data/components/research',
+      ]) {
+        const r = await worker.fetch(new Request(origin + path, { method }), {}, {});
+        assert.equal(r.status, 302);
+        assert.equal(r.headers.get('Location'), current + '/workspace#overview');
+        assert.equal(r.headers.get('Cache-Control'), 'no-store');
+      }
 });
-
-test('the public landing and workspace stay on the new site, without sign-in or storage', async () => {
+test('retired public pages redirect without forwarding queries or touching private APIs', async () => {
+  for (const path of ['/', '/workspace', '/workspace/', '/community', '/community/']) {
+    const r = await worker.fetch(new Request(old + path + '?ignored=private'), {}, {});
+    assert.equal(r.status, 302);
+    assert.equal(r.headers.get('Location'), current + path.replace(/\/$/, ''));
+  }
+  assert.equal(publicRedirect(new Request(old + '/api/execution/runs/private')), null);
+  assert.equal(publicRedirect(new Request(old + '/workspace', { method: 'POST' })), null);
+});
+test('canonical landing, workspace and community stay public, without sign-in or storage', async () => {
   for (const path of ['/', '/workspace', '/community']) {
-    const response = await worker.fetch(
-      new Request('https://redteam-observatory.wizard.chatgpt.site' + path),
-      {},
-      {},
-    );
-    assert.equal(response.status, 200);
-    assert.equal(response.headers.get('Location'), null);
+    const r = await worker.fetch(new Request(current + path), {}, {});
+    assert.equal(r.status, 200);
+    assert.equal(r.headers.get('Location'), null);
   }
 });

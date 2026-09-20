@@ -31,3 +31,13 @@ These checks sent no provider calls, uploaded no contributions and exposed no pr
 After the language-review release, cookie-free production requests confirmed public HTTP 200 for the landing page, workspace, community, catalog and public result list. Both session endpoints reported signed out with no account or private runs. Private-only listings and execution detail returned HTTP 401. The community list was empty; publishing the site does not automatically publish private contributions.
 
 The neutral domain's archived research route exposed a separate-storage issue: its historical Data HTML assets remain in the original site's bucket. Read-only archive links now redirect to that original public origin, preserving only the view and tab query parameters. The workspace and community remain on the neutral domain; no stored evidence was copied or made public.
+
+## Planner continuity and bounded parallel execution — 2026-09-20
+
+The former archive redirect back to the Jev domain is superseded: both `/observatory` entry points now open the canonical workspace Outcome atlas. Public pages at the old Jev domain redirect to their canonical counterparts, stripping query parameters. Private API routes, storage and historical evidence are retained.
+
+Planner inputs now commit on input without replacing the clicked control on blur. Editing options immediately invalidates the old preview. Workspace steps use bounded URL fragments so reloads preserve the active step; request bundles remain explicitly ephemeral. Local browser QA found the prior budget edit reverting from $0.30 to $0.15 after preview; the revised first-click preview preserved and used $0.25. The reported literal jump to the public homepage was not independently reproduced.
+
+Execution defaults to batches of up to three parallel provider requests, with a serial option. Integration tests verify overlap, exact manifest identities/order, duplicate-claim rejection, full-run settlement, cancellation with unknown charges, storage-failure holds and no replay. Mocks never contact a provider. Existing single-request clients remain compatible. These checks establish bounded orchestration behavior, not a measured Jev throughput improvement.
+
+The local mock browser run showed `9 / 74 recorded · 3 in progress`, then settled at 12 recorded and zero held after Stop. Reload retained `/workspace#planner`. All 341 workbench tests passed. The mock key was synthetic, and the preview blocks outbound provider fetches.

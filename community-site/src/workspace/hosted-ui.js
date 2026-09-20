@@ -89,6 +89,8 @@ export async function hostedRun({
   };
   const unsubscribe = credentialSession.subscribe((state) => {
     if (!state.ready) stop = true;
+    const prompt = dialog.querySelector('[data-session-needed]');
+    if (prompt) prompt.hidden = state.ready;
   });
   const dispose = () => {
     unsubscribe();
@@ -107,7 +109,7 @@ export async function hostedRun({
   const close = button('Dismiss', () => {
     if (busy || loading) {
       alert.textContent =
-        'Stop after the current request before dismissing. A request already sent may still be billed.';
+        'Stop after the current batch before dismissing. Requests already sent may still be billed.';
       alert.hidden = false;
       return;
     }
@@ -330,8 +332,18 @@ export async function hostedRun({
     }
     body.append(stats);
     if (q.evaluationScope?.mode === 'available_policy_tests')
-      body.append(el('p', 'Available policy tests only. This run does not cover your full application scope.' +
-        (q.unevaluatedBoundaries?.length ? ' Not evaluated: ' + q.unevaluatedBoundaries.map(x => x.replaceAll('_', ' ')).join(', ') + '.' : ''), { className: 'note warn' }));
+      body.append(
+        el(
+          'p',
+          'Available policy tests only. This run does not cover your full application scope.' +
+            (q.unevaluatedBoundaries?.length
+              ? ' Not evaluated: ' +
+                q.unevaluatedBoundaries.map((x) => x.replaceAll('_', ' ')).join(', ') +
+                '.'
+              : ''),
+          { className: 'note warn' },
+        ),
+      );
     if (q.account)
       body.append(
         el(
@@ -375,8 +387,10 @@ export async function hostedRun({
     if (q.policyHash) disclosure.append(el('p', 'Policy ' + q.policyHash, { className: 'hash' }));
     disclosure.append(select, code);
     body.append(disclosure);
-    if (!credentialSession.status().ready) {
-      const keyPrompt = el('div', null, { 'data-session-needed': '' });
+    {
+      const keyPrompt = el('div');
+      keyPrompt.dataset.sessionNeeded = '';
+      keyPrompt.hidden = credentialSession.status().ready;
       keyPrompt.append(
         el('p', 'Add your session key here to continue. Your prepared request stays here.', {
           className: 'note',
@@ -385,6 +399,22 @@ export async function hostedRun({
       );
       body.append(keyPrompt);
     }
+    const parallel = el('select');
+    parallel.setAttribute('aria-label', 'Concurrent requests');
+    for (const n of [3, 1].filter((n) => n <= (q.maxParallel ?? 1)))
+      parallel.append(
+        el('option', n === 1 ? 'One at a time' : 'Up to 3 at a time', { value: String(n) }),
+      );
+    const speed = el('label', null, { className: 'field section-space' });
+    speed.append(el('span', 'Execution speed'), parallel);
+    body.append(
+      speed,
+      el(
+        'p',
+        'Parallel requests use the same frozen tests and spending limit. Stop waits for the current batch; failed or uncertain requests are never automatically retried.',
+        { className: 'fine' },
+      ),
+    );
     const check = el('input', null, { type: 'checkbox' }),
       agreement = el('label', null, { className: 'check section-space' });
     agreement.append(
@@ -418,6 +448,7 @@ export async function hostedRun({
         begin.textContent = 'Running…';
         begin.disabled = true;
         check.disabled = true;
+        parallel.disabled = true;
         const expires = Date.now() + 30 * 60 * 1000;
         try {
           let run = await remote('runs/' + q.id + '/start', {
@@ -429,9 +460,10 @@ export async function hostedRun({
               forget();
               break;
             }
-            progress.textContent = `${run.completed} / ${run.requests} recorded. Sending request ${run.completed + 1}. Keep this tab open.`;
+            const count = Math.min(Number(parallel.value), run.requests - run.completed);
+            progress.textContent = `${run.completed} / ${run.requests} recorded · ${count} in progress. Keep this tab open.`;
             run = await credentialSession.use((apiKey) =>
-              remote('runs/' + q.id + '/step', { index: run.completed, apiKey }),
+              remote('runs/' + q.id + '/step', { index: run.completed, count, apiKey }),
             );
             active = run;
           }

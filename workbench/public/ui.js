@@ -8,7 +8,7 @@ export const stat=(label,value,sub)=>`<div class="stat"><div class="label">${esc
 export const option=(value,label,selected)=>`<option value="${esc(value)}" ${selected===value?'selected':''}>${esc(label)}</option>`;
 export const code=x=>`<pre class="code">${esc(typeof x==='string'?x:pretty(x))}</pre>`;
 export const check=(name,label,checked,disabled=false)=>`<label class="check ${disabled?'disabled':''}"><input type="checkbox" data-setting="${esc(name)}" ${checked?'checked':''} ${disabled?'disabled':''}><span>${esc(label)}</span></label>`;
-export const button=(text,action,cls='')=>`<button class="btn ${cls}" data-action="${esc(action)}">${esc(text)}</button>`;
+export const button=(text,action,cls='')=>`<button type="button" class="btn ${cls}" data-action="${esc(action)}">${esc(text)}</button>`;
 export function download(name,obj){const b=new Blob([typeof obj==='string'?obj:pretty(obj)+'\n'],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);}
 export function toast(text){const t=document.getElementById('toast');t.textContent=text;t.style.display='block';clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.style.display='none',4500);}
 

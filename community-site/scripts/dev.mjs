@@ -47,12 +47,7 @@ http
       const pathname = new URL(request.url).pathname;
       if (slow && pathname.startsWith('/api/execution/')) await delay();
       let response =
-        pathname === '/observatory'
-          ? Response.redirect(
-              'https://jev-redteam-observatory.wizard.chatgpt.site/observatory',
-              302,
-            )
-          : pathname === '/signin-with-chatgpt'
+        pathname === '/signin-with-chatgpt'
             ? new Response(
                 'Local preview: restart with npm run dev -- --signed-in. Hosted sign-in is handled by Sites.',
                 { headers: { 'Content-Type': 'text/plain' } },

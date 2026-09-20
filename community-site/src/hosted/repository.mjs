@@ -59,29 +59,36 @@ export function executionRepository(db) {
         owner,
         owner,
       ),
-    claim: (id, owner, index, reserve, now) =>
+    claim: (id, owner, index, reserve, count, now) =>
       change(
-        `UPDATE execution_runs SET inflight=?,inflight_reserve=?,updated_at=? WHERE id=? AND owner=? AND status='running' AND next_index=? AND inflight IS NULL`,
+        `UPDATE execution_runs SET inflight=?,inflight_count=?,inflight_reserve=?,updated_at=? WHERE id=? AND owner=? AND status='running' AND next_index=? AND inflight IS NULL AND ? BETWEEN 1 AND 3 AND next_index+?<=requests`,
         index,
+        count,
         reserve,
         now,
         id,
         owner,
         index,
+        count,
+        count,
       ),
-    settle: (id, owner, index, cost, reserve, reason, now) =>
+    settle: (id, owner, index, { cost, reserve, unknown, count, reason }, now) =>
       change(
-        `UPDATE execution_runs SET known_nano=known_nano+?, held_nano=CASE WHEN ? IS NOT NULL OR status='stopped' THEN ? ELSE held_nano-? END, next_index=next_index+1, inflight=NULL,inflight_reserve=0, status=CASE WHEN ? IS NOT NULL OR status='stopped' THEN 'stopped' WHEN next_index+1=requests THEN 'complete' ELSE 'running' END, reason=COALESCE(?,reason),updated_at=? WHERE id=? AND owner=? AND inflight=?`,
-        cost ?? 0,
+        `UPDATE execution_runs SET known_nano=known_nano+?, held_nano=CASE WHEN ? IS NOT NULL OR status='stopped' THEN ? ELSE held_nano-?+? END, next_index=next_index+?, inflight=NULL,inflight_count=1,inflight_reserve=0, status=CASE WHEN ? IS NOT NULL OR status='stopped' THEN 'stopped' WHEN next_index+?=requests THEN 'complete' ELSE 'running' END, reason=COALESCE(reason,?),updated_at=? WHERE id=? AND owner=? AND inflight=? AND inflight_count=?`,
+        cost,
         reason,
-        cost === null ? reserve : 0,
-        cost === null ? 0 : reserve,
+        unknown,
+        reserve,
+        unknown,
+        count,
         reason,
+        count,
         reason,
         now,
         id,
         owner,
         index,
+        count,
       ),
     stop: (id, owner, now) =>
       change(

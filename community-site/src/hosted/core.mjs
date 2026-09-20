@@ -138,7 +138,7 @@ export function makeReport(prepared, run, observations) {
     status: run.status,
     stopReason: run.reason,
     requestedCalls: prepared.jobs.length,
-    dispatched: run.next_index + (run.inflight !== null ? 1 : 0),
+    dispatched: run.next_index + (run.inflight !== null ? (run.inflight_count ?? 1) : 0),
   };
   const budget = {
     bundleKnownUsageUsd: run.known_nano / 1e9,
@@ -217,13 +217,16 @@ export function makeReport(prepared, run, observations) {
         ? 'ok'
         : o
           ? 'invalid_response'
-          : run.inflight === n
+          : run.inflight !== null &&
+              n >= run.inflight &&
+              n < run.inflight + (run.inflight_count ?? 1)
             ? 'uncertain_dispatch'
             : 'not_dispatched',
       error: o?.error ?? null,
       answers: o?.evidence.response.answers ?? {},
       usage: o?.usage ?? null,
       latencyMs: o?.evidence.response.latencyMs ?? null,
+      dispatch: o?.evidence.dispatch ?? null,
       providerModel: o?.evidence.reportedProviderModel ?? null,
       source: { requestHash: j.requestHash, rawHash: o?.rawHash ?? null },
       plannedRequestHash: j.requestHash,
