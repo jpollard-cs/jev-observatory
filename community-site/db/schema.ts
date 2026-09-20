@@ -9,6 +9,8 @@ export const results = sqliteTable(
   {
     id: text('id').primaryKey(),
     owner: text('owner').notNull(),
+    evidenceKind: text('evidence_kind').notNull().default('legacy-upload'),
+    sourceRunId: text('source_run_id'),
     author: text('author').notNull(),
     policyName: text('policy_name').notNull(),
     policyHash: text('policy_hash').notNull(),

@@ -69,6 +69,8 @@ export async function api(
           ),
         );
     }
+    if (path === '/api/community/runs' && method === 'GET')
+      return respond(await service.runs(actor));
     if (path === '/api/community/results' && method === 'GET') {
       const offset = Number(url.searchParams.get('offset') ?? 0);
       if (!Number.isSafeInteger(offset) || offset < 0 || offset > 100000)
@@ -121,7 +123,7 @@ export async function api(
       {
         error: 'service_unavailable',
         message:
-          'The contribution service is temporarily unavailable. Your uploaded file has not been marked as verified.',
+          'The contribution service is temporarily unavailable. No evidence has been accepted from an uploaded file.',
       },
       503,
     );

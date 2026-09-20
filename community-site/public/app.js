@@ -134,19 +134,38 @@ async function inspectResult(row) {
   try {
     const bundle = await request('results/' + row.id + '/download');
     const counts = facts([
-      ['Evidence', 'Contributor-reported · execution not verified'],
-      ['Model', row.model],
-      ['Coverage', `${row.completed} completed / ${row.total} declared cases`],
-      ['Incomplete', row.incomplete],
       [
-        'Exact matches',
-        `${row.exactMatches} / ${row.total} declared cases · not an attack-detection metric`,
+        'Evidence',
+        row.evidenceStatus === 'host-observed'
+          ? 'Host-observed · not a safety certification'
+          : 'Legacy upload · ineligible for public sharing',
       ],
+      ['Model', row.model],
+      ['Valid answers', `${row.completed} / ${row.total} planned requests`],
+      ['Missing or invalid answers', row.incomplete],
       ['Policy SHA-256', row.policyHash],
       ['Suite SHA-256', row.suiteHash],
       ['Bundle SHA-256', row.bundleHash],
-      ['Evaluator commit', row.sourceRevision],
+      ['Evaluator source fingerprint', row.sourceRevision],
     ]);
+    if (bundle.version === 2) {
+      const manifest = bundle.provenance.settings.manifest;
+      counts.append(
+        element('dt', 'Run scope'),
+        element(
+          'dd',
+          `${manifest.counts.selectedCases} / ${manifest.counts.catalogCases} catalog cases; ${bundle.provenance.settings.report.status}`,
+        ),
+      );
+      counts.append(
+        element('dt', 'Coverage gaps'),
+        element(
+          'dd',
+          (manifest.coverage?.gaps ?? []).join(' ') ||
+            'No gaps declared by this planner. This is not a core-suite regression certificate.',
+        ),
+      );
+    }
     const actions = element('div', undefined, 'detail-actions');
     actions.append(
       link(
@@ -159,7 +178,7 @@ async function inspectResult(row) {
       actions.append(link('Review pull request ↗', bundle.provenance.pullRequest));
     const view = element('details');
     view.append(
-      element('summary', 'Inspect all supplied data'),
+      element('summary', 'Inspect the complete saved evidence'),
       element('pre', JSON.stringify(bundle, null, 2)),
     );
     const caseList = element('div');
@@ -192,7 +211,13 @@ function resultCard(row) {
   const card = element('article', undefined, 'result'),
     main = element('div');
   main.append(
-    element('span', 'Contributor-reported · ' + row.visibility, 'badge'),
+    element(
+      'span',
+      (row.evidenceStatus === 'host-observed' ? 'Host-observed' : 'Legacy upload · private only') +
+        ' · ' +
+        row.visibility,
+      'badge',
+    ),
     element('h3', row.title),
     element('p', row.policyName + ' · ' + row.model + ' · ' + row.author),
   );
@@ -202,26 +227,27 @@ function resultCard(row) {
     link('Download ↓', '/api/community/results/' + row.id + '/download'),
   );
   if (row.owned) {
-    links.append(
-      button(row.visibility === 'public' ? 'Make private' : 'Share with community', async () => {
-        try {
-          await request('results/' + row.id, {
-            method: 'PATCH',
-            body: JSON.stringify({
-              visibility: row.visibility === 'public' ? 'private' : 'public',
-            }),
-          });
-          await loadResults();
-          toast(
-            row.visibility === 'public'
-              ? 'Contribution is private.'
-              : 'Contribution is shared with everyone who can access the site.',
-          );
-        } catch (e) {
-          toast(e.message);
-        }
-      }),
-    );
+    if (row.evidenceStatus === 'host-observed' || row.visibility === 'public')
+      links.append(
+        button(row.visibility === 'public' ? 'Make private' : 'Share with community', async () => {
+          try {
+            await request('results/' + row.id, {
+              method: 'PATCH',
+              body: JSON.stringify({
+                visibility: row.visibility === 'public' ? 'private' : 'public',
+              }),
+            });
+            await loadResults();
+            toast(
+              row.visibility === 'public'
+                ? 'Contribution is private.'
+                : 'Contribution is shared with everyone who can access the site.',
+            );
+          } catch (e) {
+            toast(e.message);
+          }
+        }),
+      );
     links.append(
       button('Delete', async () => {
         if (
@@ -242,8 +268,8 @@ function resultCard(row) {
   main.append(links);
   const aside = element('aside', `${row.completed} / ${row.total}`);
   aside.append(
-    element('small', 'cases completed'),
-    element('small', `${row.incomplete} incomplete · ${row.exactMatches} exact matches`),
+    element('small', 'requests with valid answers'),
+    element('small', `${row.incomplete} missing or invalid`),
   );
   card.append(main, aside);
   return card;
@@ -259,8 +285,8 @@ async function loadResults(append = false) {
         empty(
           mine ? 'Your evidence starts here.' : 'No shared contributions yet.',
           mine
-            ? 'Upload a bundle below. It stays private until you choose to share it.'
-            : 'The original research is available in the Research Observatory. New community uploads will appear here.',
+            ? 'Choose a saved hosted run below. Its contribution stays private until you share it.'
+            : 'Explore the original research in the workspace. Shared hosted runs will appear here.',
         ),
       );
     for (const row of data.items) $('#results').append(resultCard(row));
@@ -285,22 +311,20 @@ $('#upload').addEventListener('submit', async (event) => {
   const status = $('#upload-status'),
     submit = $('#upload-button');
   if (!signedIn) {
-    status.textContent = 'Sign in to upload, or attach your bundle to a GitHub PR.';
+    status.textContent =
+      'Sign in to share a saved hosted run. External results can be reviewed through a GitHub PR.';
     return;
   }
   try {
     submit.disabled = true;
-    status.textContent = 'Checking and saving your private contribution…';
-    const form = new FormData(event.target),
-      file = form.get('bundle');
-    if (file.size > 4 * 1024 * 1024) throw new Error('The maximum bundle size is 4 MiB.');
-    const bundle = JSON.parse(await file.text());
+    status.textContent = 'Checking your saved run and assembling its complete evidence…';
+    const form = new FormData(event.target);
     await request('results', {
       method: 'POST',
       body: JSON.stringify({
         author: form.get('author'),
         reviewedForSharing: form.get('reviewed') === 'on',
-        bundle,
+        runId: form.get('runId'),
       }),
     });
     status.textContent = 'Saved privately. Open My contributions to inspect and share it.';
@@ -318,12 +342,32 @@ else $('#profiles').replaceChildren(empty('Library unavailable.', catalog.reason
 if (session.status === 'fulfilled') {
   signedIn = session.value.signedIn;
   if (signedIn) {
+    const available = await request('runs').catch((error) => {
+      $('#upload-status').textContent = error.message;
+      return { runs: [] };
+    });
+    const select = $('#hosted-runs');
+    select.replaceChildren(
+      element(
+        'option',
+        available.runs.length ? 'Choose a saved run' : 'No eligible hosted policy evaluations yet',
+      ),
+    );
+    select.firstChild.value = '';
+    for (const run of available.runs) {
+      const option = element(
+        'option',
+        `${run.policyName} · ${run.status} · ${run.completed}/${run.requests} recorded · ${new Date(run.createdAt).toLocaleString()}`,
+      );
+      option.value = run.id;
+      select.append(option);
+    }
     $('#account').textContent = 'My contributions';
     $('#account').href = '#evidence';
     $('#account').removeAttribute('target');
     $('#account').onclick = () => switchScope(true);
   } else
     $('#upload-status').textContent =
-      'Sign in to upload. Browsing and downloads do not require an account.';
+      'Sign in to select a saved hosted run. Browsing and downloads do not require an account.';
 }
 await loadResults();

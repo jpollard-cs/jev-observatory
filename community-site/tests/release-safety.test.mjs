@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
+import { DatabaseSync } from 'node:sqlite';
 import { localStorage } from '../scripts/local-storage.mjs';
 import { writeLimits } from '../src/adapters/write-limits.mjs';
 import { executionService } from '../src/hosted/service.mjs';
@@ -10,6 +11,26 @@ import { executionApi } from '../src/hosted/http.mjs';
 import { communityService } from '../src/service.mjs';
 import { api } from '../src/http.mjs';
 import { makeCatalog, makeExample } from '../scripts/catalog.mjs';
+
+test('the evidence migration withdraws legacy uploads without deleting owner records', async (t) => {
+  const db = new DatabaseSync(':memory:');
+  t.after(() => db.close());
+  const migration = async (name) =>
+    fs.readFile(new URL('../drizzle/' + name, import.meta.url), 'utf8');
+  const first = (await fs.readdir(new URL('../drizzle/', import.meta.url)))
+    .find((name) => name.startsWith('0000') && name.endsWith('.sql'));
+  db.exec(await migration(first));
+  db.exec(`INSERT INTO community_results VALUES
+    ('legacy', 'alice', 'Alice', 'Policy', 'hash', 'Title', 'model', 'suite', 'bundle',
+     'revision', 'private/object', 100, 1, 1, 0, 1, 'public', '2026-09-20')`);
+  db.exec(await migration('0004_round_mandroid.sql'));
+  const row = db.prepare('SELECT * FROM community_results').get();
+  assert.equal(row.visibility, 'private');
+  assert.equal(row.evidence_kind, 'legacy-upload');
+  assert.equal(row.source_run_id, null);
+  assert.equal(row.owner, 'alice');
+  assert.equal(row.object_key, 'private/object');
+});
 
 test('new-work limits are durable, isolate owners, and bound combined admission', async (t) => {
   const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'release-limits-'));
@@ -116,6 +137,20 @@ for (const outcome of ['absent', 'committed', 'unknown']) {
     const stored = new Map();
     const service = communityService({
       newId: () => 'fixture',
+      evidence: {
+        contribution: async () => ({
+          tag: 'ok',
+          value: {
+            ...example,
+            version: 2,
+            provenance: {
+              method: example.provenance.method,
+              settings: {},
+              sourceStamp: 'a'.repeat(64),
+            },
+          },
+        }),
+      },
       blobs: {
         put: async (k, v) => stored.set(k, v),
         delete: async (k) => stored.delete(k),
@@ -132,7 +167,11 @@ for (const outcome of ['absent', 'committed', 'unknown']) {
     });
     await assert.rejects(() =>
       service.upload(
-        { author: 'Fixture', reviewedForSharing: true, bundle: example },
+        {
+          author: 'Fixture',
+          reviewedForSharing: true,
+          runId: '10000000-0000-4000-8000-000000000001',
+        },
         { id: 'alice' },
       ),
     );

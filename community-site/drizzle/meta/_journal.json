@@ -29,6 +29,13 @@
       "when": 1789923936175,
       "tag": "0003_panoramic_titanium_man",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1789942806579,
+      "tag": "0004_round_mandroid",
+      "breakpoints": true
     }
   ]
 }

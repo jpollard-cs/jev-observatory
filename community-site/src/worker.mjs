@@ -29,10 +29,11 @@ export default {
     if (!['GET', 'HEAD', 'OPTIONS'].includes(request.method) && !sameOriginWrite(request))
       return json({ error: 'invalid_origin', message: 'Cross-site writes are not allowed.' }, 403);
     const redirect = publicRedirect(request);
-    if (redirect) return new Response(null, {
-      status: 302,
-      headers: { ...securityHeaders, Location: redirect, 'Cache-Control': 'no-store' },
-    });
+    if (redirect)
+      return new Response(null, {
+        status: 302,
+        headers: { ...securityHeaders, Location: redirect, 'Cache-Control': 'no-store' },
+      });
     if (workspaceAssets[url.pathname] && ['GET', 'HEAD'].includes(request.method)) {
       const asset = workspaceAssets[url.pathname];
       return new Response(
@@ -67,7 +68,15 @@ export default {
       return api(request, {
         actor: id ? { id } : null,
         admitWrite: writeLimits(env.DB),
-        service: communityService({ repo: repository(env.DB), blobs: env.BUCKET }),
+        service: communityService({
+          repo: repository(env.DB),
+          blobs: env.BUCKET,
+          evidence: executionService({
+            repo: executionRepository(env.DB),
+            blobs: env.BUCKET,
+            adapter: jevExecutionAdapter,
+          }),
+        }),
         catalog,
         example,
       });

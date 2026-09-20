@@ -1,12 +1,12 @@
 const columns =
-  'id,owner,author,policy_name AS policyName,policy_hash AS policyHash,title,model,suite_hash AS suiteHash,bundle_hash AS bundleHash,source_revision AS sourceRevision,object_key AS objectKey,bytes,total,completed,incomplete,exact_matches AS exactMatches,visibility,created_at AS createdAt';
+  'id,owner,evidence_kind AS evidenceKind,source_run_id AS sourceRunId,author,policy_name AS policyName,policy_hash AS policyHash,title,model,suite_hash AS suiteHash,bundle_hash AS bundleHash,source_revision AS sourceRevision,object_key AS objectKey,bytes,total,completed,incomplete,exact_matches AS exactMatches,visibility,created_at AS createdAt';
 export function repository(db) {
   return {
     list: async (owner, offset = 0) =>
       (
         await db
           .prepare(
-            `SELECT ${columns} FROM community_results WHERE ${owner ? 'owner=?' : "visibility='public'"} ORDER BY created_at DESC,id LIMIT 51 OFFSET ?`,
+            `SELECT ${columns} FROM community_results WHERE ${owner ? 'owner=?' : "visibility='public' AND evidence_kind='hosted-run'"} ORDER BY created_at DESC,id LIMIT 51 OFFSET ?`,
           )
           .bind(...(owner ? [owner, offset] : [offset]))
           .all()
@@ -16,11 +16,13 @@ export function repository(db) {
     insert: async (r) => {
       const result = await db
         .prepare(
-          'INSERT INTO community_results(id,owner,author,policy_name,policy_hash,title,model,suite_hash,bundle_hash,source_revision,object_key,bytes,total,completed,incomplete,exact_matches,visibility,created_at) SELECT ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,? WHERE (SELECT COUNT(*) FROM community_results WHERE owner=?)<200 AND (SELECT COALESCE(SUM(bytes),0) FROM community_results WHERE owner=?)+?<=104857600',
+          'INSERT INTO community_results(id,owner,evidence_kind,source_run_id,author,policy_name,policy_hash,title,model,suite_hash,bundle_hash,source_revision,object_key,bytes,total,completed,incomplete,exact_matches,visibility,created_at) SELECT ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,? WHERE (SELECT COUNT(*) FROM community_results WHERE owner=?)<200 AND (SELECT COALESCE(SUM(bytes),0) FROM community_results WHERE owner=?)+?<=104857600',
         )
         .bind(
           r.id,
           r.owner,
+          r.evidenceKind,
+          r.sourceRunId,
           r.author,
           r.policyName,
           r.policyHash,

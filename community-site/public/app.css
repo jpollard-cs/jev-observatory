@@ -31,12 +31,14 @@ a {
   text-decoration: none;
 }
 button,
-input {
+input,
+select {
   font: inherit;
 }
 button,
 a,
-input {
+input,
+select {
   touch-action: manipulation;
 }
 button {
@@ -527,7 +529,8 @@ label {
   font-size: 13px;
   margin-bottom: 18px;
 }
-input:not([type='checkbox']) {
+input:not([type='checkbox']),
+select {
   display: block;
   width: 100%;
   margin-top: 8px;
@@ -537,18 +540,6 @@ input:not([type='checkbox']) {
   border: 1px solid #35475a;
   border-radius: 5px;
   min-width: 0;
-}
-input[type='file'] {
-  font-size: 12px;
-}
-input::file-selector-button {
-  background: #26384b;
-  border: 0;
-  border-radius: 3px;
-  color: #d9e4ef;
-  padding: 7px;
-  margin-right: 10px;
-  cursor: pointer;
 }
 .checkbox {
   display: flex;

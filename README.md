@@ -10,7 +10,7 @@ Policy authoring, coverage planning, request inspection, archived results and do
 
 The hosted service handles your key transiently when dispatching authorized requests. It does not save the key to browser storage, persistent server storage or exports. The tab session expires after 30 minutes and is forgotten on reload or disconnect. See [hosted execution](docs/hosted-execution.md) and the [current credential workflow](docs/inline-assisted-workflow.md) for accounting, resumption and operating limits. Hosted execution currently uses ChatGPT sign-in.
 
-Community uploads are **contributor-reported evidence**, not provider-signed verification or proof of no regression. Reports preserve the policy, suite, settings, observations and missing/error outcomes. See the [community implementation](community-site/README.md) and [verification design](docs/community-verification.md).
+Public community evidence must come from owned, saved hosted policy evaluations. The service assembles the frozen plan and all observations; arbitrary uploaded result files are rejected. Reports are **host-observed**, not provider-signed or proof of no regression. External/local evidence needs repository review. See the [community implementation](community-site/README.md) and [verification design](docs/community-verification.md).
 
 ## Run locally
 

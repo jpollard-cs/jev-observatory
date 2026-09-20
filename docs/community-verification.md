@@ -1,6 +1,6 @@
 # Community policies and contributor-funded verification
 
-Status: 2026-09-19. GitHub remains the review authority. The community site implements portable, contributor-reported uploads and anonymous read routes. The trusted runner and signed verification described below are **a proposed next stage, not an implemented guarantee**. No Jev key is collected by the site and no paid CI job is enabled.
+Status: 2026-09-20. GitHub remains the review authority. Public submissions must reference owned, saved hosted policy evaluations. The server constructs complete evidence; uploaded answers are not accepted. The host transiently handles a contributor's Jev key during explicitly authorized execution. Independent receipt signing and PR-bound core-suite regression verification remain proposed, not implemented guarantees.
 
 ## A library of policies
 
@@ -16,7 +16,9 @@ Jev may **recommend** components from an application description or trusted task
 
 A bundle hash establishes the identity of uploaded bytes. Schema validation establishes that the declared suite has one explicit observation per case. Neither establishes that the calls happened, that omitted cases were never planned, that labels are correct, or that the contributor did not fabricate outputs.
 
-The initial site therefore labels every upload **contributor-reported**. It preserves the full policy, case definition, settings, evaluator commit and each observation. Errors, unavailable responses and cases not run remain in the denominator. Exact JSON matches are a mechanical summary against contributor-supplied expected values, not attack-detection accuracy or a regression verdict. Files start private; their owner explicitly shares or withdraws them. Public reading and downloads require no application account once the platform's site audience is public. The hosted site and GitHub repository remain private during validation.
+The community service now accepts only a saved run ID, display name and privacy-review acknowledgment. It resolves ownership on the server, verifies frozen requests and persisted responses, and packages the full policy, source fingerprint, manifest, request bodies, outcomes and report. It neither reruns the evaluation nor accepts replacement answers, supplied hashes or a contributor's “verified” label. Only terminal policy evaluations with no unresolved dispatch qualify; stopped runs preserve errors and unrun cases. Existing uploaded files become private and cannot be republished. External/local results go through repository review until a separate attestation path exists.
+
+Contributions still start private and need an explicit share action. Anonymous users can read public evidence. The label is **host-observed**, not verified, safe or no-regression. The compiled evaluator controls the case definitions, but users choose policies and run scope; this does not enforce an independent mandatory core suite or expose all of a contributor's private failed experiments. A content hash detects later changes only relative to a trusted stored hash. A compromised service or database remains a threat; hashes alone cannot protect against an attacker who can replace both evidence and its digest.
 
 ## Recommended trusted-runner protocol
 
@@ -44,6 +46,6 @@ Do not compare profiles as if they share one definition of permission. Strict ad
 
 - Review and freeze the mandatory core, per-profile expectations and regression margins.
 - Confirm TypeSafe credential delegation and receipt capabilities.
-- Select a trusted execution host with bounded jobs, secret handling and spend limits; the current upload-only Sites Worker is not that runner.
+- Audit the hosted runner and isolate publication/signing authority before relying on it for PR regression verification.
 - Implement and audit receipt signing, validation, key rotation, replay/staleness checks and complete attempt accounting before displaying a verified badge.
-- Keep GitHub PRs usable without ChatGPT. Initially, authenticated web uploads use Sites identity; contributors without ChatGPT can attach portable evidence to their PR for maintainer publication.
+- Keep GitHub PRs usable without ChatGPT. Hosted sharing uses Sites identity; contributors without ChatGPT can attach external evidence to a PR for review, without automatic public benchmark admission.

@@ -1,4 +1,5 @@
 import { sha } from '../../../workbench/src/util.mjs';
+import { hostedBundle } from './sharing.mjs';
 import { ok, error } from '../domain/contracts.mjs';
 const stamp = () => new Date().toISOString();
 const publicRun = (r) => ({
@@ -47,7 +48,7 @@ export function executionService({
     if (sha(body) !== job.requestHash) throw Error('Frozen request integrity failure');
     return body;
   }
-  async function report(run) {
+  async function evidence(run) {
     const p = await load(run),
       observations = [];
     for (let i = 0; i < run.next_index; i++) {
@@ -61,6 +62,10 @@ export function executionService({
         throw Error('Response integrity failure');
       observations.push(observation);
     }
+    return { p, observations };
+  }
+  async function report(run) {
+    const { p, observations } = await evidence(run);
     return adapter.report(p, run, observations);
   }
   const account = async (owner) => {
@@ -77,6 +82,59 @@ export function executionService({
       : null;
   };
   return {
+    async contributionRuns(owner) {
+      const runs = (await repo.list(owner)).filter(
+        (r) =>
+          ['complete', 'stopped'].includes(r.status) && r.inflight === null && r.next_index > 0,
+      );
+      const eligible = [];
+      for (const run of runs) {
+        const p = await load(run);
+        if (p.manifest.policy && p.manifest.protocol === 'policy-workbench-v1')
+          eligible.push({ ...publicRun(run), policyName: p.manifest.policy.name });
+      }
+      return ok({ runs: eligible });
+    },
+    async contribution(owner, id) {
+      const run = await repo.get(id, owner);
+      if (!run) return error('not_found', 'This saved run is unavailable.', 404);
+      if (
+        !['complete', 'stopped'].includes(run.status) ||
+        run.inflight !== null ||
+        run.next_index === 0
+      )
+        return error(
+          'run_unsettled',
+          'Finish or stop the run and resolve in-flight requests before sharing.',
+        );
+      const { p, observations } = await evidence(run);
+      if (!p.manifest.policy || p.manifest.protocol !== 'policy-workbench-v1')
+        return error(
+          'not_evaluation',
+          'Share a policy evaluation run; setup advice and historical replay use different evidence contracts.',
+        );
+      if (p.jobs.reduce((n, j) => n + (j.wireBytes ?? j.requestBytes ?? 0), 0) > 4 * 1024 * 1024)
+        return error(
+          'bundle_too_large',
+          'This complete run exceeds the sharing limit. Export it for repository review; do not remove cases to make it fit.',
+          413,
+        );
+      const requests = [];
+      for (let i = 0; i < p.jobs.length; i += 8)
+        requests.push(
+          ...(await Promise.all(p.jobs.slice(i, i + 8).map((j) => requestBody(run, j)))),
+        );
+      return ok(
+        await hostedBundle(
+          p,
+          run,
+          observations,
+          requests,
+          adapter.report(p, run, observations),
+          adapter.describe(p),
+        ),
+      );
+    },
     async session(owner) {
       return ok({
         signedIn: !!owner,

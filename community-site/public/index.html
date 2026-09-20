@@ -90,8 +90,9 @@
           <a class="text-link" href="#contribute">Add evidence +</a>
         </div>
         <p class="notice">
-          Uploads are <strong>contributor-reported</strong>. Content hashes detect changed files;
-          they do not certify execution or prove that a policy is safe.
+          Shared results come from <strong>saved hosted runs</strong>. The service preserves the
+          frozen policy, every planned case and every recorded response. This is evidence of that
+          run, not a safety certification.
         </p>
         <div id="results" class="result-list" aria-live="polite"></div>
         <button id="more" class="button subtle" hidden>Load more</button>
@@ -119,8 +120,9 @@
             <li>
               <strong>Share the whole picture</strong
               ><span
-                >Upload portable bundles or attach them to the PR. No ChatGPT account is needed to
-                view shared evidence without an account.</span
+                >Share a saved hosted run after inspecting it. External results belong in the PR for
+                review; they cannot be uploaded as public benchmark evidence. Public reading needs
+                no ChatGPT account.</span
               >
             </li>
           </ol>
@@ -131,12 +133,11 @@
           >
         </div>
         <div class="upload-card">
-          <div class="eyebrow">UPLOAD EVIDENCE</div>
-          <h3>Your key stays with your runner.</h3>
+          <div class="eyebrow">SHARE A SAVED RUN</div>
+          <h3>Evidence the runner recorded.</h3>
           <p>
-            This upload form accepts result files, never API keys. Hosted runs use a separate
-            reviewed key entry in the workspace. Uploads begin private; share them when they are
-            ready.
+            Select your hosted policy evaluation. The service assembles its complete saved evidence;
+            this form cannot supply or replace model answers. Nothing is rerun or charged.
           </p>
           <form id="upload" method="post" action="/api/community/results">
             <label
@@ -145,26 +146,34 @@
                 required
                 maxlength="80"
                 autocomplete="nickname"
-                placeholder="How you’d like to be credited" /></label
-            ><label
-              >Result bundle <span class="muted">JSON · up to 4 MiB</span
-              ><input name="bundle" type="file" accept=".json,application/json" required /></label
-            ><label class="checkbox"
+                placeholder="How you’d like to be credited"
+            /></label>
+            <label
+              >Saved policy evaluation<select id="hosted-runs" name="runId" required>
+                <option value="">Sign in to choose your run</option>
+              </select></label
+            >
+            <p class="fine">
+              Only terminal policy evaluations are eligible. Setup advice and unresolved requests
+              cannot be shared here. A stopped run includes failures and every case not run.
+            </p>
+            <a class="text-link" href="/workspace#connection"
+              >Inspect private runs in the workspace ↗</a
+            >
+            <label class="checkbox"
               ><input name="reviewed" type="checkbox" required /><span
-                >I reviewed the complete bundle for credentials, personal information and private
-                content.</span
+                >I inspected the complete run and its policy, inputs and outputs for credentials,
+                personal information and private content.</span
               ></label
-            ><button class="button primary" id="upload-button" type="submit">
-              Save private contribution ↑
+            >
+            <button class="button primary" id="upload-button" type="submit">
+              Prepare private contribution ↑
             </button>
             <p id="upload-status" role="status"></p>
           </form>
-          <a class="text-link" href="/api/community/example" download="jev-bundle-example.json"
-            >Download format example ↓</a
-          >
           <p class="fine">
-            The example contains no measured results. Signed verification is a proposed follow-up;
-            ordinary uploads never receive a verified badge.
+            Inspect the saved contribution before explicitly making it public. External files cannot
+            receive hosted provenance or a verified badge.
           </p>
         </div>
       </section>
@@ -172,10 +181,14 @@
         <span>JEV OBSERVATORY <small>Evidence over impressions.</small></span>
         <div>
           <a href="https://github.com/jpollard-cs/jev-observatory">Source & discussions ↗</a
-          ><a href="/workspace#overview">Research archive ↗</a><a href="https://github.com/jpollard-cs/jev-observatory/security/advisories/new">Report a security or privacy issue ↗</a>
+          ><a href="/workspace#overview">Research archive ↗</a
+          ><a href="https://github.com/jpollard-cs/jev-observatory/security/advisories/new"
+            >Report a security or privacy issue ↗</a
+          >
         </div>
         <p>
-          Public preview. Share synthetic or permissioned evidence only. Report exposed credentials or security issues privately.
+          Public preview. Share synthetic or permissioned evidence only. Report exposed credentials
+          or security issues privately.
         </p>
       </footer>
     </main>

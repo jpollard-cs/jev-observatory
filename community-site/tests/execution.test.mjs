@@ -595,3 +595,72 @@ test('one invalid parallel response stops subsequent batches while accounting fo
   assert.equal((await service.step(owner, q.id, { index: 3, count: 3, apiKey: key })).tag, 'error');
   assert.equal(calls, 3);
 });
+
+test('community sharing uses only owned saved evaluation records and retains the entire planned suite', async (t) => {
+  const { communityService } = await import('../src/service.mjs');
+  const { repository } = await import('../src/adapters/d1.mjs');
+  const { canonical, sha256 } = await import('../src/domain/contracts.mjs');
+  const { service, q, storage, repo } = await fixture(t, async (r) => mock(r), batchSpec);
+  const contributions = communityService({
+    repo: repository(storage.db),
+    blobs: storage.blobs,
+    evidence: service,
+  });
+  const actor = { id: owner },
+    input = { author: 'Fixture', reviewedForSharing: true, runId: q.id };
+  assert.equal(
+    (await contributions.upload({ ...input, bundle: { observations: [] } }, actor)).error.code,
+    'hosted_run_required',
+  );
+  assert.equal(
+    (await contributions.upload({ ...input, evidenceStatus: 'verified' }, actor)).error.code,
+    'hosted_run_required',
+  );
+  assert.equal((await contributions.upload(input, { id: 'stranger' })).error.status, 404);
+  assert.equal((await contributions.upload(input, actor)).error.code, 'run_unsettled');
+  value(await service.start(owner, q.id, { planHash: q.planHash, confirmPaid: true }));
+  value(await service.step(owner, q.id, { index: 0, count: 3, apiKey: key }));
+  value(await service.stop(owner, q.id));
+  const list = value(await contributions.runs(actor));
+  assert.equal(list.runs[0].id, q.id);
+  const contribution = value(await contributions.upload(input, actor));
+  assert.equal(contribution.evidenceStatus, 'host-observed');
+  assert.equal(contribution.visibility, 'private');
+  assert.equal(contribution.total, q.requests);
+  assert.equal(contribution.completed, 3);
+  assert.equal(contribution.incomplete, q.requests - 3);
+  const data = value(await contributions.download(contribution.id, actor));
+  const bundle = JSON.parse(data.body);
+  assert.equal(bundle.version, 2);
+  assert.equal(bundle.provenance.settings.manifest.planHash, q.planHash);
+  assert.equal(bundle.provenance.settings.report.status, 'stopped');
+  assert.equal(bundle.observations.filter((r) => r.status === 'not_run').length, q.requests - 3);
+  assert.equal(bundle.suite.definition.cases.length, q.requests);
+  assert.equal(bundle.policy.hash, await sha256(canonical(policy)));
+  assert.deepEqual(
+    bundle.suite.definition.cases.map((r) => r.requestHash),
+    batchManifest.jobs.map((j) => j.requestHash),
+  );
+  assert.ok(!data.body.includes(key));
+  value(await contributions.setVisibility(contribution.id, { visibility: 'public' }, actor));
+  assert.equal((await contributions.download(contribution.id, null)).tag, 'ok');
+  const row = await repo.get(q.id, owner);
+  const original = JSON.parse(
+    await new Response((await storage.blobs.get(row.object_key + '/response/0')).body).text(),
+  );
+  original.evidence.response.answers.policy_decision.choice = 'forged';
+  await storage.blobs.put(row.object_key + '/response/0', JSON.stringify(original));
+  await assert.rejects(() => contributions.upload(input, actor), /Response integrity/);
+  const saved = await repository(storage.db).get(contribution.id);
+  await storage.blobs.put(saved.objectKey, '{}');
+  assert.equal(
+    (await contributions.download(contribution.id, null)).error.code,
+    'evidence_changed',
+  );
+  assert.equal(
+    (await contributions.setVisibility(contribution.id, { visibility: 'public' }, actor)).error
+      .code,
+    'evidence_changed',
+  );
+  value(await contributions.setVisibility(contribution.id, { visibility: 'private' }, actor));
+});

@@ -43,11 +43,11 @@ export async function validateBundle(input) {
       'observations',
     ]) ||
     input.format !== 'jev-observatory-bundle' ||
-    input.version !== 1
+    ![1, 2].includes(input.version)
   )
     return error(
       'unsupported_bundle',
-      'Use the portable Jev Observatory bundle format, version 1.',
+      'Use the portable Jev Observatory bundle format, version 1 or 2.',
     );
   let serialized;
   try {
@@ -90,8 +90,16 @@ export async function validateBundle(input) {
     cases.set(row.id, row);
   }
   if (
-    !keys(input.provenance, ['sourceRevision', 'method', 'settings', 'pullRequest']) ||
-    !/^[a-f0-9]{40}$/.test(input.provenance.sourceRevision ?? '') ||
+    !keys(input.provenance, [
+      'sourceRevision',
+      'sourceStamp',
+      'method',
+      'settings',
+      'pullRequest',
+    ]) ||
+    !(input.version === 2
+      ? /^[a-f0-9]{64}$/.test(input.provenance.sourceStamp ?? '')
+      : /^[a-f0-9]{40}$/.test(input.provenance.sourceRevision ?? '')) ||
     !text(input.provenance.method, 1200) ||
     !object(input.provenance.settings)
   )
@@ -151,9 +159,17 @@ export function summarize(bundle) {
   };
 }
 export function canRead(row, actor) {
-  return Boolean(row && (row.visibility === 'public' || (actor && row.owner === actor.id)));
+  return Boolean(
+    row &&
+      ((row.visibility === 'public' && row.evidenceKind === 'hosted-run') ||
+        (actor && row.owner === actor.id)),
+  );
 }
 export function publicResult(row, actor) {
   const { owner, objectKey, ...metadata } = row;
-  return { ...metadata, owned: actor?.id === owner, evidenceStatus: 'contributor-reported' };
+  return {
+    ...metadata,
+    owned: actor?.id === owner,
+    evidenceStatus: row.evidenceKind === 'hosted-run' ? 'host-observed' : 'legacy-unverified',
+  };
 }

@@ -1,6 +1,6 @@
 # Community Observatory
 
-The portable browser workspace and community layer for the Observatory. The root introduces the workflow; `/workspace` preserves policy building, adaptive coverage, the interactive atlas and historical evidence. Community uploads and shared evidence live at `/community`; GitHub remains the review/versioning route for policy proposals. Reviewed hosted execution supports a contributor’s own Jev key and a persistent private spending ledger. CI never runs paid model requests.
+The portable browser workspace and community layer for the Observatory. The root introduces the workflow; `/workspace` preserves policy building, adaptive coverage, the interactive atlas and historical evidence. Hosted-run contributions and shared evidence live at `/community`; GitHub remains the review/versioning route for policy proposals. Reviewed hosted execution supports a contributor’s own Jev key and a persistent private spending ledger. CI never runs paid model requests.
 
 See [Browser workspace](../docs/browser-workspace.md) , [Browser security](../docs/browser-security.md) and [Hosted execution](../docs/hosted-execution.md) for capabilities, implementation and remaining boundaries.
 
@@ -10,7 +10,7 @@ npm ci
 npm run build
 npm test
 npm run dev
-# Optional local-only account for testing uploads:
+# Optional local-only account for testing hosted contributions:
 npm run dev -- --signed-in
 ```
 
@@ -29,17 +29,17 @@ Node 24+ is required for the SQLite development adapter. Local preview runs on `
 
 D1 metadata and R2 bundles persist independently of deployments. There are no anonymous writes. Uploads start private, are immutable, and can be shared/withdrawn/deleted by their owner. Per-account limits: 200 bundles / 100 MiB, 4 MiB per bundle. JSON nesting is bounded. All ordinary uploads remain contributor-reported; claiming verification in bundle metadata is rejected.
 
-## Portable bundle v1
+## Storage and evidence admission
 
-Download `/api/community/example` for an explicit **not-run** example. Each bundle contains `format`, `version`, `title`, `model`, complete `policy` (`name`, canonical `hash`, `document`), `suite` (`name`, `definition.cases` with unique IDs and expected values), `provenance` (`sourceRevision`, `method`, `settings`, optional repository PR URL), and one `observation` for each case. Observation status is `ok`, `error`, `unavailable` or `not_run`. Successful observations preserve `observed`; errors use short codes, not raw credential-bearing provider messages.
+Public admission accepts an owned, settled hosted policy run ID, display name and privacy-review acknowledgement. The execution port verifies saved requests and responses; the service constructs a complete version-2 bundle. Client files, answers, hashes, endpoints and verification labels are rejected. Legacy uploads are private and cannot be republished.
 
-All hashes use SHA-256 of recursively key-sorted compact JSON (array order preserved), compatible with workbench policy IDs. Downloads reproduce the canonical uploaded bundle and can be imported again; identity and visibility remain server-side. `GET /api/community/results?offset=N` exports public metadata in pages of 50 and returns `nextOffset`. Authenticated users use `mine=1` to enumerate their own private/shared files, then download each bundle. There is no secret field or raw provider-log import. Manual review remains necessary: schema validation is not a reliable secret/PII detector.
+The label is **host-observed**, not signed, safe or no-regression. Scope is user-selected and visible; a mandatory PR core suite and independently signed receipts remain unimplemented. External/local reports go through GitHub review. Stopped runs retain failures and every planned request not run. Contributions start private; sharing is explicit. Downloads recheck the stored digest and serve JSON as an attachment.
 
-Data lives outside Git, while source, definitions and format contracts live in Git. Preserve downloaded bundles or an administrative storage backup when migrating: a source checkout alone does not copy live uploads. Rehosting also requires transferring D1/R2 data (or importing portable bundles), adapting identity and provisioning storage. The original research R2 assets remain bound to the current Site; the separate `site/` source and data in the parent repository provide its build provenance.
+Limits are 4 MiB per complete contribution and 200 contributions / 100 MiB per account. Oversized evidence cannot be truncated to fit. Private data remains outside Git. Manual privacy review is required; structural validation does not reliably detect secrets or personal information.
 
 ## Public-release boundary
 
-Anonymous routes are implemented and tested. The Site and GitHub source are being released as a public preview. Browser upload identity initially uses ChatGPT sign-in; non-ChatGPT contributors can use GitHub PR attachments, and non-ChatGPT readers can browse shared content once public.
+Anonymous routes are implemented and tested. The Site and GitHub source are being released as a public preview. Hosted contribution identity initially uses ChatGPT sign-in; non-ChatGPT contributors can use GitHub PR attachments, and non-ChatGPT readers can browse shared content once public.
 
 New-work admission uses durable per-account and site-wide minute limits in addition to retained-storage quotas. Security/privacy reporting and the operator takedown/retention procedure are documented in [the public-preview runbook](../docs/public-preview-operations.md). Automated backups and a dedicated moderation console remain follow-ups; this is a public preview, not a production abuse-management service.
 

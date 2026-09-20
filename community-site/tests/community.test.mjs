@@ -13,6 +13,16 @@ const catalog = await makeCatalog(),
   example = makeExample(catalog),
   alice = { id: 'alice' },
   bob = { id: 'bob' };
+const runId = '10000000-0000-4000-8000-000000000001';
+const hosted = (bundle) => ({
+  ...bundle,
+  version: 2,
+  provenance: {
+    method: bundle.provenance.method,
+    settings: bundle.provenance.settings,
+    sourceStamp: 'a'.repeat(64),
+  },
+});
 async function fixture(t) {
   const directory = await fs.mkdtemp(path.join(os.tmpdir(), 'jev-community-'));
   let storage = await localStorage(directory);
@@ -20,9 +30,13 @@ async function fixture(t) {
     storage.close();
     await fs.rm(directory, { recursive: true, force: true });
   });
-  const service = () => communityService({ repo: repository(storage.db), blobs: storage.blobs });
+  const source = { bundle: hosted(example) };
+  const evidence = { contribution: async () => ({ tag: 'ok', value: source.bundle }) };
+  const service = () =>
+    communityService({ repo: repository(storage.db), blobs: storage.blobs, evidence });
   return {
     directory,
+    source,
     get storage() {
       return storage;
     },
@@ -60,14 +74,14 @@ function call(
     { service: f.service, actor, catalog, example },
   );
 }
-const uploadBody = (bundle) => ({ author: 'Test contributor', reviewedForSharing: true, bundle });
+const uploadBody = () => ({ author: 'Test contributor', reviewedForSharing: true, runId });
 test('persistent evidence is private until shared, readable across users without sign-in, portable, and revocable', async (t) => {
   const f = await fixture(t);
   const uploaded = await (
     await call(f, 'results', { actor: alice, method: 'POST', body: uploadBody(example) })
   ).json();
   assert.equal(uploaded.visibility, 'private');
-  assert.equal(uploaded.evidenceStatus, 'contributor-reported');
+  assert.equal(uploaded.evidenceStatus, 'host-observed');
   assert.equal(uploaded.total, 1);
   assert.equal(uploaded.incomplete, 1);
   assert.equal(uploaded.exactMatches, 0);
@@ -108,7 +122,7 @@ test('persistent evidence is private until shared, readable across users without
     assert.match(response.headers.get('content-disposition'), /attachment/);
     const text = await response.text();
     assert.equal(await sha256(text), uploaded.bundleHash);
-    assert.deepEqual(JSON.parse(text), example);
+    assert.deepEqual(JSON.parse(text), hosted(example));
   }
   assert.equal((await call(f, 'results?mine=1')).status, 401);
   assert.equal((await (await call(f, 'results?mine=1', { actor: bob })).json()).items.length, 0);
@@ -158,7 +172,7 @@ test('API rejects anonymous writes, cross-origin requests, malformed data and fo
       await call(f, 'results', {
         actor: alice,
         method: 'POST',
-        body: uploadBody({ ...example, evidenceStatus: 'verified' }),
+        body: { ...uploadBody(), bundle: example, evidenceStatus: 'verified' },
       })
     ).status,
     400,
@@ -202,7 +216,8 @@ test('storage derives counts from every declared case and does not claim detecti
     { id: 'c', status: 'error', errorCode: 'transport_error' },
     { id: 'd', status: 'not_run' },
   ];
-  const row = await f.service.upload(uploadBody(bundle), alice);
+  f.source.bundle = hosted(bundle);
+  const row = await f.service.upload(uploadBody(), alice);
   assert.equal(row.tag, 'ok');
   assert.deepEqual(
     [row.value.total, row.value.completed, row.value.incomplete, row.value.exactMatches],
@@ -263,4 +278,24 @@ test('compiled worker preserves legacy source and routes public archive reads to
       'https://redteam-observatory.wizard.chatgpt.site/workspace#overview',
     );
   }
+});
+
+test('legacy uploads cannot be enumerated, downloaded publicly or republished even with a public flag', async (t) => {
+  const f = await fixture(t);
+  const row = (await f.service.upload(uploadBody(), alice)).value;
+  await f.storage.db
+    .prepare(
+      "UPDATE community_results SET evidence_kind='legacy-upload',visibility='public' WHERE id=?",
+    )
+    .bind(row.id)
+    .run();
+  assert.equal((await f.service.list(null, false)).value.items.length, 0);
+  assert.equal((await f.service.get(row.id, null)).error.status, 404);
+  assert.equal((await f.service.download(row.id, bob)).error.status, 404);
+  assert.equal(
+    (await f.service.setVisibility(row.id, { visibility: 'public' }, alice)).error.code,
+    'hosted_run_required',
+  );
+  assert.equal((await f.service.download(row.id, alice)).tag, 'ok');
+  assert.equal((await f.service.remove(row.id, alice)).tag, 'ok');
 });
