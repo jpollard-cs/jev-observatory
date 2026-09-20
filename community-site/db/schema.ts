@@ -1,4 +1,9 @@
 import { sqliteTable, text, integer, index } from 'drizzle-orm/sqlite-core';
+export const writeLimits = sqliteTable('write_limits', {
+  bucket: text('bucket').primaryKey(),
+  window: integer('window').notNull(),
+  hits: integer('hits').notNull(),
+});
 export const results = sqliteTable(
   'community_results',
   {

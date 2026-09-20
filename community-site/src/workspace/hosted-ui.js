@@ -329,6 +329,9 @@ export async function hostedRun({
       stats.append(cell);
     }
     body.append(stats);
+    if (q.evaluationScope?.mode === 'available_policy_tests')
+      body.append(el('p', 'Available policy tests only. This run does not cover your full application scope.' +
+        (q.unevaluatedBoundaries?.length ? ' Not evaluated: ' + q.unevaluatedBoundaries.map(x => x.replaceAll('_', ' ')).join(', ') + '.' : ''), { className: 'note warn' }));
     if (q.account)
       body.append(
         el(

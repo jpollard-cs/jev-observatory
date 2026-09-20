@@ -27,6 +27,10 @@ export const jevExecutionAdapter = Object.freeze({
     endpoint: ENDPOINT,
     model: model(p),
     policyHash: p.manifest.policyHash ?? null,
+    evaluationScope: p.manifest.coverage?.evaluationScope ?? null,
+    unevaluatedBoundaries: (p.manifest.coverage?.structuredGaps ?? [])
+      .filter(g => p.manifest.coverage?.evaluationScope?.deferredGapIds.includes(g.kind + ':' + g.id))
+      .map(g => g.id),
     estimatedUsd: p.jobs.reduce((n, j) => n + j.estimatedInputTokens * PRICE_NANO, 0) / 1e9,
   }),
   disclosure:

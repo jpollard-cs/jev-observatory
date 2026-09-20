@@ -4,7 +4,7 @@ const respond = (r) =>
   r.tag === 'ok'
     ? json(r.value)
     : json({ error: r.error.code, message: r.error.message }, r.error.status);
-export async function executionApi(request, { service, actor }) {
+export async function executionApi(request, { service, actor, admitWrite = async () => true }) {
   const url = new URL(request.url),
     route = url.pathname.slice('/api/execution/'.length),
     owner = actor?.id;
@@ -26,6 +26,15 @@ export async function executionApi(request, { service, actor }) {
     if (request.method === 'POST') {
       if (!sameOriginWrite(request) || request.headers.get('x-observatory-intent') !== 'write')
         return json({ error: 'invalid_origin' }, 403);
+      if (['prepare', 'account'].includes(route) && !(await admitWrite(route, owner)))
+        return json(
+          {
+            error: 'rate_limited',
+            message:
+              'New requests are temporarily limited. Wait a minute before trying again; no model call was sent.',
+          },
+          429,
+        );
       const parsed = await readBody(request);
       if (parsed.tag === 'error') return respond(parsed);
       body = parsed.value;

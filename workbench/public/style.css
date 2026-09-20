@@ -11,3 +11,7 @@
 
 /* Stable, nonmodal assistance: connection opens by choice; activity follows its initiating form. */
 .hosted-assistant:empty{display:none}.content.hosted-assistant{padding-top:18px}.hosted-session>summary.card-body{padding:16px 20px;line-height:1.5;color:var(--muted);font-size:13px}.hosted-session{margin:0}.hosted-run{min-height:220px;overflow-anchor:none}.hosted-run [hidden],.hosted-session [hidden]{display:none!important}.hosted-run .modal-head{padding:20px 24px}.hosted-run .modal-head h2{font-size:22px}.hosted-run .modal-body{padding:24px}.hosted-run .stats{grid-template-columns:repeat(2,minmax(0,1fr))}.hosted-run .hash{overflow-wrap:anywhere}.hosted-run .code{max-width:100%;white-space:pre-wrap}.hosted-run .hosted-session{margin-bottom:20px}.hosted-run .btn{white-space:normal}#declared-scope{scroll-margin-top:90px}.check span small{display:block;color:var(--muted);font-size:11px}button[aria-busy=true]{cursor:progress;opacity:.7}#content{overflow-anchor:none}
+
+/* Setup progresses from inputs to their resulting preview on every screen. */
+.workflow-stack { grid-template-columns: minmax(0, 1fr); align-items: start; gap: 24px; }
+.workflow-stack .form-row { grid-template-columns: minmax(0, 1fr); }

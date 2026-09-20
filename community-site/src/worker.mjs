@@ -8,6 +8,7 @@ import landingJs from '../public/landing.js';
 import workspaceAssets from 'workspace:assets';
 import legacy from '../legacy/observatory-worker.mjs';
 import { repository } from './adapters/d1.mjs';
+import { writeLimits } from './adapters/write-limits.mjs';
 import { communityService } from './service.mjs';
 import { api, json } from './http.mjs';
 import {
@@ -51,6 +52,7 @@ export default {
       const id = request.headers.get('oai-authenticated-user-id');
       return executionApi(request, {
         actor: id ? { id } : null,
+        admitWrite: writeLimits(env.DB),
         service: executionService({
           repo: executionRepository(env.DB),
           blobs: env.BUCKET,
@@ -62,6 +64,7 @@ export default {
       const id = request.headers.get('oai-authenticated-user-id');
       return api(request, {
         actor: id ? { id } : null,
+        admitWrite: writeLimits(env.DB),
         service: communityService({ repo: repository(env.DB), blobs: env.BUCKET }),
         catalog,
         example,

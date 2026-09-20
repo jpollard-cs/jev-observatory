@@ -1,0 +1,14 @@
+# Keep the default credential detectors. Only these reviewed non-secret matches
+# are excluded; no paths, commit history, or general hexadecimal values are skipped.
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Provenance digests, authored case IDs, and one JavaScript field expression"
+regexTarget = "match"
+regexes = [
+  '''rich-authenticated-memory:(?:attack|benign)-length-[0-9]+"''',
+  '''(?:applicationKey|afterKey|historical-token-anchors\.json|tokenizer_config\.json|mobile-token-help\.png|token-help\.png|SankeyRenderer\.jsx)": "[a-f0-9]{64}"''',
+  '''MTP_KEYS_SHA256 = "[a-f0-9]{64}"''',
+  '''\.inputTokens,l=row\.latencyMs;''',
+]

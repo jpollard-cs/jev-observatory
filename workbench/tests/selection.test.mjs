@@ -49,3 +49,35 @@ test('independent exploratory lane remains despite confident negative ranks',()=
 test('selection obeys token ceiling as well as dollar ceiling',()=>{const r=allocateUnits([unit('a',4),unit('b',4)],{maxNano:20,maxTokens:5});assert.equal(r.tokens,4);assert.equal(r.costNano,4);});
 test('selection deterministic for a fixed seed and evidence',()=>{const units=Array.from({length:30},(_,i)=>unit('u'+i,1));const opts={maxNano:9,maxTokens:9,seed:'same'};assert.deepEqual(allocateUnits(units,opts),allocateUnits(units,opts));});
 test('invalid free exploration bypass is rejected by public plan schema',()=>{assert.throws(()=>makeAssistedPlan(p,a,{explorationShare:0}));assert.throws(()=>makeAssistedPlan(p,a,{maxUsd:Infinity}));});
+
+test('explicit available-tests scope preserves declarations, requests, labels and deferred gaps',()=>{
+ const app={...a,capabilities:['external_actions','judging','moderation']};
+ const full=makeAssistedPlan(p,app,{tier:'gold'}),scoped=makeAssistedPlan(p,app,{tier:'gold',coverageScope:'available_policy_tests'});
+ assert.equal(full.manifest.state,'insufficient_coverage');assert.equal(scoped.manifest.state,'prepared_offline');
+ assert.deepEqual(scoped.jobs,full.jobs);assert.deepEqual(scoped.manifest.application,full.manifest.application);
+ assert.deepEqual(scoped.manifest.coverage.structuredGaps,full.manifest.coverage.structuredGaps);
+ assert.equal(scoped.manifest.coverage.evaluationScope.deferredGapIds.length,3);
+ assert.ok(scoped.manifest.coverage.structuredGaps.every(g=>g.blocking));
+ assert.notEqual(scoped.manifest.planHash,full.manifest.planHash);
+ assert.equal(verifyPlan(scoped.manifest).manifest.planHash,scoped.manifest.planHash);
+ for(const mutate of [m=>m.coverage.evaluationScope.deferredGapIds.push('critical_context_excluded:receiving-dossier-core'),m=>m.options.coverageScope='full_declared_scope']){
+  const m=structuredClone(scoped.manifest);mutate(m);const {planHash,...content}=m;m.planHash=sha(content);
+  assert.throws(()=>verifyPlan(m),/no longer matches/);
+ }
+ assert.throws(()=>makeAssistedPlan(p,app,{coverageScope:'skip_all_gaps'}),/Invalid evaluation scope/);
+});
+test('scoped execution cannot waive a mandatory dossier, budget or token ceiling',()=>{
+ const app={...a,capabilities:['moderation'],focusDomains:['code-review']},options={coverageScope:'available_policy_tests'};
+ const filtered=makeAssistedPlan(p,app,{...options,includeContext:false}).manifest;
+ assert.equal(filtered.state,'insufficient_coverage');assert.ok(filtered.coverage.structuredGaps.some(g=>g.kind==='critical_context_excluded'&&g.blocking));
+ assert.ok(filtered.coverage.evaluationScope.deferredGapIds.every(x=>!x.startsWith('critical_context_excluded:')));
+ for(const extra of [{maxUsd:.000001},{maxInputTokens:1}]){
+  const m=makeAssistedPlan(p,app,{...options,...extra}).manifest;
+  assert.equal(m.state,'insufficient_budget');assert.equal(m.counts.physicalRequests,0);assert.ok(m.coverage.missingMandatory.length);
+ }
+});
+test('scoping leaves matching advice and its committed cost attached',async()=>{
+ const app={...a,capabilities:['moderation']},report=await fakeReport(makeAdvisorPlan(p,app));
+ const full=makeAssistedPlan(p,app,{tier:'gold'},report),scoped=makeAssistedPlan(p,app,{tier:'gold',coverageScope:'available_policy_tests'},report);
+ assert.deepEqual(scoped.manifest.advisor,full.manifest.advisor);assert.deepEqual(scoped.manifest.budget,full.manifest.budget);assert.deepEqual(scoped.jobs,full.jobs);
+});

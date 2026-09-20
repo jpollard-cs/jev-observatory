@@ -39,8 +39,8 @@ Data lives outside Git, while source, definitions and format contracts live in G
 
 ## Public-release boundary
 
-Anonymous routes are implemented and tested. The platform-level Site audience and GitHub repository remain private until explicitly released. Browser upload identity initially uses ChatGPT sign-in; non-ChatGPT contributors can use GitHub PR attachments, and non-ChatGPT readers can browse shared content once public.
+Anonymous routes are implemented and tested. The Site and GitHub source are being released as a public preview. Browser upload identity initially uses ChatGPT sign-in; non-ChatGPT contributors can use GitHub PR attachments, and non-ChatGPT readers can browse shared content once public.
 
-Before opening community uploads broadly, establish moderation/reporting and operator retention/backups, global abuse/spend limits and the intended content policy for hostile test text. The current private preview has per-owner quotas and ownership enforcement, not a production abuse-management service.
+New-work admission uses durable per-account and site-wide minute limits in addition to retained-storage quotas. Security/privacy reporting and the operator takedown/retention procedure are documented in [the public-preview runbook](../docs/public-preview-operations.md). Automated backups and a dedicated moderation console remain follow-ups; this is a public preview, not a production abuse-management service.
 
 See `../docs/community-verification.md` for the proposed signed regression-verification protocol. The hosted BYOK runner observes execution; it does not yet issue provider-signed or no-regression certificates.

@@ -1,3 +1,5 @@
+> This README preserves the imported 0.5 local-release workflow. For current hosted features and validation, see the [project README](../README.md), [integration guide](../docs/workbench-integration.md), and [recorded setup smoke](../docs/workbench-e2e-results.md). `npm run workbench:verify` at repository root verifies preserved inputs; the original `npm run verify` below checks the unmodified imported release.
+
 # Observatory · Jev Policy Workbench 0.5 rebuilt
 
 A reconstruction of the intended 0.5 guided experience on the verified 0.4.1 source. **The lost candidate was not recovered.** This distribution is new source with fresh software validation, not a claim of byte-for-byte restoration.
@@ -43,7 +45,7 @@ The Evidence explorer scoping fix and large-budget support were already in 0.4.1
 4. Review the destination, model, single request and cost limit. Confirm only to make that paid setup request.
 5. Select changes individually, inspect their consequences, and apply. Nothing is checked or applied automatically.
 
-The request uses the existing frozen `jev-1.13.0` contract. Verify provider support before a live smoke test. We have not collected live setup results. The default setup stage limit is $0.01: an editable local allowance, not a service minimum or bill. Estimates still use the frozen historical rate and byte heuristic.
+The request uses the existing frozen `jev-1.13.0` contract. Verify provider support before a live smoke test. The integrated repository now includes a [seven-request setup/ranking smoke](../docs/workbench-e2e-results.md). The default setup stage limit is $0.01: an editable local allowance, not a service minimum or bill. Estimates still use the frozen historical rate and byte heuristic.
 
 Setup suggestions never edit budgets, credentials, endpoints, tool permissions or expected test answers. A suggested mode can change the assessed operation, and a language-scope/list suggestion can broaden or narrow admitted content; those consequences are visible before applying. Switching mode clears exceptions rather than granting any. Task matching selects a representative starting point, not proof that built-in tests represent your application.
 

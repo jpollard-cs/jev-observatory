@@ -9,8 +9,8 @@ Review [the compact classifier guide](../policies/classifier-guide-v3-compact.dr
 These commands use the Node runtime already installed on this Mac. Node 22.22+ on PATH also works.
 
 ```sh
-cd /Users/jordan/Documents/Codex/2026-09-16/i-g/outputs/jev-redteam
-JEV_NODE=/Users/jordan/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node
+cd /path/to/jev-observatory
+JEV_NODE=node
 "$JEV_NODE" scripts/compact-experiment.mjs --prepare
 ```
 

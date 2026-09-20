@@ -1,6 +1,6 @@
 # Browser workspace restoration
 
-The hosted root is the full policy workbench again. Community evidence sharing is an additional area at `/community`; the original research publication remains at `/observatory`, including old `/?tab=...` links.
+The full policy workbench is hosted at `/workspace`; the root introduces the product. Community evidence sharing is an additional area at `/community`; the original research publication remains at `/observatory`, including old `/?tab=...` links.
 
 Available without a local server or API key:
 
@@ -12,7 +12,7 @@ Available without a local server or API key:
 - Browse all six frozen experiments, their actual outcome atlas, condition comparisons, confusion matrices, latency charts and exact row evidence.
 - Import/export policies and reports. Save a plan in the current session and download its exact requests, evaluation-only expectations and pinned source as a portable ZIP.
 
-Paid hosted execution remains unfinished. The browser does not collect a Jev key or call a provider. The local workbench still supports explicitly approved setup/advisor calls and the existing evaluation runner. Downloaded plans are checked by the same local loader; preparing, viewing or exporting never spends credits. This boundary is visible in the workspace, not hidden behind a nonfunctional credential form. Contributor-funded, signed regression receipts remain a separate planned backend.
+Paid hosted execution is available with your own Jev key, signed-in identity and an explicit request-and-budget review. Preparing, viewing and exporting are offline. See [hosted execution](hosted-execution.md) and [the current session workflow](inline-assisted-workflow.md). Contributor-funded signed regression receipts remain a separate proposal.
 
 ## Implementation boundaries
 
@@ -32,4 +32,10 @@ Manual local browser checks exercised description → rules → coverage → exa
 
 The root route now introduces the experiment in three steps; the complete workspace remains at `/workspace`. The browser planner and coverage/evidence views are preserved. The five-step workflow is always visible; advanced navigation and Terminal commands use progressive disclosure.
 
-Hosted paid execution is now available after a separate request-and-budget review. See [hosted execution](hosted-execution.md) for credential handling, private persistence, accounting and limits. Earlier notes above about hosted execution being unavailable describe the preceding release.
+Hosted paid execution is now available after a separate request-and-budget review. See [hosted execution](hosted-execution.md) for credential handling, private persistence, accounting and limits.
+
+## Runs with a limited evaluation scope
+
+The granular planner normally requires coverage of the declared application. When an evaluator is missing, **Run available policy tests only** explicitly narrows the run. It preserves the original application, all coverage gaps, request bytes and expected labels. The scope and deferred boundary IDs are bound into the frozen plan and retained in local and hosted reports. The final authorization and evidence views repeat those limits.
+
+This does not waive mandatory tests, excluded critical dossiers, money limits or input-size limits. Policy/application edits reset the scope choice. Completion means the selected requests finished, not that the full application has been evaluated. Original moderation/judging suites remain available separately and do not establish coverage under this policy.

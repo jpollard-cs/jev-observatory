@@ -78,7 +78,9 @@ export function communityService({
           return error('quota_exceeded', 'The account limit is 200 bundles or 100 MiB.', 429);
         }
       } catch (cause) {
-        await blobs.delete(objectKey);
+        // Preserve a committed contribution if the insert acknowledgement was lost.
+        const admitted = await repo.get(id);
+        if (!admitted) await blobs.delete(objectKey);
         throw cause;
       }
       return ok(publicResult(row, actor));

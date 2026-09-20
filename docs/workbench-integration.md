@@ -1,6 +1,8 @@
-# Policy Workbench integration · 2026-09-19
+# Policy Workbench integration
 
-The canonical development copy is `workbench/` in this repository. The supplied 0.5 rebuilt release was integrated additively. The Desktop copy, its running server, the original research harness, policy versions, frozen requests, run evidence and spending history are preserved. The owner-private hosted Site remains the previously published version; this integration is a local authoring and evaluation application.
+Updated for the public preview on 2026-09-20. The original integration checks below remain historical evidence.
+
+The canonical development copy is `workbench/` in this repository. The supplied 0.5 rebuilt release was integrated additively. The Desktop copy, its running server, the original research harness, policy versions, frozen requests, run evidence and spending history are preserved. The same compiler and workbench now power the [hosted workspace](https://redteam-observatory.wizard.chatgpt.site/workspace).
 
 ## Start and verify
 
@@ -12,22 +14,16 @@ npm run workbench
 
 Open **http://127.0.0.1:8794**. Port 8794 keeps the integrated application separate from the existing Desktop process on 8792. Stop this server with Ctrl-C in its Terminal. The application requires no additional npm dependencies. Node 22.22+ is already required by the parent repository.
 
-If Node is not on PATH, the runtime on this Mac can launch it directly:
-
-```sh
-cd /Users/jordan/Documents/Codex/2026-09-16/i-g/outputs/jev-redteam
-/Users/jordan/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node scripts/workbench.mjs start
-```
+Use Node 24 or later on your PATH. Commands run from your checkout, not a machine-specific directory.
 
 Offline checks:
 
 ```sh
 npm run workbench:verify
 npm run workbench:test
-npm run workbench:account
 ```
 
-The last command checks the original project's source bindings and reads its ledger. It does not read `.env`, contact the provider or change account authorization. The import checkpoint was **4,611 events, $1.450070202 known usage and $0.002664690 held**, leaving **$1.547265108** within the existing $3 envelope. This is local allowance, not a verified provider balance. No new paid evaluation or setup smoke was performed during integration.
+The separate `npm run workbench:account` command reads the original local research ledger when present. `workbench:verify` checks preserved evidence, vendor code and provenance against the imported manifest; current application behavior is covered by tests. It does not read `.env`, contact the provider or change account authorization. The import checkpoint was **4,611 events, $1.450070202 known usage and $0.002664690 held**, leaving **$1.547265108** within the existing $3 envelope. This is local allowance, not a verified provider balance. No new paid evaluation or setup smoke was performed during integration.
 
 ## What the changes are for
 
@@ -58,7 +54,7 @@ The handoff supplies the implementation and its design boundaries, not a transcr
 
 When ready for a separately authorized provider run, select **Original research project — preserve its ledger** and the repository root above in **Local Jev connection**. The application can explicitly read that project's `.env` or accept a session key; this integration copies neither credentials nor account files into `workbench/`. A pasted server-session key is not inherited by an independent CLI process.
 
-Keep using the original account for this research. A new standalone account is for an actually separate authorization, not a way to bypass spent money or unresolved holds. The existing pinned model and historical pricing constants remain unchanged. A live setup smoke and useful ranking quality are still unmeasured.
+Keep using the original account for this research. A new standalone account is for an actually separate authorization, not a way to bypass spent money or unresolved holds. The existing pinned model and historical pricing constants remain unchanged. A seven-request live setup/ranking smoke is recorded in [E2E results](workbench-e2e-results.md); this does not establish general ranking quality.
 
 ## Review and validation
 

@@ -143,16 +143,25 @@ export function executionService({
         await Promise.all(stored.map((key) => blobs.delete(key)));
         throw cause;
       }
-      const inserted = await repo.create({
-        id,
-        owner,
-        objectKey,
-        planHash: p.manifest.planHash,
-        preparedHash: sha(raw),
-        requests: p.jobs.length,
-        reserveNano: p.reserveNano,
-        now: now(),
-      });
+      let inserted;
+      try {
+        inserted = await repo.create({
+          id,
+          owner,
+          objectKey,
+          planHash: p.manifest.planHash,
+          preparedHash: sha(raw),
+          requests: p.jobs.length,
+          reserveNano: p.reserveNano,
+          now: now(),
+        });
+      } catch (cause) {
+        // A timeout may follow a committed insert. Only delete when a read
+        // confirms no run owns these immutable blobs; uncertain storage stays private.
+        const admitted = await repo.get(id, owner);
+        if (!admitted) await Promise.all([objectKey, ...stored].map((key) => blobs.delete(key)));
+        throw cause;
+      }
       if (!inserted) {
         await blobs.delete(objectKey);
         await Promise.all(stored.map((key) => blobs.delete(key)));

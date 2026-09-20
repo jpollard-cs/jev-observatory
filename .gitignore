@@ -18,3 +18,6 @@ dist/
 
 __pycache__/
 *.pyc
+
+# Local preview storage, including mock-only browser QA.
+/runtime/

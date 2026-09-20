@@ -36,3 +36,7 @@ Keep the pinned Promptfoo version and the current custom-provider route for this
 If an advisory-free installed graph becomes a requirement, exclude the unused Codex Security optional feature in a separately validated installation profile, then smoke-test the actual Promptfoo CLI and local file provider. **Do not globally omit optional dependencies in the working environment without checking required platform/native packages**, including SQLite/esbuild-related functionality. Targeted exclusion compatibility has not been tested here.
 
 A read-only `npm audit --omit=optional --json` returned zero vulnerabilities, confirming this advisory chain is optional; that command merely filters the audit and does not uninstall or patch anything. Recheck upstream releases before implementing a dependency change. No packages or lockfiles were modified during this assessment.
+
+## Public-preview recheck · 2026-09-20
+
+The production community dependency audit reports zero known advisories. The root optional Promptfoo graph still reports three high package findings in the same documented unused extractor chain; the registry now proposes a downgrade to 0.122.1 rather than a compatible patch. No forced downgrade was applied. CI uses the dependency-free research/workbench tests and the community lockfile; it does not install the optional root Promptfoo tree or run paid inference.

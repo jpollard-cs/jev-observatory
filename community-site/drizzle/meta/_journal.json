@@ -15,6 +15,13 @@
       "when": 1789841224524,
       "tag": "0001_outgoing_namor",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1789914422919,
+      "tag": "0002_yielding_rhodey",
+      "breakpoints": true
     }
   ]
 }

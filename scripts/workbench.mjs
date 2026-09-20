@@ -64,7 +64,7 @@ export async function main(argv = process.argv.slice(2)) {
     console.log(JSON.stringify(await inspectResearchAccount(), null, 2));
     return;
   }
-  if (action === 'verify') return execute(['scripts/verify.mjs']);
+  if (action === 'verify') return execute(['scripts/verify-integrated.mjs']);
   if (action === 'test') {
     const files = fs
       .readdirSync(path.join(workbench, 'tests'))

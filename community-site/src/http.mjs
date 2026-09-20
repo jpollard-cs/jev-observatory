@@ -40,7 +40,10 @@ export async function readBody(request) {
     return error('invalid_json', 'The upload is not valid JSON.');
   }
 }
-export async function api(request, { service, actor, catalog, example }) {
+export async function api(
+  request,
+  { service, actor, catalog, example, admitWrite = async () => true },
+) {
   const url = new URL(request.url),
     path = url.pathname,
     method = request.method;
@@ -56,6 +59,15 @@ export async function api(request, { service, actor, catalog, example }) {
         return respond(error('sign_in_required', 'Sign in to manage contributions.', 401));
       if (!sameOriginWrite(request) || request.headers.get('x-observatory-intent') !== 'write')
         return respond(error('invalid_origin', 'Use the contribution form on this site.', 403));
+      const operation = method === 'POST' && path === '/api/community/results' ? 'upload' : null;
+      if (operation && !(await admitWrite(operation, actor.id)))
+        return respond(
+          error(
+            'rate_limited',
+            'Contributions are temporarily limited. Wait a minute before trying again.',
+            429,
+          ),
+        );
     }
     if (path === '/api/community/results' && method === 'GET') {
       const offset = Number(url.searchParams.get('offset') ?? 0);
@@ -85,6 +97,19 @@ export async function api(request, { service, actor, catalog, example }) {
     if (method === 'GET') return respond(await service.get(id, actor));
     if (method === 'PATCH') {
       const body = await readBody(request);
+      // Withdrawing public data must remain possible when new work is limited.
+      if (
+        body.tag === 'ok' &&
+        body.value?.visibility === 'public' &&
+        !(await admitWrite('share', actor.id))
+      )
+        return respond(
+          error(
+            'rate_limited',
+            'Sharing is temporarily limited. Wait a minute before trying again.',
+            429,
+          ),
+        );
       return respond(
         body.tag === 'error' ? body : await service.setVisibility(id, body.value, actor),
       );
