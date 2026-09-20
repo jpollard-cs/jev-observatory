@@ -2,8 +2,8 @@ import { preserveView } from './view-continuity.js';
 import { rememberDisclosures, restoreDisclosures } from './disclosures.js';
 import { hostedRun, mountHostedAssistant, showHostedConnection } from './hosted.js';
 import {api,setToken} from './transport.js';
-import {guidedHome,guidedPolicy,guidedPlanner,workflowRail,runReview} from './guided.js';
-import {draftStamp,appStamp} from './workflow-model.js';
+import {guidedHome,guidedPolicy,guidedPlanner,workflowRail,runReview,setupFollowup} from './guided.js';
+import {draftStamp,appStamp,isSetupCurrent} from './workflow-model.js';
 import {connectionPage,budgetNotice} from './connection-ui.js';
 import {libraryPage,originalAtlas,replayCommand,historicalEvidencePage,conditionJudgment} from './library.js';
 import {mountCosmos} from './cosmos.js';
@@ -11,7 +11,7 @@ import {defaultCondition,operationInfo,categoricalCounts,filterRows,rowIdentity,
 import {decisionDistribution,matrixMarkup,comparisonMarkup,orbitMarkup,mountOrbit,latencyMarkup} from './observatory.js';
 import {selectionPage,advisorCommand} from './selection-ui.js';
 import {esc,fmt,money,pretty,badge,val,stat,option,code,check,button,download,toast,answerDisplay} from './ui.js';
-const state={journey:{},setupFrozen:null,setupReport:null,setupSummary:null,setupInputStamp:null,setupPicks:[],setupTransaction:null,setupRun:null,setupPaidReview:null,setupRevision:0,connection:null,connectionDraft:null,paidReview:null,advisorRun:null,originalOptions:null,originalPlan:null,originalFrozen:null,originalPage:0,atlasScope:'condition',historyField:null,application:null,advisorFrozen:null,adviceReport:null,adviceSummary:null,tagSummary:null,planningMode:'assisted',nav:'start',menuOpen:false,galaxy:true,group:'',expectedDecision:'',matrix:null,panel:'',repeat:'',excludeDisputed:false,page:0,reports:new Map(),policy:null,plan:null,frozen:null,compiled:null,previewTab:'policy',previewCase:'mixed-authorized',condition:'contextual_criteria',filter:'all',search:'',reportTab:'results',contextId:'receiving-dossier-clean',caseCache:new Map(),options:{tier:'bronze',maxUsd:.15,maxInputTokens:null,layouts:['question','criteria'],seed:'workbench-1',includeContext:true,repeat:1},error:null,busy:false};
+const state={journey:{},setupFrozen:null,setupReport:null,setupSummary:null,setupInputStamp:null,setupRequestStamp:null,setupPicks:[],setupTransaction:null,setupRun:null,setupPaidReview:null,setupRevision:0,connection:null,connectionDraft:null,paidReview:null,advisorRun:null,originalOptions:null,originalPlan:null,originalFrozen:null,originalPage:0,atlasScope:'condition',historyField:null,application:null,advisorFrozen:null,adviceReport:null,adviceSummary:null,tagSummary:null,planningMode:'assisted',nav:'start',menuOpen:false,galaxy:true,group:'',expectedDecision:'',matrix:null,panel:'',repeat:'',excludeDisputed:false,page:0,reports:new Map(),policy:null,plan:null,frozen:null,compiled:null,previewTab:'policy',previewCase:'mixed-authorized',condition:'contextual_criteria',filter:'all',search:'',reportTab:'results',contextId:'receiving-dossier-clean',caseCache:new Map(),options:{tier:'bronze',maxUsd:.15,maxInputTokens:null,layouts:['question','criteria'],seed:'workbench-1',includeContext:true,repeat:1},error:null,busy:false};
 let originalEpoch=0;
 const disclosurePages=new Map();let renderedPage=null;
 function rememberPage(){if(renderedPage)disclosurePages.set(renderedPage,rememberDisclosures(document.getElementById('content')));}
@@ -33,12 +33,13 @@ function shell({preserveScroll=false}={}){
 }
 
 function pageHead(eyebrow,title,desc,actions=''){return `<div class="page-head"><div><div class="eyebrow">${esc(eyebrow)}</div><h1>${esc(title)}</h1><p>${esc(desc)}</p></div><div class="actions">${actions}</div></div>`;}
-function attachHelp(){
- document.querySelectorAll('.field > small').forEach(text=>{const label=text.parentElement.querySelector(':scope > span');if(!label)return;
+let helpSequence=0;
+function attachHelp(root=document){
+ root.querySelectorAll('.field > small').forEach(text=>{const label=text.parentElement.querySelector(':scope > span');if(!label)return;
   const button=document.createElement('button');button.type='button';button.className='inline-help-button';button.textContent='?';button.dataset.tip=text.textContent;button.setAttribute('aria-label','Explain '+label.textContent.trim());label.append(button);text.remove();
  });
- document.querySelectorAll('[data-tip]').forEach((trigger,index)=>{
-  trigger.setAttribute('aria-expanded','false');const pop=document.createElement('span');pop.id='field-help-'+index;pop.className='inline-help-popover';pop.role='tooltip';pop.textContent=trigger.dataset.tip;document.body.append(pop);trigger.setAttribute('aria-describedby',pop.id);let timer;
+ root.querySelectorAll('[data-tip]').forEach((trigger,index)=>{
+  trigger.setAttribute('aria-expanded','false');const pop=document.createElement('span');pop.id='field-help-'+(++helpSequence);pop.className='inline-help-popover';pop.role='tooltip';pop.textContent=trigger.dataset.tip;document.body.append(pop);trigger.setAttribute('aria-describedby',pop.id);let timer;
   const close=()=>{clearTimeout(timer);pop.classList.remove('open');trigger.setAttribute('aria-expanded','false');};
   const open=()=>{clearTimeout(timer);pop.classList.add('open');const b=trigger.getBoundingClientRect();pop.style.left=Math.max(10,Math.min(innerWidth-pop.offsetWidth-10,b.left-10))+'px';pop.style.top=Math.max(10,Math.min(innerHeight-pop.offsetHeight-10,b.bottom+8))+'px';trigger.setAttribute('aria-expanded','true');};
   trigger.addEventListener('mouseenter',open);trigger.addEventListener('mouseleave',()=>timer=setTimeout(close,180));pop.addEventListener('mouseenter',()=>clearTimeout(timer));pop.addEventListener('mouseleave',close);trigger.addEventListener('focus',open);trigger.addEventListener('blur',close);
@@ -58,6 +59,14 @@ function renderPage(){
  if(state.nav==='planner'&&state.plan)disposeOrbit=mountOrbit(plannedAtlas(),{animate:state.galaxy,onInspect:id=>plannedModal(id).catch(showError)});
  if(state.nav==='original'&&state.originalPlan)disposeOrbit=mountOrbit(originalAtlas(state.originalPlan),{animate:state.galaxy,onInspect:id=>originalModal(id).catch(showError)});
  restoreView();
+}
+
+// Refresh only the linear proposal/summary region. Keep the description and live run nodes intact.
+function refreshSetupFollowup(){
+ const region=document.getElementById('setup-followup');if(!region)return;
+ const restore=preserveView(document.getElementById('content')),disclosures=rememberDisclosures(region);
+ region.querySelectorAll('[aria-describedby]').forEach(n=>document.getElementById(n.getAttribute('aria-describedby'))?.remove());
+ region.innerHTML=setupFollowup(state);restoreDisclosures(region,disclosures);attachHelp(region);restore();
 }
 
 function plannedAtlas(){return {id:'selected-policy-tests',title:'Selected policy tests · not run',rows:state.plan.jobs.map(j=>({...j,rowKey:j.id,group:j.group,isCatalog:true,valid:false,status:'not_run',answers:{},expected:{selection:'selected'},repeat:j.repeat??1}))};}
@@ -142,7 +151,7 @@ async function pollAdvisor(id){
  }catch(e){state.advisorRun={...state.advisorRun,status:'poll_failed',error:e.message};showError(e);toast('Status check failed. No request was retried. Reload the connection status before taking another action.');}
 }
 function saveJourney(){try{localStorage.setItem('jev-workbench-journey-v1',pretty(state.journey));}catch{}}
-function invalidateDraft(){state.setupRevision++;state.setupPicks=[];state.setupFrozen=null;state.setupTransaction=null;state.adviceReport=null;state.adviceSummary=null;state.advisorFrozen=null;state.plan=null;state.frozen=null;state.compiled=null;}
+function invalidateDraft(){state.setupRevision++;state.setupPicks=[];state.setupFrozen=null;state.setupRequestStamp=null;state.setupTransaction=null;state.adviceReport=null;state.adviceSummary=null;state.advisorFrozen=null;state.plan=null;state.frozen=null;state.compiled=null;}
 async function importSetup(report){const stamp=draftStamp(state.policy,state.application);const d=await api('setup/import',{raw:typeof report==='string'?report:JSON.stringify(report),policy:state.policy,application:state.application});if(stamp!==draftStamp(state.policy,state.application))throw Error('Draft changed while importing setup advice');state.setupReport=d.report;state.setupSummary=d.summary;state.setupInputStamp=stamp;state.setupPicks=[];state.setupTransaction=null;}
 async function pollSetup(id){
  try{for(;;){const run=await api('connection/run?id='+encodeURIComponent(id));state.setupRun=run;if(run.status!=='running'){
@@ -157,12 +166,12 @@ async function openHosted(frozen=null,mode=null){
  await hostedRun({prepareSpec:async()=>{
   if(mode){frozen=await api(mode==='setup'?'setup/prepare':'selection/prepare',{policy:state.policy,application:state.application,...(mode==='rank'?{options:{mode:'rank'}}:{})});
    if(stamp!==draftStamp(state.policy,state.application))throw Error('Your draft changed while preparing. Please prepare again. Nothing was sent to the model.');
-   if(setup){state.setupFrozen=frozen;state.setupInputStamp=stamp;}else state.advisorFrozen=frozen;
+   if(setup){state.setupFrozen=frozen;state.setupRequestStamp=stamp;}else state.advisorFrozen=frozen;
   }
   return frozen?api('workspace/execution-spec',{planHash:frozen.planHash}):null;
- },isCurrent:()=>!frozen||stamp===draftStamp(state.policy,state.application),nextLabel:setup?'Review proposed settings':'View suggested coverage',onNext:async()=>{state.nav=setup?'start':frozen?.manifest?.options?.mode==='tag'?'selection':'planner';shell();document.getElementById(setup?'setup-suggestions':'content')?.scrollIntoView({block:'start',behavior:'smooth'});},onReport:async(report)=>{
+ },isAdviceInline:()=>setup&&state.nav==='start',isCurrent:()=>!frozen||stamp===draftStamp(state.policy,state.application),nextLabel:setup?'Review proposed settings':'View suggested coverage',onNext:async()=>{state.nav=setup?'start':frozen?.manifest?.options?.mode==='tag'?'selection':'planner';shell();document.getElementById(setup?'setup-suggestions':'content')?.scrollIntoView({block:'start',behavior:'smooth'});},onReport:async(report)=>{
   if(report.protocol==='catalog-advisor-report/1'){
-   if(report.mode==='setup'){await importSetup(report);}
+   if(report.mode==='setup'){await importSetup(report);if(state.nav==='start')refreshSetupFollowup();}
    else{const data=await api('selection/import',{raw:JSON.stringify(report),policy:state.policy,application:state.application});if(data.report.mode==='tag')state.tagSummary=data.summary;else{state.adviceReport=data.report;state.adviceSummary=data.summary;state.plan=null;state.frozen=null;state.planningMode='assisted';state.options.tier='budget';}}
   }else{const evidence=await api('import-report',{raw:JSON.stringify(report),name:'Private hosted run'});setEvidence(evidence);state.nav='evidence';}
   if(report.protocol!=='catalog-advisor-report/1')shell();
@@ -181,7 +190,7 @@ async function action(name){
  if(boot.hosted&&name==='hosted-history'){await openHosted();return;}
  if(boot.hosted&&name==='hosted-evaluation'){if(!state.frozen)throw Error('Save a plan first');await openHosted(state.frozen);return;}
  if(boot.hosted&&name==='hosted-original'){if(!state.originalFrozen)throw Error('Save an original suite first');await openHosted(state.originalFrozen);return;}
- if(boot.hosted&&name==='setup-review'){if(!state.setupFrozen||state.setupInputStamp!==draftStamp(state.policy,state.application))throw Error('Prepare advice for the current draft first');await openHosted(state.setupFrozen);return;}
+ if(boot.hosted&&name==='setup-review'){if(!state.setupFrozen||state.setupRequestStamp!==draftStamp(state.policy,state.application))throw Error('Prepare advice for the current draft first');await openHosted(state.setupFrozen);return;}
  if(boot.hosted&&name==='review-advisor'){if(!state.advisorFrozen)throw Error('Prepare coverage advice first');await openHosted(state.advisorFrozen);return;}
 
  if(name==='guided-review-rules'){await api('selection/validate-context',{application:state.application});state.journey.description=appStamp(state.application);saveJourney();state.nav='policy';shell();return;}
@@ -189,13 +198,13 @@ async function action(name){
  if(name==='guided-save-plan'){await action('prepare');if(state.frozen){state.nav='review';shell();}return;}
  if(name==='setup-import'){document.getElementById('setup-file').click();return;}
  if(name==='setup-prepare'){
-  const stamp=draftStamp(state.policy,state.application);state.error=null;toast('Preparing one setup request locally. Nothing sent.');const frozen=await api('setup/prepare',{policy:state.policy,application:state.application});if(stamp!==draftStamp(state.policy,state.application))return;state.setupFrozen=frozen;state.setupInputStamp=stamp;renderPage();return;
+  const stamp=draftStamp(state.policy,state.application);state.error=null;toast('Preparing one setup request locally. Nothing sent.');const frozen=await api('setup/prepare',{policy:state.policy,application:state.application});if(stamp!==draftStamp(state.policy,state.application))return;state.setupFrozen=frozen;state.setupRequestStamp=stamp;renderPage();return;
  }
  if(name==='setup-request'){if(!state.setupFrozen)throw Error('Prepare a setup request first');const m=state.setupFrozen.manifest,wire=await api('setup/request',{planHash:m.planHash});
   document.getElementById('detail-content').innerHTML=`<header class="modal-head"><h2>Setup data disclosure</h2>${button('Close','close-modal')}</header><div class="modal-body"><p>These exact policy/application values and the listed predefined question options will be sent to TypeSafe only after separate paid confirmation. No test gold or credentials appear here.</p>${code(wire.request)}<p class="fine">Complete serialized request saved beside the manifest in requests/.</p></div>`;document.getElementById('detail').showModal();return;
  }
  if(name==='setup-review'){
-  if(!state.setupFrozen||state.setupInputStamp!==draftStamp(state.policy,state.application))throw Error('Prepare setup advice for the current draft first');state.connection=await api('connection');if(!state.connection.connected){state.nav='connection';shell();toast('Load a key locally, then return to Start here to review the saved request.');return;}
+  if(!state.setupFrozen||state.setupRequestStamp!==draftStamp(state.policy,state.application))throw Error('Prepare setup advice for the current draft first');state.connection=await api('connection');if(!state.connection.connected){state.nav='connection';shell();toast('Load a key locally, then return to Start here to review the saved request.');return;}
   const q=await api('connection/authorize',{planHash:state.setupFrozen.planHash});state.setupPaidReview={...q,inputStamp:draftStamp(state.policy,state.application)};
   document.getElementById('detail-content').innerHTML=`<header class="modal-head"><div><div class="eyebrow">Explicit paid request</div><h2>Ask Jev for setup suggestions?</h2></div>${button('Cancel','setup-cancel')}</header><div class="modal-body"><div class="note warn">${esc(q.dataDisclosure)}</div><div class="metric-row"><span>Destination / model</span><strong>${esc(q.endpoint)} · ${esc(q.model)}</strong></div><div class="metric-row"><span>Maximum requests</span><strong>${q.requests}</strong></div><div class="metric-row"><span>Forecast / conservative allowance</span><strong>${money(q.forecastUsd)} / ${money(q.reservationUsd)}</strong></div><div class="metric-row"><span>Setup request spending limit</span><strong>${money(q.maxUsd)}</strong></div><div class="metric-row"><span>Available local account allowance</span><strong>${money(q.account.availableUsd)}</strong></div><p>Suggestions are predefined choices. They start unselected and cannot change spending or grant privileges. This model call is unmeasured for usefulness in this release.</p><p class="fine">No automatic retries. Cancel sends nothing. An already dispatched request may remain billable.</p><p class="hash">${q.planHash}</p><div class="actions">${button('Confirm paid setup request','setup-confirm','primary')}${button('Cancel — send nothing','setup-cancel')}</div></div>`;document.getElementById('detail').showModal();return;
  }
@@ -207,6 +216,7 @@ async function action(name){
  if(name==='setup-stop'){if(state.setupRun?.id)await api('connection/stop',{id:state.setupRun.id});toast('No later request will start; the in-flight request may finish.');return;}
  if(name==='setup-export'){if(!state.setupReport)throw Error('No setup advice to export');download('setup-advice.report.json',state.setupReport);return;}
  if(name==='setup-apply'){
+  if(!isSetupCurrent(state))throw Error('These suggestions belong to an earlier draft. Generate new suggestions before applying changes.');
   const stamp=draftStamp(state.policy,state.application);const tx=await api('setup/apply',{raw:JSON.stringify(state.setupReport),policy:state.policy,application:state.application,selected:state.setupPicks});if(stamp!==draftStamp(state.policy,state.application))throw Error('Draft changed during review; no suggestions applied');invalidateDraft();state.policy=tx.after.policy;state.application=tx.after.application;state.setupTransaction=tx;state.setupSummary=null;save();saveApplication();renderPage();toast('Only your selected changes were applied. Review the rules or undo.');return;
  }
  if(name==='setup-undo'){const stamp=draftStamp(state.policy,state.application);const before=await api('setup/undo',{policy:state.policy,application:state.application,transaction:state.setupTransaction});if(stamp!==draftStamp(state.policy,state.application))throw Error('Draft changed during undo');invalidateDraft();state.policy=before.policy;state.application=before.application;save();saveApplication();renderPage();toast('Selected setup changes undone.');return;}
@@ -294,10 +304,10 @@ document.addEventListener('click',async e=>{const t=e.target.closest('[data-acti
  }catch(err){showError(err);toast(err.message);}
  finally{if(pending){t.disabled=false;t.removeAttribute('aria-busy');}}
 });
-document.addEventListener('input',e=>{const t=e.target;if(t.dataset.start){invalidateDraft();state.application[t.dataset.start]=t.value;saveApplication();const caption=document.querySelector('.journey-caption');if(caption)caption.textContent='Application edited · review the rules again before running.';}});
+document.addEventListener('input',e=>{const t=e.target;if(t.dataset.start){invalidateDraft();state.application[t.dataset.start]=t.value;saveApplication();refreshSetupFollowup();const caption=document.querySelector('.journey-caption');if(caption)caption.textContent='Application edited · review the rules again before running.';}});
 document.addEventListener('change',async e=>{const t=e.target;try{
  if(t.dataset.start){return;}
- if(t.dataset.setupPick){state.setupPicks=state.setupPicks.filter(x=>x!==t.dataset.setupPick);if(t.checked)state.setupPicks.push(t.dataset.setupPick);const btn=document.querySelector('[data-action="setup-apply"]');if(btn){btn.disabled=!state.setupPicks.length;btn.textContent='Apply '+state.setupPicks.length+' selected changes';}return;}
+ if(t.dataset.setupPick){if(!isSetupCurrent(state)){refreshSetupFollowup();return;}state.setupPicks=state.setupPicks.filter(x=>x!==t.dataset.setupPick);if(t.checked)state.setupPicks.push(t.dataset.setupPick);const btn=document.querySelector('[data-action="setup-apply"]');if(btn){btn.disabled=!state.setupPicks.length;btn.textContent='Apply '+state.setupPicks.length+' selected changes';}return;}
  if(t.id==='setup-file'&&t.files[0]){if(t.files[0].size>2*1024*1024)throw Error('Setup report exceeds 2 MiB');await importSetup(await t.files[0].text());state.nav='start';shell();t.value='';return;}
  if(t.dataset.connection){const k=t.dataset.connection;state.connectionDraft[k]=t.type==='checkbox'?t.checked:k==='accountLimitUsd'?Number(t.value):t.value;
   if(k==='accountKind')state.connectionDraft.directory=t.value==='project'?boot.connectionDefaults.defaultProject:boot.connectionDefaults.defaultAccount;

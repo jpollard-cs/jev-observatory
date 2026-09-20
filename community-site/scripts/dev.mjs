@@ -19,7 +19,7 @@ if (mocked) {
     return Response.json(
       mockProvider(
         JSON.parse(options.body),
-        process.argv.includes('--mock-spanish-only') ? { languages: 'spanish' } : {},
+        process.argv.includes('--mock-spanish-only') ? { languages: 'spanish' } : process.argv.includes('--mock-english-only') ? { languages: 'english' } : {},
       ),
     );
   };

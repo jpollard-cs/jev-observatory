@@ -1,7 +1,17 @@
 // Inline execution adapter. Credentials remain in the separate tab-session port.
 // Never put them in app state, storage, URLs, messages, reports or error text.
-import { credentialSession, hostedRunContainer, showHostedConnection } from './hosted-session.js';
-export { mountHostedAssistant, showHostedConnection } from './hosted-session.js';
+import {
+  credentialSession,
+  hostedRunContainer,
+  showHostedConnection,
+  mountHostedAssistant as mountSession,
+} from './hosted-session.js';
+export { showHostedConnection } from './hosted-session.js';
+export function mountHostedAssistant(anchor) {
+  const host = mountSession(anchor);
+  activeView?.refresh?.();
+  return host;
+}
 let activeView = null;
 import { canReviewAdvice, failureDescription } from './hosted-evidence.js';
 const usd = (n) => '$' + Number(n ?? 0).toFixed(5);
@@ -44,6 +54,7 @@ export async function hostedRun({
   onReport = async () => {},
   isCurrent = () => true,
   onNext = null,
+  isAdviceInline = () => false,
   nextLabel = 'Continue',
 } = {}) {
   if (activeView?.busy()) {
@@ -65,6 +76,17 @@ export async function hostedRun({
     loading = true,
     stop = false;
   const imported = new Set();
+  let adviceNote = null,
+    adviceNext = null,
+    adviceMode = null;
+  const refreshAdviceLocation = () => {
+    const inline = adviceMode === 'setup' && isAdviceInline();
+    if (adviceNext) adviceNext.hidden = inline;
+    if (adviceNote && adviceMode === 'setup')
+      adviceNote.textContent = inline
+        ? 'Proposed changes are shown below. Only the changes you select and apply become part of your policy.'
+        : 'Policy suggestions are ready. Open them to review and apply selected changes.';
+  };
   const unsubscribe = credentialSession.subscribe((state) => {
     if (!state.ready) stop = true;
   });
@@ -73,7 +95,7 @@ export async function hostedRun({
     dialog.remove();
   };
   const focus = () => dialog.scrollIntoView({ block: 'nearest', behavior: 'instant' });
-  activeView = { busy: () => busy || loading, focus, dispose };
+  activeView = { busy: () => busy || loading, focus, dispose, refresh: refreshAdviceLocation };
   const forget = () => {
     credentialSession.forget();
     stop = true;
@@ -225,19 +247,16 @@ export async function hostedRun({
           }
           title.textContent =
             full.report.mode === 'setup'
-              ? 'Policy suggestions are ready to review.'
+              ? 'Policy suggestion request complete.'
               : 'Your suggested suite is ready.';
-          body.append(
-            el(
-              'p',
-              full.report.mode === 'setup'
-                ? 'Review the proposed settings next. Your current policy has not changed.'
-                : 'Review the proposed tests, cost and coverage gaps next. No evaluation has started.',
-            ),
+          adviceMode = full.report.mode;
+          adviceNote = el(
+            'p',
+            'Review the proposed tests, cost and coverage gaps next. No evaluation has started.',
           );
-          if (onNext)
-            body.append(
-              button(
+          body.append(adviceNote);
+          adviceNext = onNext
+            ? button(
                 nextLabel,
                 safe(async () => {
                   dispose();
@@ -245,8 +264,10 @@ export async function hostedRun({
                   await onNext();
                 }),
                 'btn primary',
-              ),
-            );
+              )
+            : null;
+          if (adviceNext) body.append(adviceNext);
+          refreshAdviceLocation();
         } catch (error) {
           alert.textContent = error.message + ' The saved report remains available for inspection.';
           alert.hidden = false;
