@@ -27,7 +27,7 @@ globalThis.fetch = async (url) => {
 };
 test('landing explains the workflow while workspace and community remain accessible', async () => {
   const landing = await worker.fetch(new Request('https://site.test/'), {}, {});
-  assert.match(await landing.text(), /Where does data/);
+  assert.match(await landing.text(), /Define your AI’s rules/);
   const home = await worker.fetch(new Request('https://site.test/workspace'), {}, {});
   assert.match(new TextDecoder().decode(await body(home)), /workspace\/app.js/);
   assert.match(home.headers.get('content-security-policy'), /worker-src 'self'/);
