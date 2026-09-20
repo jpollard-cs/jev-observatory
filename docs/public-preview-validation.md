@@ -25,3 +25,9 @@ Anonymous HTTP checks, without cookies, credentials or a Sites bypass token, con
 - Workspace content includes its Content Security Policy.
 
 These checks sent no provider calls, uploaded no contributions and exposed no private reports. The temporary mock browser tab, server and its storage were removed. A repository-wide license is still awaiting selection; public availability alone grants no additional license.
+
+## Anonymous access recheck
+
+After the language-review release, cookie-free production requests confirmed public HTTP 200 for the landing page, workspace, community, catalog and public result list. Both session endpoints reported signed out with no account or private runs. Private-only listings and execution detail returned HTTP 401. The community list was empty; publishing the site does not automatically publish private contributions.
+
+The neutral domain's archived research route exposed a separate-storage issue: its historical Data HTML assets remain in the original site's bucket. Read-only archive links now redirect to that original public origin, preserving only the view and tab query parameters. The workspace and community remain on the neutral domain; no stored evidence was copied or made public.

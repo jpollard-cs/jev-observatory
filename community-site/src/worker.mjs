@@ -28,6 +28,19 @@ export default {
     if (!['GET', 'HEAD', 'OPTIONS'].includes(request.method) && !sameOriginWrite(request))
       return json({ error: 'invalid_origin', message: 'Cross-site writes are not allowed.' }, 403);
     if (url.pathname === '/observatory' || (url.pathname === '/' && url.searchParams.has('tab'))) {
+      // The renamed site has its own storage. Historical Data assets stay at their original origin.
+      if (
+        url.origin === 'https://redteam-observatory.wizard.chatgpt.site' &&
+        ['GET', 'HEAD'].includes(request.method)
+      ) {
+        const archive = new URL('https://jev-redteam-observatory.wizard.chatgpt.site/observatory');
+        for (const key of ['view', 'tab'])
+          if (url.searchParams.has(key)) archive.searchParams.set(key, url.searchParams.get(key));
+        return new Response(null, {
+          status: 302,
+          headers: { ...securityHeaders, Location: archive.href, 'Cache-Control': 'no-store' },
+        });
+      }
       url.pathname = '/';
       return protectLegacyResponse(await legacy.fetch(new Request(url, request), env, context));
     }
