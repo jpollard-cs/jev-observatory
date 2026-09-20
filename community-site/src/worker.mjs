@@ -50,8 +50,28 @@ export function createWorker({
         try {
           const status = { protocol: 'observatory-signing-status/1', status: 'ready' };
           return json({ ...status, receipt: await receipts.sign('service-status', status) });
-        } catch {
-          return json({ error: 'receipt_signing_unavailable' }, 503);
+        } catch (cause) {
+          const known = {
+            'Receipt signing is not configured': 'signing_secret_missing',
+            'Unknown or revoked signing key': 'signing_key_untrusted',
+            'Signing key does not match trust registry': 'signing_key_mismatch',
+            'Signing key pair mismatch': 'signing_key_mismatch',
+            'Receipt issuer or validity interval mismatch': 'signing_time_invalid',
+            'Unsupported receipt': 'signing_metadata_invalid',
+          };
+          const kinds = {
+            SyntaxError: 'signing_config_invalid',
+            DataError: 'signing_key_invalid',
+            NotSupportedError: 'signing_algorithm_unavailable',
+          };
+          // Whitelisted diagnostics only; never return an exception message or key.
+          return json(
+            {
+              error: 'receipt_signing_unavailable',
+              reason: known[cause.message] ?? kinds[cause.name] ?? 'signing_failed',
+            },
+            503,
+          );
         }
       }
       if (!['GET', 'HEAD', 'OPTIONS'].includes(request.method) && !sameOriginWrite(request))
