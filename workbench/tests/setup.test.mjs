@@ -93,3 +93,51 @@ test('setup HTTP routes use exact origin and CSRF, never open an arbitrary execu
  const report=await simulatedReport(p,a);assert.equal((await post('selection/import',{raw:JSON.stringify(report),policy:p,application:a})).status,400);const imported=await(await post('setup/import',{raw:JSON.stringify(report),policy:p,application:a})).json();assert.ok(imported.summary.suggestions.length);assert.equal((await post('setup/apply',{raw:JSON.stringify(report),policy:p,application:a,selected:['maxUsd']})).status,400);
  const tx=await(await post('setup/apply',{raw:JSON.stringify(report),policy:p,application:a,selected:['languages']})).json();assert.deepEqual(tx.after.policy.languages.allowed,['en','es']);
 });
+
+test('unspecified languages retain the exact current rule as an explicit default',async()=>{
+ for(const languages of [{mode:'allowlist',allowed:['en'],scope:'natural_language_content'},{mode:'allowlist',allowed:['es'],scope:'controlling_instructions'},{mode:'any',allowed:[],scope:'natural_language_content'}]){
+  const p={...policy(),languages},a=app(p),report=await simulatedReport(p,a,{languages:'not_specified',language_scope:'not_specified'}),s=adviceSummary(report);
+  assert.deepEqual(p.languages,languages);assert.ok(s.notes.filter(n=>['languages','language_scope'].includes(n.field)).every(n=>n.disposition==='default_retained'));
+  assert.equal(setupLanguageReview({policy:p,application:a,setupSummary:s,setupInputStamp:draftStamp(p,a)}),null);
+  const tx=applySetupSummary(p,a,s,[],{mode:'keep_current'});
+  assert.deepEqual(tx.after.policy.languages,languages);assert.equal(tx.ownerLanguageDecision.source,'owner');
+ }
+});
+test('owner language choice preserves unrelated selected advice, its raw report and undo',async()=>{
+ const p=policy(),a=app(p),report=await simulatedReport(p,a,{task:'billing-support',languages:'not_specified',language_scope:'insufficient_evidence',surface_tool_results:'present'}),before=sha(report),s=adviceSummary(report);
+ const tx=applySetupSummary(p,a,s,['task','surface_tool_results'],{mode:'allowlist',allowed:['es']});
+ assert.deepEqual(tx.after.policy.languages.allowed,['es']);assert.equal(tx.after.policy.task.id,'billing-support');assert.ok(tx.after.application.surfaces.includes('tool_results'));
+ assert.equal(sha(report),before);assert.equal(tx.adviceReportHash,report.reportHash);assert.deepEqual(tx.ownerLanguageDecision.resolvedFields,['languages']);
+ assert.ok(tx.unresolvedNotes.some(n=>n.field==='language_scope'));assert.ok(!tx.unresolvedNotes.some(n=>n.field==='languages'));
+ assert.deepEqual(undoSetupTransaction(tx.after.policy,tx.after.application,tx),{policy:p,application:a});
+ const any=applySetupSummary(p,a,s,[],{mode:'any'});assert.equal(any.after.policy.languages.mode,'any');assert.deepEqual(any.after.policy.languages.allowed,[]);
+});
+test('owner choices cannot introduce unoffered languages or unrelated edits and never bypass stale advice',async()=>{
+ const p=policy(),a=app(p),s=adviceSummary(await simulatedReport(p,a));
+ for(const choice of [{mode:'allowlist',allowed:[]},{mode:'allowlist',allowed:['invented']},{mode:'any',maxUsd:3},{mode:'keep_current',allowed:['es']},{mode:'bad'}])assert.throws(()=>applySetupSummary(p,a,s,[],choice));
+ assert.throws(()=>applySetupSummary(p,a,s,['languages'],{mode:'any'}),/either/);
+ assert.throws(()=>applySetupSummary({...p,name:'changed'},a,s,[],{mode:'any'}),/stale/);
+ assert.throws(()=>applySetupSummary(p,a,s,[]),/at least one/);
+});
+
+test('low-confidence not-specified stays under review rather than being asserted as a default',async()=>{
+ const p=policy(),a=app(p),r=await simulatedReport(p,a,{languages:'not_specified'}),row=r.rows[0],answer=row.evidence.response.answers.languages;
+ answer.confidence=.52;for(const k of Object.keys(answer.probabilities))answer.probabilities[k]=k==='not_specified'?.52:k==='insufficient_evidence'?.48:0;
+ row.evidenceHash=sha(row.evidence);row.rawHash=sha(JSON.stringify(row.evidence)+'\n');const {reportHash,...content}=r;r.reportHash=sha(content);
+ const summary=adviceSummary(r),note=summary.notes.find(n=>n.field==='languages');assert.equal(note.disposition,'review');
+ assert.equal(setupLanguageReview({policy:p,application:a,setupSummary:summary,setupInputStamp:draftStamp(p,a)}),'manual');
+});
+
+// Reply-language requirements must never silently broaden admitted source material.
+test('output-only language advice retains input languages and scope, including conflicting answers',async()=>{
+ const p=policy(),a=app(p);p.languages.allowed=['es'];
+ for(const select of [{languages:'output_language_only',language_scope:'output_language_only'},{languages:'output_language_only',language_scope:'controlling_instructions'},{languages:'english',language_scope:'output_language_only'}]){
+  const summary=adviceSummary(await simulatedReport(p,a,select));
+  assert.equal(summary.suggestions.filter(s=>['languages','language_scope'].includes(s.id)).length,0);
+  assert.equal(summary.notes.filter(n=>n.disposition==='review'&&/generated replies/.test(n.text)).length,1);
+  const tx=applySetupSummary(p,a,summary,[],{mode:'keep_current'});
+  assert.deepEqual(tx.after.policy.languages,p.languages);
+  assert.match(policySnapshot({...tx.after,setupTransaction:tx,setupInputStamp:draftStamp(p,a),setupSummary:null}),/does not enforce the language of generated replies/);
+  assert.ok(tx.unresolvedNotes.some(n=>n.field==='generated_reply_language'),'An owner input-language choice cannot resolve output behavior');
+ }
+});

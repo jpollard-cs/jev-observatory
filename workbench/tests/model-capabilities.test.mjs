@@ -51,9 +51,9 @@ test('the paid request and frozen provenance bind the target’s language vocabu
  const p=preset(),a=defaultApplication(p),prepared=makeAdvisorPlan(p,a,{mode:'setup',maxUsd:.01});
  assert.deepEqual(prepared.jobs[0].request.state.targetLanguageCapabilities,languageOptionsForModel(p.model));
  assert.ok(prepared.manifest.sourceFiles['src/model-capabilities.mjs']);
- assert.equal(prepared.manifest.catalogSource,'reviewed-setup-options/3');
+ assert.equal(prepared.manifest.catalogSource,'reviewed-setup-options/4');
  assert.equal(verifyAdvisorPlan(prepared.manifest).manifest.planHash,prepared.manifest.planHash);
- assert.deepEqual(Object.keys(setupRequest(p,a).request.questions.languages.criteria).filter(k=>!['any_language','manual_review','keep_current','insufficient_evidence'].includes(k)),Object.keys(setupLanguageLists(p.model)));
+ assert.deepEqual(Object.keys(setupRequest(p,a).request.questions.languages.criteria).filter(k=>!['any_language','manual_review','keep_current','insufficient_evidence','not_specified','output_language_only'].includes(k)),Object.keys(setupLanguageLists(p.model)));
  assert.ok(prepared.jobs[0].wireBytes<50000);
  assert.equal(prepared.manifest.liveCalls,0);
 });

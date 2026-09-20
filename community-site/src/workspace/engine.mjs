@@ -257,7 +257,7 @@ export async function dispatch(route, input = {}) {
         : {},
     );
     if (name === 'setup/apply')
-      return applySetupSummary(input.policy, input.application, summary, input.selected);
+      return applySetupSummary(input.policy, input.application, summary, input.selected, input.languageChoice ?? null);
     advice.set(report.reportHash, report);
     return { report, summary, liveCalls: 0 };
   }

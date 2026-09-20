@@ -20,3 +20,5 @@ html[data-galaxy=on] .journey,html[data-galaxy=on] .policy-snapshot{background:r
 
 /* The description, proposal and applied policy form one reading path. */
 .setup-flow{display:grid;grid-template-columns:minmax(0,1fr);gap:24px}.setup-flow textarea[data-start]{min-height:180px}.setup-flow #setup-followup{display:grid;gap:24px}.setup-flow #setup-suggestions{margin-top:0}.setup-flow .setup-current-policy{min-width:0}.setup-flow .diff-old small,.setup-flow .diff-new small{display:block;color:var(--muted);font-size:11px;letter-spacing:.04em;text-transform:uppercase;margin-bottom:8px}.setup-edit-note{margin-top:20px}.setup-flow .research-shortcuts{margin-top:0}
+
+.setup-language-choice{margin-top:24px;padding:24px;border:1px solid var(--border);border-radius:12px}.setup-language-choice .actions{gap:12px;flex-wrap:wrap}.setup-language-choice .check-grid{margin-top:20px}

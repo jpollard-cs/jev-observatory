@@ -76,7 +76,7 @@ export function startServer({port=8792,host='127.0.0.1',runtime=path.join(ROOT,'
      assert(typeof input.raw==='string'&&input.raw.length<2*1024*1024,'Setup report must be a JSON string under 2 MiB');
      const report=JSON.parse(input.raw),summary=adviceSummary(report,{policy:input.policy,application:input.application,mode:'setup'});
      if(route==='/api/setup/apply'){
-      const transaction=applySetupSummary(input.policy,input.application,summary,input.selected);
+      const transaction=applySetupSummary(input.policy,input.application,summary,input.selected,input.languageChoice??null);
       immutableJson(path.join(runtime,'setup-reviews',sha(transaction)+'.json'),transaction);send(res,200,transaction);return;
      }
      immutableJson(path.join(runtime,'setup-advice',report.reportHash+'.json'),report);send(res,200,{report,summary,liveCalls:0});return;

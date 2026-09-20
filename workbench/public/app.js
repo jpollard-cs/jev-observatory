@@ -3,7 +3,7 @@ import { rememberDisclosures, restoreDisclosures } from './disclosures.js';
 import { hostedRun, mountHostedAssistant, showHostedConnection } from './hosted.js';
 import {api,setToken} from './transport.js';
 import {guidedHome,guidedPolicy,guidedPlanner,workflowRail,runReview,setupFollowup,coverageScopeNotice} from './guided.js';
-import {draftStamp,appStamp,isSetupCurrent} from './workflow-model.js';
+import {draftStamp,setupReviewStamp,appStamp,isSetupCurrent} from './workflow-model.js';
 import {connectionPage,budgetNotice} from './connection-ui.js';
 import {libraryPage,originalAtlas,replayCommand,historicalEvidencePage,conditionJudgment} from './library.js';
 import {mountCosmos} from './cosmos.js';
@@ -11,7 +11,7 @@ import {defaultCondition,operationInfo,categoricalCounts,filterRows,rowIdentity,
 import {decisionDistribution,matrixMarkup,comparisonMarkup,orbitMarkup,mountOrbit,latencyMarkup} from './observatory.js';
 import {selectionPage,advisorCommand} from './selection-ui.js';
 import {esc,fmt,money,pretty,badge,val,stat,option,code,check,button,download,toast,answerDisplay} from './ui.js';
-const state={journey:{},setupFrozen:null,setupReport:null,setupSummary:null,setupInputStamp:null,setupRequestStamp:null,setupPicks:[],setupTransaction:null,setupRun:null,setupPaidReview:null,setupRevision:0,connection:null,connectionDraft:null,paidReview:null,advisorRun:null,originalOptions:null,originalPlan:null,originalFrozen:null,originalPage:0,atlasScope:'condition',historyField:null,application:null,advisorFrozen:null,adviceReport:null,adviceSummary:null,tagSummary:null,planningMode:'assisted',nav:'start',menuOpen:false,galaxy:true,group:'',expectedDecision:'',matrix:null,panel:'',repeat:'',excludeDisputed:false,page:0,reports:new Map(),policy:null,plan:null,frozen:null,compiled:null,previewTab:'policy',previewCase:'mixed-authorized',condition:'contextual_criteria',filter:'all',search:'',reportTab:'results',contextId:'receiving-dossier-clean',caseCache:new Map(),options:{tier:'bronze',maxUsd:.15,maxInputTokens:null,layouts:['question','criteria'],seed:'workbench-1',includeContext:true,repeat:1},error:null,busy:false};
+const state={journey:{},setupFrozen:null,setupReport:null,setupSummary:null,setupInputStamp:null,setupRequestStamp:null,setupPicks:[],setupLanguageChoice:null,setupLanguageExpanded:false,setupTransaction:null,setupRun:null,setupPaidReview:null,setupRevision:0,connection:null,connectionDraft:null,paidReview:null,advisorRun:null,originalOptions:null,originalPlan:null,originalFrozen:null,originalPage:0,atlasScope:'condition',historyField:null,application:null,advisorFrozen:null,adviceReport:null,adviceSummary:null,tagSummary:null,planningMode:'assisted',nav:'start',menuOpen:false,galaxy:true,group:'',expectedDecision:'',matrix:null,panel:'',repeat:'',excludeDisputed:false,page:0,reports:new Map(),policy:null,plan:null,frozen:null,compiled:null,previewTab:'policy',previewCase:'mixed-authorized',condition:'contextual_criteria',filter:'all',search:'',reportTab:'results',contextId:'receiving-dossier-clean',caseCache:new Map(),options:{tier:'bronze',maxUsd:.15,maxInputTokens:null,layouts:['question','criteria'],seed:'workbench-1',includeContext:true,repeat:1},error:null,busy:false};
 let originalEpoch=0;
 const disclosurePages=new Map();let renderedPage=null;
 function rememberPage(){if(renderedPage)disclosurePages.set(renderedPage,rememberDisclosures(document.getElementById('content')));}
@@ -66,7 +66,7 @@ function refreshSetupFollowup(){
  const region=document.getElementById('setup-followup');if(!region)return;
  const restore=preserveView(document.getElementById('content')),disclosures=rememberDisclosures(region);
  region.querySelectorAll('[aria-describedby]').forEach(n=>document.getElementById(n.getAttribute('aria-describedby'))?.remove());
- region.innerHTML=setupFollowup(state);restoreDisclosures(region,disclosures);attachHelp(region);restore();
+ region.innerHTML=setupFollowup(state,boot);restoreDisclosures(region,disclosures);attachHelp(region);restore();
 }
 
 function plannedAtlas(){return {id:'selected-policy-tests',title:'Selected policy tests · not run',rows:state.plan.jobs.map(j=>({...j,rowKey:j.id,group:j.group,isCatalog:true,valid:false,status:'not_run',answers:{},expected:{selection:'selected'},repeat:j.repeat??1}))};}
@@ -151,8 +151,8 @@ async function pollAdvisor(id){
  }catch(e){state.advisorRun={...state.advisorRun,status:'poll_failed',error:e.message};showError(e);toast('Status check failed. No request was retried. Reload the connection status before taking another action.');}
 }
 function saveJourney(){try{localStorage.setItem('jev-workbench-journey-v1',pretty(state.journey));}catch{}}
-function invalidateDraft(){delete state.options.coverageScope;state.setupRevision++;state.setupPicks=[];state.setupFrozen=null;state.setupRequestStamp=null;state.setupTransaction=null;state.adviceReport=null;state.adviceSummary=null;state.advisorFrozen=null;state.plan=null;state.frozen=null;state.compiled=null;}
-async function importSetup(report){const stamp=draftStamp(state.policy,state.application);const d=await api('setup/import',{raw:typeof report==='string'?report:JSON.stringify(report),policy:state.policy,application:state.application});if(stamp!==draftStamp(state.policy,state.application))throw Error('Draft changed while importing setup advice');state.setupReport=d.report;state.setupSummary=d.summary;state.setupInputStamp=stamp;state.setupPicks=[];state.setupTransaction=null;}
+function invalidateDraft(){delete state.options.coverageScope;state.setupRevision++;state.setupPicks=[];state.setupLanguageChoice=null;state.setupLanguageExpanded=false;state.setupFrozen=null;state.setupRequestStamp=null;state.setupTransaction=null;state.adviceReport=null;state.adviceSummary=null;state.advisorFrozen=null;state.plan=null;state.frozen=null;state.compiled=null;}
+async function importSetup(report){const stamp=draftStamp(state.policy,state.application);const d=await api('setup/import',{raw:typeof report==='string'?report:JSON.stringify(report),policy:state.policy,application:state.application});if(stamp!==draftStamp(state.policy,state.application))throw Error('Draft changed while importing setup advice');state.setupReport=d.report;state.setupSummary=d.summary;state.setupInputStamp=stamp;state.setupPicks=[];state.setupLanguageChoice=null;state.setupLanguageExpanded=false;state.setupTransaction=null;}
 async function pollSetup(id){
  try{for(;;){const run=await api('connection/run?id='+encodeURIComponent(id));state.setupRun=run;if(run.status!=='running'){
    state.connection=await api('connection');if(run.report&&['complete','partial'].includes(run.report.status)){await importSetup(run.report);}
@@ -219,9 +219,17 @@ async function action(name){
  }
  if(name==='setup-stop'){if(state.setupRun?.id)await api('connection/stop',{id:state.setupRun.id});toast('No later request will start; the in-flight request may finish.');return;}
  if(name==='setup-export'){if(!state.setupReport)throw Error('No setup advice to export');download('setup-advice.report.json',state.setupReport);return;}
+ if(name.startsWith('setup-language-')){
+  if(!isSetupCurrent(state))throw Error('The draft changed; request fresh advice or edit the rules directly.');
+  const choice=name.slice('setup-language-'.length);
+  if(choice==='choose'){state.setupLanguageExpanded=!state.setupLanguageExpanded;refreshSetupFollowup();return;}
+  if(choice==='clear')state.setupLanguageChoice=null;
+  else{state.setupLanguageChoice=choice==='keep'?{mode:'keep_current'}:choice==='any'?{mode:'any'}:{mode:'allowlist',allowed:['en']};state.setupPicks=state.setupPicks.filter(x=>x!=='languages');}
+  refreshSetupFollowup();return;
+ }
  if(name==='setup-apply'){
   if(!isSetupCurrent(state))throw Error('These suggestions belong to an earlier draft. Generate new suggestions before applying changes.');
-  const stamp=draftStamp(state.policy,state.application);const tx=await api('setup/apply',{raw:JSON.stringify(state.setupReport),policy:state.policy,application:state.application,selected:state.setupPicks});if(stamp!==draftStamp(state.policy,state.application))throw Error('Draft changed during review; no suggestions applied');invalidateDraft();state.policy=tx.after.policy;state.application=tx.after.application;state.setupTransaction=tx;state.setupSummary=null;save();saveApplication();renderPage();toast('Only your selected changes were applied. Review the rules or undo.');return;
+  const stamp=setupReviewStamp(state);const tx=await api('setup/apply',{raw:JSON.stringify(state.setupReport),policy:state.policy,application:state.application,selected:state.setupPicks,languageChoice:state.setupLanguageChoice});if(stamp!==setupReviewStamp(state))throw Error('Your review changed while applying. No settings were changed; review the current choices and apply again');invalidateDraft();state.policy=tx.after.policy;state.application=tx.after.application;state.setupTransaction=tx;state.setupSummary=null;save();saveApplication();renderPage();toast('Only your selected changes were applied. Review the rules or undo.');return;
  }
  if(name==='setup-undo'){const stamp=draftStamp(state.policy,state.application);const before=await api('setup/undo',{policy:state.policy,application:state.application,transaction:state.setupTransaction});if(stamp!==draftStamp(state.policy,state.application))throw Error('Draft changed during undo');invalidateDraft();state.policy=before.policy;state.application=before.application;save();saveApplication();renderPage();toast('Selected setup changes undone.');return;}
 
@@ -311,7 +319,16 @@ document.addEventListener('click',async e=>{const t=e.target.closest('[data-acti
 document.addEventListener('input',e=>{const t=e.target;if(t.dataset.start){invalidateDraft();state.application[t.dataset.start]=t.value;saveApplication();refreshSetupFollowup();const caption=document.querySelector('.journey-caption');if(caption)caption.textContent='Application edited · review the rules again before running.';}});
 document.addEventListener('change',async e=>{const t=e.target;try{
  if(t.dataset.start){return;}
- if(t.dataset.setupPick){if(!isSetupCurrent(state)){refreshSetupFollowup();return;}state.setupPicks=state.setupPicks.filter(x=>x!==t.dataset.setupPick);if(t.checked)state.setupPicks.push(t.dataset.setupPick);const btn=document.querySelector('[data-action="setup-apply"]');if(btn){btn.disabled=!state.setupPicks.length;btn.textContent='Apply '+state.setupPicks.length+' selected changes';}return;}
+ if(t.dataset.setupLanguage){
+  if(!isSetupCurrent(state))return;
+  const code=t.dataset.setupLanguage;
+  if(!boot.modelLanguages?.[state.policy.model]?.options.some(x=>x.code===code))throw Error('Language is not offered for this model');
+  const current=state.setupLanguageChoice?.mode==='allowlist'?state.setupLanguageChoice.allowed:state.policy.languages.allowed;
+  const allowed=t.checked?[...new Set([...current,code])]:current.filter(x=>x!==code);
+  if(!allowed.length){t.checked=true;toast('Keep at least one language, or choose Any language.');return;}
+  state.setupLanguageChoice={mode:'allowlist',allowed};state.setupPicks=state.setupPicks.filter(x=>x!=='languages');refreshSetupFollowup();return;
+ }
+ if(t.dataset.setupPick){if(!isSetupCurrent(state)){refreshSetupFollowup();return;}state.setupPicks=state.setupPicks.filter(x=>x!==t.dataset.setupPick);if(t.checked){state.setupPicks.push(t.dataset.setupPick);if(t.dataset.setupPick==='languages')state.setupLanguageChoice=null;}refreshSetupFollowup();return;}
  if(t.id==='setup-file'&&t.files[0]){if(t.files[0].size>2*1024*1024)throw Error('Setup report exceeds 2 MiB');await importSetup(await t.files[0].text());state.nav='start';shell();t.value='';return;}
  if(t.dataset.connection){const k=t.dataset.connection;state.connectionDraft[k]=t.type==='checkbox'?t.checked:k==='accountLimitUsd'?Number(t.value):t.value;
   if(k==='accountKind')state.connectionDraft.directory=t.value==='project'?boot.connectionDefaults.defaultProject:boot.connectionDefaults.defaultAccount;
