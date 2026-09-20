@@ -15,7 +15,7 @@
       "issuer": "https://jev-redteam-observatory.wizard.chatgpt.site",
       "algorithm": "Ed25519",
       "publicKey": "jj8yM8q87yckVE_7cPkvnbJ1BjnnQ2bzfpI4AV9RTjU",
-      "status": "active",
+      "status": "retired",
       "notBefore": "2026-09-20T00:00:00.000Z",
       "notAfter": "2027-09-20T00:00:00.000Z"
     }

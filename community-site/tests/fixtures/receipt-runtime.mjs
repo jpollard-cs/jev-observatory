@@ -3,6 +3,7 @@ export default {
   async test() {
     const pair = await crypto.subtle.generateKey('Ed25519', true, ['sign', 'verify']);
     const jwk = await crypto.subtle.exportKey('jwk', pair.privateKey);
+    jwk.alg = 'Ed25519'; // Node 24 exports the fully specified JOSE algorithm name.
     const trust = {
       protocol: 'observatory-trust/1',
       keys: [

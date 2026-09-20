@@ -84,7 +84,12 @@ export function receiptAuthority(
           key = trustedKey(trust, config.keyId);
         if (key.status !== 'active' || config.jwk?.x !== key.publicKey)
           throw Error('Signing key does not match trust registry');
-        const privateKey = await crypto.subtle.importKey('jwk', config.jwk, 'Ed25519', false, [
+        // Node 24 emits JOSE alg=Ed25519; Workers accepts EdDSA or no alg.
+        // Pin Ed25519 explicitly and omit only the optional, known algorithm hint.
+        const { alg, ...jwk } = config.jwk;
+        if (alg !== undefined && !['Ed25519', 'EdDSA'].includes(alg))
+          throw Error('Unsupported signing key algorithm');
+        const privateKey = await crypto.subtle.importKey('jwk', jwk, 'Ed25519', false, [
           'sign',
         ]);
         const publicKey = await crypto.subtle.importKey(
