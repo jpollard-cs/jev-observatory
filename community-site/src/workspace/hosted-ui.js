@@ -169,7 +169,7 @@ export async function hostedRun({
     actions.append(button('Open saved runs', safe(savedRuns)));
     return actions;
   }
-  async function finished(run) {
+  async function finished(run, { openResults = false } = {}) {
     busy = true;
     try {
       if (active && body === reviewBody) {
@@ -337,17 +337,23 @@ export async function hostedRun({
           alert.hidden = false;
         }
       } else if (!advice) {
-        body.append(
-          button(
-            'Inspect in workspace',
-            safe(async () => {
-              await onReport(full.report);
-              dispose();
-              activeView = null;
-            }),
-            'btn primary',
-          ),
-        );
+        const viewResults = async () => {
+          await onReport(full.report);
+          dispose();
+          activeView = null;
+        };
+        body.append(button('View results', safe(viewResults), 'btn primary'));
+        if (openResults) {
+          try {
+            await viewResults();
+            return;
+          } catch (error) {
+            alert.textContent =
+              error.message +
+              ' Your run is saved. Use View results to try opening it again; no model requests will be repeated.';
+            alert.hidden = false;
+          }
+        }
       }
       if (run.status === 'running' && run.inflight === null)
         body.append(
@@ -606,7 +612,7 @@ export async function hostedRun({
             run.status === 'complete'
               ? 'Complete. Review the results below.'
               : 'Stopped. Review the recorded status below.';
-          await finished(run);
+          await finished(run, { openResults: run.status === 'complete' });
         } catch (e) {
           stop = true;
           busy = false;
@@ -632,7 +638,7 @@ export async function hostedRun({
               fresh.status === 'stopped' ||
               fresh.inflight !== null
             ) {
-              await finished(fresh);
+              await finished(fresh, { openResults: fresh.status === 'complete' });
             } else {
               title.textContent = 'Run paused';
               progress.textContent = `${fresh.completed} / ${fresh.requests} recorded. Refresh saved status to review continuation.`;
@@ -872,11 +878,13 @@ export async function hostedRun({
         button(
           r.status === 'ready' || (r.status === 'running' && r.inflight === null)
             ? 'Review / continue'
-            : 'Inspect / export',
+            : r.status === 'complete'
+              ? 'View results'
+              : 'Inspect run',
           safe(async () =>
             r.status === 'ready' || (r.status === 'running' && r.inflight === null)
               ? review(r)
-              : finished(r),
+              : finished(r, { openResults: r.status === 'complete' }),
           ),
         ),
       );

@@ -2,6 +2,14 @@
 export const answerValue=x=>typeof x==='string'?x:x?.choice??null;
 export const expectation=(row,field)=>Object.hasOwn(row.expected??{},field)?row.expected[field]:null;
 export const rowIdentity=row=>row.rowKey??`${row.id}::${row.repeat??1}`;
+export function conditionPresentation(condition){
+ const layouts={question:['Examples grouped by question','Each question includes the examples for all of its possible answers.'],criteria:['Examples grouped by answer','Each answer choice includes the examples that illustrate that answer.']};
+ const layout=condition?.kind==='workbench'?layouts[condition.layout]:null;
+ if(!layout)return {title:condition?.title??condition?.id??'Recorded test variant',description:'This variant uses the policy and instructions saved with the run.'};
+ const suffix=' · '+condition.layout+'-local',title=condition.title??'';
+ const policy=title.endsWith(suffix)?title.slice(0,-suffix.length):title;
+ return {title:(policy?policy+' · ':'')+layout[0],description:layout[1]+' The examples are unchanged; only their placement differs.'};
+}
 export function defaultCondition(report,preferred){
  const cs=report?.conditions??[];
  return cs.find(c=>c.id===preferred)?.id??cs.find(c=>c.id==='contextual_criteria')?.id??cs.find(c=>c.id==='strict_criteria')?.id??cs.find(c=>c.id==='matrix:classification:policy:balanced:structured')?.id??cs.find(c=>c.policyId&&c.policyId!=='inspection')?.id??cs[0]?.id??null;
@@ -10,7 +18,7 @@ export function operationInfo(condition){
  if(condition?.kind==='original-matrix')return {kind:'original',name:'Original '+(condition.originalTask??'evaluation')+' contract',allowLabel:'Allow original operation',description:'Original policy/profile and question contract, not the current admission draft. Binary and score-only arms do not ask a policy decision. Unasked fields are ungraded.'};
  if(condition?.kind==='original-diagnostic')return {kind:'original',name:'Original diagnostic · '+(condition.originalTask??'question'),allowLabel:'Original task answer',description:'Candidate recognition, representation sensitivity and classification are separate question contracts. Unasked outcomes are not guessed.'};
  if(condition?.kind==='original-extension')return {kind:'original',name:'Original '+(condition.originalTask??'boundary')+' suite',allowLabel:'Allow original operation',description:'The native decision may be an integrity class, judge verdict, communication disposition, or authorization result. These distinct outcomes are not admission labels.'};
- if(condition?.policyId==='strict'||condition?.policyId==='contextual')return {kind:'admission',name:'Admission as task data',allowLabel:'Allow admission',description:'Allow permits the configured task-data admission only. It never grants instruction authority.'};
+ if(condition?.policyId==='strict'||condition?.policyId==='contextual')return {kind:'admission',name:'Can this input be used by your application?',allowLabel:'Use as input',description:'Allow means the input meets the saved policy for use as task data. Instructions hidden inside it are never granted authority.'};
  if(condition?.policyId==='inspection')return {kind:'inspection',name:'Isolated inspection',allowLabel:'Allow inspection',description:'These inputs are being inspected, not forwarded or obeyed. An attack can correctly have an expected operation decision of allow.'};
  return {kind:'historical',name:'Historical operation · row-specific',allowLabel:'Allow operation',description:'The frozen question evaluates its recorded operation, usually inspection; memory-use cases may instead require block. The draft in the policy editor does not relabel this run.'};
 }

@@ -1,7 +1,7 @@
 import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';
 import {importReport,normalizeExpected,matchedComparison} from '../src/report.mjs';
 import {loadEvidence,evidenceLibrary,evidenceSpecimen} from '../src/evidence-library.mjs';
-import {defaultCondition,categoricalCounts,filterRows,rowIdentity,mapNodes,confusion,operationInfo,expectation} from '../public/evidence-model.js';
+import {defaultCondition,conditionPresentation,categoricalCounts,filterRows,rowIdentity,mapNodes,confusion,operationInfo,expectation} from '../public/evidence-model.js';
 const latest=loadEvidence('consumer-admission-v1');
 const counts=rows=>Object.fromEntries(Object.entries(categoricalCounts(rows,'policy_decision')));
 for(const [id,expected] of [['inspection_question',{allow:64}],['inspection_criteria',{allow:64}],['strict_question',{allow:16,review:4,block:44}],['strict_criteria',{allow:16,review:4,block:44}],['contextual_question',{allow:26,review:6,block:32}],['contextual_criteria',{allow:26,review:6,block:32}],['rich_control',{allow:45,block:3}],['compact_both',{allow:45,block:3}]]){
@@ -9,7 +9,7 @@ for(const [id,expected] of [['inspection_question',{allow:64}],['inspection_crit
 }
 test('all 480 expected objects and model answers match original source row by row',()=>{const raw=JSON.parse(fs.readFileSync(new URL('../data/consumer-admission-v1.report.json',import.meta.url)));let n=0;for(const c of latest.conditions)for(let i=0;i<c.rows.length;i++){const x=raw.conditions[c.id].rows[i],r=c.rows[i];assert.deepEqual({...r.expected},x.expected);assert.deepEqual(r.answers,x.answers);assert.equal(r.plannedRequestHash,x.plannedRequestHash);n++;}assert.equal(n,480);});
 test('preferred saved condition wins; new import starts with contextual admission not first control',()=>{assert.equal(defaultCondition(latest),'contextual_criteria');assert.equal(defaultCondition(latest,'inspection_question'),'inspection_question');assert.equal(defaultCondition(latest,'removed_condition'),'contextual_criteria');});
-test('inspection scope is explicit and different from admission',()=>{assert.equal(operationInfo(latest.conditions.find(c=>c.id==='inspection_question')).allowLabel,'Allow inspection');assert.equal(operationInfo(latest.conditions.find(c=>c.id==='strict_question')).allowLabel,'Allow admission');assert.equal(operationInfo(latest.conditions[0]).kind,'historical');});
+test('inspection scope is explicit and different from admission',()=>{assert.equal(operationInfo(latest.conditions.find(c=>c.id==='inspection_question')).allowLabel,'Allow inspection');assert.equal(operationInfo(latest.conditions.find(c=>c.id==='strict_question')).allowLabel,'Use as input');assert.equal(operationInfo(latest.conditions[0]).kind,'historical');});
 test('unknown expected value is ungraded, never an allow fallback',()=>{const rows=[{id:'x',expected:{},valid:true,answers:{policy_decision:{choice:'allow'}}}];assert.equal(expectation(rows[0],'policy_decision'),null);assert.deepEqual(counts(rows),{unavailable:1});assert.equal(filterRows(rows,{expectedDecision:'allow'}).length,0);assert.equal(filterRows(rows,{filter:'native'}).length,0);assert.equal(confusion(rows,'policy_decision').cells.find(c=>c.expected==='unavailable'&&c.observed==='allow').count,1);});
 test('explicit protocol key aliases; conflicts rejected rather than silently choosing one',()=>{assert.deepEqual({...normalizeExpected({policyDecision:'block',inputContract:'violation'})},{policy_decision:'block',input_contract:'violation'});assert.throws(()=>normalizeExpected({policyDecision:'block',policy_decision:'allow'}),/Conflicting/);});
 test('every confusion-matrix cell maps exactly to its filter results',()=>{for(const c of latest.conditions)for(const field of ['classification','policy_decision']){const m=confusion(c.rows,field);assert.equal(m.cells.reduce((n,c)=>n+c.count,0),c.rows.length);for(const cell of m.cells)assert.equal(filterRows(c.rows,{matrix:{field,expected:cell.expected,observed:cell.observed}}).length,cell.count);}});
@@ -25,3 +25,16 @@ test('historical report view round trips rows, origins and original source ident
 test('archived specimen must match protocol, plan, condition, row ID and request hash',()=>{const c=latest.conditions.find(c=>c.id==='contextual_criteria'),row=c.rows.find(r=>r.caseId==='base64-override');const args={protocol:latest.protocol,planHash:latest.planHash,condition:c.id,id:row.id,caseId:row.caseId,requestHash:row.plannedRequestHash};assert.equal(evidenceSpecimen(args).available,true);for(const field of ['protocol','planHash','condition','id','caseId','requestHash'])assert.equal(evidenceSpecimen({...args,[field]:'wrong'}).available,false);});
 test('predeclared disputed-case filter only removes specified acrostic fixture',()=>{const r=loadEvidence('boundary-fewshot-v2'),c=r.conditions[0];const filtered=filterRows(c.rows,{excludeDisputed:true});assert.equal(c.rows.length-filtered.length,6);assert.ok(filtered.some(r=>r.caseId==='rich-acrostic-message:benign'));});
 test('release UI does not imply Observatory is a corporate byline',()=>{const text=fs.readFileSync(new URL('../public/app.js',import.meta.url),'utf8');assert.doesNotMatch(text,/by Observatory/);assert.match(text,/Jev policy workbench/);});
+
+
+test('plain-language variant names preserve recorded labels and other experiment types',()=>{
+ for(const [layout,placement] of [['question','question'],['criteria','answer']]){
+  const condition=Object.freeze({kind:'workbench',layout,title:`My policy · ${layout}-local`,id:layout});
+  const display=conditionPresentation(condition);
+  assert.equal(display.title,`My policy · Examples grouped by ${placement}`);
+  assert.match(display.description,/examples are unchanged/);
+  assert.equal(condition.title,`My policy · ${layout}-local`);
+ }
+ const historical={kind:'historical',layout:'criteria',title:'Published historical control'};
+ assert.equal(conditionPresentation(historical).title,historical.title);
+});
