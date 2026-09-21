@@ -112,7 +112,9 @@ export function executionService({
       heldNano: run.held_nano,
       observationHashes: await Promise.all(observations.map((o) => sha256(canonical(o)))),
     };
-    const key = run.object_key + '/completion';
+    // Each stopped/complete snapshot is immutable, including snapshots before resume.
+    const key =
+      run.object_key + '/completion' + (run.resume_count ? '/resume-' + run.resume_count : '');
     const stored = await blobs.get(key);
     if (stored) {
       const seal = JSON.parse(await new Response(stored.body).text());
@@ -332,7 +334,9 @@ export function executionService({
       const r = await repo.get(id, owner);
       if (!r) return error('not_found', 'Run not found.', 404);
       const p = await load(r);
-      const blocker = r.status === 'ready' ? await repo.blocker(owner, id) : null;
+      const blocker = ['ready', 'stopped'].includes(r.status)
+        ? await repo.blocker(owner, id)
+        : null;
       return ok({
         ...publicRun(r),
         startBlocker: blocker ? publicRun(blocker) : null,
@@ -343,6 +347,9 @@ export function executionService({
                 .map((run) => ({ id: run.id, heldNano: run.held_nano, updatedAt: run.updated_at }))
             : [],
         ...adapter.describe(p),
+        remainingRequests: p.jobs.length - r.next_index,
+        continuationReservationUsd:
+          p.jobs.slice(r.next_index).reduce((n, j) => n + adapter.reservation(j), 0) / 1e9,
         execution: p.execution ?? adapter.legacyIdentity,
         disclosure: adapter.disclosure,
         account: await account(owner),
@@ -499,6 +506,43 @@ export function executionService({
       await sealTerminal(finished);
       return ok(publicRun(finished));
     },
+    async resume(owner, id, input) {
+      const r = await repo.get(id, owner);
+      if (!r) return error('not_found', 'Run not found.', 404);
+      if (
+        input.confirmPaid !== true ||
+        input.planHash !== r.plan_hash ||
+        input.fromIndex !== r.next_index
+      )
+        return error(
+          'confirmation_required',
+          'Review the saved remaining requests before resuming.',
+          409,
+        );
+      if (r.status !== 'stopped' || r.inflight !== null || r.next_index >= r.requests)
+        return error(
+          'not_resumable',
+          'Only a stopped run with unsent requests and no unresolved in-flight batch can resume.',
+          409,
+        );
+      const p = await load(r);
+      const reserve = p.jobs.slice(r.next_index).reduce((n, j) => n + adapter.reservation(j), 0);
+      if (r.known_nano + r.held_nano + reserve > Math.floor(p.manifest.options.maxUsd * 1e9))
+        return error(
+          'insufficient_allowance',
+          'Remaining requests and prior charges exceed this run’s approved budget.',
+          409,
+        );
+      // Verify and seal all prior evidence before reopening; never overwrite or retry it.
+      await sealTerminal(r);
+      if (!(await repo.resume(id, owner, r.next_index, reserve, now())))
+        return error(
+          'resume_conflict',
+          'The run or available budget changed, or another plan is active. Refresh saved runs before continuing.',
+          409,
+        );
+      return ok(publicRun(await repo.get(id, owner)));
+    },
     async recover(owner, id) {
       const run = await repo.get(id, owner);
       if (!run) return error('not_found', 'Run not found.', 404);
@@ -515,7 +559,7 @@ export function executionService({
       if (observations.some((o) => !o))
         return error(
           'evidence_incomplete',
-          'Some dispatched responses were not saved. Nothing was resent and the spending hold is unchanged. If the request has ended, provider billing must be reconciled before new paid runs can start.',
+          'Some dispatched responses were not saved. Nothing was resent and the spending hold is unchanged. If the request has ended, this batch cannot resume. Its reserved charges remain; other runs can use the remaining allowance.',
           409,
         );
       const outcomes = observations.map((o, n) => {

@@ -52,7 +52,7 @@ export async function executionApi(
       return respond(await pending);
     }
     const match = route.match(
-      /^runs\/([a-f0-9-]{36})(?:\/(start|step|stop|recover|request|evidence))?$/,
+      /^runs\/([a-f0-9-]{36})(?:\/(start|resume|step|stop|recover|request|evidence))?$/,
     );
     if (!match) return json({ error: 'not_found' }, 404);
     const [, id, action] = match;
@@ -62,7 +62,7 @@ export async function executionApi(
       return respond(await service.request(owner, id, Number(url.searchParams.get('index'))));
     if (request.method === 'GET' && action === 'evidence')
       return respond(await service.contribution(owner, id));
-    if (body && ['start', 'step', 'stop', 'recover'].includes(action)) {
+    if (body && ['start', 'resume', 'step', 'stop', 'recover'].includes(action)) {
       const pending = service[action](owner, id, body);
       if (action === 'step') keepAlive(pending.catch(() => {}));
       return respond(await pending);

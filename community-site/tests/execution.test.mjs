@@ -1079,13 +1079,163 @@ test('new authorization preserves the stopped run’s signed evidence and comple
   await authority.verify('completion', seal.record, seal.receipt);
 });
 
-test('original browser options allow small sweeps with the catalog ceiling but reject oversized selected suites',()=>{
- const small=makeReplayPlan({preset:'families',maxUsd:1}).manifest;
- assert.equal(small.options.maxCalls,15184);
- const prepared=rebuild({route:'original/prepare',input:{options:small.options},planHash:small.planHash});
- assert.equal(prepared.jobs.length,36);
- assert.deepEqual(prepared.manifest,small);
- const large=makeReplayPlan({preset:'contexts',profiles:['permissive','balanced'],maxUsd:10}).manifest;
- assert.ok(large.jobs.length>480);
- assert.throws(()=>rebuild({route:'original/prepare',input:{options:large.options},planHash:large.planHash}),/1–480 requests/);
+test('original browser options allow small sweeps with the catalog ceiling but reject oversized selected suites', () => {
+  const small = makeReplayPlan({ preset: 'families', maxUsd: 1 }).manifest;
+  assert.equal(small.options.maxCalls, 15184);
+  const prepared = rebuild({
+    route: 'original/prepare',
+    input: { options: small.options },
+    planHash: small.planHash,
+  });
+  assert.equal(prepared.jobs.length, 36);
+  assert.deepEqual(prepared.manifest, small);
+  const large = makeReplayPlan({
+    preset: 'contexts',
+    profiles: ['permissive', 'balanced'],
+    maxUsd: 10,
+  }).manifest;
+  assert.ok(large.jobs.length > 480);
+  assert.throws(
+    () =>
+      rebuild({
+        route: 'original/prepare',
+        input: { options: large.options },
+        planHash: large.planHash,
+      }),
+    /1–480 requests/,
+  );
+});
+
+test('resume skips recorded failures and retains uncertain charges without duplicate authorization', async (t) => {
+  const sent = [];
+  const { service, repo, q } = await fixture(
+    t,
+    async (request) => {
+      sent.push(sha(JSON.stringify(request)));
+      return sent.length === 1
+        ? {
+            reportedProviderModel: 'jev-1.13.0',
+            response: { status: 'error', error: 'http_520', usage: null },
+          }
+        : mock(request);
+    },
+    batchSpec,
+  );
+  value(await service.start(owner, q.id, { planHash: q.planHash, confirmPaid: true }));
+  const stopped = value(await service.step(owner, q.id, { index: 0, count: 1, apiKey: key }));
+  assert.equal(stopped.status, 'stopped');
+  assert.equal(stopped.completed, 1);
+  assert.ok(stopped.heldUsd > 0);
+  assert.equal((await service.resume('another-owner', q.id, {})).error.code, 'not_found');
+  assert.equal(
+    (await service.resume(owner, q.id, { planHash: q.planHash, fromIndex: 0, confirmPaid: true }))
+      .error.code,
+    'confirmation_required',
+  );
+  const authorization = { planHash: q.planHash, fromIndex: 1, confirmPaid: true };
+  const attempts = await Promise.all([
+    service.resume(owner, q.id, authorization),
+    service.resume(owner, q.id, authorization),
+  ]);
+  assert.equal(attempts.filter((x) => x.tag === 'ok').length, 1);
+  const running = value(attempts.find((x) => x.tag === 'ok'));
+  assert.equal(running.completed, 1);
+  assert.equal(sent.length, 1);
+  const next = value(await service.step(owner, q.id, { index: 1, count: 1, apiKey: key }));
+  assert.equal(next.completed, 2);
+  assert.equal(new Set(sent).size, 2);
+  const again = value(await service.stop(owner, q.id));
+  assert.equal(again.heldUsd, stopped.heldUsd);
+  assert.equal(
+    (await repo.get(q.id, owner)).retained_uncertain_nano,
+    Math.round(stopped.heldUsd * 1e9),
+  );
+  const report = value(await service.detail(owner, q.id, true)).report;
+  assert.equal(report.conditions.question.rows[0].error, 'http_520');
+  assert.equal(report.conditions.question.rows[1].valid, true);
+});
+
+test('signed resume retains the original completion and seals the new snapshot separately', async (t) => {
+  const { repo, storage } = await fixture(t);
+  const { authority } = await testReceipts();
+  const service = executionService({
+    repo,
+    blobs: storage.blobs,
+    adapter: { ...jevExecutionAdapter, infer: async (r) => mock(r) },
+    receipts: authority,
+  });
+  const q = value(await service.prepare(owner, batchSpec));
+  value(await service.start(owner, q.id, { planHash: q.planHash, confirmPaid: true }));
+  value(await service.step(owner, q.id, { index: 0, count: 1, apiKey: key }));
+  value(await service.stop(owner, q.id));
+  const row = await repo.get(q.id, owner),
+    sealKey = row.object_key + '/completion';
+  const original = await new Response((await storage.blobs.get(sealKey)).body).text();
+  value(
+    await service.resume(owner, q.id, { planHash: q.planHash, fromIndex: 1, confirmPaid: true }),
+  );
+  value(await service.step(owner, q.id, { index: 1, count: 1, apiKey: key }));
+  value(await service.stop(owner, q.id));
+  assert.equal(await new Response((await storage.blobs.get(sealKey)).body).text(), original);
+  const next = JSON.parse(
+    await new Response((await storage.blobs.get(sealKey + '/resume-1')).body).text(),
+  );
+  await authority.verify('completion', next.record, next.receipt);
+  assert.equal(next.record.recorded, 2);
+  value(await service.contribution(owner, q.id));
+});
+
+test('resume cannot bypass an unresolved dispatch or depleted account allowance', async (t) => {
+  const { service, repo, q, storage } = await fixture(t, async (r) => mock(r), batchSpec);
+  value(await service.start(owner, q.id, { planHash: q.planHash, confirmPaid: true }));
+  assert.equal(await repo.claim(q.id, owner, 0, 1, 1, new Date().toISOString()), true);
+  value(await service.stop(owner, q.id));
+  assert.equal(
+    (await service.resume(owner, q.id, { planHash: q.planHash, fromIndex: 0, confirmPaid: true }))
+      .error.code,
+    'not_resumable',
+  );
+  const other = value(await service.prepare(owner, batchSpec));
+  value(await service.stop(owner, other.id));
+  await storage.db
+    .prepare('UPDATE execution_accounts SET maximum_nano=prior_nano WHERE owner=?')
+    .bind(owner)
+    .run();
+  assert.equal(
+    (
+      await service.resume(owner, other.id, {
+        planHash: other.planHash,
+        fromIndex: 0,
+        confirmPaid: true,
+      })
+    ).error.code,
+    'resume_conflict',
+  );
+  assert.equal((await repo.get(other.id, owner)).status, 'stopped');
+  assert.equal((await repo.get(q.id, owner)).inflight, 0);
+});
+
+test('repeated failed continuations accumulate reservations and bulk stop never clears prior holds', async (t) => {
+  const { service, q, repo } = await fixture(
+    t,
+    async () => ({
+      reportedProviderModel: 'jev-1.13.0',
+      response: { status: 'error', error: 'http_520', usage: null },
+    }),
+    batchSpec,
+  );
+  value(await service.start(owner, q.id, { planHash: q.planHash, confirmPaid: true }));
+  const first = value(await service.step(owner, q.id, { index: 0, count: 1, apiKey: key }));
+  value(
+    await service.resume(owner, q.id, { planHash: q.planHash, fromIndex: 1, confirmPaid: true }),
+  );
+  const second = value(await service.step(owner, q.id, { index: 1, count: 1, apiKey: key }));
+  assert.ok(second.heldUsd > first.heldUsd);
+  value(
+    await service.resume(owner, q.id, { planHash: q.planHash, fromIndex: 2, confirmPaid: true }),
+  );
+  value(await service.cancelRuns(owner, { runIds: [q.id] }));
+  const row = await repo.get(q.id, owner);
+  assert.equal(row.next_index, 2);
+  assert.equal(row.held_nano, Math.round(second.heldUsd * 1e9));
 });

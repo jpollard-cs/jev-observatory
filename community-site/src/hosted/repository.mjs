@@ -78,6 +78,21 @@ export function executionRepository(db) {
         owner,
         owner,
       ),
+    // Resume only the undispatched suffix; the cursor is never rewound.
+    resume: (id, owner, index, reserve, now) =>
+      change(
+        `UPDATE execution_runs SET status='running', reason=NULL, resume_count=resume_count+1, retained_uncertain_nano=held_nano, held_nano=held_nano+?, updated_at=? WHERE id=? AND owner=? AND status='stopped' AND inflight IS NULL AND next_index=? AND next_index<requests AND NOT EXISTS(SELECT 1 FROM execution_runs WHERE owner=? AND status IN ('ready','running') AND (status='running' OR preparation_key=(SELECT preparation_key FROM execution_runs WHERE id=?))) AND ? <= (SELECT maximum_nano-prior_nano FROM execution_accounts WHERE owner=?) - (SELECT COALESCE(SUM(known_nano+held_nano),0) FROM execution_runs WHERE owner=?)`,
+        reserve,
+        now,
+        id,
+        owner,
+        index,
+        owner,
+        id,
+        reserve,
+        owner,
+        owner,
+      ),
     claim: (id, owner, index, reserve, count, now) =>
       change(
         `UPDATE execution_runs SET inflight=?,inflight_count=?,inflight_reserve=?,updated_at=? WHERE id=? AND owner=? AND status='running' AND next_index=? AND inflight IS NULL AND ? BETWEEN 1 AND ? AND next_index+?<=requests`,
@@ -94,7 +109,7 @@ export function executionRepository(db) {
       ),
     settle: (id, owner, index, { cost, reserve, unknown, count, reason }, now) =>
       change(
-        `UPDATE execution_runs SET known_nano=known_nano+?, held_nano=CASE WHEN ? IS NOT NULL OR status='stopped' THEN ? ELSE held_nano-?+? END, next_index=next_index+?, inflight=NULL,inflight_count=1,inflight_reserve=0, status=CASE WHEN ? IS NOT NULL OR status='stopped' THEN 'stopped' WHEN next_index+?=requests THEN 'complete' ELSE 'running' END, reason=COALESCE(reason,?),updated_at=? WHERE id=? AND owner=? AND inflight=? AND inflight_count=?`,
+        `UPDATE execution_runs SET known_nano=known_nano+?, held_nano=CASE WHEN ? IS NOT NULL OR status='stopped' THEN retained_uncertain_nano+? ELSE held_nano-?+? END, next_index=next_index+?, inflight=NULL,inflight_count=1,inflight_reserve=0, status=CASE WHEN ? IS NOT NULL OR status='stopped' THEN 'stopped' WHEN next_index+?=requests THEN 'complete' ELSE 'running' END, reason=COALESCE(reason,?),updated_at=? WHERE id=? AND owner=? AND inflight=? AND inflight_count=?`,
         cost,
         reason,
         unknown,
@@ -112,7 +127,7 @@ export function executionRepository(db) {
       ),
     stop: (id, owner, now) =>
       change(
-        `UPDATE execution_runs SET status='stopped',reason='operator_stop',held_nano=inflight_reserve,updated_at=? WHERE id=? AND owner=? AND status IN ('ready','running')`,
+        `UPDATE execution_runs SET status='stopped',reason='operator_stop',held_nano=retained_uncertain_nano+inflight_reserve,updated_at=? WHERE id=? AND owner=? AND status IN ('ready','running')`,
         now,
         id,
         owner,
@@ -121,7 +136,7 @@ export function executionRepository(db) {
       (
         await db
           .prepare(
-            `UPDATE execution_runs SET status='stopped',reason='operator_stop',held_nano=inflight_reserve,updated_at=? WHERE owner=? AND id IN (SELECT value FROM json_each(?)) AND status IN ('ready','running') RETURNING *`,
+            `UPDATE execution_runs SET status='stopped',reason='operator_stop',held_nano=retained_uncertain_nano+inflight_reserve,updated_at=? WHERE owner=? AND id IN (SELECT value FROM json_each(?)) AND status IN ('ready','running') RETURNING *`,
           )
           .bind(now, owner, JSON.stringify(ids))
           .all()

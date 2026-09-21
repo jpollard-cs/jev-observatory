@@ -1,0 +1,1 @@
+ALTER TABLE `execution_runs` ADD `retained_uncertain_nano` integer DEFAULT 0 NOT NULL;

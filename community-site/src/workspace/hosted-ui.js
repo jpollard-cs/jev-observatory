@@ -13,6 +13,11 @@ export function mountHostedAssistant(anchor) {
   return host;
 }
 let activeView = null;
+export function clearHostedDraft() {
+  const previous = activeView;
+  activeView = null;
+  previous?.invalidate();
+}
 import { canReviewAdvice, failureDescription } from './hosted-evidence.js';
 import { hostedRemote as remote } from './hosted-transport.js';
 const usd = (n) => '$' + Number(n ?? 0).toFixed(5);
@@ -41,6 +46,7 @@ export async function hostedRun({
   onReport = async () => {},
   isCurrent = () => true,
   onNext = null,
+  onClear = () => {},
   isAdviceInline = () => false,
   nextLabel = 'Continue',
 } = {}) {
@@ -61,7 +67,8 @@ export async function hostedRun({
   let active = null,
     busy = false,
     loading = true,
-    stop = false;
+    stop = false,
+    detached = false;
   const imported = new Set();
   let adviceNote = null,
     adviceNext = null,
@@ -82,9 +89,24 @@ export async function hostedRun({
   const dispose = () => {
     unsubscribe();
     dialog.remove();
+    const anchor = document.getElementById('content');
+    if (anchor) mountSession(anchor);
   };
   const focus = () => dialog.scrollIntoView({ block: 'nearest', behavior: 'instant' });
-  activeView = { busy: () => busy || loading, focus, dispose, refresh: refreshAdviceLocation };
+  activeView = {
+    busy: () => busy || loading,
+    focus,
+    dispose,
+    refresh: refreshAdviceLocation,
+    invalidate: () => {
+      detached = true;
+      stop = true;
+      // Stop queued work even if the browser is awaiting a lost batch response.
+      // A failed status update remains inspectable in saved runs; never resend.
+      if (active && busy) remote('runs/' + active.id + '/stop', {}).catch(() => {});
+      dispose();
+    },
+  };
   const forget = () => {
     credentialSession.forget();
     stop = true;
@@ -106,16 +128,22 @@ export async function hostedRun({
     alert.textContent = e.message;
     alert.hidden = false;
   };
-  const close = button('Dismiss', () => {
+  async function clearRunView() {
     if (busy || loading) {
       alert.textContent =
-        'Stop after the current batch before dismissing. Requests already sent may still be billed.';
+        'Stop after the current batch before clearing. Requests already sent may still be billed.';
       alert.hidden = false;
       return;
     }
+    stop = true;
+    if (active && ['ready', 'running'].includes(active.status)) {
+      active = await remote('runs/' + active.id + '/stop', {});
+    }
     dispose();
     activeView = null;
-  });
+    onClear();
+  }
+  const close = button('Clear from workspace', () => clearRunView().catch(fail));
   dialog.setAttribute('aria-label', 'Request review and progress');
   head.append(title, close);
   dialog.append(head, alert, body);
@@ -170,6 +198,7 @@ export async function hostedRun({
     return actions;
   }
   async function finished(run, { openResults = false } = {}) {
+    if (detached) return;
     busy = true;
     try {
       if (active && body === reviewBody) {
@@ -180,6 +209,7 @@ export async function hostedRun({
         });
         reviewBody.append(body);
       }
+      active = run;
       body.replaceChildren();
       title.textContent =
         run.inflight !== null
@@ -228,9 +258,25 @@ export async function hostedRun({
         ),
       );
       const full = await remote('runs/' + run.id + '?report=1');
+      if (detached) return;
       body.append(
         button('Download report', () => download(full.report, 'jev-hosted-' + run.id + '.json')),
       );
+      if (run.status === 'stopped' && run.inflight === null && run.completed < run.requests) {
+        body.append(
+          el(
+            'p',
+            `${run.requests - run.completed} tests have not been sent. Resume uses this run’s saved policy and skips every recorded request, including failed responses. Prior spending holds stay reserved.`,
+            { className: 'note' },
+          ),
+          button(
+            'Resume remaining tests',
+            safe(() => review(run, { continuation: true })),
+            'btn primary',
+          ),
+        );
+      }
+      body.append(button('Clear from workspace', safe(clearRunView)));
       const advice = full.report?.protocol === 'catalog-advisor-report/1';
       if (
         full.report?.protocol === 'policy-workbench-v1' &&
@@ -303,7 +349,7 @@ export async function hostedRun({
           advice && !canReviewAdvice(full.report) ? 'btn primary' : 'btn',
         ),
       );
-      if (advice && canReviewAdvice(full.report)) {
+      if (advice && canReviewAdvice(full.report) && isCurrent()) {
         try {
           if (!imported.has(full.report.reportHash)) {
             await onReport(full.report);
@@ -343,7 +389,7 @@ export async function hostedRun({
           activeView = null;
         };
         body.append(button('View results', safe(viewResults), 'btn primary'));
-        if (openResults) {
+        if (openResults && isCurrent() && !detached) {
           try {
             await viewResults();
             return;
@@ -373,9 +419,14 @@ export async function hostedRun({
       busy = false;
     }
   }
-  async function review(q) {
+  async function review(q, { continuation = false } = {}) {
     q = { ...q, ...(await remote('runs/' + q.id)) };
-    if (!['ready', 'running'].includes(q.status) || q.inflight !== null) {
+    if (detached) return;
+    if (
+      (!['ready', 'running'].includes(q.status) &&
+        !(continuation && q.status === 'stopped' && q.completed < q.requests)) ||
+      q.inflight !== null
+    ) {
       active = null;
       body = reviewBody;
       body.replaceChildren();
@@ -387,7 +438,19 @@ export async function hostedRun({
     alert.hidden = true;
     const holds = q.unresolvedHolds ?? [];
     const blocked = q.startBlocker?.status === 'running';
-    title.textContent = blocked ? 'Another run is active' : 'Ready when you are.';
+    title.textContent = blocked
+      ? 'Another run is active'
+      : continuation
+        ? 'Resume the saved run'
+        : 'Ready when you are.';
+    if (continuation)
+      body.append(
+        el(
+          'p',
+          `Continue ${q.requests - q.completed} unsent tests from the original frozen policy. ${q.completed} recorded requests will not be resent. Additional reservation: ${usd(q.continuationReservationUsd)}. Your current draft will not replace this run’s policy.`,
+          { className: 'note' },
+        ),
+      );
     if (blocked) {
       const blocker = q.startBlocker;
       body.append(
@@ -412,7 +475,7 @@ export async function hostedRun({
             reviewBody.replaceChildren(
               button(
                 'Back to my prepared request',
-                safe(() => review(q)),
+                safe(() => review(q, { continuation })),
               ),
               body,
             );
@@ -421,7 +484,7 @@ export async function hostedRun({
         ),
         button(
           'Refresh this request’s status',
-          safe(() => review(q)),
+          safe(() => review(q, { continuation })),
         ),
       );
     }
@@ -450,8 +513,14 @@ export async function hostedRun({
     );
     const stats = el('div', null, { className: 'stats' });
     for (const [label, value] of [
-      ['Requests', q.requests],
-      ['This run’s reservation', usd(q.reservationUsd)],
+      [
+        continuation ? 'Remaining requests' : 'Requests',
+        continuation ? q.requests - q.completed : q.requests,
+      ],
+      [
+        continuation ? 'Additional reservation' : 'This run’s reservation',
+        usd(continuation ? q.continuationReservationUsd : q.reservationUsd),
+      ],
       ['Known usage', usd(q.knownUsd)],
       ['Held', usd(q.heldUsd)],
     ]) {
@@ -563,14 +632,20 @@ export async function hostedRun({
       ),
     );
     body.append(agreement);
-    const progress = el('p', 'No requests sent.', { className: 'note section-space' });
+    const progress = el('p', continuation ? 'No additional requests sent.' : 'No requests sent.', {
+      className: 'note section-space',
+    });
     progress.setAttribute('role', 'status');
     const begin = button(
-      q.status === 'running' ? 'Continue reviewed run' : 'Authorize and run',
+      continuation
+        ? 'Authorize and resume remaining tests'
+        : q.status === 'running'
+          ? 'Continue reviewed run'
+          : 'Authorize and run',
       safe(async () => {
         if (busy) return;
         if (!check.checked) throw Error('Review and check the spending authorization first.');
-        if (!isCurrent())
+        if (!continuation && !isCurrent())
           throw Error(
             'Your draft changed. Prepare fresh suggestions for the current policy and description before spending.',
           );
@@ -589,7 +664,8 @@ export async function hostedRun({
         parallel.disabled = true;
         const expires = Date.now() + 30 * 60 * 1000;
         try {
-          let run = await remote('runs/' + q.id + '/start', {
+          let run = await remote('runs/' + q.id + (continuation ? '/resume' : '/start'), {
+            ...(continuation ? { fromIndex: q.completed } : {}),
             planHash: q.planHash,
             confirmPaid: true,
           });
@@ -616,6 +692,7 @@ export async function hostedRun({
         } catch (e) {
           stop = true;
           busy = false;
+          if (detached) return;
           fail(e);
           title.textContent = 'Run needs attention';
           begin.textContent = 'Execution paused';
@@ -668,6 +745,7 @@ export async function hostedRun({
   }
   async function home() {
     const session = await remote('session');
+    if (detached) return;
     if (!spec) body.replaceChildren();
     if (!session.signedIn) {
       body.replaceChildren();
@@ -927,4 +1005,6 @@ export async function hostedRun({
   }
 }
 
-export function readHostedRequest(id,index){return remote('runs/'+id+'/request?index='+index);}
+export function readHostedRequest(id, index) {
+  return remote('runs/' + id + '/request?index=' + index);
+}

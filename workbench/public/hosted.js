@@ -5,3 +5,5 @@ export function mountHostedAssistant(){}
 export function showHostedConnection(){}
 
 export async function readHostedRequest(){return null;}
+
+export function clearHostedDraft(){}
