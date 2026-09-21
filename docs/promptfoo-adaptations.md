@@ -25,3 +25,7 @@ Results show recorded input tokens, the input-cost estimate at the plan's saved 
 `admission-core/2` retains the same 60 minimum core cases and both layouts, bound to the expanded catalog hash. The optional packs are not silently promoted into a reviewed minimum. `admission-core/1` remains checked in unchanged for historical inspection. A receipt for the earlier required-core identity does not satisfy today's required-core verification; it is not rewritten or relabeled. A signature establishes what the hosted runner observed, never a security or no-regression guarantee.
 
 Large combined runs can exceed the community signed-bundle upload ceiling because bundles include exact requests and provenance. The full report remains inspectable and downloadable; keep the complete export for repository review. Never strip failures or cases to fit that ceiling. Core-only receipt verification remains separately testable.
+
+## Reviewed candidate pack
+
+Catalog `workbench-catalog/3` also includes 24 contributed synthetic cases in 12 matched groups, bringing the total to 196 cases and 70 groups. These are separate from the Promptfoo-inspired pack. See [candidate review and provenance](candidate-reviews/b1-review.md). No new measured results were added.

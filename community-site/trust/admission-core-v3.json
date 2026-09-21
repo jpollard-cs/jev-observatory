@@ -1,0 +1,252 @@
+{
+  "id": "admission-core/3",
+  "catalogHash": "4351ff1e4b50dcdac14c9ab328042e970a85a892410f0324dfe024898c3c4c05",
+  "layouts": [
+    "question",
+    "criteria"
+  ],
+  "minimumRepeat": 1,
+  "cases": [
+    {
+      "id": "ordinary-note",
+      "hash": "e60ce16bc187e25fba271fceb592682395874fc3e95564c6100b44c2d63e05f6"
+    },
+    {
+      "id": "ordinary-json",
+      "hash": "b0d5cc9ff083f2c48ab0061ad9eea428b84d7f3701430ab96170564167c58890"
+    },
+    {
+      "id": "ordinary-escapes",
+      "hash": "7daad0e8ffae1bb3593fc71172bacb86ff8f3950da186dafd7930977059dd4e0"
+    },
+    {
+      "id": "ordinary-unicode",
+      "hash": "a5f5758dcd6d0325481f70fea637dc9350c973ebd4cf627e4d9b6180e090f84c"
+    },
+    {
+      "id": "ordinary-checksum",
+      "hash": "6c2940a716da752f3275683b13bfb2605ee84a294f0179e6c7efdf88d8104d80"
+    },
+    {
+      "id": "unrelated-invoice",
+      "hash": "9412e7245811b48157d75181fa03381efca81167ce3f320e9eb6a3bfc7b958fc"
+    },
+    {
+      "id": "coincidental-initials",
+      "hash": "ed5bd8f2ee05cc4c4743beed1ce638e964a2b9b045f873e5c304396fef47a669"
+    },
+    {
+      "id": "ordinary-code",
+      "hash": "5d3d5d76cadf765f43c4bff1cf849441ccdf2412f7294581ba507d7b55bc55f6"
+    },
+    {
+      "id": "plain-override",
+      "hash": "8aa81cf1441594ead9306b0965c89134b543ae512d07901a06b06d610963e4d4"
+    },
+    {
+      "id": "base64-override",
+      "hash": "53a7e31e31884cf4a223e5ec707648a5adbb759bcd3200b4fae6130a86de6aa6"
+    },
+    {
+      "id": "base64-override-authorized-format",
+      "hash": "bbf9daffa69dc20ad01b2b2bde3fb3d532a5672e2b529e06ede4fbc9a06ad9fa"
+    },
+    {
+      "id": "json-role-spoof",
+      "hash": "a74b9415aba1ed6492c83e7c37c51f8c40b97894b702233982e4ec819cf707d1"
+    },
+    {
+      "id": "source-self-grant",
+      "hash": "52dc95ae1223b629123c7d62e5f401dc6c7c193c1b184fedb50cb50553760acd"
+    },
+    {
+      "id": "fake-system-exchange",
+      "hash": "69fa3b936a667472a2c1809071ebc1b53cead614365c8015a2d549c8d7aebc1c"
+    },
+    {
+      "id": "opaque-codebook",
+      "hash": "c04b545bedec989314376abcdd08daca41b7d1384f0e71495d4ae10f1461b45f"
+    },
+    {
+      "id": "missing-task",
+      "hash": "8e2da83a55b16582f6061661dc464972ee553485d2814e7da4ac4a85a9ca5c80"
+    },
+    {
+      "id": "acrostic-unexpected",
+      "hash": "ecefb5f64666aaae9ec68ece72fa0ef1044d0017a8ad1d25bf6b0ba2a9725d32"
+    },
+    {
+      "id": "acrostic-authorized",
+      "hash": "7991ddfb6872d7228c548269a9b316bab71ef3bf3045c678449d00e7e3c2ec0c"
+    },
+    {
+      "id": "acrostic-wrong-task-grant",
+      "hash": "f74077cf9d65630931f80053de2678b63594a3d30ca629e25687296c47a5bf74"
+    },
+    {
+      "id": "mixed-unexpected",
+      "hash": "d8d5bb7464bb03b9a86dcb0fc51016e030ce5a6835044ea7c63706d91ca63b7c"
+    },
+    {
+      "id": "mixed-authorized",
+      "hash": "509edb85f39b0a121a43433ddb93aabddf529ace8612cd591f6601ed53e15295"
+    },
+    {
+      "id": "mixed-topic-only",
+      "hash": "374317f7e0327d4fc4e6c9e636ddb2298a24937f5fc373527c8a7027e4be215d"
+    },
+    {
+      "id": "layered-wrong-scope",
+      "hash": "d3a94343b21136eeeb29e23426d3b0502c559dda30ac81fd32d200dbf9acd40c"
+    },
+    {
+      "id": "layered-authorized",
+      "hash": "d635f74adb12c1185604a8b8e54dce5c6ccb6b086e3bc4893c38f84491f00ce2"
+    },
+    {
+      "id": "plain-fictional-lesson",
+      "hash": "6180750444565cb7daf263b3b9cd5b4be78c938daa578fdbb8f4548bb2539828"
+    },
+    {
+      "id": "encoded-fictional-lesson",
+      "hash": "d7bbd7232803bc5ce2d22f409ce30f4709ce87e57faa2c30894811f91164ff78"
+    },
+    {
+      "id": "self-claimed-lesson",
+      "hash": "78ed098ac31f5aa7af74b6f2e849ec3f7529a15cc45c8d897ac57254746d3ad7"
+    },
+    {
+      "id": "partly-opaque-attack",
+      "hash": "bb98fc1d22ba03fc96cdef85d4906ad67956e08f2f9d1b9165a60aa4211087f6"
+    },
+    {
+      "id": "associated-fragments",
+      "hash": "36965228403cf924d9e039a460cc2a2c4c589eed09a16e354333d0968b5dce99"
+    },
+    {
+      "id": "technical-string-message",
+      "hash": "3a0215194cc846a318c6909223cb55eb586611ad0bed35080636778718543a17"
+    },
+    {
+      "id": "shared-context-equivalent",
+      "hash": "831d89694aa7fdc59b59b7e0f008b851221c44cc02ee8e59b11290d92af8e1b6"
+    },
+    {
+      "id": "entry-clears-shared-grant",
+      "hash": "b6fff3b981aff050cf6dbe4a109f9f8d802b978f8e0c4fbf01601c117169adeb"
+    },
+    {
+      "id": "language-en-benign",
+      "hash": "869720eb8dafb442942c9bad770c0a12cdc7c65dd3f910f416f514e89b0cef6a"
+    },
+    {
+      "id": "language-en-attack",
+      "hash": "9f9341f7ca5edb78454aff4ffa361aeeaef42f73aa1c3d314aade2c45aedadf9"
+    },
+    {
+      "id": "language-es-benign",
+      "hash": "27827783db57f1b6441ae6a79be4cc0fe8493f1ad8dedecf67b9c84132a306b7"
+    },
+    {
+      "id": "language-es-attack",
+      "hash": "5ddd9c46610d2496e307f75503719470c32afce7414a05875414a22c967a1a46"
+    },
+    {
+      "id": "language-fr-benign",
+      "hash": "36d3153c9094c95ece785b22f6a59cb5abc93fbe93370352ebaa87fd8aed89ad"
+    },
+    {
+      "id": "language-fr-attack",
+      "hash": "7d87b0d95db929d6baf8fc559561f2801842f6ad33f92fd708e018fca8594be9"
+    },
+    {
+      "id": "language-de-benign",
+      "hash": "ec4bbc4dc8eef360df0484624800c629b73c774ce5a9f72a3b37601a51e33770"
+    },
+    {
+      "id": "language-de-attack",
+      "hash": "5847c98a9606046fe9e60bcfbca2172baa1e4e65fe74227e03dc2726f827dfae"
+    },
+    {
+      "id": "unicode-concealment-benign",
+      "hash": "b44bd6e821a12912fb0d6cdad314a1f07b0070d10dd2d24704226b73fc2c0824"
+    },
+    {
+      "id": "unicode-concealment-attack",
+      "hash": "799af8ff96ac782d3876f90195ec0dad836298b2ac449a19179741e91fd5b547"
+    },
+    {
+      "id": "receiving-dossier-clean",
+      "hash": "a17ed9a84df89171735a36a62e71360a25a7b64069c92f68f1948df9e74ed149"
+    },
+    {
+      "id": "receiving-dossier-quotation",
+      "hash": "9c5842dfc85c0f01b44e63834b30ba24e8cebd48552e128f43adb179cec95807"
+    },
+    {
+      "id": "receiving-dossier-attack-early",
+      "hash": "fd5938e91a00df70c6cbbdacbb3df25f156886e22df1770aeff82e75517ede1c"
+    },
+    {
+      "id": "receiving-dossier-attack-middle",
+      "hash": "a1414ea962b507d37e074e3ac90c3d962d4a04612f1162561bb16c89d3bfdad9"
+    },
+    {
+      "id": "receiving-dossier-attack-late",
+      "hash": "7240958b6942aaa5cf0968c6a3ddc912f0dc30e3491ef885a1b023ca1691270a"
+    },
+    {
+      "id": "receiving-dossier-split-attack",
+      "hash": "f7fa7f2a2682c717fcccd12beeea30524df4cd20c30df277323cb1c5a49c5120"
+    },
+    {
+      "id": "billing-dossier-clean",
+      "hash": "353e09e05617319d940cc531f9a0c3e1ce8519a66b025c34ec32c6cdceefb768"
+    },
+    {
+      "id": "billing-dossier-quotation",
+      "hash": "45200dfb8306252bfa2bc1df49abfd8d48f5360da9ddf462b90673d5bbdd4399"
+    },
+    {
+      "id": "billing-dossier-attack-early",
+      "hash": "0ebb60294a868f767d3f48897ac27efaaa16ff78469aa4ce4ee62d77ff89f701"
+    },
+    {
+      "id": "billing-dossier-attack-middle",
+      "hash": "8fcbad0459b636fcc51e4f9ad032461e92a0a12b47699c65647c84daeb5368a4"
+    },
+    {
+      "id": "billing-dossier-attack-late",
+      "hash": "379a39a2aa233f233242bbb9cacedd3a1d6c69738361fb0913f303104c58d512"
+    },
+    {
+      "id": "billing-dossier-split-attack",
+      "hash": "67d318d560d755630094dded8e220dfc5f1be5ae4fb108a8c8210f121e8cc66f"
+    },
+    {
+      "id": "review-dossier-clean",
+      "hash": "6ae6a44c0a56f9c5504822a0e1af67895eb7e426c5c03344eef5f48f573201a1"
+    },
+    {
+      "id": "review-dossier-quotation",
+      "hash": "489d167d5f0af4fb6617f4a2015d5b43b52b820bdfa7c0d3afca81027f2d8e37"
+    },
+    {
+      "id": "review-dossier-attack-early",
+      "hash": "a663eaaea4c59909e2d26698f528c7c4d62f995e38693a7d5656311659b23cd5"
+    },
+    {
+      "id": "review-dossier-attack-middle",
+      "hash": "35cc697fd2a819f19d800de82ba64e430cc792580150c0aae42d7f0ae6315d92"
+    },
+    {
+      "id": "review-dossier-attack-late",
+      "hash": "e87d40b28c7601352faa7fc3f725522425d420ca6abe1561a3f3c5920584830b"
+    },
+    {
+      "id": "review-dossier-split-attack",
+      "hash": "3c05773a9b4359d61ccf6caa85dcc21ff5135a2ae50d6dde483612de75bfe1d3"
+    }
+  ],
+  "meaning": "The same 60 core development cases in both layouts, bound to workbench-catalog/3. Optional attack packs are outside this minimum core. Not a regression verdict or independent security certification."
+}

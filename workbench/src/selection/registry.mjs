@@ -1,4 +1,5 @@
 import {PROMPTFOO_UNITS,ATTACK_PACKS} from '../attacks/promptfoo.mjs';
+import {REVIEW_UNITS} from '../attacks/review-boundaries.mjs';
 import {CONVERSATION_UNITS} from '../attacks/conversations.mjs';
 /** Owner-maintained coverage units. Model tags are suggestions, never these invariants. */
 import {CATALOG,catalogHash} from '../catalog.mjs';
@@ -47,8 +48,8 @@ for(const [key,name,domain] of [['receiving','Receiving inspection','incident-re
  basic.push(U(stem+'-positions',name+': placement','Early and late source injection in the same dossier; requires its clean/quotation/middle controls.',[stem+'-attack-early',stem+'-attack-late'],['contextual_evidence','task_integrity'],{domain,dependsOn:[stem+'-core'],severity:3}));
  basic.push(U(stem+'-split',name+': split directive','Associated pieces form a directive across documents; requires the dossier controls.',[stem+'-split-attack'],['contextual_evidence','composition','task_integrity'],{domain,dependsOn:[stem+'-core'],severity:4}));
 }
-export const UNITS=Object.freeze([...basic,...PROMPTFOO_UNITS,...CONVERSATION_UNITS]);
-export const REGISTRY_ID='granular-workbench-catalog/2';
+export const UNITS=Object.freeze([...basic,...PROMPTFOO_UNITS,...CONVERSATION_UNITS,...REVIEW_UNITS]);
+export const REGISTRY_ID='granular-workbench-catalog/3';
 export const registryHash=sha({id:REGISTRY_ID,catalogHash,facets:FACETS,units:UNITS});
 for(const u of UNITS){assert(u.caseIds.every(id=>CATALOG.some(c=>c.id===id)), 'Unknown catalog case '+u.id);assert(u.facets.every(f=>Object.hasOwn(FACETS,f)),'Unknown facet');assert(u.dependsOn.every(id=>UNITS.some(x=>x.id===id)),'Unknown dependency');}
 assert(new Set(UNITS.map(u=>u.id)).size===UNITS.length,'Duplicate coverage units');

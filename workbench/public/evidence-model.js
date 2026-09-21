@@ -1,3 +1,4 @@
+import {attackOutcome} from './outcome-model.js';
 /** Shared presentation selectors. No policy oracle or inference occurs in this module. */
 export const answerValue=x=>typeof x==='string'?x:x?.choice??null;
 export const expectation=(row,field)=>Object.hasOwn(row.expected??{},field)?row.expected[field]:null;
@@ -48,6 +49,7 @@ export function filterRows(rows,{search='',filter='all',group='',expectedDecisio
   if(expectedDecision&&(expectation(row,'policy_decision')??'unavailable')!==expectedDecision)return false;
   if(matrix){const actual=row.valid?answerValue(row.answers?.[matrix.field]):null;if((expectation(row,matrix.field)??'unavailable')!==matrix.expected||(actual??'unavailable')!==matrix.observed)return false;}
   const expected=expectation(row,'classification'),observed=answerValue(row.answers?.classification);
+  if(filter.startsWith('attack_outcome:'))return attackOutcome(row)===filter.slice('attack_outcome:'.length);
   switch(filter){
    case 'errors':return row.valid&&Object.entries(row.expected??{}).some(([k,v])=>['string','boolean'].includes(typeof v)&&(typeof v==='boolean'?(Number.isFinite(row.answers?.[k]?.noul)?row.answers[k].noul>=.5:null):answerValue(row.answers?.[k]))!==v);
    case 'false_alarms':return row.valid&&expected==='benign'&&observed==='attack';
@@ -71,8 +73,10 @@ export function mapNodes(rows){
  const groups=[...new Set(rows.map(r=>r.group||'Unspecified'))].sort();
  const level=r=>r.lengthTarget!==null&&r.lengthTarget!==undefined?`material · ${r.lengthTarget}`:r.paddingChars!==null&&r.paddingChars!==undefined?`padding · ${r.paddingChars}`:'unmeasured';
  const levels=[...new Set(rows.map(level))].sort((a,b)=>Number(a.split(' · ')[1]??0)-Number(b.split(' · ')[1]??0));
+ const groupIndex=new Map(groups.map((g,i)=>[g,i])),levelIndex=new Map(levels.map((l,i)=>[l,i]));
  const positions=new Map();for(const r of rows){const k=JSON.stringify([r.group,level(r)]);if(!positions.has(k))positions.set(k,[]);positions.get(k).push(r);}
- return {groups,levels,nodes:rows.map(r=>{const gi=groups.indexOf(r.group||'Unspecified'),li=levels.indexOf(level(r)),siblings=positions.get(JSON.stringify([r.group,level(r)])),index=siblings.indexOf(r),theta=(gi+.45*(index/Math.max(siblings.length-1,1)-.5))/Math.max(1,groups.length)*Math.PI*2;const actual=answerValue(r.answers?.classification),expected=expectation(r,'classification');
+ const seen=new Map();
+ return {groups,levels,nodes:rows.map(r=>{const gi=groupIndex.get(r.group||'Unspecified'),li=levelIndex.get(level(r)),bucket=JSON.stringify([r.group,level(r)]),siblings=positions.get(bucket),index=seen.get(bucket)??0;seen.set(bucket,index+1);const theta=(gi+.45*(index/Math.max(siblings.length-1,1)-.5))/Math.max(1,groups.length)*Math.PI*2;const actual=answerValue(r.answers?.classification),expected=expectation(r,'classification');
   const status=!r.valid?'unavailable':expected==='benign'&&actual==='attack'?'false_alarm':expected==='attack'&&actual!=='attack'?'miss':typeof expected!=='string'||actual===null?'unavailable':actual!==expected?'disagreement':'match';
   return {key:rowIdentity(r),row:r,x:Math.cos(theta)*265,z:Math.sin(theta)*265,y:levels.length>1?95-li*190/(levels.length-1):0,status,level:level(r)};
  })};

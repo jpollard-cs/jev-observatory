@@ -19,7 +19,7 @@ import { sha } from '../../workbench/src/util.mjs';
 import { verifySignedBundle } from '../src/receipts/verify.mjs';
 import { receiptAuthority } from '../src/receipts/crypto.mjs';
 import { canonical, sha256 } from '../src/domain/contracts.mjs';
-import core from '../trust/admission-core-v2.json' with { type: 'json' };
+import core from '../trust/admission-core-v3.json' with { type: 'json' };
 const value = (r) => {
   assert.equal(r.tag, 'ok', JSON.stringify(r));
   return r.value;

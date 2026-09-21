@@ -9,7 +9,7 @@ import {importReport} from '../src/report.mjs';
 import {reportPresentation,conditionPresentation} from '../public/evidence-model.js';
 const p=preset(),a=defaultApplication(p);
 test('expanded catalog includes 20 matched pairs and six complete replay units',()=>{
- assert.equal(CATALOG.length,172);assert.equal(new Set(CATALOG.map(c=>c.id)).size,172);
+ assert.equal(CATALOG.length,196);assert.equal(new Set(CATALOG.map(c=>c.id)).size,196);
  assert.equal(PROMPTFOO_CASES.length,40);assert.equal(CONVERSATION_CASES.length,72);
  for(const c of PROMPTFOO_CASES){const other=PROMPTFOO_CASES.find(x=>x.group===c.group&&x.id!==c.id);assert.ok(other);assert.notEqual(other.annotations.classification,c.annotations.classification);assert.deepEqual(other.annotations.representations,c.annotations.representations);}
  for(const u of CONVERSATION_UNITS)assert.equal(u.caseIds.length,12);

@@ -1,6 +1,6 @@
 import { sha } from '../../../workbench/src/util.mjs';
 import { hostedBundle } from './sharing.mjs';
-import core from '../../trust/admission-core-v2.json' with { type: 'json' };
+import core from '../../trust/admission-core-v3.json' with { type: 'json' };
 import { verifySignedBundle } from '../receipts/verify.mjs';
 import { canonical, sha256 } from '../domain/contracts.mjs';
 import { ok, error, validId } from '../domain/contracts.mjs';

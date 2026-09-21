@@ -2,7 +2,7 @@ import {esc,fmt} from './ui.js';
 import {drawSignalPlot,signalMetrics} from './signal-chart.js';
 import {atlasGeometry,signalOptions,atlasFields,atlasStatus,atlasObserved,atlasKey,atlasHash,atlasRelated,ATLAS_PALETTE} from './atlas-data.js';
 const readable=s=>String(s??'Not supplied').replaceAll('_',' ');
-const labels={match:'Agreement',false_alarm:'False alarms',miss:'Missed attacks',disagreement:'Other differences',unavailable:'Not scored',not_run:'Not run'};
+const labels={match:'Agreement',false_alarm:'False alarms',miss:'Attacks not recognized',disagreement:'Other differences',unavailable:'Not scored',not_run:'Not run'};
 export function orbitMarkup(condition){
  const rows=condition.rows,catalog=rows.some(r=>r.isCatalog),fields=atlasFields(rows),field=fields.includes('classification')?'classification':fields[0]??'decision';
  const g=atlasGeometry(rows,{field});
