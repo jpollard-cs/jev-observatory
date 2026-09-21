@@ -1,5 +1,13 @@
 # Research backlog
 
+## MULTITURN-001 — Crescendo and adaptive conversation attacks
+
+Requested 2026-09-20. **Not covered by the current evaluation.** Existing multi-message fixtures are static transcripts. [Promptfoo's Crescendo strategy](https://www.promptfoo.dev/docs/red-team/strategies/multi-turn/) escalates across turns, adapts to responses and can backtrack after refusals. Our current Promptfoo adapter ignores generated prompt text and evaluates a frozen corpus case, so enabling `crescendo` alone would misrepresent coverage.
+
+Add a conversation adapter that preserves each branch and passes its complete observable history to the classifier. Distinguish direct conversational jailbreaks from indirect instructions in documents/tool results, and classifier detection from an agent actually resisting an attack. For Jev, define how classification decisions control a sandboxed target's response; its native Choice/Noul/Score outputs are not conversational assistant responses.
+
+Pair malicious escalation with legitimate debugging, authorized task changes and benign gradual requests. Freeze attacker/target versions, turn and token limits, refusal/backtracking rules, policy version and spending cap. Record every prompt, response, branch, detection turn, false positive/negative, error, latency and cost, including unsuccessful searches. Split by attack lineage and keep adaptive discovery separate from confirmatory holdouts. Start with a separately approved bounded pilot; no model calls have been scheduled.
+
 ## COMPOSE-001 — Capability laundering across delegated requests
 
 Requested 2026-09-20. **Design recorded; evaluator and pilot pending.** See the [proposed contrast group and observability controls](capability-laundering-evaluation.md), informed by [arXiv:2609.15383](https://arxiv.org/pdf/2609.15383). Compare isolated fragments, authenticated linked traces, incomplete context and legitimate compositions. This needs a separate composition-risk contract; the current admission score and signed core do not demonstrate coverage. Preserve hidden-intent blind spots separately from model misses, and do not infer successful prevention from classification alone.

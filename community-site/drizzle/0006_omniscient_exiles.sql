@@ -1,0 +1,1 @@
+ALTER TABLE `execution_runs` ADD `retained_holds_json` text DEFAULT '[]' NOT NULL;

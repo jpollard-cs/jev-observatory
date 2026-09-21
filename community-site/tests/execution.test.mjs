@@ -354,7 +354,7 @@ test('concurrent dispatches and parallel runs cannot double-spend; cancellation 
   assert.equal(done.heldUsd, 0);
   assert.equal(calls, 1);
 });
-test('unknown cost is retained, no retry or subsequent run is allowed, and malformed model outputs do not score', async (t) => {
+test('unknown cost is retained, retry and unacknowledged subsequent runs are blocked, and malformed outputs do not score', async (t) => {
   let calls = 0;
   const { service, q } = await fixture(t, async () => {
     calls++;
@@ -907,4 +907,209 @@ test('community sharing uses only owned saved evaluation records and retains the
     'evidence_changed',
   );
   value(await contributions.setVisibility(contribution.id, { visibility: 'private' }, actor));
+});
+
+test('acknowledging an exact old hold permits a separate run without erasing evidence or spending twice', async (t) => {
+  let calls = 0;
+  const { service, repo, q } = await fixture(t, async (r) => {
+    if (++calls === 1) throw Error('unknown outcome');
+    return mock(r);
+  });
+  value(await service.start(owner, q.id, { planHash: q.planHash, confirmPaid: true }));
+  value(await service.step(owner, q.id, { index: 0, apiKey: key }));
+  const old = await repo.get(q.id, owner);
+  assert.ok(old.held_nano > 0);
+  const next = value(await service.prepare(owner, spec));
+  const retainedHolds = value(await service.detail(owner, next.id)).unresolvedHolds;
+  assert.deepEqual(retainedHolds, [
+    { id: old.id, heldNano: old.held_nano, updatedAt: old.updated_at },
+  ]);
+  const authorize = { planHash: next.planHash, confirmPaid: true };
+  assert.equal((await service.start(owner, next.id, authorize)).error.code, 'unresolved_run');
+  value(await service.start(owner, next.id, { ...authorize, retainedHolds }));
+  assert.equal(calls, 1, 'acknowledgement and authorization do not dispatch');
+  assert.deepEqual(await repo.get(q.id, owner), old);
+  assert.equal(
+    (await repo.account(owner)).held_nano,
+    old.held_nano + (await repo.get(next.id, owner)).reserve_nano,
+  );
+  value(await service.start(owner, next.id, authorize));
+  assert.deepEqual(
+    value(await service.detail(owner, next.id)).retainedHolds,
+    retainedHolds,
+    'idempotent start cannot rewrite the recorded acknowledgement',
+  );
+  value(await service.step(owner, next.id, { index: 0, apiKey: key }));
+  assert.equal(calls, 2);
+  assert.equal((await repo.account(owner)).held_nano, old.held_nano);
+  assert.deepEqual(await repo.get(q.id, owner), old);
+  assert.equal((await service.step(owner, q.id, { index: 0, apiKey: key })).tag, 'error');
+});
+
+test('held-charge acknowledgement is validated, owner scoped, current and subject to the full allowance', async (t) => {
+  const { service, repo, storage, q } = await fixture(t, async () => {
+    throw Error('unknown');
+  });
+  value(await service.start(owner, q.id, { planHash: q.planHash, confirmPaid: true }));
+  value(await service.step(owner, q.id, { index: 0, apiKey: key }));
+  const next = value(await service.prepare(owner, spec));
+  const [hold] = value(await service.detail(owner, next.id)).unresolvedHolds;
+  const authorize = (retainedHolds) =>
+    service.start(owner, next.id, { planHash: next.planHash, confirmPaid: true, retainedHolds });
+  for (const invalid of [
+    false,
+    {},
+    [null],
+    [hold, hold],
+    [{ ...hold, heldNano: -1 }],
+    [{ ...hold, heldNano: 1.2 }],
+    [{ ...hold, updatedAt: 'today' }],
+    [{ ...hold, extra: true }],
+  ])
+    assert.equal((await authorize(invalid)).error.code, 'invalid_retained_holds');
+  for (const changed of [
+    { ...hold, id: crypto.randomUUID() },
+    { ...hold, heldNano: hold.heldNano + 1 },
+    { ...hold, updatedAt: '2020-01-01T00:00:00.000Z' },
+  ])
+    assert.equal((await authorize([changed])).error.code, 'unresolved_run');
+  value(await service.initialize('stranger', { maximumUsd: 3, carriedPriorUsd: 0 }));
+  assert.equal((await service.detail('stranger', next.id)).error.code, 'not_found');
+  const other = value(await service.prepare('stranger', spec));
+  assert.deepEqual(value(await service.detail('stranger', other.id)).unresolvedHolds, []);
+  assert.equal(
+    (
+      await service.start('stranger', next.id, {
+        planHash: next.planHash,
+        confirmPaid: true,
+        retainedHolds: [hold],
+      })
+    ).error.code,
+    'not_found',
+  );
+  const reserve = (await repo.get(next.id, owner)).reserve_nano;
+  await storage.db
+    .prepare('UPDATE execution_accounts SET maximum_nano=?,prior_nano=0 WHERE owner=?')
+    .bind(hold.heldNano + reserve - 1, owner)
+    .run();
+  assert.equal(
+    (await authorize([hold])).error.code,
+    'insufficient_allowance',
+    'old held amount must still count',
+  );
+  assert.equal((await repo.get(next.id, owner)).held_nano, 0);
+});
+
+test('new holds and active runs cannot be bypassed; simultaneous acknowledged starts reserve only one run', async (t) => {
+  const { service, repo, q } = await fixture(t, async () => {
+    throw Error('unknown');
+  });
+  value(await service.start(owner, q.id, { planHash: q.planHash, confirmPaid: true }));
+  value(await service.step(owner, q.id, { index: 0, apiKey: key }));
+  const a = value(await service.prepare(owner, namedSpec('A')));
+  const b = value(await service.prepare(owner, namedSpec('B')));
+  const holds = value(await service.detail(owner, a.id)).unresolvedHolds;
+  const starts = await Promise.all(
+    [a, b].map((p) =>
+      service.start(owner, p.id, { planHash: p.planHash, confirmPaid: true, retainedHolds: holds }),
+    ),
+  );
+  assert.equal(starts.filter((r) => r.tag === 'ok').length, 1);
+  const winner = starts[0].tag === 'ok' ? a : b,
+    loser = winner === a ? b : a;
+  const running = await repo.get(winner.id, owner);
+  const forged = [
+    ...holds,
+    { id: running.id, heldNano: running.held_nano, updatedAt: running.updated_at },
+  ];
+  assert.equal(
+    (
+      await service.start(owner, loser.id, {
+        planHash: loser.planHash,
+        confirmPaid: true,
+        retainedHolds: forged,
+      })
+    ).error.code,
+    'active_run',
+  );
+  value(await service.step(owner, winner.id, { index: 0, apiKey: key }));
+  assert.equal(
+    (
+      await service.start(owner, loser.id, {
+        planHash: loser.planHash,
+        confirmPaid: true,
+        retainedHolds: holds,
+      })
+    ).error.code,
+    'unresolved_run',
+    'a new unresolved hold requires fresh review',
+  );
+  assert.equal((await repo.get(loser.id, owner)).held_nano, 0);
+});
+
+test('a late response settles only the old held reservation while an acknowledged new run stays funded', async (t) => {
+  let entered, release;
+  const ready = new Promise((r) => (entered = r)),
+    gate = new Promise((r) => (release = r));
+  const { service, repo, q } = await fixture(t, async (r) => {
+    entered();
+    await gate;
+    return mock(r);
+  });
+  value(await service.start(owner, q.id, { planHash: q.planHash, confirmPaid: true }));
+  const flight = service.step(owner, q.id, { index: 0, apiKey: key });
+  await ready;
+  value(await service.stop(owner, q.id));
+  const next = value(await service.prepare(owner, spec));
+  const retainedHolds = value(await service.detail(owner, next.id)).unresolvedHolds;
+  value(
+    await service.start(owner, next.id, {
+      planHash: next.planHash,
+      confirmPaid: true,
+      retainedHolds,
+    }),
+  );
+  const funded = await repo.get(next.id, owner);
+  release();
+  value(await flight);
+  assert.equal((await repo.get(q.id, owner)).held_nano, 0);
+  assert.deepEqual(await repo.get(next.id, owner), funded);
+  assert.equal((await repo.account(owner)).held_nano, funded.reserve_nano);
+  assert.equal((await service.step(owner, q.id, { index: 0, apiKey: key })).tag, 'error');
+});
+
+test('retaining an unresolved reservation leaves the original signed completion valid and unchanged', async (t) => {
+  const { repo, storage } = await fixture(t);
+  const { authority } = await testReceipts();
+  const service = executionService({
+    repo,
+    blobs: storage.blobs,
+    receipts: authority,
+    adapter: {
+      ...jevExecutionAdapter,
+      infer: async () => {
+        throw Error('unknown outcome');
+      },
+    },
+  });
+  const q = value(await service.prepare(owner, namedSpec('Signed unresolved evidence')));
+  value(await service.start(owner, q.id, { planHash: q.planHash, confirmPaid: true }));
+  value(await service.step(owner, q.id, { index: 0, apiKey: key }));
+  const original = await repo.get(q.id, owner);
+  const completionKey = original.object_key + '/completion';
+  const before = await new Response((await storage.blobs.get(completionKey)).body).text();
+  const next = value(await service.prepare(owner, namedSpec('Signed separate authorization')));
+  const retainedHolds = value(await service.detail(owner, next.id)).unresolvedHolds;
+  value(
+    await service.start(owner, next.id, {
+      planHash: next.planHash,
+      confirmPaid: true,
+      retainedHolds,
+    }),
+  );
+  const after = await new Response((await storage.blobs.get(completionKey)).body).text();
+  assert.equal(after, before);
+  assert.deepEqual(await repo.get(q.id, owner), original);
+  const seal = JSON.parse(after);
+  await authority.verify('completion', seal.record, seal.receipt);
 });

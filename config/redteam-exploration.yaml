@@ -22,4 +22,6 @@ redteam:
     - rot13
 # Add jailbreak:meta, jailbreak:hydra, multilingual and other strategies only
 # after adapting target statefulness, choosing an attacker and setting budgets.
+# Crescendo is not covered: the frozen-case adapter is not a conversation target.
+# Track the adaptive runner and matched controls in docs/backlog.md (MULTITURN-001).
 # Plugin-generated graders are exploratory; never relabel frozen test gold with them.

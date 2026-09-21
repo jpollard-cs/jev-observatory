@@ -15,6 +15,7 @@ export function mountHostedAssistant(anchor) {
 let activeView = null;
 import { canReviewAdvice, failureDescription } from './hosted-evidence.js';
 import { hostedRemote as remote } from './hosted-transport.js';
+import { sameRetainedHolds } from '../hosted/retained-holds.mjs';
 const usd = (n) => '$' + Number(n ?? 0).toFixed(5);
 function el(tag, text, props = {}) {
   const n = document.createElement(tag);
@@ -367,16 +368,28 @@ export async function hostedRun({
       busy = false;
     }
   }
-  async function review(q) {
+  async function review(q, retainedHolds = []) {
     q = { ...q, ...(await remote('runs/' + q.id)) };
-    if (!['ready', 'running'].includes(q.status) || q.inflight !== null) return finished(q);
+    if (!['ready', 'running'].includes(q.status) || q.inflight !== null) {
+      active = null;
+      body = reviewBody;
+      body.replaceChildren();
+      return finished(q);
+    }
     active = q;
     body = reviewBody;
     body.replaceChildren();
-    title.textContent = q.startBlocker
+    alert.hidden = true;
+    const holds = q.unresolvedHolds ?? [];
+    const acknowledged =
+      q.startBlocker?.status === 'stopped' && sameRetainedHolds(holds, retainedHolds);
+    const blocked = q.startBlocker && !acknowledged;
+    // Only the freshly reviewed, exact snapshots may accompany authorization.
+    retainedHolds = acknowledged ? holds : [];
+    title.textContent = blocked
       ? 'Prepared, but another run needs attention'
       : 'Ready when you are.';
-    if (q.startBlocker) {
+    if (blocked) {
       const blocker = q.startBlocker;
       body.append(
         el(
@@ -389,14 +402,48 @@ export async function hostedRun({
         ),
         button(
           'Inspect the blocking run',
-          safe(() => finished(blocker)),
+          safe(async () => {
+            active = null;
+            body = el('section');
+            reviewBody.replaceChildren(
+              button(
+                'Back to my prepared request',
+                safe(() => review(q)),
+              ),
+              body,
+            );
+            await finished(blocker);
+          }),
         ),
         button(
           'Refresh this request’s status',
           safe(() => review(q)),
         ),
       );
+      if (blocker.status === 'stopped' && holds.length) {
+        const total = holds.reduce((sum, h) => sum + h.heldNano, 0) / 1e9;
+        body.append(
+          el(
+            'p',
+            `${usd(total)} across ${holds.length} earlier run(s) will stay reserved and deducted from your allowance. Those outcomes remain unknown; they will not be retried or marked successful. You can authorize a separate request with the remaining allowance.`,
+            { className: 'note' },
+          ),
+          button(
+            `Keep ${usd(total)} reserved and continue`,
+            safe(() => review(q, holds)),
+            'btn primary',
+          ),
+        );
+      }
     }
+    if (acknowledged)
+      body.append(
+        el(
+          'p',
+          `You chose to retain ${usd(holds.reduce((sum, h) => sum + h.heldNano, 0) / 1e9)} for earlier unresolved requests. Review and authorize this separate run below. No request has been sent.`,
+          { className: 'note', role: 'status' },
+        ),
+      );
     if (q.reused)
       body.append(
         el(
@@ -480,6 +527,7 @@ export async function hostedRun({
     if (q.policyHash) disclosure.append(el('p', 'Policy ' + q.policyHash, { className: 'hash' }));
     disclosure.append(select, code);
     body.append(disclosure);
+    if (blocked) return;
     {
       const keyPrompt = el('div');
       keyPrompt.dataset.sessionNeeded = '';
@@ -555,6 +603,7 @@ export async function hostedRun({
           let run = await remote('runs/' + q.id + '/start', {
             planHash: q.planHash,
             confirmPaid: true,
+            retainedHolds,
           });
           while (run.status === 'running' && run.inflight === null && !stop) {
             if (Date.now() > expires) {
@@ -625,10 +674,6 @@ export async function hostedRun({
         }
       }),
     );
-    if (q.startBlocker) {
-      begin.disabled = true;
-      begin.textContent = 'Resolve the earlier run first';
-    }
     body.append(el('div', null, { className: 'actions section-space' }));
     body.lastChild.append(begin, stopButton);
     body.append(progress);

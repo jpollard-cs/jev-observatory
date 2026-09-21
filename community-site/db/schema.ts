@@ -52,6 +52,7 @@ export const executionRuns = sqliteTable(
     objectKey: text('object_key').notNull(),
     preparedHash: text('prepared_hash').notNull(),
     preparationKey: text('preparation_key'),
+    retainedHoldsJson: text('retained_holds_json').notNull().default('[]'),
     requests: integer('requests').notNull(),
     reserveNano: integer('reserve_nano').notNull(),
     knownNano: integer('known_nano').notNull().default(0),

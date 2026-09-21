@@ -1,5 +1,11 @@
 // D1 statements are single-statement atomic transitions. No in-memory locks.
 import { MAX_PARALLEL } from './limits.mjs';
+const blockingRun = `status='running' OR (status='stopped' AND held_nano>0 AND NOT EXISTS (
+  SELECT 1 FROM json_each(?) AS acknowledged
+  WHERE json_extract(acknowledged.value,'$.id')=execution_runs.id
+    AND json_extract(acknowledged.value,'$.heldNano')=execution_runs.held_nano
+    AND json_extract(acknowledged.value,'$.updatedAt')=execution_runs.updated_at
+))`;
 export function executionRepository(db) {
   const first = (sql, ...v) =>
     db
@@ -41,11 +47,12 @@ export function executionRepository(db) {
         owner,
         key,
       ),
-    blocker: (owner, excludeId = '') =>
+    blocker: (owner, excludeId = '', retainedHolds = []) =>
       first(
-        `SELECT * FROM execution_runs WHERE owner=? AND id<>? AND (status='running' OR (status='stopped' AND held_nano>0)) ORDER BY created_at LIMIT 1`,
+        `SELECT * FROM execution_runs WHERE owner=? AND id<>? AND (${blockingRun}) ORDER BY CASE status WHEN 'running' THEN 0 ELSE 1 END, created_at LIMIT 1`,
         owner,
         excludeId,
+        JSON.stringify(retainedHolds),
       ),
     // Limit retained manifests before storage growth. Creation itself never authorizes dispatch.
     create: (r) =>
@@ -65,13 +72,15 @@ export function executionRepository(db) {
         r.owner,
         r.preparationKey ?? null,
       ),
-    start: (id, owner, now) =>
+    start: (id, owner, now, retainedHolds = []) =>
       change(
-        `UPDATE execution_runs SET status='running', held_nano=reserve_nano, updated_at=? WHERE id=? AND owner=? AND status='ready' AND NOT EXISTS(SELECT 1 FROM execution_runs WHERE owner=? AND (status='running' OR (status='stopped' AND held_nano>0))) AND reserve_nano <= (SELECT maximum_nano-prior_nano FROM execution_accounts WHERE owner=?) - (SELECT COALESCE(SUM(known_nano+held_nano),0) FROM execution_runs WHERE owner=?)`,
+        `UPDATE execution_runs SET status='running', held_nano=reserve_nano, updated_at=?, retained_holds_json=? WHERE id=? AND owner=? AND status='ready' AND NOT EXISTS(SELECT 1 FROM execution_runs WHERE owner=? AND (${blockingRun})) AND reserve_nano <= (SELECT maximum_nano-prior_nano FROM execution_accounts WHERE owner=?) - (SELECT COALESCE(SUM(known_nano+held_nano),0) FROM execution_runs WHERE owner=?)`,
         now,
+        JSON.stringify(retainedHolds),
         id,
         owner,
         owner,
+        JSON.stringify(retainedHolds),
         owner,
         owner,
       ),
