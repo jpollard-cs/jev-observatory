@@ -30,6 +30,19 @@ const manifest = makeAdvisorPlan(policy, application, {
   maxInputTokens: null,
 }).manifest;
 const spec = { route: 'setup/prepare', input, planHash: manifest.planHash };
+function namedSpec(name) {
+  const changed = { ...application, name };
+  const plan = makeAdvisorPlan(policy, changed, {
+    mode: 'setup',
+    maxUsd: 0.01,
+    maxInputTokens: null,
+  });
+  return {
+    route: 'setup/prepare',
+    input: { policy, application: changed },
+    planHash: plan.manifest.planHash,
+  };
+}
 function mock(request) {
   return {
     reportedProviderModel: 'jev-1.13.0',
@@ -121,6 +134,127 @@ test('paid setup preserves native request identity, advice report contract and d
   );
   assert.ok(!String(saved.body).includes(key));
 });
+test('preparation reuses identical pending plans under concurrency but preserves intentional reruns and owners', async (t) => {
+  let calls = 0;
+  const { service, repo, q } = await fixture(t, async (r) => {
+    calls++;
+    return mock(r);
+  });
+  assert.equal(value(await service.prepare(owner, spec)).id, q.id);
+  const changed = namedSpec('Concurrent preparation');
+  const contenders = (
+    await Promise.all(Array.from({ length: 8 }, () => service.prepare(owner, changed)))
+  ).map(value);
+  assert.equal(new Set(contenders.map((r) => r.id)).size, 1);
+  assert.equal(contenders.filter((r) => !r.reused).length, 1);
+  assert.equal((await repo.list(owner)).length, 2);
+  assert.notEqual(contenders[0].id, q.id);
+  value(await service.initialize('another-owner', { maximumUsd: 3, carriedPriorUsd: 0 }));
+  assert.notEqual(value(await service.prepare('another-owner', spec)).id, q.id);
+  value(await service.start(owner, q.id, { planHash: q.planHash, confirmPaid: true }));
+  assert.equal(value(await service.prepare(owner, spec)).id, q.id);
+  assert.equal(calls, 0);
+  value(await service.step(owner, q.id, { index: 0, apiKey: key }));
+  const rerun = value(await service.prepare(owner, spec));
+  assert.notEqual(rerun.id, q.id);
+  value(await service.stop(owner, rerun.id));
+  assert.notEqual(value(await service.prepare(owner, spec)).id, rerun.id);
+  assert.equal(calls, 1);
+  assert.equal(value(await service.detail(owner, q.id)).status, 'complete');
+});
+test('bulk cancellation is owner-bound and snapshot-bound; sent requests settle once and history remains', async (t) => {
+  let enter,
+    release,
+    calls = 0;
+  const entered = new Promise((r) => (enter = r)),
+    gate = new Promise((r) => (release = r));
+  const { service, q } = await fixture(t, async (r) => {
+    calls++;
+    enter();
+    await gate;
+    return mock(r);
+  });
+  const ready = value(await service.prepare(owner, namedSpec('Never started')));
+  value(await service.initialize('another-owner', { maximumUsd: 3, carriedPriorUsd: 0 }));
+  const other = value(await service.prepare('another-owner', spec));
+  const ids = [q.id, ready.id, other.id];
+  const later = value(
+    await service.prepare(owner, namedSpec('Prepared after the list was opened')),
+  );
+  value(await service.start(owner, q.id, { planHash: q.planHash, confirmPaid: true }));
+  const flight = service.step(owner, q.id, { index: 0, apiKey: key });
+  await entered;
+  const cancelled = value(await service.cancelRuns(owner, { runIds: ids }));
+  assert.equal(cancelled.cancelled, 2);
+  assert.ok(cancelled.account.heldUsd > 0);
+  assert.equal(value(await service.detail(owner, ready.id)).status, 'stopped');
+  assert.equal(value(await service.detail(owner, later.id)).status, 'ready');
+  assert.equal(value(await service.detail('another-owner', other.id)).status, 'ready');
+  assert.equal(value(await service.cancelRuns(owner, { runIds: ids })).cancelled, 0);
+  release();
+  const settled = value(await flight);
+  assert.equal(settled.status, 'stopped');
+  assert.equal(settled.heldUsd, 0);
+  assert.equal(settled.completed, 1);
+  assert.equal(calls, 1);
+  assert.equal((await service.step(owner, q.id, { index: 0, apiKey: key })).tag, 'error');
+  value(await service.start(owner, later.id, { planHash: later.planHash, confirmPaid: true }));
+  value(await service.step(owner, later.id, { index: 0, apiKey: key }));
+  assert.equal(value(await service.cancelRuns(owner, { runIds: [later.id] })).cancelled, 0);
+  assert.equal(value(await service.detail(owner, later.id)).status, 'complete');
+  for (const runIds of [
+    [],
+    [q.id, q.id],
+    ['invalid'],
+    Array.from({ length: 101 }, () => crypto.randomUUID()),
+  ]) {
+    assert.equal((await service.cancelRuns(owner, { runIds })).error.code, 'invalid_cancellations');
+  }
+});
+test('bulk cancellation preserves unresolved old spending holds', async (t) => {
+  const { service, q } = await fixture(t, async () => {
+    throw Error('provider outcome unknown');
+  });
+  value(await service.start(owner, q.id, { planHash: q.planHash, confirmPaid: true }));
+  const failed = value(await service.step(owner, q.id, { index: 0, apiKey: key }));
+  const ready = value(await service.prepare(owner, spec));
+  const result = value(await service.cancelRuns(owner, { runIds: [q.id, ready.id] }));
+  assert.equal(result.cancelled, 1);
+  assert.ok(failed.heldUsd > 0);
+  assert.equal(result.account.heldUsd, failed.heldUsd);
+  assert.equal(value(await service.detail(owner, q.id)).reason, failed.reason);
+});
+test('signed preparations reuse their original attestation and cancellation persists through seal failure', async (t) => {
+  const { repo, storage } = await fixture(t);
+  const { authority } = await testReceipts();
+  const service = executionService({
+    repo,
+    blobs: storage.blobs,
+    adapter: jevExecutionAdapter,
+    receipts: authority,
+  });
+  const q = value(await service.prepare(owner, spec));
+  assert.equal(value(await service.prepare(owner, spec)).id, q.id);
+  const other = value(await service.prepare(owner, namedSpec('Second signed plan')));
+  const originalPut = storage.blobs.put;
+  const first = await repo.get(q.id, owner);
+  storage.blobs.put = async (k, body) => {
+    if (k === first.object_key + '/completion') throw Error('storage unavailable');
+    return originalPut(k, body);
+  };
+  const result = value(await service.cancelRuns(owner, { runIds: [q.id, other.id] }));
+  assert.equal(result.cancelled, 2);
+  assert.deepEqual(result.attestationPending, [q.id]);
+  assert.equal((await repo.get(q.id, owner)).status, 'stopped');
+  assert.equal((await repo.get(other.id, owner)).status, 'stopped');
+  const saved = await storage.blobs.get(
+    (await repo.get(other.id, owner)).object_key + '/completion',
+  );
+  const seal = JSON.parse(await new Response(saved.body).text());
+  await authority.verify('completion', seal.record, seal.receipt);
+  assert.equal(seal.record.recorded, 0);
+  assert.equal(seal.record.heldNano, 0);
+});
 test('concurrent dispatches and parallel runs cannot double-spend; cancellation preserves the in-flight hold', async (t) => {
   let release,
     entered,
@@ -133,7 +267,7 @@ test('concurrent dispatches and parallel runs cannot double-spend; cancellation 
     await gate;
     return mock(r);
   });
-  const second = value(await service.prepare(owner, spec));
+  const second = value(await service.prepare(owner, namedSpec('Different plan')));
   const starts = await Promise.all([
     service.start(owner, q.id, { planHash: q.planHash, confirmPaid: true }),
     service.start(owner, second.id, { planHash: second.planHash, confirmPaid: true }),

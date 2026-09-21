@@ -46,6 +46,11 @@ export async function executionApi(
     }
     if (route === 'account' && body) return respond(await service.initialize(owner, body));
     if (route === 'prepare' && body) return respond(await service.prepare(owner, body));
+    if (route === 'runs/cancel' && body) {
+      const pending = service.cancelRuns(owner, body);
+      keepAlive(pending.catch(() => {}));
+      return respond(await pending);
+    }
     const match = route.match(
       /^runs\/([a-f0-9-]{36})(?:\/(start|step|stop|recover|request|evidence))?$/,
     );

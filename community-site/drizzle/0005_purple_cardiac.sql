@@ -1,0 +1,2 @@
+ALTER TABLE `execution_runs` ADD `preparation_key` text;--> statement-breakpoint
+CREATE UNIQUE INDEX `execution_pending_preparation` ON `execution_runs` (`owner`,`preparation_key`) WHERE "execution_runs"."status" IN ('ready', 'running') AND "execution_runs"."preparation_key" IS NOT NULL;

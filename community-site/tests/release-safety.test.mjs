@@ -122,6 +122,38 @@ test('new-work limits are durable, isolate owners, and bound combined admission'
   assert.equal(await gate()('prepare', 'alice'), true);
   assert.equal(await gate()('unknown', 'alice'), false);
 });
+test('preparation migration preserves legacy duplicates while enforcing one new pending identity per owner', async (t) => {
+  const db = new DatabaseSync(':memory:');
+  t.after(() => db.close());
+  const files = (await fs.readdir(new URL('../drizzle/', import.meta.url)))
+    .filter((n) => n.endsWith('.sql'))
+    .sort();
+  for (const name of files.filter((n) => !n.startsWith('0005')))
+    db.exec(await fs.readFile(new URL('../drizzle/' + name, import.meta.url), 'utf8'));
+  const insert = db.prepare(
+    `INSERT INTO execution_runs(id,owner,plan_hash,status,object_key,prepared_hash,requests,reserve_nano,created_at,updated_at) VALUES(?,'alice','same','ready',?,'hash',1,42,'now','now')`,
+  );
+  insert.run('one', 'object-one');
+  insert.run('two', 'object-two');
+  db.exec(
+    await fs.readFile(
+      new URL('../drizzle/' + files.find((n) => n.startsWith('0005')), import.meta.url),
+      'utf8',
+    ),
+  );
+  assert.equal(db.prepare('SELECT COUNT(*) n FROM execution_runs').get().n, 2);
+  assert.equal(
+    db.prepare('SELECT preparation_key FROM execution_runs LIMIT 1').get().preparation_key,
+    null,
+  );
+  db.exec(`UPDATE execution_runs SET preparation_key='same' WHERE id='one'`);
+  assert.throws(
+    () => db.exec(`UPDATE execution_runs SET preparation_key='same' WHERE id='two'`),
+    /UNIQUE/,
+  );
+  db.exec(`UPDATE execution_runs SET status='stopped' WHERE id='one'`);
+  db.exec(`UPDATE execution_runs SET preparation_key='same' WHERE id='two'`);
+});
 
 test('throttled work stops before parsing/compilation/storage; cancellation remains available', async () => {
   let touched = false,
@@ -176,6 +208,7 @@ for (const outcome of ['absent', 'committed', 'unknown']) {
       uuid: () => 'fixture',
       repo: {
         account: async () => ({ maximum_nano: 1e9, prior_nano: 0, known_nano: 0, held_nano: 0 }),
+        pending: async () => null,
         create: async () => {
           throw Error('Insert acknowledgement lost');
         },
@@ -199,6 +232,36 @@ for (const outcome of ['absent', 'committed', 'unknown']) {
 }
 
 const example = makeExample(await makeCatalog());
+test('bulk cancellation requires authenticated same-origin intent and stays available when new work is throttled', async () => {
+  let owner, selected, kept;
+  const service = {
+    cancelRuns: async (who, body) => {
+      owner = who;
+      selected = body.runIds;
+      return { tag: 'ok', value: { cancelled: 1 } };
+    },
+  };
+  const ids = ['aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'];
+  const request = (origin = 'https://site.test') =>
+    new Request('https://site.test/api/execution/runs/cancel', {
+      method: 'POST',
+      headers: { origin, 'content-type': 'application/json', 'x-observatory-intent': 'write' },
+      body: JSON.stringify({ runIds: ids }),
+    });
+  const deps = {
+    service,
+    actor: { id: 'alice' },
+    admitWrite: async () => false,
+    keepAlive: (p) => (kept = p),
+  };
+  assert.equal((await executionApi(request(), { ...deps, actor: null })).status, 401);
+  assert.equal((await executionApi(request('https://stranger.test'), deps)).status, 403);
+  assert.equal(owner, undefined);
+  assert.equal((await executionApi(request(), deps)).status, 200);
+  assert.equal(owner, 'alice');
+  assert.deepEqual(selected, ids);
+  await kept;
+});
 for (const outcome of ['absent', 'committed', 'unknown']) {
   test(`failed contribution admission preserves ambiguous committed data: ${outcome}`, async () => {
     const stored = new Map();

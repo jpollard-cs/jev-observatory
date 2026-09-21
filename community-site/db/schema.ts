@@ -1,4 +1,5 @@
-import { sqliteTable, text, integer, index } from 'drizzle-orm/sqlite-core';
+import { sqliteTable, text, integer, index, uniqueIndex } from 'drizzle-orm/sqlite-core';
+import { sql } from 'drizzle-orm';
 export const writeLimits = sqliteTable('write_limits', {
   bucket: text('bucket').primaryKey(),
   window: integer('window').notNull(),
@@ -50,6 +51,7 @@ export const executionRuns = sqliteTable(
     reason: text('reason'),
     objectKey: text('object_key').notNull(),
     preparedHash: text('prepared_hash').notNull(),
+    preparationKey: text('preparation_key'),
     requests: integer('requests').notNull(),
     reserveNano: integer('reserve_nano').notNull(),
     knownNano: integer('known_nano').notNull().default(0),
@@ -61,5 +63,10 @@ export const executionRuns = sqliteTable(
     createdAt: text('created_at').notNull(),
     updatedAt: text('updated_at').notNull(),
   },
-  (t) => [index('execution_owner_created').on(t.owner, t.createdAt)],
+  (t) => [
+    index('execution_owner_created').on(t.owner, t.createdAt),
+    uniqueIndex('execution_pending_preparation')
+      .on(t.owner, t.preparationKey)
+      .where(sql`${t.status} IN ('ready', 'running') AND ${t.preparationKey} IS NOT NULL`),
+  ],
 );

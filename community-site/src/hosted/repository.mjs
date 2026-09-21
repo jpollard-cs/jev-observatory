@@ -35,6 +35,12 @@ export function executionRepository(db) {
           .all()
       ).results,
     get: (id, owner) => first('SELECT * FROM execution_runs WHERE id=? AND owner=?', id, owner),
+    pending: (owner, key) =>
+      first(
+        `SELECT * FROM execution_runs WHERE owner=? AND preparation_key=? AND status IN ('ready','running') LIMIT 1`,
+        owner,
+        key,
+      ),
     blocker: (owner) =>
       first(
         `SELECT * FROM execution_runs WHERE owner=? AND (status='running' OR (status='stopped' AND held_nano>0)) ORDER BY created_at LIMIT 1`,
@@ -43,7 +49,7 @@ export function executionRepository(db) {
     // Limit retained manifests before storage growth. Creation itself never authorizes dispatch.
     create: (r) =>
       change(
-        `INSERT INTO execution_runs(id,owner,plan_hash,status,object_key,prepared_hash,requests,reserve_nano,created_at,updated_at) SELECT ?,?,?,'ready',?,?,?,?,?,? WHERE (SELECT COUNT(*) FROM execution_runs WHERE owner=?)<100`,
+        `INSERT INTO execution_runs(id,owner,plan_hash,status,object_key,prepared_hash,requests,reserve_nano,created_at,updated_at,preparation_key) SELECT ?,?,?,'ready',?,?,?,?,?,?,? WHERE (SELECT COUNT(*) FROM execution_runs WHERE owner=?)<100 AND NOT EXISTS(SELECT 1 FROM execution_runs WHERE owner=? AND preparation_key=? AND status IN ('ready','running'))`,
         r.id,
         r.owner,
         r.planHash,
@@ -53,7 +59,10 @@ export function executionRepository(db) {
         r.reserveNano,
         r.now,
         r.now,
+        r.preparationKey ?? null,
         r.owner,
+        r.owner,
+        r.preparationKey ?? null,
       ),
     start: (id, owner, now) =>
       change(
@@ -104,5 +113,14 @@ export function executionRepository(db) {
         id,
         owner,
       ),
+    cancelRuns: async (owner, ids, now) =>
+      (
+        await db
+          .prepare(
+            `UPDATE execution_runs SET status='stopped',reason='operator_stop',held_nano=inflight_reserve,updated_at=? WHERE owner=? AND id IN (SELECT value FROM json_each(?)) AND status IN ('ready','running') RETURNING *`,
+          )
+          .bind(now, owner, JSON.stringify(ids))
+          .all()
+      ).results,
   };
 }

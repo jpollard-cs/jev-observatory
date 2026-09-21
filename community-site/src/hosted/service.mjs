@@ -3,7 +3,7 @@ import { hostedBundle } from './sharing.mjs';
 import core from '../../trust/admission-core-v1.json' with { type: 'json' };
 import { verifySignedBundle } from '../receipts/verify.mjs';
 import { canonical, sha256 } from '../domain/contracts.mjs';
-import { ok, error } from '../domain/contracts.mjs';
+import { ok, error, validId } from '../domain/contracts.mjs';
 import { MAX_PARALLEL, DEFAULT_PARALLEL } from './limits.mjs';
 const stamp = () => new Date().toISOString();
 const publicRun = (r) => ({
@@ -240,12 +240,27 @@ export function executionService({
       }
       if (!(await account(owner)))
         return error('account_required', 'Initialize your persistent hosted allowance first.');
-      const id = uuid(),
-        objectKey = 'execution/' + owner + '/' + id;
       const bodies = [...new Map(p.jobs.map((j) => [j.requestHash, j.body])).entries()];
       const frozen = { ...p, jobs: p.jobs.map(({ body, request, receipt, ...j }) => j) };
+      if (receipts) frozen.verificationCore = p.manifest.policy ? core : null;
+      // Bind reuse to all frozen instructions, expectations, adapter and signing mode.
+      const preparationKey = sha(canonical({ prepared: frozen, signed: !!receipts }));
+      const describePrepared = async (run, prepared, reused = false) =>
+        ok({
+          ...publicRun(run),
+          ...adapter.describe(prepared),
+          execution: prepared.execution ?? adapter.legacyIdentity,
+          account: await account(owner),
+          protocol: prepared.manifest.protocol,
+          mode: prepared.manifest.options?.mode ?? null,
+          disclosure: adapter.disclosure,
+          reused,
+        });
+      const pending = await repo.pending(owner, preparationKey);
+      if (pending) return describePrepared(pending, await load(pending), true);
+      const id = uuid(),
+        objectKey = 'execution/' + owner + '/' + id;
       if (receipts) {
-        frozen.verificationCore = p.manifest.policy ? core : null;
         const receipt = await receipts.sign('plan', { runId: id, prepared: frozen });
         frozen.attestation = { runId: id, receipt };
       }
@@ -282,6 +297,7 @@ export function executionService({
           objectKey,
           planHash: p.manifest.planHash,
           preparedHash: sha(raw),
+          preparationKey,
           requests: p.jobs.length,
           reserveNano: p.reserveNano,
           now: now(),
@@ -296,20 +312,20 @@ export function executionService({
       if (!inserted) {
         await blobs.delete(objectKey);
         await Promise.all(stored.map((key) => blobs.delete(key)));
+        const concurrent = await repo.pending(owner, preparationKey);
+        if (concurrent) return describePrepared(concurrent, await load(concurrent), true);
+        if ((await repo.list(owner)).length < 100)
+          return error(
+            'preparation_changed',
+            'Another preparation changed while saving. Refresh saved runs before preparing again.',
+            409,
+          );
         return error(
           'storage_limit',
           'The hosted account has reached its 100-plan limit. Export existing evidence; contact the operator for archival.',
         );
       }
-      return ok({
-        ...publicRun(await repo.get(id, owner)),
-        ...adapter.describe(p),
-        execution: p.execution ?? adapter.legacyIdentity,
-        account: await account(owner),
-        protocol: p.manifest.protocol,
-        mode: p.manifest.options?.mode ?? null,
-        disclosure: adapter.disclosure,
-      });
+      return describePrepared(await repo.get(id, owner), p);
     },
     async detail(owner, id, withReport = false) {
       const r = await repo.get(id, owner);
@@ -520,6 +536,29 @@ export function executionService({
       const saved = await repo.get(id, owner);
       await sealTerminal(saved);
       return ok(publicRun(saved));
+    },
+    async cancelRuns(owner, { runIds } = {}) {
+      if (
+        !Array.isArray(runIds) ||
+        runIds.length < 1 ||
+        runIds.length > 100 ||
+        !runIds.every(validId) ||
+        new Set(runIds).size !== runIds.length
+      )
+        return error('invalid_cancellations', 'Select 1–100 distinct saved runs to cancel.');
+      // One atomic transition prevents later batches, while retaining existing claims.
+      // Explicit IDs exclude a new plan opened after the user reviewed this list.
+      const stopped = await repo.cancelRuns(owner, runIds, now());
+      const attestationPending = [];
+      for (let i = 0; i < stopped.length; i += 8) {
+        const batch = stopped.slice(i, i + 8);
+        const seals = await Promise.allSettled(batch.map(sealTerminal));
+        seals.forEach((result, n) => {
+          if (result.status === 'rejected') attestationPending.push(batch[n].id);
+        });
+      }
+      // A failed completion seal cannot undo cancellation or claim signed evidence exists.
+      return ok({ cancelled: stopped.length, attestationPending, account: await account(owner) });
     },
     async stop(owner, id) {
       const r = await repo.get(id, owner);

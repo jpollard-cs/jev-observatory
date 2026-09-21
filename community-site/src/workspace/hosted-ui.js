@@ -374,6 +374,14 @@ export async function hostedRun({
     body = reviewBody;
     body.replaceChildren();
     title.textContent = 'Ready when you are.';
+    if (q.reused)
+      body.append(
+        el(
+          'p',
+          'This exact plan was already prepared. Its saved run is reused; no duplicate or model request was created.',
+          { className: 'note' },
+        ),
+      );
     body.append(
       el(
         'p',
@@ -685,20 +693,107 @@ export async function hostedRun({
     body.append(
       el(
         'p',
-        'Choose a saved plan in the workspace to start a new run. A refresh never restarts a provider request. Uncertain requests need reconciliation.',
+        'Prepared plans have not sent any requests. Execution history records what actually ran. Refreshing never restarts a provider request.',
         { className: 'fine' },
       ),
     );
+    const unfinished = session.runs.filter((r) => ['ready', 'running'].includes(r.status));
+    if (unfinished.length) {
+      const cancellation = el('section', null, { className: 'note section-space' });
+      cancellation.append(
+        el('h3', 'Clear unfinished runs'),
+        el(
+          'p',
+          `${unfinished.length} prepared or active runs are in this list. Cancel them to prevent further requests. Results stay available. Requests already sent may finish and be billed; unresolved spending holds remain.`,
+        ),
+      );
+      const cancel = button(
+        `Cancel ${unfinished.length} unfinished runs`,
+        safe(async () => {
+          if (busy) return;
+          busy = true;
+          cancel.disabled = true;
+          cancel.textContent = 'Cancelling…';
+          try {
+            const result = await remote('runs/cancel', { runIds: unfinished.map((r) => r.id) });
+            await home();
+            const note = el(
+              'p',
+              `${result.cancelled} unfinished runs cancelled. Saved results were kept.` +
+                (result.account?.heldUsd > 0
+                  ? ` ${usd(result.account.heldUsd)} remains held. Cancellation cannot confirm provider charges; unresolved requests may still block a new run.`
+                  : ' Unsent spending reservations were released.') +
+                (result.attestationPending.length
+                  ? ' Some completion signatures could not be saved; cancellation still took effect. Inspect those runs before sharing evidence.'
+                  : ''),
+              {
+                className:
+                  result.account?.heldUsd > 0 || result.attestationPending.length
+                    ? 'note warn'
+                    : 'note',
+                role: 'status',
+              },
+            );
+            body.prepend(note);
+          } catch (e) {
+            cancel.textContent = 'Cancellation status unknown';
+            cancellation.append(button('Refresh saved status', safe(savedRuns)));
+            throw e;
+          } finally {
+            busy = false;
+          }
+        }),
+      );
+      cancellation.append(cancel);
+      body.append(cancellation);
+    }
     if (!session.runs.length)
       body.append(
         el('p', 'No hosted runs yet. Prepare a policy, advisor request, or original suite first.'),
       );
-    for (const r of session.runs) {
+    const section = (r) =>
+      r.status === 'ready'
+        ? 'Prepared · never started'
+        : r.status === 'running' || r.inflight !== null || r.heldUsd > 0
+          ? 'Active or needs attention'
+          : 'Execution history';
+    const sections = ['Active or needs attention', 'Prepared · never started', 'Execution history'];
+    const ordered = sections.flatMap((name) => session.runs.filter((r) => section(r) === name));
+    let previousSection = null;
+    for (const r of ordered) {
+      const name = section(r);
+      if (name !== previousSection) {
+        body.append(el('h3', name, { className: 'section-space' }));
+        previousSection = name;
+      }
       const item = el('div', null, { className: 'note section-space' });
       item.append(
-        el('strong', `${r.status} · ${r.completed}/${r.requests} requests`),
+        el(
+          'strong',
+          r.status === 'ready'
+            ? `Never started · ${r.requests} planned requests`
+            : r.status === 'stopped' && r.completed === 0 && r.inflight === null
+              ? 'Cancelled before sending requests'
+              : `${r.status} · ${r.completed}/${r.requests} responses recorded`,
+        ),
         el('p', `${r.planHash.slice(0, 16)}… · ${r.createdAt}`, { className: 'fine' }),
       );
+      if (r.status === 'ready') {
+        const copies = session.runs.filter(
+          (other) => other.status === 'ready' && other.planHash === r.planHash,
+        ).length;
+        const completed = session.runs.some(
+          (other) => other.status === 'complete' && other.planHash === r.planHash,
+        );
+        if (copies > 1 || completed)
+          item.append(
+            el(
+              'p',
+              `${copies > 1 ? `${copies} unstarted copies of this exact plan were saved. ` : ''}${completed ? 'The same plan also has a completed execution in history. ' : ''}This entry made no provider calls.`,
+              { className: 'fine' },
+            ),
+          );
+      }
       item.append(
         el(
           'p',
@@ -727,10 +822,10 @@ export async function hostedRun({
             }),
           ),
         );
-      if (r.status === 'running')
+      if (['ready', 'running'].includes(r.status))
         item.append(
           button(
-            'Stop this run',
+            'Cancel this run',
             safe(async () => {
               await remote('runs/' + r.id + '/stop', {});
               await home();
