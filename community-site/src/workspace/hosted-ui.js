@@ -15,7 +15,6 @@ export function mountHostedAssistant(anchor) {
 let activeView = null;
 import { canReviewAdvice, failureDescription } from './hosted-evidence.js';
 import { hostedRemote as remote } from './hosted-transport.js';
-import { sameRetainedHolds } from '../hosted/retained-holds.mjs';
 const usd = (n) => '$' + Number(n ?? 0).toFixed(5);
 function el(tag, text, props = {}) {
   const n = document.createElement(tag);
@@ -368,7 +367,7 @@ export async function hostedRun({
       busy = false;
     }
   }
-  async function review(q, retainedHolds = []) {
+  async function review(q) {
     q = { ...q, ...(await remote('runs/' + q.id)) };
     if (!['ready', 'running'].includes(q.status) || q.inflight !== null) {
       active = null;
@@ -381,27 +380,26 @@ export async function hostedRun({
     body.replaceChildren();
     alert.hidden = true;
     const holds = q.unresolvedHolds ?? [];
-    const acknowledged =
-      q.startBlocker?.status === 'stopped' && sameRetainedHolds(holds, retainedHolds);
-    const blocked = q.startBlocker && !acknowledged;
-    // Only the freshly reviewed, exact snapshots may accompany authorization.
-    retainedHolds = acknowledged ? holds : [];
-    title.textContent = blocked
-      ? 'Prepared, but another run needs attention'
-      : 'Ready when you are.';
+    const blocked = q.startBlocker?.status === 'running';
+    title.textContent = blocked ? 'Another run is active' : 'Ready when you are.';
     if (blocked) {
       const blocker = q.startBlocker;
       body.append(
         el(
           'p',
-          `This request (${q.id.slice(0, 8)}) has not started. ` +
-            (blocker.status === 'running'
-              ? `A different run (${blocker.id.slice(0, 8)}) is active.`
-              : `An older stopped run (${blocker.id.slice(0, 8)}, created ${blocker.createdAt}) holds ${usd(blocker.heldUsd)} for unresolved provider charges. Cancelling pending plans does not clear that hold.`),
+          `This request has not started. Run ${blocker.id.slice(0, 8)} is active. You can stop it here and then authorize this prepared request.`,
           { className: 'note warn', role: 'status' },
         ),
         button(
-          'Inspect the blocking run',
+          'Stop the active run',
+          safe(async () => {
+            await remote('runs/' + blocker.id + '/stop', {});
+            await review(q);
+          }),
+          'btn primary',
+        ),
+        button(
+          'Inspect the active run',
           safe(async () => {
             active = null;
             body = el('section');
@@ -420,27 +418,12 @@ export async function hostedRun({
           safe(() => review(q)),
         ),
       );
-      if (blocker.status === 'stopped' && holds.length) {
-        const total = holds.reduce((sum, h) => sum + h.heldNano, 0) / 1e9;
-        body.append(
-          el(
-            'p',
-            `${usd(total)} across ${holds.length} earlier run(s) will stay reserved and deducted from your allowance. Those outcomes remain unknown; they will not be retried or marked successful. You can authorize a separate request with the remaining allowance.`,
-            { className: 'note' },
-          ),
-          button(
-            `Keep ${usd(total)} reserved and continue`,
-            safe(() => review(q, holds)),
-            'btn primary',
-          ),
-        );
-      }
     }
-    if (acknowledged)
+    if (holds.length)
       body.append(
         el(
           'p',
-          `You chose to retain ${usd(holds.reduce((sum, h) => sum + h.heldNano, 0) / 1e9)} for earlier unresolved requests. Review and authorize this separate run below. No request has been sent.`,
+          `${usd(holds.reduce((sum, h) => sum + h.heldNano, 0) / 1e9)} remains reserved for earlier stopped requests. It is already deducted from your available budget and does not prevent this run. No need to cancel those runs again.`,
           { className: 'note', role: 'status' },
         ),
       );
@@ -603,7 +586,6 @@ export async function hostedRun({
           let run = await remote('runs/' + q.id + '/start', {
             planHash: q.planHash,
             confirmPaid: true,
-            retainedHolds,
           });
           while (run.status === 'running' && run.inflight === null && !stop) {
             if (Date.now() > expires) {
@@ -793,7 +775,7 @@ export async function hostedRun({
               'p',
               `${result.cancelled} unfinished runs cancelled. Saved results were kept.` +
                 (result.account?.heldUsd > 0
-                  ? ` ${usd(result.account.heldUsd)} remains held. Cancellation cannot confirm provider charges; unresolved requests may still block a new run.`
+                  ? ` ${usd(result.account.heldUsd)} remains held. This amount stays deducted from your budget; it does not prevent a new run that fits the remaining allowance.`
                   : ' Unsent spending reservations were released.') +
                 (result.attestationPending.length
                   ? ' Some completion signatures could not be saved; cancellation still took effect. Inspect those runs before sharing evidence.'
@@ -826,10 +808,17 @@ export async function hostedRun({
     const section = (r) =>
       r.status === 'ready'
         ? 'Prepared · never started'
-        : r.status === 'running' || r.inflight !== null || r.heldUsd > 0
-          ? 'Active or needs attention'
-          : 'Execution history';
-    const sections = ['Active or needs attention', 'Prepared · never started', 'Execution history'];
+        : r.status === 'running'
+          ? 'Active runs'
+          : r.inflight !== null || r.heldUsd > 0
+            ? 'Stopped · reserved charges'
+            : 'Execution history';
+    const sections = [
+      'Active runs',
+      'Prepared · never started',
+      'Stopped · reserved charges',
+      'Execution history',
+    ];
     const ordered = sections.flatMap((name) => session.runs.filter((r) => section(r) === name));
     let previousSection = null;
     for (const r of ordered) {
@@ -850,6 +839,14 @@ export async function hostedRun({
         ),
         el('p', `${r.planHash.slice(0, 16)}… · ${r.createdAt}`, { className: 'fine' }),
       );
+      if (r.status === 'stopped' && (r.inflight !== null || r.heldUsd > 0))
+        item.append(
+          el(
+            'p',
+            'Already stopped. No further requests will be sent. Reserved charges reduce your available budget but do not block other runs.',
+            { className: 'fine' },
+          ),
+        );
       if (r.status === 'ready') {
         const copies = session.runs.filter(
           (other) => other.status === 'ready' && other.planHash === r.planHash,

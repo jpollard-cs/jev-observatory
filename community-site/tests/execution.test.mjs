@@ -354,7 +354,7 @@ test('concurrent dispatches and parallel runs cannot double-spend; cancellation 
   assert.equal(done.heldUsd, 0);
   assert.equal(calls, 1);
 });
-test('unknown cost is retained, retry and unacknowledged subsequent runs are blocked, and malformed outputs do not score', async (t) => {
+test('unknown cost is retained without blocking funded new work, and malformed outputs do not score', async (t) => {
   let calls = 0;
   const { service, q } = await fixture(t, async () => {
     calls++;
@@ -368,7 +368,7 @@ test('unknown cost is retained, retry and unacknowledged subsequent runs are blo
   const next = value(await service.prepare(owner, spec));
   assert.equal(
     (await service.start(owner, next.id, { planHash: next.planHash, confirmPaid: true })).tag,
-    'error',
+    'ok',
   );
   assert.equal(calls, 1);
   const report = value(await service.detail(owner, q.id, true)).report;
@@ -909,7 +909,7 @@ test('community sharing uses only owned saved evaluation records and retains the
   value(await contributions.setVisibility(contribution.id, { visibility: 'private' }, actor));
 });
 
-test('acknowledging an exact old hold permits a separate run without erasing evidence or spending twice', async (t) => {
+test('stopped holds are nonblocking budget reservations, captured from the ledger without client acknowledgements', async (t) => {
   let calls = 0;
   const { service, repo, q } = await fixture(t, async (r) => {
     if (++calls === 1) throw Error('unknown outcome');
@@ -918,136 +918,114 @@ test('acknowledging an exact old hold permits a separate run without erasing evi
   value(await service.start(owner, q.id, { planHash: q.planHash, confirmPaid: true }));
   value(await service.step(owner, q.id, { index: 0, apiKey: key }));
   const old = await repo.get(q.id, owner);
-  assert.ok(old.held_nano > 0);
   const next = value(await service.prepare(owner, spec));
-  const retainedHolds = value(await service.detail(owner, next.id)).unresolvedHolds;
-  assert.deepEqual(retainedHolds, [
+  const detail = value(await service.detail(owner, next.id));
+  assert.equal(detail.startBlocker, null);
+  assert.deepEqual(detail.unresolvedHolds, [
     { id: old.id, heldNano: old.held_nano, updatedAt: old.updated_at },
   ]);
-  const authorize = { planHash: next.planHash, confirmPaid: true };
-  assert.equal((await service.start(owner, next.id, authorize)).error.code, 'unresolved_run');
-  value(await service.start(owner, next.id, { ...authorize, retainedHolds }));
-  assert.equal(calls, 1, 'acknowledgement and authorization do not dispatch');
-  assert.deepEqual(await repo.get(q.id, owner), old);
   assert.equal(
-    (await repo.account(owner)).held_nano,
-    old.held_nano + (await repo.get(next.id, owner)).reserve_nano,
+    (await service.start(owner, next.id, { planHash: next.planHash })).error.code,
+    'confirmation_required',
   );
-  value(await service.start(owner, next.id, authorize));
+  value(await service.start(owner, next.id, { planHash: next.planHash, confirmPaid: true }));
+  const funded = await repo.get(next.id, owner);
+  assert.deepEqual(JSON.parse(funded.retained_holds_json), detail.unresolvedHolds);
+  assert.equal((await repo.account(owner)).held_nano, old.held_nano + funded.reserve_nano);
+  assert.deepEqual(await repo.get(q.id, owner), old);
+  assert.equal(calls, 1, 'start never sends a provider request');
+  value(
+    await service.start(owner, next.id, {
+      planHash: next.planHash,
+      confirmPaid: true,
+      retainedHolds: [],
+    }),
+  );
   assert.deepEqual(
-    value(await service.detail(owner, next.id)).retainedHolds,
-    retainedHolds,
-    'idempotent start cannot rewrite the recorded acknowledgement',
+    await repo.get(next.id, owner),
+    funded,
+    'an idempotent start cannot rewrite the ledger snapshot',
   );
   value(await service.step(owner, next.id, { index: 0, apiKey: key }));
-  assert.equal(calls, 2);
   assert.equal((await repo.account(owner)).held_nano, old.held_nano);
+  assert.equal(calls, 2);
   assert.deepEqual(await repo.get(q.id, owner), old);
   assert.equal((await service.step(owner, q.id, { index: 0, apiKey: key })).tag, 'error');
 });
 
-test('held-charge acknowledgement is validated, owner scoped, current and subject to the full allowance', async (t) => {
+test('old holds still exhaust the allowance, client snapshots cannot bypass accounting, and owners stay isolated', async (t) => {
   const { service, repo, storage, q } = await fixture(t, async () => {
     throw Error('unknown');
   });
   value(await service.start(owner, q.id, { planHash: q.planHash, confirmPaid: true }));
   value(await service.step(owner, q.id, { index: 0, apiKey: key }));
   const next = value(await service.prepare(owner, spec));
-  const [hold] = value(await service.detail(owner, next.id)).unresolvedHolds;
-  const authorize = (retainedHolds) =>
-    service.start(owner, next.id, { planHash: next.planHash, confirmPaid: true, retainedHolds });
-  for (const invalid of [
-    false,
-    {},
-    [null],
-    [hold, hold],
-    [{ ...hold, heldNano: -1 }],
-    [{ ...hold, heldNano: 1.2 }],
-    [{ ...hold, updatedAt: 'today' }],
-    [{ ...hold, extra: true }],
-  ])
-    assert.equal((await authorize(invalid)).error.code, 'invalid_retained_holds');
-  for (const changed of [
-    { ...hold, id: crypto.randomUUID() },
-    { ...hold, heldNano: hold.heldNano + 1 },
-    { ...hold, updatedAt: '2020-01-01T00:00:00.000Z' },
-  ])
-    assert.equal((await authorize([changed])).error.code, 'unresolved_run');
+  const old = await repo.get(q.id, owner),
+    reserve = (await repo.get(next.id, owner)).reserve_nano;
+  await storage.db
+    .prepare('UPDATE execution_accounts SET maximum_nano=?,prior_nano=0 WHERE owner=?')
+    .bind(old.held_nano + reserve - 1, owner)
+    .run();
+  assert.equal(
+    (
+      await service.start(owner, next.id, {
+        planHash: next.planHash,
+        confirmPaid: true,
+        retainedHolds: [],
+      })
+    ).error.code,
+    'insufficient_allowance',
+  );
+  assert.equal((await repo.get(next.id, owner)).held_nano, 0);
   value(await service.initialize('stranger', { maximumUsd: 3, carriedPriorUsd: 0 }));
   assert.equal((await service.detail('stranger', next.id)).error.code, 'not_found');
   const other = value(await service.prepare('stranger', spec));
   assert.deepEqual(value(await service.detail('stranger', other.id)).unresolvedHolds, []);
-  assert.equal(
-    (
-      await service.start('stranger', next.id, {
-        planHash: next.planHash,
-        confirmPaid: true,
-        retainedHolds: [hold],
-      })
-    ).error.code,
-    'not_found',
+  const started = value(
+    await service.start('stranger', other.id, {
+      planHash: other.planHash,
+      confirmPaid: true,
+      retainedHolds: [{ id: old.id, heldNano: 999 }],
+    }),
   );
-  const reserve = (await repo.get(next.id, owner)).reserve_nano;
-  await storage.db
-    .prepare('UPDATE execution_accounts SET maximum_nano=?,prior_nano=0 WHERE owner=?')
-    .bind(hold.heldNano + reserve - 1, owner)
-    .run();
-  assert.equal(
-    (await authorize([hold])).error.code,
-    'insufficient_allowance',
-    'old held amount must still count',
+  assert.deepEqual(
+    started.retainedHolds,
+    [],
+    'audit metadata comes from this owner’s ledger, never client claims',
   );
-  assert.equal((await repo.get(next.id, owner)).held_nano, 0);
 });
 
-test('new holds and active runs cannot be bypassed; simultaneous acknowledged starts reserve only one run', async (t) => {
+test('multiple stopped holds do not lock execution, but simultaneous starts still admit only one active run', async (t) => {
   const { service, repo, q } = await fixture(t, async () => {
     throw Error('unknown');
   });
   value(await service.start(owner, q.id, { planHash: q.planHash, confirmPaid: true }));
   value(await service.step(owner, q.id, { index: 0, apiKey: key }));
-  const a = value(await service.prepare(owner, namedSpec('A')));
-  const b = value(await service.prepare(owner, namedSpec('B')));
-  const holds = value(await service.detail(owner, a.id)).unresolvedHolds;
+  const a = value(await service.prepare(owner, namedSpec('A'))),
+    b = value(await service.prepare(owner, namedSpec('B')));
   const starts = await Promise.all(
-    [a, b].map((p) =>
-      service.start(owner, p.id, { planHash: p.planHash, confirmPaid: true, retainedHolds: holds }),
-    ),
+    [a, b].map((p) => service.start(owner, p.id, { planHash: p.planHash, confirmPaid: true })),
   );
   assert.equal(starts.filter((r) => r.tag === 'ok').length, 1);
+  assert.equal(starts.find((r) => r.tag === 'error').error.code, 'active_run');
   const winner = starts[0].tag === 'ok' ? a : b,
     loser = winner === a ? b : a;
-  const running = await repo.get(winner.id, owner);
-  const forged = [
-    ...holds,
-    { id: running.id, heldNano: running.held_nano, updatedAt: running.updated_at },
-  ];
-  assert.equal(
-    (
-      await service.start(owner, loser.id, {
-        planHash: loser.planHash,
-        confirmPaid: true,
-        retainedHolds: forged,
-      })
-    ).error.code,
-    'active_run',
-  );
+  assert.equal(value(await service.detail(owner, loser.id)).startBlocker.id, winner.id);
   value(await service.step(owner, winner.id, { index: 0, apiKey: key }));
-  assert.equal(
-    (
-      await service.start(owner, loser.id, {
-        planHash: loser.planHash,
-        confirmPaid: true,
-        retainedHolds: holds,
-      })
-    ).error.code,
-    'unresolved_run',
-    'a new unresolved hold requires fresh review',
+  assert.equal(value(await service.detail(owner, loser.id)).startBlocker, null);
+  const started = value(
+    await service.start(owner, loser.id, { planHash: loser.planHash, confirmPaid: true }),
   );
-  assert.equal((await repo.get(loser.id, owner)).held_nano, 0);
+  assert.equal(started.retainedHolds.length, 2);
+  assert.equal(
+    (await repo.account(owner)).held_nano,
+    (await repo.get(q.id, owner)).held_nano +
+      (await repo.get(winner.id, owner)).held_nano +
+      (await repo.get(loser.id, owner)).reserve_nano,
+  );
 });
 
-test('a late response settles only the old held reservation while an acknowledged new run stays funded', async (t) => {
+test('late settlement releases only the old hold while a separate authorized run stays funded', async (t) => {
   let entered, release;
   const ready = new Promise((r) => (entered = r)),
     gate = new Promise((r) => (release = r));
@@ -1061,14 +1039,8 @@ test('a late response settles only the old held reservation while an acknowledge
   await ready;
   value(await service.stop(owner, q.id));
   const next = value(await service.prepare(owner, spec));
-  const retainedHolds = value(await service.detail(owner, next.id)).unresolvedHolds;
-  value(
-    await service.start(owner, next.id, {
-      planHash: next.planHash,
-      confirmPaid: true,
-      retainedHolds,
-    }),
-  );
+  assert.equal(value(await service.detail(owner, next.id)).startBlocker, null);
+  value(await service.start(owner, next.id, { planHash: next.planHash, confirmPaid: true }));
   const funded = await repo.get(next.id, owner);
   release();
   value(await flight);
@@ -1078,7 +1050,7 @@ test('a late response settles only the old held reservation while an acknowledge
   assert.equal((await service.step(owner, q.id, { index: 0, apiKey: key })).tag, 'error');
 });
 
-test('retaining an unresolved reservation leaves the original signed completion valid and unchanged', async (t) => {
+test('new authorization preserves the stopped run’s signed evidence and completion unchanged', async (t) => {
   const { repo, storage } = await fixture(t);
   const { authority } = await testReceipts();
   const service = executionService({
@@ -1088,25 +1060,18 @@ test('retaining an unresolved reservation leaves the original signed completion 
     adapter: {
       ...jevExecutionAdapter,
       infer: async () => {
-        throw Error('unknown outcome');
+        throw Error('unknown');
       },
     },
   });
-  const q = value(await service.prepare(owner, namedSpec('Signed unresolved evidence')));
+  const q = value(await service.prepare(owner, namedSpec('Signed old hold')));
   value(await service.start(owner, q.id, { planHash: q.planHash, confirmPaid: true }));
   value(await service.step(owner, q.id, { index: 0, apiKey: key }));
-  const original = await repo.get(q.id, owner);
-  const completionKey = original.object_key + '/completion';
+  const original = await repo.get(q.id, owner),
+    completionKey = original.object_key + '/completion';
   const before = await new Response((await storage.blobs.get(completionKey)).body).text();
-  const next = value(await service.prepare(owner, namedSpec('Signed separate authorization')));
-  const retainedHolds = value(await service.detail(owner, next.id)).unresolvedHolds;
-  value(
-    await service.start(owner, next.id, {
-      planHash: next.planHash,
-      confirmPaid: true,
-      retainedHolds,
-    }),
-  );
+  const next = value(await service.prepare(owner, namedSpec('New signed authorization')));
+  value(await service.start(owner, next.id, { planHash: next.planHash, confirmPaid: true }));
   const after = await new Response((await storage.blobs.get(completionKey)).body).text();
   assert.equal(after, before);
   assert.deepEqual(await repo.get(q.id, owner), original);

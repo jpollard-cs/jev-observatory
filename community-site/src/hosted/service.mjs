@@ -5,7 +5,6 @@ import { verifySignedBundle } from '../receipts/verify.mjs';
 import { canonical, sha256 } from '../domain/contracts.mjs';
 import { ok, error, validId } from '../domain/contracts.mjs';
 import { MAX_PARALLEL, DEFAULT_PARALLEL } from './limits.mjs';
-import { holdSnapshot, validRetainedHolds } from './retained-holds.mjs';
 const stamp = () => new Date().toISOString();
 const publicRun = (r) => ({
   id: r.id,
@@ -341,7 +340,7 @@ export function executionService({
           r.status === 'ready'
             ? (await repo.list(owner))
                 .filter((run) => run.status === 'stopped' && run.held_nano > 0)
-                .map(holdSnapshot)
+                .map((run) => ({ id: run.id, heldNano: run.held_nano, updatedAt: run.updated_at }))
             : [],
         ...adapter.describe(p),
         execution: p.execution ?? adapter.legacyIdentity,
@@ -372,14 +371,8 @@ export function executionService({
           'confirmation_required',
           'Confirm this exact frozen plan before paid dispatch.',
         );
-      const retainedHolds = input.retainedHolds ?? [];
-      if (!validRetainedHolds(retainedHolds))
-        return error(
-          'invalid_retained_holds',
-          'Review the current unresolved reservations before continuing.',
-        );
       if (r.status === 'running') return ok(publicRun(r)); // Idempotent authorization, never a new dispatch.
-      if (r.status === 'ready') await repo.start(id, owner, now(), retainedHolds);
+      if (r.status === 'ready') await repo.start(id, owner, now());
       // Another authorization may have won since the initial read. Read this run
       // before diagnosing a blocker; starting reserves funds but never dispatches.
       const saved = await repo.get(id, owner);
@@ -387,13 +380,11 @@ export function executionService({
       if (saved.status === 'running') return ok(publicRun(saved));
       if (saved.status !== 'ready')
         return error('run_closed', 'This run is already closed. Refresh its saved status.', 409);
-      const blocked = await repo.blocker(owner, id, retainedHolds);
+      const blocked = await repo.blocker(owner, id);
       if (blocked)
         return error(
-          blocked.status === 'running' ? 'active_run' : 'unresolved_run',
-          blocked.status === 'running'
-            ? `Another saved run (${blocked.id.slice(0, 8)}) is active. Open saved runs to continue or stop it. This request has not started.`
-            : `An earlier stopped run (${blocked.id.slice(0, 8)}) still holds $${(blocked.held_nano / 1e9).toFixed(5)} for unresolved requests. Refresh this request to review the current hold and choose whether to keep it reserved while continuing. This request has not started.`,
+          'active_run',
+          `Another saved run (${blocked.id.slice(0, 8)}) is active. Stop that run or continue it from saved runs. This request has not started.`,
           409,
         );
       return error(

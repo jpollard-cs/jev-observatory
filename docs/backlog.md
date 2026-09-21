@@ -2,7 +2,7 @@
 
 ## MULTITURN-001 — Crescendo and adaptive conversation attacks
 
-Requested 2026-09-20. **Not covered by the current evaluation.** Existing multi-message fixtures are static transcripts. [Promptfoo's Crescendo strategy](https://www.promptfoo.dev/docs/red-team/strategies/multi-turn/) escalates across turns, adapts to responses and can backtrack after refusals. Our current Promptfoo adapter ignores generated prompt text and evaluates a frozen corpus case, so enabling `crescendo` alone would misrepresent coverage.
+Requested 2026-09-20. **Core evaluation priority; not yet covered.** The [conversation safety and cost-scaling protocol](crescendo-scaling-protocol.md) defines full-history and state-maintenance comparisons against conventional LLM guards, with matched quality constraints and complete conversation costs. Existing multi-message fixtures are static transcripts. [Promptfoo's Crescendo strategy](https://www.promptfoo.dev/docs/red-team/strategies/multi-turn/) escalates across turns, adapts to responses and can backtrack after refusals. Our current Promptfoo adapter ignores generated prompt text and evaluates a frozen corpus case, so enabling `crescendo` alone would misrepresent coverage.
 
 Add a conversation adapter that preserves each branch and passes its complete observable history to the classifier. Distinguish direct conversational jailbreaks from indirect instructions in documents/tool results, and classifier detection from an agent actually resisting an attack. For Jev, define how classification decisions control a sandboxed target's response; its native Choice/Noul/Score outputs are not conversational assistant responses.
 
