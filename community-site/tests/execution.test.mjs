@@ -1078,3 +1078,14 @@ test('new authorization preserves the stopped run’s signed evidence and comple
   const seal = JSON.parse(after);
   await authority.verify('completion', seal.record, seal.receipt);
 });
+
+test('original browser options allow small sweeps with the catalog ceiling but reject oversized selected suites',()=>{
+ const small=makeReplayPlan({preset:'families',maxUsd:1}).manifest;
+ assert.equal(small.options.maxCalls,15184);
+ const prepared=rebuild({route:'original/prepare',input:{options:small.options},planHash:small.planHash});
+ assert.equal(prepared.jobs.length,36);
+ assert.deepEqual(prepared.manifest,small);
+ const large=makeReplayPlan({preset:'contexts',profiles:['permissive','balanced'],maxUsd:10}).manifest;
+ assert.ok(large.jobs.length>480);
+ assert.throws(()=>rebuild({route:'original/prepare',input:{options:large.options},planHash:large.planHash}),/1–480 requests/);
+});

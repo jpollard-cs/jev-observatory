@@ -16,7 +16,9 @@ export function rebuild(spec) {
   const i = spec.input ?? {};
   // Bound compilation before doing expensive replay work. Bodies/code are never accepted.
   assert(JSON.stringify(spec).length <= 250000, 'Plan description exceeds hosted limit');
-  if (i.options?.maxCalls)
+  // Original selections carry the catalog ceiling even when only a small sweep
+  // is selected. Check their actual manifest count before rebuilding bodies.
+  if (spec.route !== 'original/prepare' && i.options?.maxCalls)
     assert(
       i.options.maxCalls <= MAX_CALLS,
       'Use at most 480 requests per hosted run; larger suites remain exportable',
@@ -56,6 +58,10 @@ export function rebuild(spec) {
     'Minimum coverage does not fit',
   );
   if (!p.jobs) {
+    assert(
+      m.jobs.length > 0 && m.jobs.length <= MAX_CALLS,
+      'Hosted runs support 1–480 requests. All larger suites remain available through export',
+    );
     const all = new Map(
       [...replayJobs(m)].map((j) => [j.metadata.id, { ...j.metadata, body: j.body }]),
     );

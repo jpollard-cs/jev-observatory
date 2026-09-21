@@ -52,7 +52,7 @@ function renderPage(){
  const restoreView=preserveView(document.getElementById('content'));
  rememberPage();disposeOrbit();document.querySelectorAll('.inline-help-popover').forEach(x=>x.remove());
  const pages={start:()=>guidedHome(state,boot),review:()=>runReview(state,boot,state.frozen?runCommand():''),connection:()=>connectionPage(state,boot),overview,policy:()=>guidedPolicy(state,boot),selection:()=>selectionPage(state,boot),planner:()=>guidedPlanner(state,boot)+(state.plan?orbitMarkup(plannedAtlas()):''),original:()=>libraryPage(state,boot),evidence:evidencePage,context:contextPage,provenance:provenancePage};
- const browserExport=boot.hosted?({start:state.setupFrozen?button('Download setup request bundle','download-setup-plan'):null,selection:state.advisorFrozen?button('Download advisor request bundle','download-advisor-plan'):null,original:state.originalFrozen?button('Review hosted run','hosted-original','primary')+button('Download original suite bundle','download-original-plan'):null})[state.nav]:null;
+ const browserExport=boot.hosted?({start:state.setupFrozen?button('Download setup request bundle','download-setup-plan'):null,selection:state.advisorFrozen?button('Download advisor request bundle','download-advisor-plan'):null})[state.nav]:null;
  document.getElementById('content').innerHTML=(['start','policy','planner','review','selection','connection'].includes(state.nav)?workflowRail(state):'')+pages[state.nav]()+(browserExport?`<div class="note">${browserExport}<p>Plan preparation is offline. Review a hosted run to save it privately and authorize execution, or export the bundle for your local runner.</p></div>`:'');restoreDisclosures(document.getElementById('content'),disclosurePages.get(state.nav));renderedPage=state.nav;attachHelp();
  if(boot.hosted)mountHostedAssistant(document.getElementById('content'));
  if(state.error)document.getElementById('content').insertAdjacentHTML('afterbegin',`<div class="error" role="alert">${esc(state.error)}</div>`);
@@ -93,9 +93,9 @@ function runCommand(){
 }
 
 function evidencePage(){
- if(activeCondition().kind?.startsWith('original-'))return historicalEvidencePage(state,runSelector());
+ if(activeCondition().kind?.startsWith('original-'))return historicalEvidencePage(state,runSelector(),{hosted:boot.hosted});
  const c=activeCondition(),s=c.summary,scope=operationInfo(c),judgment=conditionJudgment(c),fields=Object.keys(s.metrics??{}),rows=filterRows(c.rows,state),pages=Math.max(1,Math.ceil(rows.length/80));state.page=Math.min(state.page,pages-1);const shown=rows.slice(state.page*80,(state.page+1)*80),groups=[...new Set(c.rows.map(r=>r.group))].sort(),repeats=[...new Set(c.rows.map(r=>r.repeat))],panels=[...new Set(c.rows.map(r=>r.panel??r.suite).filter(Boolean))];
- return pageHead('5 / Results','Did your policy catch the attacks?','These tests compare the model’s answers with expected answers for attacks and legitimate inputs. Check missed attacks and false alarms, then open a test row to see what happened.',(boot.hosted?button('Your saved runs','hosted-history'):button('Import report','import-report'))+button('Export this report view','export-evidence'))+
+ return pageHead('5 / Results','Did your policy catch the attacks?','These tests compare the model’s answers with expected answers for attacks and legitimate inputs. Check missed attacks and false alarms, then open a test row to see what happened.',(boot.hosted?button('Your saved runs','hosted-history'):'')+button('Import results (.json)','import-report')+button('Export this report view','export-evidence'))+
  `<p class="fine">Run status: ${esc(state.evidence.status)}. ${state.evidence.summaryDifferences?.length?'WARNING: reconstructed summaries differ from the supplied summaries.':''} ${esc((state.evidence.importWarnings??[]).join(' '))}</p>`+runSelector()+coverageScopeNotice(state.evidence.design?.coverage)+
  `<section class="card scope-banner"><div><div class="eyebrow">Recorded operation</div><h2>${esc(scope.name)}</h2><p>${esc(scope.description)}</p></div><div><strong>Expected answers for these test cases</strong>${decisionDistribution(c.rows)}</div></section>`+
  `<div class="stats">${stat('Attacks caught',s.attackDetection.detected+'/'+s.attackDetection.attacks,'Labeled as attacks among the authored attack cases')}${stat('Legitimate inputs flagged',s.attackDetection.falseAlarms+'/'+s.attackDetection.benign,'Benign test inputs incorrectly labeled as attacks')}${stat('Policy decisions matched',(s.metrics.policy_decision?.correct??'—')+'/'+(s.metrics.policy_decision?.valid??'—'),s.admission.scored?s.admission.unsafeAllows+' unsafe allows · '+s.admission.unnecessaryHolds+' unnecessary holds':'Matches among usable answers')}${stat('No usable answer',c.rows.filter(r=>!r.valid).length+'/'+c.rows.length,'Missing or failed responses are not counted as passes')}</div><p class="fine">Totals are for this test variant. Detecting an attack and deciding to allow, block or review an input are separate questions. Test results are not production error rates.</p>`+
@@ -261,9 +261,11 @@ async function action(name){
  if(name==='retry-view'){state.error=null;renderPage();return;}
  if(name==='original-to-current'){state.nav='planner';shell();return;}
  if(name==='original-prev'||name==='original-next'){state.originalPage+=name==='original-next'?1:-1;renderPage();return;}
+ if(name==='original-import'){document.getElementById('original-selection-file').click();return;}
+ if(name==='original-review'){const origin=state.nav,frozen=await action('original-freeze');if(frozen&&state.originalFrozen===frozen&&state.nav===origin)await openHosted(frozen);return;}
  if(name==='original-export'){download('original-selection.json',pretty(state.originalOptions));return;}
  if(name==='original-preview'){toast('Rebuilding original definitions; no model calls…');const epoch=++originalEpoch;const plan=await api('original/plan',{options:structuredClone(state.originalOptions)});if(epoch!==originalEpoch)return;state.originalPlan=plan;state.originalFrozen=null;state.originalPage=0;renderPage();return;}
- if(name==='original-freeze'){if(!state.originalPlan)throw Error('Preview the original suite first');toast('Saving exact requests and source snapshots locally…');const epoch=originalEpoch;const frozen=await api('original/prepare',{options:structuredClone(state.originalOptions)});if(epoch!==originalEpoch)return;state.originalFrozen=frozen;state.originalPlan=state.originalFrozen.manifest;renderPage();toast('Original suite saved. No paid requests sent.');return;}
+ if(name==='original-freeze'){if(!state.originalPlan)throw Error('Preview the original suite first');toast('Saving exact requests and source snapshots locally…');const epoch=originalEpoch;const frozen=await api('original/prepare',{options:structuredClone(state.originalOptions)});if(epoch!==originalEpoch)return;state.originalFrozen=frozen;state.originalPlan=state.originalFrozen.manifest;renderPage();toast('Original suite saved. No paid requests sent.');return frozen;}
 
  if(name==='open-menu'){toggleMenu(true);return;}
  if(name==='close-menu'){toggleMenu(false);return;}
@@ -331,8 +333,18 @@ function updatePlanningInput(t){
  document.getElementById('planner-selected-groups')?.setAttribute('hidden','');
  if(state.nav==='planner'){disposeOrbit();document.querySelector('[aria-label="Outcome atlas"]')?.setAttribute('hidden','');}
 }
+// Commit settings without replacing the next button while a field loses focus.
+function updateOriginalOption(t){
+ const key=t.dataset.originalOption,value=t.type==='checkbox'?t.checked:['maxUsd','maxCalls'].includes(key)?Number(t.value):t.value;
+ if(state.originalOptions[key]===value)return;
+ originalEpoch++;state.originalOptions[key]=value;state.originalPlan=null;state.originalFrozen=null;
+ if(state.nav==='original'){
+  disposeOrbit();const preview=document.getElementById('original-plan-preview');
+  if(preview){const execution=preview.querySelector('[data-execution-slot]'),note=document.createElement('p');note.className='note';note.textContent='Settings changed. Preview the suite to update its tests and cost.';preview.replaceChildren(note,...(execution?[execution]:[]));}
+ }
+}
 window.addEventListener('hashchange',()=>{const page=pageFromHash(location.hash);if(boot&&page&&page!==state.nav){state.nav=page;state.error=null;shell();}});
-document.addEventListener('input',e=>{const t=e.target;if(t.dataset.plan){updatePlanningInput(t);return;}if(t.dataset.start){invalidateDraft();state.application[t.dataset.start]=t.value;saveApplication();refreshSetupFollowup();const caption=document.querySelector('.journey-caption');if(caption)caption.textContent='Application edited · review the rules again before running.';}});
+document.addEventListener('input',e=>{const t=e.target;if(t.dataset.originalOption){updateOriginalOption(t);return;}if(t.dataset.plan){updatePlanningInput(t);return;}if(t.dataset.start){invalidateDraft();state.application[t.dataset.start]=t.value;saveApplication();refreshSetupFollowup();const caption=document.querySelector('.journey-caption');if(caption)caption.textContent='Application edited · review the rules again before running.';}});
 document.addEventListener('change',async e=>{const t=e.target;try{
  if(t.dataset.start){return;}
  if(t.dataset.setupLanguage){
@@ -345,6 +357,13 @@ document.addEventListener('change',async e=>{const t=e.target;try{
   state.setupLanguageChoice={mode:'allowlist',allowed};state.setupPicks=state.setupPicks.filter(x=>x!=='languages');refreshSetupFollowup();return;
  }
  if(t.dataset.setupPick){if(!isSetupCurrent(state)){refreshSetupFollowup();return;}state.setupPicks=state.setupPicks.filter(x=>x!==t.dataset.setupPick);if(t.checked){state.setupPicks.push(t.dataset.setupPick);if(t.dataset.setupPick==='languages')state.setupLanguageChoice=null;}refreshSetupFollowup();return;}
+ if(t.id==='original-selection-file'&&t.files[0]){
+  const file=t.files[0];t.value='';if(file.size>64*1024)throw Error('Selection settings exceed 64 KiB');
+  const epoch=++originalEpoch,origin=state.nav,options=JSON.parse(await file.text());
+  const plan=await api('original/plan',{options});
+  if(epoch!==originalEpoch||state.nav!==origin)return;
+  state.originalOptions=plan.options;state.originalPlan=plan;state.originalFrozen=null;state.originalPage=0;renderPage();toast('Selection restored and previewed. No model calls.');return;
+ }
  if(t.id==='setup-file'&&t.files[0]){if(t.files[0].size>2*1024*1024)throw Error('Setup report exceeds 2 MiB');await importSetup(await t.files[0].text());state.nav='start';shell();t.value='';return;}
  if(t.dataset.connection){const k=t.dataset.connection;state.connectionDraft[k]=t.type==='checkbox'?t.checked:k==='accountLimitUsd'?Number(t.value):t.value;
   if(k==='accountKind')state.connectionDraft.directory=t.value==='project'?boot.connectionDefaults.defaultProject:boot.connectionDefaults.defaultAccount;
@@ -352,7 +371,7 @@ document.addEventListener('change',async e=>{const t=e.target;try{
  }
  if(t.id==='original-evidence-field'){state.historyField=t.value;state.expectedDecision='';state.matrix=null;state.page=0;renderPage();}
  if(t.id==='atlas-scope'){state.atlasScope=t.value;renderPage();}
- else if(t.dataset.originalOption){originalEpoch++;state.originalOptions[t.dataset.originalOption]=t.type==='checkbox'?t.checked:['maxUsd','maxCalls'].includes(t.dataset.originalOption)?Number(t.value):t.value;state.originalPlan=null;state.originalFrozen=null;renderPage();}
+ else if(t.dataset.originalOption){updateOriginalOption(t);}
  else if(t.dataset.originalFamily||t.dataset.originalExtension||t.dataset.originalFactor){originalEpoch++;const key=t.dataset.originalFamily?'families':t.dataset.originalExtension?'extensionSuites':t.dataset.originalFactor,v=t.dataset.originalFamily??t.dataset.originalExtension??(['lengths','seeds'].includes(key)?Number(t.value):t.value),list=state.originalOptions[key];if(t.checked&&!list.includes(v))list.push(v);if(!t.checked)state.originalOptions[key]=list.filter(x=>x!==v);state.originalPlan=null;state.originalFrozen=null;const opened=[...document.querySelectorAll('#content details')].map(x=>x.open),scroll=scrollY;renderPage();document.querySelectorAll('#content details').forEach((x,i)=>x.open=opened[i]??false);window.scrollTo(0,scroll);}
  else if(t.dataset.app){invalidateDraft();state.application[t.dataset.app]=t.value;saveApplication();state.adviceReport=null;state.adviceSummary=null;state.advisorFrozen=null;state.plan=null;state.frozen=null;renderPage();}
  else if(t.dataset.appList){invalidateDraft();const list=state.application[t.dataset.appList];if(t.checked&&!list.includes(t.value))list.push(t.value);else if(!t.checked&&list.includes(t.value))list.splice(list.indexOf(t.value),1);saveApplication();state.adviceReport=null;state.adviceSummary=null;state.advisorFrozen=null;state.plan=null;state.frozen=null;renderPage();}

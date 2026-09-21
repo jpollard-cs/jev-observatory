@@ -96,3 +96,34 @@ test('archived request inspection verifies the exact request bytes', async () =>
   assert.equal(archived.requestHash, hash);
   assert.deepEqual(archived.request, requests[hash]);
 });
+
+test('original selection settings restore exact requests and prepare browser execution without model calls', async () => {
+  const options={preset:'extensions',maxUsd:1};
+  const plan=await dispatch('original/plan',{options});
+  const restored=JSON.parse(JSON.stringify(plan.options));
+  const frozen=await dispatch('original/prepare',{options:restored});
+  assert.deepEqual(frozen.manifest,plan);
+  assert.equal(frozen.liveCalls,0);
+  assert.deepEqual(await dispatch('workspace/execution-spec',{planHash:frozen.planHash}),{
+    route:'original/prepare',input:{options:restored},planHash:plan.planHash,
+  });
+  const exported=await dispatch('workspace/export',{planHash:frozen.planHash});
+  const files=unzipSync(exported.bytes);
+  assert.deepEqual(JSON.parse(new TextDecoder().decode(files['plan/manifest.json'])),plan);
+  for(const options of [[],{protocol:'original-evaluation-v1'},{maxUsd:-1}])
+    await assert.rejects(dispatch('original/plan',{options}));
+  await assert.rejects(dispatch('import-report',{raw:JSON.stringify(restored)}),/Unsupported report protocol/);
+});
+
+test('original result export can be imported again with source, policy and judgment identities intact',async()=>{
+ const report=loadEvidence('original-campaign');
+ const imported=await dispatch('import-report',{raw:JSON.stringify(report)});
+ assert.equal(imported.planHash,report.planHash);
+ assert.equal(imported.originalSourceHash,report.originalSourceHash);
+ assert.equal(imported.validCalls,report.validCalls);
+ for(let i=0;i<report.conditions.length;i++){
+  assert.equal(imported.conditions[i].id,report.conditions[i].id);
+  assert.deepEqual(JSON.parse(JSON.stringify(imported.conditions[i].rows)),JSON.parse(JSON.stringify(report.conditions[i].rows)));
+  assert.deepEqual(JSON.parse(JSON.stringify(imported.conditions[i].summary)),JSON.parse(JSON.stringify(report.conditions[i].summary)));
+ }
+});
