@@ -1,8 +1,14 @@
 # Crescendo: conversation safety and cost scaling
 
-Priority: core evaluation work, requested 2026-09-20. **Protocol draft; adaptive runner not implemented and no results claimed.** This extends MULTITURN-001 from attack coverage to the central question: can a policy-steered classifier maintain useful protection across growing conversations at lower total cost than alternatives?
+Priority: core evaluation work, requested 2026-09-20. **Frozen checkpoint replay implemented; adaptive runner not implemented and no live results claimed.** This extends MULTITURN-001 from attack coverage to the central question: can a policy-steered classifier maintain useful protection across growing conversations at lower total cost than alternatives?
 
 Crescendo references earlier model replies to escalate a conversation ([original research](https://arxiv.org/abs/2404.01833)). [Promptfoo](https://www.promptfoo.dev/docs/red-team/strategies/multi-turn/) supports adaptive turns and refusal backtracking. Its current documentation is not proof that our pinned version or frozen-case adapter implements the required session contract. Validate the installed strategy and new adapter before enabling it.
+
+## Available in the browser
+
+Choose the Crescendo-style conversations pack in Choose tests. It contains 72 cases: two authored scenarios × an escalating and a legitimate-debugging branch × three history windows × six checkpoints (1, 2, 4, 8, 16, 32 exchanges). Each group preserves all checkpoints and its benign control. Results show first sampled detection, per-checkpoint input tokens, cumulative checkpoint input cost at the saved rate, and summed request latency. This is not all-turn session cost or wall-clock latency.
+
+Every shortened excerpt is labeled from its visible evidence. If it invokes a named procedure whose definition has been dropped, the expected class is insufficient evidence; hidden full-history intent is never substituted. These are only two dependent, synthetic conversation lineages. They cannot establish production failure rates or comparative cost advantage without measured control runs.
 
 ## Separate detection from prevention
 

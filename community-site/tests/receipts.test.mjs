@@ -19,7 +19,7 @@ import { sha } from '../../workbench/src/util.mjs';
 import { verifySignedBundle } from '../src/receipts/verify.mjs';
 import { receiptAuthority } from '../src/receipts/crypto.mjs';
 import { canonical, sha256 } from '../src/domain/contracts.mjs';
-import core from '../trust/admission-core-v1.json' with { type: 'json' };
+import core from '../trust/admission-core-v2.json' with { type: 'json' };
 const value = (r) => {
   assert.equal(r.tag, 'ok', JSON.stringify(r));
   return r.value;
@@ -57,7 +57,7 @@ async function fixture(t) {
   });
   value(await service.initialize('alice', { maximumUsd: 3, carriedPriorUsd: 0 }));
   const policy = preset(),
-    options = { tier: 'gold', maxUsd: 3, layouts: ['question', 'criteria'] };
+    options = { tier: 'gold', maxUsd: 3, maxInputTokens:10000000, attackPacks:[], layouts: ['question', 'criteria'] };
   const p = makePlan(policy, options);
   const q = value(
     await service.prepare('alice', {
@@ -73,7 +73,7 @@ test('the required core is pinned to the reviewed catalog and both classifier la
   assert.equal(core.catalogHash, catalogHash);
   assert.deepEqual(
     core.cases,
-    CATALOG.map((c) => ({ id: c.id, hash: sha(c) })),
+    CATALOG.filter(c=>!c.pack).map((c) => ({ id: c.id, hash: sha(c) })),
   );
   assert.deepEqual(core.layouts, ['question', 'criteria']);
   assert.equal(core.cases.length, 60);
@@ -289,7 +289,7 @@ test('a fully executed frozen core verifies but never produces a no-regression v
   assert.equal(verified.core.requiredRequests, 120);
   assert.equal(verified.core.status, 'complete');
   assert.equal(verified.regressionVerdict, 'not_evaluated');
-  assert.equal(f.calls(), 120);
+  assert.equal(f.calls(), core.cases.length*2);
   assert.ok(!canonical(bundle).includes('mock-test-key'));
   assert.ok(!canonical(bundle).includes(JSON.parse(f.receipts.secret).jwk.d));
 });

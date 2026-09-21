@@ -56,7 +56,7 @@ export function compileCase(p,c,layout=p.layout){validatePolicy(p);assert(['ques
  const body=rendered.jobs[0].body,wireBytes=utf8(body),largestQuestion=Math.max(...Object.values(qs).map(utf8));
  assert(utf8(request.state)+largestQuestion<=90000,'State + longest question exceeds local size screen; no content was truncated');
  return {request,body,requestHash:sha(body),wireBytes,estimatedInputTokens:Math.ceil(wireBytes/3),reservationInputTokens:wireBytes+256,
- receipt:{...rendered.receipt,requestHash:sha(body),workbenchVersion:'0.1.0',policyHash:policyId(p),contextHash:sha(ctx.context),materialHash:sha(c.material),contextOrigins:ctx.origins,exampleAssignmentHash:sha(assignments),exampleOccurrences:assignments.length,layout,sourceCaseVersion:c.sourceVersion,
+ receipt:{...rendered.receipt,requestHash:sha(body),workbenchVersion:'0.1.0',policyHash:policyId(p),contextHash:sha(ctx.context),materialHash:sha(c.material),contextOrigins:ctx.origins,exampleAssignmentHash:sha(assignments),exampleOccurrences:assignments.length,layout,sourceCaseVersion:c.sourceVersion,evaluation:clone(c.evaluation??null),
   logicalAssessmentHash:sha({policy:({...p,layout:'placement-independent'}),context:ctx.context,material:c.material,questions:questionsFor(p),assignments,taskQuestions:c.taskQuestions?.map(({expected,...x})=>x)??[]}),
   contextScreen:{wireBytes,statePlusLongestQuestionBytes:utf8(request.state)+largestQuestion,tokenizer:'not available; bytes/3 is a forecast, not a limit guarantee',providerAcceptance:'unmeasured'}}};
 }

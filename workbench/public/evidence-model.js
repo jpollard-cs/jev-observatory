@@ -2,12 +2,22 @@
 export const answerValue=x=>typeof x==='string'?x:x?.choice??null;
 export const expectation=(row,field)=>Object.hasOwn(row.expected??{},field)?row.expected[field]:null;
 export const rowIdentity=row=>row.rowKey??`${row.id}::${row.repeat??1}`;
+const studies={
+ 'original-campaign':['Broad security benchmark','How did the model handle injection, judging, moderation and permission boundaries? Previously recorded reference results.'],
+ 'original-encoding':['Hidden-message recognition','Could the model recognize encoded messages, and did it classify their intent correctly?'],
+ 'consumer-admission-v1':['Policy strictness comparison','How did fixed rules, scoped exceptions and inspection-only policies change the answers?'],
+ 'boundary-fewshot-v2':['Revised examples comparison','Did revised worked examples improve detection? These samples were inspected in isolation.'],
+ 'prompt-variant-lab-v1':['Prompt design comparison','How did different instruction formats and split questions change the model’s answers?'],
+ 'compact-single-pass-48-v1':['Shorter prompt comparison','How did the compact prompt perform on a smaller recorded test set?']
+};
+export function reportPresentation(report){const known=studies[report?.id];return {title:known?.[0]??report?.title??'Your saved run',description:known?.[1]??'Results from this saved run. Open a test to inspect its exact input, policy and response.'};}
 export function conditionPresentation(condition){
  const layouts={question:['Examples grouped by question','Each question includes the examples for all of its possible answers.'],criteria:['Examples grouped by answer','Each answer choice includes the examples that illustrate that answer.']};
- const layout=condition?.kind==='workbench'?layouts[condition.layout]:null;
+ const recorded=/^(inspection|strict|contextual)_(question|criteria)$/.exec(condition?.id??'');
+ const layoutId=condition?.kind==='workbench'?condition.layout:recorded?.[2],layout=layouts[layoutId];
  if(!layout)return {title:condition?.title??condition?.id??'Recorded test variant',description:'This variant uses the policy and instructions saved with the run.'};
- const suffix=' · '+condition.layout+'-local',title=condition.title??'';
- const policy=title.endsWith(suffix)?title.slice(0,-suffix.length):title;
+ const names={strict:'Fixed rules',contextual:'Rules with scoped exceptions',inspection:'Detection without forwarding'};
+ const policy=names[condition.policyId??recorded?.[1]]??(condition.title??'').replace(/ · (question|criteria)-local$/,'');
  return {title:(policy?policy+' · ':'')+layout[0],description:layout[1]+' The examples are unchanged; only their placement differs.'};
 }
 export function defaultCondition(report,preferred){

@@ -10,7 +10,7 @@ import {
   validId,
 } from './domain/contracts.mjs';
 import { verifySignedBundle } from './receipts/verify.mjs';
-import requiredCore from '../trust/admission-core-v1.json' with { type: 'json' };
+import requiredCore from '../trust/admission-core-v2.json' with { type: 'json' };
 export function communityService({
   repo,
   blobs,

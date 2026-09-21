@@ -3,7 +3,7 @@
 import fs from 'node:fs/promises';
 import { verifySignedBundle } from '../src/receipts/verify.mjs';
 import trust from '../trust/receipt-keys.json' with { type: 'json' };
-import core from '../trust/admission-core-v1.json' with { type: 'json' };
+import core from '../trust/admission-core-v2.json' with { type: 'json' };
 const [file, ...args] = process.argv.slice(2);
 const constraints = {};
 try {

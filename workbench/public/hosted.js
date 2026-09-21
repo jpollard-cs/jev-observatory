@@ -3,3 +3,5 @@ export async function hostedRun(){throw Error('Hosted execution is available on 
 
 export function mountHostedAssistant(){}
 export function showHostedConnection(){}
+
+export async function readHostedRequest(){return null;}

@@ -24,7 +24,7 @@ import js from '../public/app.js';
 import catalog from '../catalog/generated.json';
 import example from '../catalog/example.json';
 import trust from '../trust/receipt-keys.json';
-import receiptCore from '../trust/admission-core-v1.json';
+import receiptCore from '../trust/admission-core-v2.json';
 import release from 'workspace:release';
 import { receiptAuthority } from './receipts/crypto.mjs';
 export function createWorker({

@@ -209,6 +209,7 @@ export function makeReport(prepared, run, observations) {
     };
     const row = {
       ...j,
+      requestIndex: n,
       body: undefined,
       request: undefined,
       receipt: undefined,
@@ -236,7 +237,7 @@ export function makeReport(prepared, run, observations) {
       providerModel: o?.evidence.reportedProviderModel ?? null,
       source: { requestHash: j.requestHash, rawHash: o?.rawHash ?? null },
       plannedRequestHash: j.requestHash,
-      originalKind: j.kind,
+      originalKind: original ? j.kind : null,
       originalTask: j.task,
     };
     if (row.valid && !original) row.derivedDisposition = deriveDecision(m.policy, row.answers);
@@ -250,6 +251,8 @@ export function makeReport(prepared, run, observations) {
     conditions,
     budget,
     design: {
+      hostedRunId: run.id,
+      pricing: m.pricing ?? null,
       execution: prepared.execution ?? null,
       policy: m.policy ?? null,
       policyHash: m.policyHash ?? null,

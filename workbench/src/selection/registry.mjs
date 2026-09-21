@@ -1,3 +1,5 @@
+import {PROMPTFOO_UNITS,ATTACK_PACKS} from '../attacks/promptfoo.mjs';
+import {CONVERSATION_UNITS} from '../attacks/conversations.mjs';
 /** Owner-maintained coverage units. Model tags are suggestions, never these invariants. */
 import {CATALOG,catalogHash} from '../catalog.mjs';
 import {sha,clone,assert} from '../util.mjs';
@@ -45,12 +47,12 @@ for(const [key,name,domain] of [['receiving','Receiving inspection','incident-re
  basic.push(U(stem+'-positions',name+': placement','Early and late source injection in the same dossier; requires its clean/quotation/middle controls.',[stem+'-attack-early',stem+'-attack-late'],['contextual_evidence','task_integrity'],{domain,dependsOn:[stem+'-core'],severity:3}));
  basic.push(U(stem+'-split',name+': split directive','Associated pieces form a directive across documents; requires the dossier controls.',[stem+'-split-attack'],['contextual_evidence','composition','task_integrity'],{domain,dependsOn:[stem+'-core'],severity:4}));
 }
-export const UNITS=Object.freeze(basic);
-export const REGISTRY_ID='granular-workbench-catalog/1';
+export const UNITS=Object.freeze([...basic,...PROMPTFOO_UNITS,...CONVERSATION_UNITS]);
+export const REGISTRY_ID='granular-workbench-catalog/2';
 export const registryHash=sha({id:REGISTRY_ID,catalogHash,facets:FACETS,units:UNITS});
 for(const u of UNITS){assert(u.caseIds.every(id=>CATALOG.some(c=>c.id===id)), 'Unknown catalog case '+u.id);assert(u.facets.every(f=>Object.hasOwn(FACETS,f)),'Unknown facet');assert(u.dependsOn.every(id=>UNITS.some(x=>x.id===id)),'Unknown dependency');}
 assert(new Set(UNITS.map(u=>u.id)).size===UNITS.length,'Duplicate coverage units');
-export function registryView(){return {id:REGISTRY_ID,hash:registryHash,taxonomyVersion:TAXONOMY_VERSION,facets:FACETS,units:clone(UNITS),cases:CATALOG.length,semanticFamilies:new Set(CATALOG.map(c=>c.group)).size,notes:['Units can share controls; the same requested case/layout/repeat runs only once per evaluation plan.','A unit is indivisible. Dependencies are selected together. A complete dossier is never chunked into separate examples.','No claim of independent production samples or full historical-campaign integration.']};}
+export function registryView(){return {id:REGISTRY_ID,hash:registryHash,taxonomyVersion:TAXONOMY_VERSION,facets:FACETS,units:clone(UNITS),attackPacks:ATTACK_PACKS.map(p=>({...p,cases:CATALOG.filter(c=>c.pack===p.id).length,groups:UNITS.filter(u=>u.pack===p.id).length})),cases:CATALOG.length,semanticFamilies:new Set(CATALOG.map(c=>c.group)).size,notes:['Units can share controls; the same requested case/layout/repeat runs only once per evaluation plan.','A unit is indivisible. Dependencies are selected together. A complete dossier is never chunked into separate examples.','No claim of independent production samples or full historical-campaign integration.']};}
 export function descriptor(u){return {id:u.id,title:u.title,description:u.description,domain:u.domain??null,requires:u.dependsOn,caseCount:u.caseIds.length};}
 /** Taxonomy metadata requests do not receive gold, old outcomes, or raw evaluated payloads. */
 export function descriptors(){return UNITS.map(descriptor);}

@@ -926,3 +926,5 @@ export async function hostedRun({
     loading = false;
   }
 }
+
+export function readHostedRequest(id,index){return remote('runs/'+id+'/request?index='+index);}

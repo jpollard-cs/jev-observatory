@@ -1,3 +1,4 @@
+import {ATTACK_PACKS} from './attacks/promptfoo.mjs';
 import {validateBudget,validateTokenLimit,coverageBudget} from './budget.mjs';
 import {executionSources} from './sources.mjs';
 import {verifyAssistedPlan} from './selection/planner.mjs';
@@ -12,8 +13,9 @@ export const PLANNER_VERSION='coverage-prefix/1';
 const FRACTIONS={bronze:.05,silver:.20,gold:1};
 const CORE=['ordinary-use','source-control','uncertainty'];
 export function validateOptions(o={}){
- exactKeys(o,['tier','maxUsd','maxInputTokens','layouts','seed','includeContext','repeat'],'Plan settings');
- const x={tier:'bronze',maxUsd:.15,maxInputTokens:3_000_000,layouts:['question','criteria'],seed:'workbench-1',includeContext:true,repeat:1,...o};
+ exactKeys(o,['tier','maxUsd','maxInputTokens','layouts','seed','includeContext','repeat','attackPacks'],'Plan settings');
+ const x={tier:'bronze',maxUsd:.15,maxInputTokens:3_000_000,layouts:['question','criteria'],seed:'workbench-1',includeContext:true,repeat:1,attackPacks:ATTACK_PACKS.map(p=>p.id),...o};
+ assert(Array.isArray(x.attackPacks)&&new Set(x.attackPacks).size===x.attackPacks.length&&x.attackPacks.every(id=>ATTACK_PACKS.some(p=>p.id===id)),'Unknown attack pack');
  enumValue(x.tier,Object.keys(FRACTIONS),'Tier');validateBudget(x.maxUsd);
  x.maxInputTokens=validateTokenLimit(x.maxInputTokens);
  assert(Array.isArray(x.layouts)&&x.layouts.length>=1&&x.layouts.length<=2&&new Set(x.layouts).size===x.layouts.length&&x.layouts.every(l=>['question','criteria'].includes(l)),'Choose question, criteria or both layouts');
@@ -23,7 +25,7 @@ export function validateOptions(o={}){
 /** Seeded nested group prefix. Gold labels never influence ordering or usefulness. */
 export function makePlan(policy,options={}){
  const p=validatePolicy(policy),o=validateOptions(options);
- const candidates=CATALOG.filter(c=>o.includeContext||c.kind!=='task-grounded-context');
+ const candidates=CATALOG.filter(c=>(!c.pack||o.attackPacks.includes(c.pack))&&(o.includeContext||c.kind!=='task-grounded-context'));
  const groups=[...new Set(candidates.map(c=>c.group))];
  const mandatory=[...CORE];
  if(p.representations.prohibited.length)mandatory.push('technical-boundaries');
@@ -55,7 +57,7 @@ export function makePlan(policy,options={}){
   for(let repetition=1;repetition<=o.repeat;repetition++)for(const c of cs){
    const order=(selected.length+cs.indexOf(c)+repetition)%2?[...o.layouts].reverse():o.layouts;
    for(const layout of order){const rendered=compileCase(p,c,layout);
-    local.push({id:`${c.id}__${layout}__r${repetition}`,caseId:c.id,group:g,layout,repeat:repetition,sourceVersion:c.sourceVersion,kind:c.kind,
+    local.push({id:`${c.id}__${layout}__r${repetition}`,caseId:c.id,group:g,layout,repeat:repetition,sourceVersion:c.sourceVersion,kind:c.kind,evaluation:clone(c.evaluation??null),
      requestHash:rendered.requestHash,wireBytes:rendered.wireBytes,estimatedInputTokens:rendered.estimatedInputTokens,reservationInputTokens:rendered.reservationInputTokens,
      body:rendered.body,receipt:rendered.receipt,expected:expectedFor(p,c)});
    }

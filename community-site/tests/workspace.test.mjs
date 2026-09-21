@@ -73,7 +73,7 @@ test('browser original-suite selection keeps the original source and request ide
 });
 test('all six archived experiments preserve native reconstructed outcomes and identities', async () => {
   const boot = await dispatch('bootstrap');
-  assert.equal(boot.catalog.length, 60);
+  assert.equal(boot.catalog.length, CATALOG.length);
   assert.equal(boot.originalCatalog.totalCells, 15184);
   for (const entry of evidenceLibrary())
     assert.deepEqual(await dispatch('evidence?id=' + entry.id), loadEvidence(entry.id));
