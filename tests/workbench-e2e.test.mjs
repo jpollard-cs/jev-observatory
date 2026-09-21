@@ -7,6 +7,7 @@ import { once } from 'node:events';
 import { startServer } from '../workbench/server.mjs';
 import { preset } from '../workbench/src/policy.mjs';
 import { defaultApplication } from '../workbench/src/selection/application.mjs';
+import { UNITS } from '../workbench/src/selection/registry.mjs';
 import { loadPrepared } from '../workbench/src/storage.mjs';
 
 const KEY = 'SYNTHETIC_ONLY_WORKBENCH_E2E_KEY';
@@ -199,10 +200,11 @@ for (const scenario of scenarios) {
       ...draft,
       options: { mode: 'rank', maxUsd: 0.01, maxInputTokens: null },
     });
+    const rankingCalls = ranking.manifest.jobs.length;
     const report = await run(ranking.planHash);
-    assert.equal(requests.length, 7);
+    assert.equal(requests.length, 1 + rankingCalls);
     const imported = await post('selection/import', { ...draft, raw: JSON.stringify(report) });
-    assert.equal(imported.summary.units.length, 32);
+    assert.equal(imported.summary.units.length, UNITS.length);
     const suite = await post('selection/freeze', {
       ...draft,
       report,
@@ -216,7 +218,7 @@ for (const scenario of scenarios) {
     );
     assert.ok(suite.manifest.counts.physicalRequests > 0);
     assert.equal(loadPrepared(suite.planPath).manifest.planHash, suite.planHash);
-    assert.equal(requests.length, 7, 'Freezing a suite must not dispatch evaluation requests');
+    assert.equal(requests.length, 1 + rankingCalls, 'Freezing a suite must not dispatch evaluation requests');
 
     const edited = { ...draft, policy: { ...draft.policy, name: 'Edited after ranking' } };
     await post('selection/freeze', { ...edited, report }, 400);
@@ -230,7 +232,7 @@ for (const scenario of scenarios) {
     });
     assert.ok(uncovered.coverage.structuredGaps.some((gap) => gap.blocking));
     assert.notEqual(uncovered.state, 'prepared_offline');
-    assert.equal(requests.length, 7);
+    assert.equal(requests.length, 1 + rankingCalls);
     assert.ok(requests.every((request) => !JSON.stringify(request).includes(KEY)));
     await post('connection/forget', {});
   });
