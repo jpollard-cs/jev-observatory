@@ -1,4 +1,5 @@
 // D1 statements are single-statement atomic transitions. No in-memory locks.
+import { MAX_PARALLEL } from './limits.mjs';
 export function executionRepository(db) {
   const first = (sql, ...v) =>
     db
@@ -34,6 +35,11 @@ export function executionRepository(db) {
           .all()
       ).results,
     get: (id, owner) => first('SELECT * FROM execution_runs WHERE id=? AND owner=?', id, owner),
+    blocker: (owner) =>
+      first(
+        `SELECT * FROM execution_runs WHERE owner=? AND (status='running' OR (status='stopped' AND held_nano>0)) ORDER BY created_at LIMIT 1`,
+        owner,
+      ),
     // Limit retained manifests before storage growth. Creation itself never authorizes dispatch.
     create: (r) =>
       change(
@@ -61,7 +67,7 @@ export function executionRepository(db) {
       ),
     claim: (id, owner, index, reserve, count, now) =>
       change(
-        `UPDATE execution_runs SET inflight=?,inflight_count=?,inflight_reserve=?,updated_at=? WHERE id=? AND owner=? AND status='running' AND next_index=? AND inflight IS NULL AND ? BETWEEN 1 AND 3 AND next_index+?<=requests`,
+        `UPDATE execution_runs SET inflight=?,inflight_count=?,inflight_reserve=?,updated_at=? WHERE id=? AND owner=? AND status='running' AND next_index=? AND inflight IS NULL AND ? BETWEEN 1 AND ? AND next_index+?<=requests`,
         index,
         count,
         reserve,
@@ -70,6 +76,7 @@ export function executionRepository(db) {
         owner,
         index,
         count,
+        MAX_PARALLEL,
         count,
       ),
     settle: (id, owner, index, { cost, reserve, unknown, count, reason }, now) =>

@@ -4,6 +4,7 @@ import core from '../../trust/admission-core-v1.json' with { type: 'json' };
 import { verifySignedBundle } from '../receipts/verify.mjs';
 import { canonical, sha256 } from '../domain/contracts.mjs';
 import { ok, error } from '../domain/contracts.mjs';
+import { MAX_PARALLEL, DEFAULT_PARALLEL } from './limits.mjs';
 const stamp = () => new Date().toISOString();
 const publicRun = (r) => ({
   id: r.id,
@@ -14,7 +15,8 @@ const publicRun = (r) => ({
   completed: r.next_index,
   inflight: r.inflight,
   inflightCount: r.inflight === null ? 0 : (r.inflight_count ?? 1),
-  maxParallel: 3,
+  maxParallel: MAX_PARALLEL,
+  defaultParallel: DEFAULT_PARALLEL,
   knownUsd: r.known_nano / 1e9,
   heldUsd: r.held_nano / 1e9,
   reservationUsd: r.reserve_nano / 1e9,
@@ -58,32 +60,37 @@ export function executionService({
     if (sha(body) !== job.requestHash) throw Error('Frozen request integrity failure');
     return body;
   }
+  async function observationAt(run, p, i) {
+    const saved = await blobs.get(run.object_key + '/response/' + i);
+    if (!saved) return null;
+    const observation = JSON.parse(await new Response(saved.body).text());
+    if (
+      observation.evidence.requestHash !== p.jobs[i].requestHash ||
+      observation.rawHash !== sha(JSON.stringify(observation.evidence) + '\n')
+    )
+      throw Error('Response integrity failure');
+    if (p.attestation) {
+      const { attestation, ...record } = observation;
+      await receipts.verify(
+        'observation',
+        {
+          runId: run.id,
+          planHash: p.manifest.planHash,
+          index: i,
+          observation: record,
+        },
+        attestation,
+      );
+    }
+    return observation;
+  }
   async function evidence(run) {
     const p = await load(run),
       observations = [];
     for (let i = 0; i < run.next_index; i++) {
-      const saved = await blobs.get(run.object_key + '/response/' + i);
-      if (!saved) throw Error('Missing response evidence');
-      const observation = JSON.parse(await new Response(saved.body).text());
-      if (
-        observation.evidence.requestHash !== p.jobs[i].requestHash ||
-        observation.rawHash !== sha(JSON.stringify(observation.evidence) + '\n')
-      )
-        throw Error('Response integrity failure');
+      const observation = await observationAt(run, p, i);
+      if (!observation) throw Error('Missing response evidence');
       observations.push(observation);
-      if (p.attestation) {
-        const { attestation, ...record } = observation;
-        await receipts.verify(
-          'observation',
-          {
-            runId: run.id,
-            planHash: p.manifest.planHash,
-            index: i,
-            observation: record,
-          },
-          attestation,
-        );
-      }
     }
     return { p, observations };
   }
@@ -340,23 +347,38 @@ export function executionService({
           'Confirm this exact frozen plan before paid dispatch.',
         );
       if (r.status === 'running') return ok(publicRun(r)); // Idempotent authorization, never a new dispatch.
-      if (!(await repo.start(id, owner, now())))
+      if (!(await repo.start(id, owner, now()))) {
+        const blocked = await repo.blocker(owner);
+        if (blocked)
+          return error(
+            blocked.status === 'running' ? 'active_run' : 'unresolved_run',
+            blocked.status === 'running'
+              ? `Another saved run (${blocked.id.slice(0, 8)}) is active. Open saved runs to continue or stop it. This request has not started.`
+              : `An earlier stopped run (${blocked.id.slice(0, 8)}) still holds $${(blocked.held_nano / 1e9).toFixed(5)} for unresolved requests. Open saved runs and check its saved responses. This request has not started.`,
+            409,
+          );
         return error(
-          'allowance_or_active_run',
-          'Cannot authorize: insufficient allowance, another active run, unresolved charges, or this run is already closed.',
+          r.status !== 'ready' ? 'run_closed' : 'insufficient_allowance',
+          r.status !== 'ready'
+            ? 'This run is already closed. Refresh its saved status.'
+            : 'This run exceeds your remaining local allowance. No model call was sent.',
           409,
         );
+      }
       return ok(publicRun(await repo.get(id, owner)));
     },
     async step(owner, id, { index, apiKey, count = 1 }) {
       if (
         !Number.isSafeInteger(count) ||
         count < 1 ||
-        count > 3 ||
+        count > MAX_PARALLEL ||
         !Number.isSafeInteger(index) ||
         index < 0
       )
-        return error('invalid_dispatch', 'Dispatch 1–3 requests from the next saved index.');
+        return error(
+          'invalid_dispatch',
+          `Dispatch 1–${MAX_PARALLEL} requests from the next saved index.`,
+        );
       if (
         typeof apiKey !== 'string' ||
         apiKey.length < 8 ||
@@ -449,6 +471,55 @@ export function executionService({
       const finished = await repo.get(id, owner);
       await sealTerminal(finished);
       return ok(publicRun(finished));
+    },
+    async recover(owner, id) {
+      const run = await repo.get(id, owner);
+      if (!run) return error('not_found', 'Run not found.', 404);
+      if (run.inflight === null) {
+        await sealTerminal(run);
+        return ok(publicRun(run));
+      }
+      const p = await load(run),
+        count = run.inflight_count ?? 1,
+        index = run.inflight;
+      const observations = await Promise.all(
+        Array.from({ length: count }, (_, n) => observationAt(run, p, index + n)),
+      );
+      if (observations.some((o) => !o))
+        return error(
+          'evidence_incomplete',
+          'Some dispatched responses were not saved. Nothing was resent and the spending hold is unchanged. If the request has ended, provider billing must be reconciled before new paid runs can start.',
+          409,
+        );
+      const outcomes = observations.map((o, n) => {
+        const reserve = adapter.reservation(p.jobs[index + n]);
+        const cost = adapter.cost(o);
+        if (cost !== null && (!Number.isSafeInteger(cost) || cost < 0))
+          throw Error('Invalid saved billing');
+        if (o.evidence.dispatch?.batchStart !== index || o.evidence.dispatch?.batchSize !== count)
+          throw Error('Saved response batch mismatch');
+        return {
+          reserve,
+          cost: cost ?? 0,
+          unknown: cost === null ? reserve : 0,
+          reason:
+            o.error ??
+            (cost === null ? 'missing_usage' : cost > reserve ? 'reservation_exceeded' : null),
+        };
+      });
+      const settlement = {
+        count,
+        reserve: outcomes.reduce((n, o) => n + o.reserve, 0),
+        cost: outcomes.reduce((n, o) => n + o.cost, 0),
+        unknown: outcomes.reduce((n, o) => n + o.unknown, 0),
+        reason: outcomes.find((o) => o.reason)?.reason ?? null,
+      };
+      if (settlement.reserve !== run.inflight_reserve) throw Error('Saved reservation mismatch');
+      // The same compare-and-swap as dispatch settlement prevents duplicate billing.
+      await repo.settle(id, owner, index, settlement, now());
+      const saved = await repo.get(id, owner);
+      await sealTerminal(saved);
+      return ok(publicRun(saved));
     },
     async stop(owner, id) {
       const r = await repo.get(id, owner);

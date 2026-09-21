@@ -4,7 +4,10 @@ const respond = (r) =>
   r.tag === 'ok'
     ? json(r.value)
     : json({ error: r.error.code, message: r.error.message }, r.error.status);
-export async function executionApi(request, { service, actor, admitWrite = async () => true }) {
+export async function executionApi(
+  request,
+  { service, actor, admitWrite = async () => true, keepAlive = () => {} },
+) {
   const url = new URL(request.url),
     route = url.pathname.slice('/api/execution/'.length),
     owner = actor?.id;
@@ -43,7 +46,9 @@ export async function executionApi(request, { service, actor, admitWrite = async
     }
     if (route === 'account' && body) return respond(await service.initialize(owner, body));
     if (route === 'prepare' && body) return respond(await service.prepare(owner, body));
-    const match = route.match(/^runs\/([a-f0-9-]{36})(?:\/(start|step|stop|request|evidence))?$/);
+    const match = route.match(
+      /^runs\/([a-f0-9-]{36})(?:\/(start|step|stop|recover|request|evidence))?$/,
+    );
     if (!match) return json({ error: 'not_found' }, 404);
     const [, id, action] = match;
     if (request.method === 'GET' && !action)
@@ -52,8 +57,11 @@ export async function executionApi(request, { service, actor, admitWrite = async
       return respond(await service.request(owner, id, Number(url.searchParams.get('index'))));
     if (request.method === 'GET' && action === 'evidence')
       return respond(await service.contribution(owner, id));
-    if (body && ['start', 'step', 'stop'].includes(action))
-      return respond(await service[action](owner, id, body));
+    if (body && ['start', 'step', 'stop', 'recover'].includes(action)) {
+      const pending = service[action](owner, id, body);
+      if (action === 'step') keepAlive(pending.catch(() => {}));
+      return respond(await pending);
+    }
     return json({ error: 'method_not_allowed' }, 405);
   } catch {
     // Neither provider bodies nor credentials appear in errors or application logs.

@@ -14,6 +14,7 @@ export function mountHostedAssistant(anchor) {
 }
 let activeView = null;
 import { canReviewAdvice, failureDescription } from './hosted-evidence.js';
+import { hostedRemote as remote } from './hosted-transport.js';
 const usd = (n) => '$' + Number(n ?? 0).toFixed(5);
 function el(tag, text, props = {}) {
   const n = document.createElement(tag);
@@ -25,20 +26,6 @@ function button(text, run, cls = 'btn') {
   const b = el('button', text, { className: cls, type: 'button' });
   b.addEventListener('click', run);
   return b;
-}
-async function remote(path, data) {
-  const r = await fetch('/api/execution/' + path, {
-    method: data ? 'POST' : 'GET',
-    headers: data ? { 'Content-Type': 'application/json', 'x-observatory-intent': 'write' } : {},
-    body: data ? JSON.stringify(data) : undefined,
-  });
-  if (!r.headers.get('content-type')?.includes('application/json'))
-    throw Error(
-      'The server returned an unexpected page, possibly because sign-in expired. Your draft is still here. Inspect saved runs before retrying any approved request.',
-    );
-  const v = await r.json();
-  if (!r.ok) throw Error(v.message ?? 'Hosted execution could not be confirmed');
-  return v;
 }
 function download(value, name) {
   const url = URL.createObjectURL(
@@ -106,10 +93,14 @@ export async function hostedRun({
     if (!active && title.textContent === 'Preparing your request…') {
       title.textContent = 'Could not prepare your request';
       body.replaceChildren(
-        el('p', 'Preparation stopped. Your draft is still here. Dismiss this panel to return to it.', {
-          className: 'note',
-          role: 'status',
-        }),
+        el(
+          'p',
+          'Preparation stopped. Your draft is still here. Dismiss this panel to return to it.',
+          {
+            className: 'note',
+            role: 'status',
+          },
+        ),
       );
     }
     alert.textContent = e.message;
@@ -145,6 +136,39 @@ export async function hostedRun({
       fail(e);
     }
   };
+  async function savedRuns() {
+    spec = null;
+    active = null;
+    body = reviewBody;
+    await home();
+  }
+  function recoveryActions(run) {
+    const actions = el('div', null, { className: 'actions section-space' });
+    actions.append(
+      button(
+        'Refresh saved status',
+        safe(async () => {
+          const fresh = await remote('runs/' + run.id);
+          active = fresh;
+          if (['complete', 'stopped'].includes(fresh.status) || fresh.inflight !== null)
+            await finished(fresh);
+          else await review(fresh);
+        }),
+      ),
+    );
+    if (run.inflight !== null)
+      actions.append(
+        button(
+          'Check saved responses',
+          safe(async () => {
+            const fresh = await remote('runs/' + run.id + '/recover', {});
+            await finished(fresh);
+          }),
+        ),
+      );
+    actions.append(button('Open saved runs', safe(savedRuns)));
+    return actions;
+  }
   async function finished(run) {
     busy = true;
     try {
@@ -158,8 +182,21 @@ export async function hostedRun({
       }
       body.replaceChildren();
       title.textContent =
-        run.status === 'complete' ? 'Run saved. Follow the evidence.' : 'Run paused or stopped.';
-      body.append(el('h3', run.status === 'complete' ? 'Request complete' : 'Request stopped'));
+        run.inflight !== null
+          ? 'Waiting for a saved outcome'
+          : run.status === 'complete'
+            ? 'Run saved. Follow the evidence.'
+            : 'Run paused or stopped.';
+      body.append(
+        el(
+          'h3',
+          run.inflight !== null
+            ? 'Unresolved requests'
+            : run.status === 'complete'
+              ? 'Request complete'
+              : 'Run paused or stopped',
+        ),
+      );
       body.append(
         el(
           'p',
@@ -183,6 +220,7 @@ export async function hostedRun({
             { className: 'fine' },
           ),
         );
+      if (run.inflight !== null || run.status === 'running') body.append(recoveryActions(run));
       body.append(
         el(
           'p',
@@ -425,17 +463,25 @@ export async function hostedRun({
     }
     const parallel = el('select');
     parallel.setAttribute('aria-label', 'Concurrent requests');
-    for (const n of [3, 1].filter((n) => n <= (q.maxParallel ?? 1)))
+    const maximum = Math.min(q.maxParallel ?? 1, q.requests - q.completed);
+    const preferred = Math.min(q.defaultParallel ?? 3, maximum);
+    for (const n of [...new Set([1, 3, 8, 16, maximum, preferred])]
+      .filter((n) => n > 0 && n <= maximum)
+      .sort((a, b) => a - b))
       parallel.append(
-        el('option', n === 1 ? 'One at a time' : 'Up to 3 at a time', { value: String(n) }),
+        el('option', n === 1 ? 'One at a time' : `Up to ${n} at a time`, { value: String(n) }),
       );
+    parallel.value = String(preferred);
     const speed = el('label', null, { className: 'field section-space' });
     speed.append(el('span', 'Execution speed'), parallel);
+    speed.hidden = maximum <= 1;
     body.append(
       speed,
       el(
         'p',
-        'Parallel requests use the same frozen tests and spending limit. Stop waits for the current batch; failed or uncertain requests are never automatically retried.',
+        maximum <= 1
+          ? 'This step uses one request with its questions evaluated together. Parallelism speeds up suites with multiple independent requests.'
+          : 'Parallel requests use the same frozen tests and spending limit. Higher concurrency may reach provider limits sooner. Stop waits for the current batch; failed or uncertain requests are never automatically retried.',
         { className: 'fine' },
       ),
     );
@@ -503,9 +549,35 @@ export async function hostedRun({
           stop = true;
           busy = false;
           fail(e);
+          title.textContent = 'Run needs attention';
+          begin.textContent = 'Execution paused';
           progress.textContent =
-            'No automatic retry. Open saved runs to inspect the durable status before continuing.';
+            'No automatic retry. Refresh saved status or open saved runs below.';
           begin.disabled = true;
+          stopButton.disabled = true;
+          body.append(recoveryActions({ ...q, inflight: active?.inflight ?? null }));
+          // Read-only reconciliation: never restart or resend after an uncertain response.
+          try {
+            const fresh = await remote('runs/' + q.id);
+            active = fresh;
+            if (fresh.status === 'ready') {
+              title.textContent = 'Run did not start';
+              begin.textContent = 'Not started';
+              progress.textContent =
+                'No model request was sent for this run. Resolve the issue above, then refresh saved status.';
+            } else if (
+              fresh.status === 'complete' ||
+              fresh.status === 'stopped' ||
+              fresh.inflight !== null
+            ) {
+              await finished(fresh);
+            } else {
+              title.textContent = 'Run paused';
+              progress.textContent = `${fresh.completed} / ${fresh.requests} recorded. Refresh saved status to review continuation.`;
+            }
+          } catch {
+            // Keep the actionable error and manual refresh if the read also fails.
+          }
         }
       }),
       'btn primary',
@@ -628,6 +700,11 @@ export async function hostedRun({
         el('p', `${r.planHash.slice(0, 16)}… · ${r.createdAt}`, { className: 'fine' }),
       );
       item.append(
+        el(
+          'p',
+          `Run ${r.id.slice(0, 8)} · ${usd(r.heldUsd)} held${r.inflight !== null ? ` · ${r.inflightCount} unresolved` : ''}`,
+          { className: 'fine' },
+        ),
         button(
           r.status === 'ready' || (r.status === 'running' && r.inflight === null)
             ? 'Review / continue'
@@ -639,6 +716,17 @@ export async function hostedRun({
           ),
         ),
       );
+      if (r.inflight !== null)
+        item.append(
+          button(
+            'Check saved responses',
+            safe(async () => {
+              const fresh = await remote('runs/' + r.id + '/recover', {});
+              if (fresh.inflight === null && fresh.heldUsd === 0) await home();
+              else await finished(fresh);
+            }),
+          ),
+        );
       if (r.status === 'running')
         item.append(
           button(

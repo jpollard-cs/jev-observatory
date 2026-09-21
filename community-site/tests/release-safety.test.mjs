@@ -12,30 +12,65 @@ import { communityService } from '../src/service.mjs';
 import { api } from '../src/http.mjs';
 import { makeCatalog, makeExample } from '../scripts/catalog.mjs';
 
+test('dispatch settlement remains attached to the Worker lifetime after client disconnect', async () => {
+  let finish, kept;
+  const pending = new Promise((r) => (finish = r));
+  const request = new Request(
+    'https://observatory.test/api/execution/runs/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa/step',
+    {
+      method: 'POST',
+      headers: {
+        Origin: 'https://observatory.test',
+        'Content-Type': 'application/json',
+        'x-observatory-intent': 'write',
+      },
+      body: '{}',
+    },
+  );
+  const result = executionApi(request, {
+    actor: { id: 'alice' },
+    service: { step: () => pending },
+    keepAlive: (p) => (kept = p),
+  });
+  await new Promise((r) => setTimeout(r, 0));
+  assert.ok(kept instanceof Promise);
+  finish({ tag: 'ok', value: { status: 'complete' } });
+  await kept;
+  assert.equal((await result).status, 200);
+});
+
 test('preparation failures do not imply dispatch or a spending hold; dispatch failures remain uncertain', async () => {
   const deps = {
     actor: { id: 'alice' },
     service: {
-      prepare() { throw Error('private internal details'); },
-      step() { throw Error('private internal details'); },
+      prepare() {
+        throw Error('private internal details');
+      },
+      step() {
+        throw Error('private internal details');
+      },
     },
   };
-  const request = (route) => new Request('https://observatory.test/api/execution/' + route, {
-    method: 'POST',
-    headers: {
-      Origin: 'https://observatory.test',
-      'Content-Type': 'application/json',
-      'x-observatory-intent': 'write',
-    },
-    body: '{}',
-  });
+  const request = (route) =>
+    new Request('https://observatory.test/api/execution/' + route, {
+      method: 'POST',
+      headers: {
+        Origin: 'https://observatory.test',
+        'Content-Type': 'application/json',
+        'x-observatory-intent': 'write',
+      },
+      body: '{}',
+    });
   const preparation = await executionApi(request('prepare'), deps);
   assert.equal(preparation.status, 503);
   const p = await preparation.json();
   assert.equal(p.error, 'preparation_unavailable');
   assert.match(p.message, /No model call was sent/);
   assert.doesNotMatch(p.message, /hold|private internal/);
-  const dispatch = await executionApi(request('runs/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa/step'), deps);
+  const dispatch = await executionApi(
+    request('runs/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa/step'),
+    deps,
+  );
   assert.equal(dispatch.status, 503);
   const d = await dispatch.json();
   assert.equal(d.error, 'execution_unavailable');
@@ -48,8 +83,9 @@ test('the evidence migration withdraws legacy uploads without deleting owner rec
   t.after(() => db.close());
   const migration = async (name) =>
     fs.readFile(new URL('../drizzle/' + name, import.meta.url), 'utf8');
-  const first = (await fs.readdir(new URL('../drizzle/', import.meta.url)))
-    .find((name) => name.startsWith('0000') && name.endsWith('.sql'));
+  const first = (await fs.readdir(new URL('../drizzle/', import.meta.url))).find(
+    (name) => name.startsWith('0000') && name.endsWith('.sql'),
+  );
   db.exec(await migration(first));
   db.exec(`INSERT INTO community_results VALUES
     ('legacy', 'alice', 'Alice', 'Policy', 'hash', 'Title', 'model', 'suite', 'bundle',

@@ -63,6 +63,17 @@ http
         ...(!['GET', 'HEAD'].includes(req.method) ? { body: req, duplex: 'half' } : {}),
       });
       const pathname = new URL(request.url).pathname;
+      if (mocked && process.argv.includes('--mock-start-blocked') && pathname.endsWith('/start')) {
+        res.writeHead(409, { 'Content-Type': 'application/json' });
+        res.end(
+          JSON.stringify({
+            error: 'unresolved_run',
+            message:
+              'An earlier stopped run holds $0.00240 for unresolved requests. Open saved runs and check its saved responses. This request has not started.',
+          }),
+        );
+        return;
+      }
       if (slow && pathname.startsWith('/api/execution/')) await delay();
       let response =
         pathname === '/signin-with-chatgpt'

@@ -106,6 +106,7 @@ export function createWorker({
         const id = request.headers.get('oai-authenticated-user-id');
         return executionApi(request, {
           actor: id ? { id } : null,
+          keepAlive: (pending) => context?.waitUntil?.(pending),
           admitWrite: writeLimits(env.DB),
           service: executionService({
             repo: executionRepository(env.DB),

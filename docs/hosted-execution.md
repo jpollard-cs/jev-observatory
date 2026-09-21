@@ -51,3 +51,11 @@ They propose supported options for explicit review, not arbitrary automatically 
 The active neutral Site is https://redteam-observatory.wizard.chatgpt.site. It starts with fresh hosted storage. The previous Jev Site and its manual test run remain intact; no provider credits, prior charges or private runs were copied. Visibility is governed separately by the Sites audience setting.
 
 The old Jev public pages now redirect to the neutral site. Archive entry points open the workspace Outcome atlas, which packages the preserved historical reports. The old private APIs and stored evidence remain in place; no account data or secrets are forwarded by redirects.
+
+## Interrupted runs and parallel execution
+
+Hosted runs default to up to 8 independent requests per batch and offer 1, 3, 8 or 16 (limited to remaining requests). A single policy-advisor request cannot be split into parallel calls. Batch width changes orchestration only: frozen request identities, expected labels, spending reservations and evidence ordering stay unchanged. Provider rate limits may require a lower setting; failed calls are not automatically replayed.
+
+The browser bounds network waits and distinguishes rejected authorization from uncertain dispatch. A read-only status refresh never starts a call. Worker lifetime protection keeps an already authorized batch settling when a client disconnects, within the platform's lifetime limit.
+
+`POST /api/execution/runs/:id/recover` checks the owner's existing saved responses, including original signatures for signed runs, and settles a complete batch exactly once. It makes no provider requests. Missing, altered or incorrectly bound evidence leaves the existing claim and hold untouched. Older unsigned runs remain unsigned. Unknown billing still blocks new paid work; neither UI refresh nor recovery invents a provider charge or removes an unresolved hold.

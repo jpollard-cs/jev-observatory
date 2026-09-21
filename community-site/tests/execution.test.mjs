@@ -430,6 +430,42 @@ const batchManifest = makePlan(policy, batchInput.options).manifest;
 const batchSpec = { route: 'prepare', input: batchInput, planHash: batchManifest.planHash };
 
 test(
+  'sixteen provider calls overlap in one atomic batch and reject an overlapping dispatch',
+  { timeout: 10000 },
+  async (t) => {
+    let entered,
+      release,
+      calls = 0;
+    const ready = new Promise((r) => (entered = r)),
+      gate = new Promise((r) => (release = r));
+    const input = { policy, options: { tier: 'gold', maxUsd: 3, layouts: ['question'] } };
+    const plan = makePlan(policy, input.options).manifest;
+    const { service, q } = await fixture(
+      t,
+      async (request) => {
+        if (++calls === 16) entered();
+        await gate;
+        return mock(request);
+      },
+      { route: 'prepare', input, planHash: plan.planHash },
+    );
+    value(await service.start(owner, q.id, { planHash: q.planHash, confirmPaid: true }));
+    const pending = service.step(owner, q.id, { index: 0, count: 16, apiKey: key });
+    await ready;
+    assert.equal(value(await service.detail(owner, q.id)).inflightCount, 16);
+    assert.equal(
+      (await service.step(owner, q.id, { index: 0, count: 16, apiKey: key })).tag,
+      'error',
+    );
+    release();
+    const run = value(await pending);
+    assert.equal(run.completed, 16);
+    assert.equal(calls, 16);
+    assert.equal(run.knownUsd, (16 * 1234 * 42) / 1e9);
+  },
+);
+
+test(
   'bounded batches overlap, prevent duplicate claims, and settle in manifest order',
   { timeout: 15000 },
   async (t) => {
@@ -454,7 +490,7 @@ test(
     );
     value(await service.start(owner, q.id, { planHash: q.planHash, confirmPaid: true }));
     assert.equal(
-      (await service.step(owner, q.id, { index: 0, count: 4, apiKey: key })).tag,
+      (await service.step(owner, q.id, { index: 0, count: 17, apiKey: key })).tag,
       'error',
     );
     assert.equal(calls, 0);

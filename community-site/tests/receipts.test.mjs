@@ -78,6 +78,54 @@ test('the required core is pinned to the reviewed catalog and both classifier la
   assert.deepEqual(core.layouts, ['question', 'criteria']);
   assert.equal(core.cases.length, 60);
 });
+
+test('saved signed batches recover a failed settlement without replay, alteration, or double billing', async (t) => {
+  const f = await fixture(t);
+  assert.equal(f.q.maxParallel, 16);
+  assert.equal(f.q.defaultParallel, 8);
+  const settle = f.repo.settle;
+  f.repo.settle = async () => false;
+  await assert.rejects(
+    f.service.step('alice', f.q.id, { index: 0, count: 16, apiKey: 'mock-test-key' }),
+    /settlement/,
+  );
+  f.repo.settle = settle;
+  value(await f.service.stop('alice', f.q.id));
+  const held = await f.repo.get(f.q.id, 'alice');
+  const key = held.object_key + '/response/0';
+  const original = await new Response((await f.storage.blobs.get(key)).body).text();
+  const changed = JSON.parse(original);
+  changed.evidence.response.usage.inputTokens = 0;
+  changed.rawHash = sha(JSON.stringify(changed.evidence) + '\n');
+  await f.storage.blobs.put(key, JSON.stringify(changed));
+  await assert.rejects(f.service.recover('alice', f.q.id), /Signed content/);
+  assert.equal((await f.repo.get(f.q.id, 'alice')).held_nano, held.held_nano);
+  await f.storage.blobs.delete(key);
+  assert.equal((await f.service.recover('alice', f.q.id)).error.code, 'evidence_incomplete');
+  assert.equal((await f.service.recover('stranger', f.q.id)).error.code, 'not_found');
+  await f.storage.blobs.put(key, original);
+  const recovered = await Promise.all([
+    f.service.recover('alice', f.q.id),
+    f.service.recover('alice', f.q.id),
+  ]);
+  for (const result of recovered) {
+    const r = value(result);
+    assert.equal(r.completed, 16);
+    assert.equal(r.status, 'stopped');
+    assert.equal(r.inflight, null);
+    assert.equal(r.heldUsd, 0);
+    assert.equal(r.knownUsd, (16 * 1234 * 42) / 1e9);
+  }
+  value(await f.service.recover('alice', f.q.id));
+  assert.equal(f.calls(), 16);
+  value(
+    await verifySignedBundle(
+      value(await f.service.contribution('alice', f.q.id)),
+      f.receipts.trust,
+      core,
+    ),
+  );
+});
 test('live signed evidence survives export, requires pinned keys, preserves incomplete core and rejects tampering', async (t) => {
   const f = await fixture(t);
   value(await f.service.step('alice', f.q.id, { index: 0, count: 3, apiKey: 'mock-test-key' }));
