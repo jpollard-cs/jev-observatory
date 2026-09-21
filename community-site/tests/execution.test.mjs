@@ -162,6 +162,74 @@ test('preparation reuses identical pending plans under concurrency but preserves
   assert.equal(calls, 1);
   assert.equal(value(await service.detail(owner, q.id)).status, 'complete');
 });
+test('overlapping authorization of the same replacement run is idempotent after bulk cancellation', async (t) => {
+  let calls = 0;
+  const { service, repo, q } = await fixture(t, async (r) => {
+    calls++;
+    return mock(r);
+  });
+  value(await service.cancelRuns(owner, { runIds: [q.id] }));
+  const replacement = value(await service.prepare(owner, spec));
+  const starts = await Promise.all(
+    Array.from({ length: 8 }, () =>
+      service.start(owner, replacement.id, {
+        planHash: replacement.planHash,
+        confirmPaid: true,
+      }),
+    ),
+  );
+  assert.ok(
+    starts.every((r) => r.tag === 'ok'),
+    JSON.stringify(starts),
+  );
+  assert.ok(starts.every((r) => r.value.id === replacement.id && r.value.status === 'running'));
+  assert.equal(
+    (await repo.account(owner)).held_nano,
+    (await repo.get(replacement.id, owner)).reserve_nano,
+  );
+  assert.equal(calls, 0, 'authorization never dispatches a model request');
+  const done = value(await service.step(owner, replacement.id, { index: 0, apiKey: key }));
+  assert.equal(done.status, 'complete');
+  assert.equal(calls, 1);
+});
+test('run review identifies a different blocker while closed runs and cancellation races retain their own status', async (t) => {
+  const { service, repo, storage, q } = await fixture(t);
+  const next = value(await service.prepare(owner, namedSpec('A different request')));
+  value(await service.start(owner, q.id, { planHash: q.planHash, confirmPaid: true }));
+  assert.equal(value(await service.detail(owner, q.id)).startBlocker, null);
+  assert.equal(value(await service.detail(owner, next.id)).startBlocker.id, q.id);
+  assert.equal(
+    (await service.start(owner, next.id, { planHash: next.planHash, confirmPaid: true })).error
+      .code,
+    'active_run',
+  );
+  value(await service.stop(owner, next.id));
+  assert.equal(
+    (await service.start(owner, next.id, { planHash: next.planHash, confirmPaid: true })).error
+      .code,
+    'run_closed',
+  );
+  value(await service.stop(owner, q.id));
+  const fresh = value(await service.prepare(owner, spec));
+  const raced = executionService({
+    repo: {
+      ...repo,
+      start: async (...args) => {
+        const started = await repo.start(...args);
+        await repo.stop(...args);
+        return started;
+      },
+    },
+    blobs: storage.blobs,
+    adapter: jevExecutionAdapter,
+  });
+  assert.equal(
+    (await raced.start(owner, fresh.id, { planHash: fresh.planHash, confirmPaid: true })).error
+      .code,
+    'run_closed',
+  );
+  assert.equal((await repo.account(owner)).held_nano, 0);
+});
 test('bulk cancellation is owner-bound and snapshot-bound; sent requests settle once and history remains', async (t) => {
   let enter,
     release,

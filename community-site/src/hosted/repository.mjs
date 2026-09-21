@@ -41,10 +41,11 @@ export function executionRepository(db) {
         owner,
         key,
       ),
-    blocker: (owner) =>
+    blocker: (owner, excludeId = '') =>
       first(
-        `SELECT * FROM execution_runs WHERE owner=? AND (status='running' OR (status='stopped' AND held_nano>0)) ORDER BY created_at LIMIT 1`,
+        `SELECT * FROM execution_runs WHERE owner=? AND id<>? AND (status='running' OR (status='stopped' AND held_nano>0)) ORDER BY created_at LIMIT 1`,
         owner,
+        excludeId,
       ),
     // Limit retained manifests before storage growth. Creation itself never authorizes dispatch.
     create: (r) =>

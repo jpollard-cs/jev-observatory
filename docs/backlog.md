@@ -1,5 +1,9 @@
 # Research backlog
 
+## COMPOSE-001 — Capability laundering across delegated requests
+
+Requested 2026-09-20. **Design recorded; evaluator and pilot pending.** See the [proposed contrast group and observability controls](capability-laundering-evaluation.md), informed by [arXiv:2609.15383](https://arxiv.org/pdf/2609.15383). Compare isolated fragments, authenticated linked traces, incomplete context and legitimate compositions. This needs a separate composition-risk contract; the current admission score and signed core do not demonstrate coverage. Preserve hidden-intent blind spots separately from model misses, and do not infer successful prevention from classification alone.
+
 ## WORKBENCH-001 — Description-driven authoring and adaptive selection
 
 The rebuilt 0.5 workbench is integrated; see [current capabilities and rationale](workbench-integration.md). Text descriptions already support reviewed policy suggestions and Jev-assisted selection from the 60-case catalog. Current edits invalidate stale advice; refresh is explicit. Track continuous adaptive authoring as a separate improvement, with visible suggested changes, reuse of matching cached advice, and an explicitly enabled spending allowance for model refresh. Do not silently run paid requests on every edit. Generating new cases/gold and ranking the full original replay catalog are separate coverage/generation work, not existing capabilities. Keep authored and generated discovery cases out of a claimed untouched holdout.

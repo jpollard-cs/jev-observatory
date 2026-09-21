@@ -58,4 +58,6 @@ Hosted runs default to up to 8 independent requests per batch and offer 1, 3, 8 
 
 The browser bounds network waits and distinguishes rejected authorization from uncertain dispatch. A read-only status refresh never starts a call. Worker lifetime protection keeps an already authorized batch settling when a client disconnects, within the platform's lifetime limit.
 
+Repeated preparation reuses an identical pending plan. Overlapping authorizations of that same run return its saved state and reserve funds once; dispatch still has its separate atomic claim. Review identifies a different active or unresolved run before authorization. Bulk cancellation stops only the selected unfinished runs, preserves completed evidence, and retains unresolved spending holds.
+
 `POST /api/execution/runs/:id/recover` checks the owner's existing saved responses, including original signatures for signed runs, and settles a complete batch exactly once. It makes no provider requests. Missing, altered or incorrectly bound evidence leaves the existing claim and hold untouched. Older unsigned runs remain unsigned. Unknown billing still blocks new paid work; neither UI refresh nor recovery invents a provider charge or removes an unresolved hold.

@@ -331,8 +331,10 @@ export function executionService({
       const r = await repo.get(id, owner);
       if (!r) return error('not_found', 'Run not found.', 404);
       const p = await load(r);
+      const blocker = r.status === 'ready' ? await repo.blocker(owner, id) : null;
       return ok({
         ...publicRun(r),
+        startBlocker: blocker ? publicRun(blocker) : null,
         ...adapter.describe(p),
         execution: p.execution ?? adapter.legacyIdentity,
         disclosure: adapter.disclosure,
@@ -363,25 +365,28 @@ export function executionService({
           'Confirm this exact frozen plan before paid dispatch.',
         );
       if (r.status === 'running') return ok(publicRun(r)); // Idempotent authorization, never a new dispatch.
-      if (!(await repo.start(id, owner, now()))) {
-        const blocked = await repo.blocker(owner);
-        if (blocked)
-          return error(
-            blocked.status === 'running' ? 'active_run' : 'unresolved_run',
-            blocked.status === 'running'
-              ? `Another saved run (${blocked.id.slice(0, 8)}) is active. Open saved runs to continue or stop it. This request has not started.`
-              : `An earlier stopped run (${blocked.id.slice(0, 8)}) still holds $${(blocked.held_nano / 1e9).toFixed(5)} for unresolved requests. Open saved runs and check its saved responses. This request has not started.`,
-            409,
-          );
+      if (r.status === 'ready') await repo.start(id, owner, now());
+      // Another authorization may have won since the initial read. Read this run
+      // before diagnosing a blocker; starting reserves funds but never dispatches.
+      const saved = await repo.get(id, owner);
+      if (!saved) return error('not_found', 'Run not found.', 404);
+      if (saved.status === 'running') return ok(publicRun(saved));
+      if (saved.status !== 'ready')
+        return error('run_closed', 'This run is already closed. Refresh its saved status.', 409);
+      const blocked = await repo.blocker(owner, id);
+      if (blocked)
         return error(
-          r.status !== 'ready' ? 'run_closed' : 'insufficient_allowance',
-          r.status !== 'ready'
-            ? 'This run is already closed. Refresh its saved status.'
-            : 'This run exceeds your remaining local allowance. No model call was sent.',
+          blocked.status === 'running' ? 'active_run' : 'unresolved_run',
+          blocked.status === 'running'
+            ? `Another saved run (${blocked.id.slice(0, 8)}) is active. Open saved runs to continue or stop it. This request has not started.`
+            : `An earlier stopped run (${blocked.id.slice(0, 8)}) still holds $${(blocked.held_nano / 1e9).toFixed(5)} for unresolved requests. Open saved runs and check its saved responses. This request has not started.`,
           409,
         );
-      }
-      return ok(publicRun(await repo.get(id, owner)));
+      return error(
+        'insufficient_allowance',
+        'This run exceeds your remaining local allowance. No model call was sent.',
+        409,
+      );
     },
     async step(owner, id, { index, apiKey, count = 1 }) {
       if (

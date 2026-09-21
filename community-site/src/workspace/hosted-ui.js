@@ -373,7 +373,30 @@ export async function hostedRun({
     active = q;
     body = reviewBody;
     body.replaceChildren();
-    title.textContent = 'Ready when you are.';
+    title.textContent = q.startBlocker
+      ? 'Prepared, but another run needs attention'
+      : 'Ready when you are.';
+    if (q.startBlocker) {
+      const blocker = q.startBlocker;
+      body.append(
+        el(
+          'p',
+          `This request (${q.id.slice(0, 8)}) has not started. ` +
+            (blocker.status === 'running'
+              ? `A different run (${blocker.id.slice(0, 8)}) is active.`
+              : `An older stopped run (${blocker.id.slice(0, 8)}, created ${blocker.createdAt}) holds ${usd(blocker.heldUsd)} for unresolved provider charges. Cancelling pending plans does not clear that hold.`),
+          { className: 'note warn', role: 'status' },
+        ),
+        button(
+          'Inspect the blocking run',
+          safe(() => finished(blocker)),
+        ),
+        button(
+          'Refresh this request’s status',
+          safe(() => review(q)),
+        ),
+      );
+    }
     if (q.reused)
       body.append(
         el(
@@ -602,6 +625,10 @@ export async function hostedRun({
         }
       }),
     );
+    if (q.startBlocker) {
+      begin.disabled = true;
+      begin.textContent = 'Resolve the earlier run first';
+    }
     body.append(el('div', null, { className: 'actions section-space' }));
     body.lastChild.append(begin, stopButton);
     body.append(progress);
