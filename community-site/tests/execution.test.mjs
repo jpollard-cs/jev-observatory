@@ -632,6 +632,26 @@ const batchManifest = makePlan(policy, batchInput.options).manifest;
 const batchSpec = { route: 'prepare', input: batchInput, planHash: batchManifest.planHash };
 
 test(
+  'large plans prepare in a few stored objects and retain exact request inspection',
+  { timeout: 10000 },
+  async (t) => {
+    const input = { policy, options: { tier: 'gold', maxUsd: 3, layouts: ['question'] } };
+    const plan = makePlan(policy, input.options).manifest;
+    const preparedSpec = { route: 'prepare', input, planHash: plan.planHash };
+    const { service, q, repo, storage } = await fixture(t, undefined, preparedSpec);
+    assert.ok(q.requests > 100);
+    const run = await repo.get(q.id, owner);
+    const frozen = JSON.parse((await storage.blobs.get(run.object_key)).body.toString());
+    assert.equal(frozen.requestStorage.format, 'request-shards-v1');
+    assert.ok(new Set(Object.values(frozen.requestStorage.byRequest)).size < 10);
+    for (const index of [0, Math.floor(q.requests / 2), q.requests - 1]) {
+      const inspected = value(await service.request(owner, q.id, index));
+      assert.equal(sha(JSON.stringify(inspected.request)), plan.jobs[index].requestHash);
+    }
+  },
+);
+
+test(
   'sixteen provider calls overlap in one atomic batch and reject an overlapping dispatch',
   { timeout: 10000 },
   async (t) => {

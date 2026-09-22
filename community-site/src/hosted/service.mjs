@@ -5,6 +5,7 @@ import { verifySignedBundle } from '../receipts/verify.mjs';
 import { canonical, sha256 } from '../domain/contracts.mjs';
 import { ok, error, validId } from '../domain/contracts.mjs';
 import { MAX_PARALLEL, DEFAULT_PARALLEL } from './limits.mjs';
+import { packRequests, readFrozenRequest } from './request-store.mjs';
 const stamp = () => new Date().toISOString();
 const publicRun = (r) => ({
   id: r.id,
@@ -53,13 +54,6 @@ export function executionService({
     )
       throw Error('This run requires its original execution adapter version');
     return p;
-  }
-  async function requestBody(run, job) {
-    const stored = await blobs.get(run.object_key + '/request/' + job.requestHash);
-    if (!stored) throw Error('Missing frozen request');
-    const body = await new Response(stored.body).text();
-    if (sha(body) !== job.requestHash) throw Error('Frozen request integrity failure');
-    return body;
   }
   async function observationAt(run, p, i) {
     const saved = await blobs.get(run.object_key + '/response/' + i);
@@ -184,9 +178,12 @@ export function executionService({
           413,
         );
       const requests = [];
+      const requestCache = new Map();
       for (let i = 0; i < p.jobs.length; i += 8)
         requests.push(
-          ...(await Promise.all(p.jobs.slice(i, i + 8).map((j) => requestBody(run, j)))),
+          ...(await Promise.all(
+            p.jobs.slice(i, i + 8).map((j) => readFrozenRequest(blobs, run, p, j, requestCache)),
+          )),
         );
       const bundle = await hostedBundle(
         p,
@@ -244,7 +241,12 @@ export function executionService({
       if (!(await account(owner)))
         return error('account_required', 'Initialize your persistent hosted allowance first.');
       const bodies = [...new Map(p.jobs.map((j) => [j.requestHash, j.body])).entries()];
-      const frozen = { ...p, jobs: p.jobs.map(({ body, request, receipt, ...j }) => j) };
+      const packed = packRequests(bodies);
+      const frozen = {
+        ...p,
+        jobs: p.jobs.map(({ body, request, receipt, ...j }) => j),
+        requestStorage: packed.descriptor,
+      };
       if (receipts) frozen.verificationCore = p.manifest.policy ? core : null;
       // Bind reuse to all frozen instructions, expectations, adapter and signing mode.
       const preparationKey = sha(canonical({ prepared: frozen, signed: !!receipts }));
@@ -268,13 +270,13 @@ export function executionService({
         frozen.attestation = { runId: id, receipt };
       }
       const raw = JSON.stringify(frozen);
-      // Store each immutable request separately; each dispatch reads only its own payload.
+      // Store bounded, content-addressed shards. Dispatch still verifies its exact request.
       const stored = [];
       try {
-        for (let n = 0; n < bodies.length; n += 8)
+        for (let n = 0; n < packed.shards.length; n += 8)
           await Promise.allSettled(
-            bodies.slice(n, n + 8).map(async ([hash, body]) => {
-              const key = objectKey + '/request/' + hash;
+            packed.shards.slice(n, n + 8).map(async ({ hash, body }) => {
+              const key = objectKey + '/request-shard/' + hash;
               await blobs.put(key, body);
               stored.push(key);
             }),
@@ -367,7 +369,7 @@ export function executionService({
         id: j.id,
         planHash: p.manifest.planHash,
         requestHash: j.requestHash,
-        request: JSON.parse(await requestBody(r, j)),
+        request: JSON.parse(await readFrozenRequest(blobs, r, p, j)),
         expected: j.expected ?? null,
       });
     },
@@ -433,7 +435,10 @@ export function executionService({
       if (p.attestation) await receipts.ready();
       if (!jobs.length) throw Error('Request integrity failure');
       // Verify every body before claiming or sending any request in this batch.
-      const bodies = await Promise.all(jobs.map((j) => requestBody(run, j)));
+      const requestCache = new Map();
+      const bodies = await Promise.all(
+        jobs.map((j) => readFrozenRequest(blobs, run, p, j, requestCache)),
+      );
       const reservations = jobs.map((j) => adapter.reservation(j));
       const reserve = reservations.reduce((n, r) => n + r, 0);
       if (!(await repo.claim(id, owner, index, reserve, jobs.length, now())))

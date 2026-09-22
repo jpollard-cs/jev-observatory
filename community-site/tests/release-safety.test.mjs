@@ -11,6 +11,7 @@ import { executionApi } from '../src/hosted/http.mjs';
 import { communityService } from '../src/service.mjs';
 import { api } from '../src/http.mjs';
 import { makeCatalog, makeExample } from '../scripts/catalog.mjs';
+import { sha } from '../../workbench/src/util.mjs';
 
 test('dispatch settlement remains attached to the Worker lifetime after client disconnect', async () => {
   let finish, kept;
@@ -221,7 +222,7 @@ for (const outcome of ['absent', 'committed', 'unknown']) {
         identity: { id: 'fixture', version: 1 },
         compile: () => ({
           manifest: { planHash: 'fixture' },
-          jobs: [{ requestHash: 'request', body: '{}' }],
+          jobs: [{ requestHash: sha('{}'), body: '{}' }],
           reserveNano: 1,
         }),
       },
